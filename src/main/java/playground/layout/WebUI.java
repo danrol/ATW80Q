@@ -103,6 +103,17 @@ public class WebUI {
 
 	
 	
+	//
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/users",
+			produces=MediaType.APPLICATION_JSON_VALUE,
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public Message function1 (@RequestBody Message newMessage) {
+		return newMessage;
+	}
+	//
+	
 }
 
 
