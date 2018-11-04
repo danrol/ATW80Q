@@ -1,15 +1,15 @@
 package Users;
 
 public class Teacher implements User{
-
+	private int id;
+	
 	@Override
 	public void setId(int id) {
-		// TODO Auto-generated method stub
+		this.id = id;
 		
 	}
 
-	@Override
-	public void addPlayground(int id) {
+	public void addSession(int id) {
 		// TODO Auto-generated method stub
 		
 	}

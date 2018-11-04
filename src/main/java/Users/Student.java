@@ -7,11 +7,6 @@ public class Student implements User{
 		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void addPlayground(int id) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void writeMessage() {
