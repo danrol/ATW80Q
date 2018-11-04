@@ -30,10 +30,10 @@ public class WebUI {
 		this.defaultUserName = defaultUserName;
 	}
 	
-//	@RequestMapping(
-//			method=RequestMethod.GET,
-//			path="/showMessage",
-//			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/showMessage",
+			produces=MediaType.APPLICATION_JSON_VALUE)
 	public Message getDefaultMessage () {
 		return this.messageGenerator.createMessage(this.defaultUserName);
 	}
