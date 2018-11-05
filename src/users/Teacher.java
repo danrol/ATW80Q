@@ -1,8 +1,13 @@
 package users;
 
+import java.util.ArrayList;
+
+import elements.Lesson;
 
 public class Teacher implements User{
 	private int id;
+	private ArrayList<Lesson> lessonLst;
+	private String name;
 	
 	@Override
 	public void setId(int id) {

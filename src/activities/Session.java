@@ -1,6 +1,8 @@
 package activities;
 
-import elements.GameResult;
+import java.util.ArrayList;
+
+import elements.SessionResult;
 import elements.Question;
 import users.Student;
 import users.Teacher;
@@ -8,10 +10,10 @@ import users.Teacher;
 public class Session {
 	
 	protected Teacher teacher;
-	protected Question[] questionArray;
-	protected GameResult gameResult;
-	protected Student[] participatingStudents;
-	
+	protected ArrayList<Question> questionLst;
+	protected SessionResult gameResult;
+	protected ArrayList<Student> participatingStudents;
+	protected int id;
 	
 	//show on teachers end the results of the session
 	private void viewResults(int sessionId, int studentId) {

@@ -6,13 +6,14 @@ import users.Student;
 
 //import Users.Student;
 
-public class GameResult {
+//when session is in progress class updates
+public class SessionResult {
 	
-	protected Map <Integer,Student> StudentResult;
+	protected Map <Student,Integer> StudentResult;
 	//return list of all participating students
 	public String[] getAll(){
 		//convert the map to :/name:numOfCorrectAnswers and return the string Array
-		String[] empty =new String[5];
+		String[] empty = new String[5];
 		return empty;
 		
 	}

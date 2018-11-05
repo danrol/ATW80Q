@@ -1,5 +1,10 @@
 package elements;
 
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@RestController
 public class GameRules {
 	
 	private String rulesStr = "Our vision is to become a part of the official school program.\r\n" + 
@@ -7,6 +12,7 @@ public class GameRules {
 			"For students it will be an alternative way to improving their knowledge in the school material and possibly quiz themselves before tests. \r\n" + 
 			"";
 	
+	@RequestMapping("/view_rules")
 	public String viewRules() {
 		return this.rulesStr;
 	}

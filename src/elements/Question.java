@@ -1,8 +1,10 @@
 package elements;
 
+import java.util.ArrayList;
+
 public class Question {
 	private String questionStr;
-	private int id;
-	private int topicId;
+	private ArrayList<String> answer;
+	private String correctAnswer;
 	
 }
