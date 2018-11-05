@@ -1,4 +1,4 @@
-package playground.logic;
+package main.java.playground.logic;
 
 import java.util.Date;
 import java.util.HashMap;

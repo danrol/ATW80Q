@@ -1,4 +1,4 @@
-package Users;
+package main.java.Users;
 
 public class Student implements User{
 

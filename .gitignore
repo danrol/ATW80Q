@@ -1,1 +1,4 @@
 *.classpath
+*.xml
+*.prefs
+bin/src/main/resources/application.properties

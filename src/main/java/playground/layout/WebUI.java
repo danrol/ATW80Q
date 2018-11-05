@@ -1,4 +1,4 @@
-package playground.layout;
+package main.java.playground.layout;
 
 import java.util.Arrays;
 import java.util.List;

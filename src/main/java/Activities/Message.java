@@ -1,4 +1,4 @@
-package Activities;
+package main.java.Activities;
 
 import java.util.Date;
 import java.util.HashMap;

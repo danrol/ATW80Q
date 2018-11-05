@@ -1,4 +1,4 @@
-package Users;
+package main.java.Users;
 
 public interface User {
 	public void setId(int id);

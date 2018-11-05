@@ -1,4 +1,4 @@
-package Elements;
+package main.java.Elements;
 
 public class GameRules {
 	

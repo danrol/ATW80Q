@@ -1,4 +1,4 @@
-package playground.layout;
+package main.java.playground.layout;
 
 import javax.annotation.PostConstruct;
 

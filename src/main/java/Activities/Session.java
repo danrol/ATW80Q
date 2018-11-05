@@ -1,4 +1,4 @@
-package Activities;
+package main.java.Activities;
 
 public class Session {
 	
