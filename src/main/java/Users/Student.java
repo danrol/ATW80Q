@@ -4,13 +4,12 @@ public class Student implements User{
 
 	@Override
 	public void setId(int id) {
-		// TODO Auto-generated method stub
+
 	}
 
 	
 	@Override
 	public void writeMessage() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -23,6 +22,13 @@ public class Student implements User{
 	}
 	
 	public void startNewGame() {
+		
+	}
+
+
+	@Override
+	public void viewMessages() {
+		// TODO Auto-generated method stub
 		
 	}
 

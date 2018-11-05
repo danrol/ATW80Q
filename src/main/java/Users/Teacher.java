@@ -31,5 +31,11 @@ public class Teacher implements User{
 	public void createNewSession() {
 		
 	}
+
+	@Override
+	public void viewMessages() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
