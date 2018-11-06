@@ -10,6 +10,13 @@ import users.Teacher;
 
 public class Session {
 	
+	public Session(HashMap<Integer, Question> questions, ArrayList<Student> participatingStudents, int id) {
+		super();
+		this.questions = questions;
+		this.participatingStudents = participatingStudents;
+		this.id = id;
+	}
+
 	protected Teacher teacher;
 	protected HashMap<Integer, Question> questions;
 	protected ArrayList<Student> participatingStudents;

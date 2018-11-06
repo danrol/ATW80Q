@@ -13,8 +13,8 @@ import elements.MessageBoard;
 
 public class Teacher implements User{
 	private int id;
-	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
-	private HashMap<Integer, Session> sessions; // TODO add hardcoded hmap of Sessions
+	private HashMap<Integer, Lesson> lessons;// TODO decide if lessons class should be deleted. TODO add lesson constructor. TODO add hardcoded hmap of lessons 
+	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
 	private String name;
 	private MessageBoard msgBoard;
 	
@@ -25,7 +25,7 @@ public class Teacher implements User{
 	}
 
 	public void addSession(int id, int lessonId) {
-		sessionLst.add(new Session()); //TODO define Session Constructor
+		sessions.add(new Session()); //TODO add hardcoded sessions
 		
 	}
 
