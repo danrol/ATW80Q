@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import elements.SessionResult;
 import elements.Question;
 import users.Student;
 import users.Teacher;

@@ -14,15 +14,15 @@ public class Question {
 		this.correctAnswer = correctAnswer;
 	}
 	
-	private void setQuestionBody(String questionBody) {
+	public void setQuestionBody(String questionBody) {
 		this.questionBody = questionBody;
 	}
 	
-	private void setCorrectAnswer(String correctAnswer) {
+	public void setCorrectAnswer(String correctAnswer) {
 		this.correctAnswer = correctAnswer;
 	}
 	
-	private void editQuestion(String questionBody, String correctAnswer) {
+	public void editQuestion(String questionBody, String correctAnswer) {
 		this.questionBody = questionBody;
 		this.correctAnswer = correctAnswer;
 	}
