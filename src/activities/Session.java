@@ -24,7 +24,7 @@ public class Session {
 	
 	protected Map <Student,Integer> StudentResult;
 	//return list of all participating students
-	public String[]  getAllResults(int sessionId, int studentId){
+	public String[]  getAllResults(){
 		//convert the map to :/name:numOfCorrectAnswers and return the string Array
 		String[] empty = new String[5];
 		return empty;
