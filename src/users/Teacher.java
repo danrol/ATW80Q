@@ -13,9 +13,8 @@ import elements.MessageBoard;
 
 public class Teacher implements User{
 	private int id;
-	private HashMap<Integer, Lesson> lessons;// TODO decide if lessons class should be deleted. TODO add lesson constructor. TODO add hardcoded hmap of lessons 
-	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
-	private String name;
+	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
+//	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
 	private MessageBoard msgBoard;
 	
 	@Override
@@ -24,8 +23,9 @@ public class Teacher implements User{
 		
 	}
 
-	public void addSession(int id, int lessonId) {
-		sessions.add(new Session()); //TODO add hardcoded sessions
+	public void addSession(int lessonId, int sessionId) {
+		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
+		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
 		
 	}
 
@@ -35,19 +35,19 @@ public class Teacher implements User{
 		
 	}
 	
-	public String[] viewStudentsPerfomance(int sessionId) {
-		return this.sessions.get(sessionId).getAllResults();//TODO add viewResults in Session
+	public String[] viewStudentsPerfomance(int lessonId, int sessionId) {
+		return this.lessons.get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
 		
 	}
 	
-	public void editQuestionInSession(int sessionId, int questionId, 
+	public void editQuestionInSession(int lessonId,int sessionId, int questionId, 
 			String questionBody, String correctAnswer) {
-		this.sessions.get(sessionId).getQuestions().
+		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().
 		get(questionId).editQuestion(questionBody, correctAnswer);
 	}
 	
-	public void deleteQuestionInSession(int sessionId, int questionId) {
-		this.sessions.get(sessionId).getQuestions().remove(questionId);
+	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
+		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
 	}
 
 	@Override

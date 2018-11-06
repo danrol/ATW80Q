@@ -17,7 +17,6 @@ public class Session {
 		this.id = id;
 	}
 
-	protected Teacher teacher;
 	protected HashMap<Integer, Question> questions;
 	protected ArrayList<Student> participatingStudents;
 	protected int id;
@@ -27,6 +26,7 @@ public class Session {
 	public HashMap<Integer, Question> getQuestions(){
 		return this.questions;
 	}
+	
 	
 	protected Map <Student,Integer> StudentResult;
 	//return list of all participating students
