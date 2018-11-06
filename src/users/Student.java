@@ -21,7 +21,7 @@ public class Student implements User{
 
 	
 	@Override
-	public void writeMessage() {
+	public void writeMessage(String message) {
 		
 	}
 	
