@@ -17,17 +17,14 @@ public class Session {
 	protected int id;
 	
 	//show on teachers end the results of the session
-	private void viewResults(int sessionId, int studentId) {
-		
-	}
-	
+
 	public HashMap<Integer, Question> getQuestions(){
 		return this.questions;
 	}
 	
 	protected Map <Student,Integer> StudentResult;
 	//return list of all participating students
-	public String[] getAll(){
+	public String[]  getAllResults(int sessionId, int studentId){
 		//convert the map to :/name:numOfCorrectAnswers and return the string Array
 		String[] empty = new String[5];
 		return empty;

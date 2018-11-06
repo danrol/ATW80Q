@@ -36,7 +36,7 @@ public class Teacher implements User{
 	}
 	
 	public String[] viewStudentsPerfomance(int sessionId) {
-		return this.sessions.get(sessionId).viewResults(sessionId);//TODO add viewResults in Session
+		return this.sessions.get(sessionId).viewAllResults(sessionId);//TODO add viewResults in Session
 		//TODO merge Session and SessionResult
 		
 	}
