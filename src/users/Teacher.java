@@ -36,13 +36,14 @@ public class Teacher implements User{
 	}
 	
 	public String[] viewStudentsPerfomance(int sessionId) {
-		return sessions.get(sessionId).viewResults(sessionId);//TODO add viewResults in Session
+		return this.sessions.get(sessionId).viewResults(sessionId);//TODO add viewResults in Session
 		//TODO merge Session and SessionResult
 		
 	}
 	
-	public void editQuestionInSession() {
-		
+	public void editQuestionInSession(int sessionId, int questionId, 
+			String questionBody, String CorrectAnswer) {
+		this.sessions.get(sessionId).getQuestions().get(questionId).;
 	}
 	
 	public void deleteQuestionInSession() {
