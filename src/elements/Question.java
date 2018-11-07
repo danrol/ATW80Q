@@ -7,12 +7,13 @@ public class Question {
 	private ArrayList<String> answers;
 	private String correctAnswer;
 
-	public Question(String questionBody, ArrayList<String> answers, String correctAnswer) {
+	public Question(String questionBody, ArrayList<String> answers, String correctAnswer, int max, int min) {
 		super();
 		this.questionBody = questionBody;
 		this.answers = answers;
 		this.correctAnswer = correctAnswer;
-		
+		int random = (int) (Math.random() % (max - min) + min);
+		this.answers.add(random, correctAnswer);
 	}
 
 	public void setQuestionBody(String questionBody) {

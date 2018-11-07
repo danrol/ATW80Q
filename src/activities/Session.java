@@ -2,8 +2,6 @@ package activities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
 import elements.Question;
 import users.Student;
 import users.Teacher;
@@ -24,11 +22,12 @@ public class Session {
 
 	// add question
 	public void addQuestion() {
+		int max = 5, min = 2;
 		System.out.println("Number of the question");
 		int questionNumber = 0; // input from teacher
 		System.out.println("What is the question?");
 		String questionBody = null; // input from teacher
-		System.out.println("Type up to 4 wrong answers. If less than five answers press enter");
+		System.out.println("Type up to " + (max - 1) + "wrong answers. If less than five answers press enter");
 		ArrayList<String> answers = null;
 		for (int i = 0; i < 4; i++) {
 			answers.add(null); // input from teacher
@@ -37,7 +36,7 @@ public class Session {
 		}
 		System.out.println("What is the correct answer?");
 		String correctAnswer = null; // input from teacher
-		questions.put(questionNumber, new Question(questionBody, answers, correctAnswer));
+		questions.put(questionNumber, new Question(questionBody, answers, correctAnswer, max, min));
 	}
 
 	public HashMap<Integer, Question> getQuestions() {
