@@ -13,6 +13,7 @@ import elements.MessageBoard;
 
 public class Teacher implements User{
 	private int id;
+
 	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
 //	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
 	private MessageBoard msgBoard;
@@ -24,10 +25,9 @@ public class Teacher implements User{
 	}
 
 	public void addSession(int lessonId, int sessionId) {
-		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
-		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
-		
-	}
+//		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
+//		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+			}
 
 	@Override
 	public void writeMessage(String message) {
