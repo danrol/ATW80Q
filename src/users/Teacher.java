@@ -13,11 +13,9 @@ import elements.MessageBoard;
 
 public class Teacher implements User{
 	private int id;
-<<<<<<< HEAD
-=======
+
 	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
 //	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
->>>>>>> 8bc5fdb2e5de193d28e692717c4cca47ff67b40c
 	private MessageBoard msgBoard;
 	
 	@Override
@@ -26,17 +24,10 @@ public class Teacher implements User{
 		
 	}
 
-<<<<<<< HEAD
-	public void addSession(String lessonId, String sessionId) {
-//		if(!this.db.getLessons().get(lessonId).getSessions().containsKey(sessionId))
-//			this.db.getLessons().get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
-=======
 	public void addSession(int lessonId, int sessionId) {
-		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
-		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
-		
->>>>>>> 8bc5fdb2e5de193d28e692717c4cca47ff67b40c
-	}
+//		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
+//		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+			}
 
 	@Override
 	public void writeMessage(String message) {
