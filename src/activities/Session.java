@@ -2,6 +2,9 @@ package activities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader;
+
 import elements.Question;
 import users.Student;
 import users.Teacher;
@@ -37,6 +40,25 @@ public class Session {
 		System.out.println("What is the correct answer?");
 		String correctAnswer = null; // input from teacher
 		questions.put(questionNumber, new Question(questionBody, answers, correctAnswer, max, min));
+	}
+	
+	//TODO
+	//update question
+	public void updateQuestion() {
+		System.out.println("Type question id that you want to update");
+		for (int i = 0; i < questions.size(); i++) {
+			System.out.println(questions);
+		}
+	}
+	//TODO
+	// remove question
+	public void removeQuestion() {
+		System.out.println("Type question id that you want to remove");
+		for (int i = 0; i < questions.size(); i++) {
+			System.out.println(questions.get(i));
+		}
+		int number = 0;// input from teacher
+		questions.remove(number);
 	}
 
 	public HashMap<Integer, Question> getQuestions() {
@@ -83,5 +105,4 @@ public class Session {
 		this.participatingStudents = participatingStudents;
 	}
 
-	// remove question
 }

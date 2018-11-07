@@ -28,5 +28,10 @@ public class Question {
 		this.questionBody = questionBody;
 		this.correctAnswer = correctAnswer;
 	}
+
+	@Override
+	public String toString() {
+		return questionBody;
+	}
 	// return array of answers
 }
