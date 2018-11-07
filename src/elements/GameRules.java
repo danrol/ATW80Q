@@ -2,11 +2,13 @@ package elements;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-@RestController
+//@RestController
+@Component
 public class GameRules {
 	
 	private String rulesStr = "Our vision is to become a part of the official school program.\r\n" + 
@@ -14,10 +16,10 @@ public class GameRules {
 			"For students it will be an alternative way to improving their knowledge in the school material and possibly quiz themselves before tests. \r\n" + 
 			"";
 	
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/viewrules",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+//	@RequestMapping(
+//			method=RequestMethod.GET,
+//			path="/viewrules",
+//			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewRules() {
 		return this.rulesStr;
 	}
