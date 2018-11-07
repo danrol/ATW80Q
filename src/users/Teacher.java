@@ -8,23 +8,34 @@ import org.assertj.core.util.Arrays;
 import com.sun.javafx.collections.MappingChange.Map;
 
 import activities.Session;
-import database.Database;
 import elements.Lesson;
 import elements.MessageBoard;
 
 public class Teacher implements User{
 	private int id;
+<<<<<<< HEAD
+=======
+	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
+//	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
+>>>>>>> 8bc5fdb2e5de193d28e692717c4cca47ff67b40c
 	private MessageBoard msgBoard;
-	private Database db;
 	
 	@Override
 	public void setId(int id) {
 		this.id = id;
+		
 	}
 
+<<<<<<< HEAD
 	public void addSession(String lessonId, String sessionId) {
 //		if(!this.db.getLessons().get(lessonId).getSessions().containsKey(sessionId))
 //			this.db.getLessons().get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+=======
+	public void addSession(int lessonId, int sessionId) {
+		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
+		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+		
+>>>>>>> 8bc5fdb2e5de193d28e692717c4cca47ff67b40c
 	}
 
 	@Override
@@ -33,19 +44,19 @@ public class Teacher implements User{
 		
 	}
 	
-	public String[] viewStudentsPerfomance(String lessonId, String sessionId) {
-		return this.db.getLessons().get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
+	public String[] viewStudentsPerfomance(int lessonId, int sessionId) {
+		return this.lessons.get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
 		
 	}
 	
-	public void editQuestionInSession(String lessonId,String sessionId, int questionId, 
+	public void editQuestionInSession(int lessonId,int sessionId, int questionId, 
 			String questionBody, String correctAnswer) {
-		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().
+		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().
 		get(questionId).editQuestion(questionBody, correctAnswer);
 	}
 	
 	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
-		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
+		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
 	}
 
 	@Override

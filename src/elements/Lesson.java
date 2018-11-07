@@ -13,9 +13,11 @@ public class Lesson {
 	private String Name;
 	private ArrayList<Student> students;
 	private HashMap<String, Session> sessions;
+	private int Id;
 
 //constructor
-	public Lesson(String name, Teacher tchr) {
+	public Lesson(int Id, String name, Teacher tchr) {
+		this.Id = Id;
 		this.Name = name;
 		this.tchr = tchr;// teacher is a singular variable
 		this.students = new ArrayList<Student>();
@@ -52,27 +54,35 @@ public class Lesson {
 		return sessions;
 	}
 
-//
-	public void addStudentToLesson(Student student) {
-		this.students.add(student);
+	public int getId() {
+		return Id;
 	}
 
-// create new session in the lesson
+	public void setId(int id) {
+		Id = id;
+	}
+	
+	public void addStudentToLesson()
+	{
+		//pull from database
+	}
+//
 	public void createNewSession(String name) {
-
-		Session session = new Session(students, name);
-		try {
+		Session session=new Session(null, students, Id);
+		try 
+		{
 			this.setSession(name, session);
-		} catch (Exception e) {
+		}catch( Exception e)
+		{
 			System.out.println("could not add session to the sessions");
 		}
-
+		
 	}
 
 //this function is meant for the teacher to create new session
 	public void setSession(String name, Session session) {
 		if (sessions.containsKey(name)) {
-			// throw error "there is already a session under the same name"
+			// throw error "there is alredy a session under the same name"
 		} else if (sessions.containsValue(session)) {
 			System.out.println("there is allredy a session under " + "this name , would you like to replace it?");
 
@@ -88,13 +98,11 @@ public class Lesson {
 
 	}
 
-//this function will replace session 
 	private void replaceSession(String name, Session session) {
 		this.sessions.replace(name, session);
 		System.out.println("session has been replaced");
 	}
 
-//this function will remove a session from the map
 	public void removeSession(String name) {
 		if (this.sessions.containsKey(name)) {
 			sessions.remove(name);
@@ -105,7 +113,7 @@ public class Lesson {
 //this function will show the results for the session by its name in the map
 	public void watchResultOfSession(String name) {
 
-		this.sessions.get(name).getResultOfSession();
+		// get a function from session to display the session results
 
 	}
 
