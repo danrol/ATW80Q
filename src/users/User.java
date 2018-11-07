@@ -1,7 +1,7 @@
 package users;
 
 public interface User {
-	public void setId(int id);
+//	public void setId(int id);
 	public void writeMessage(String message);
 	public void viewMessages();
 	

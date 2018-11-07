@@ -5,8 +5,12 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Component;
 
-@Component
+import activities.Location;
+import database.Database;
+
 public class MessageBoard {
+	
+	private Location lctn;
 	private ArrayList<String> messagesLst = new ArrayList<>(Arrays.asList("message1", "message2", "message3"));
 	
 	public void writeMessage(String message) {

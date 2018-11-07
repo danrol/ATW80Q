@@ -13,14 +13,28 @@ import elements.Lesson;
 import elements.MessageBoard;
 
 public class Teacher implements User{
-	private int id;
+//	private int id;
+	private String email;
+	private String avatar;
+	private String name;
+	private String playground;
+	
+	public Teacher(String name, String email, String avatar, String playground) {
+		super();
+//		this.id = id;
+		this.email = email;
+		this.avatar = avatar;
+		this.name = name;
+		this.playground = playground;
+	}
+
 	private MessageBoard msgBoard;
 	private Database db;
 	
-	@Override
-	public void setId(int id) {
-		this.id = id;
-	}
+//	@Override
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
 	public void addSession(String lessonId, String sessionId) {
 //		if(!this.db.getLessons().get(lessonId).getSessions().containsKey(sessionId))

@@ -7,23 +7,27 @@ import elements.Lesson;
 
 public class Student implements User{
 	
-	private int id;
+//	private int id;
 	private String name;
+	private String email;
+	private String avatar;
+	private String playground;
 	private ArrayList<Lesson> lessonLst;
 //	private DB;
 	
 	//constructor
-	public Student(int id,String name )
+	public Student(String name, String email, String avatar, String playground )
 	{
-		this.id=id;
-		this.name=name;
-		this.lessonLst=new ArrayList<Lesson>();
+		this.email = email;
+		this.avatar = avatar;
+		this.name = name;
+		this.playground = playground;
 	}
 
-	@Override
-	public void setId(int id) {
-
-	}
+//	@Override
+//	public void setId(int id) {
+//
+//	}
 	
 	public void setClassId(int id) {
 		

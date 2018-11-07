@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
+import activities.Location;
 import activities.Session;
 import users.Student;
 import users.Teacher;
@@ -11,6 +12,7 @@ import users.Teacher;
 public class Lesson {
 	private Teacher tchr;
 	private String Name;
+	private Location lctn;
 	private ArrayList<Student> students;
 	private HashMap<String, Session> sessions;
 
