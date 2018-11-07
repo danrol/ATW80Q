@@ -10,7 +10,7 @@ public class Student implements User{
 	private int id;
 	private String name;
 	private ArrayList<Lesson> lessonLst;
-	private DB;
+//	private DB;
 	
 	//constructor
 	public Student(int id,String name )

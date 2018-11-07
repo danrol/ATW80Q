@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 
-//@RestController
 @Component
 public class GameRules {
 	
@@ -16,10 +15,7 @@ public class GameRules {
 			"For students it will be an alternative way to improving their knowledge in the school material and possibly quiz themselves before tests. \r\n" + 
 			"";
 	
-//	@RequestMapping(
-//			method=RequestMethod.GET,
-//			path="/viewrules",
-//			produces=MediaType.APPLICATION_JSON_VALUE)
+
 	public String viewRules() {
 		return this.rulesStr;
 	}
