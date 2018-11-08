@@ -24,41 +24,37 @@ public class Session {
 	}
 
 	// add question
-	public void addQuestion() {
+	public void addQuestion(String questionBody, ArrayList<String> answers, String correctAnswer) {
 		int max = 5, min = 2;
-		System.out.println("Number of the question");
-		int questionNumber = 0; // input from teacher
-		System.out.println("What is the question?");
-		String questionBody = null; // input from teacher
-		System.out.println("Type up to " + (max - 1) + "wrong answers. If less than five answers press enter");
-		ArrayList<String> answers = null;
-		for (int i = 0; i < 4; i++) {
-			answers.add(null); // input from teacher
-			if (answers.contains(""))
-				break;
+		int questionNumber = 0;
+		int i = 1;
+		for (Integer key : questions.keySet()) {
+			if (i != key)
+				questionNumber = i;
+			i++;
 		}
-		System.out.println("What is the correct answer?");
-		String correctAnswer = null; // input from teacher
+		/**
+		 * System.out.println("What is the question?"); System.out.println("Type up to "
+		 * + (max - 1) + "wrong answers. If less than five answers press enter");
+		 * 
+		 * for (int i = 0; i < 4; i++) { answers.add(null); // input from teacher if
+		 * (answers.contains("")) break; } NO NEED FOR HERE.. NEED IN TEACHER
+		 **/
 		questions.put(questionNumber, new Question(questionBody, answers, correctAnswer, max, min));
 	}
-	
-	//TODO
-	//update question
-	public void updateQuestion() {
-		System.out.println("Type question id that you want to update");
-		for (int i = 0; i < questions.size(); i++) {
-			System.out.println(questions);
-		}
-	}
-	//TODO
+
+	// TODO
+	// update question
+
+	// TODO
 	// remove question
-	public void removeQuestion() {
-		System.out.println("Type question id that you want to remove");
-		for (int i = 0; i < questions.size(); i++) {
-			System.out.println(questions.get(i));
-		}
-		int number = 0;// input from teacher
-		questions.remove(number);
+	public void removeQuestion(int IDnumber) {
+		/**
+		 * System.out.println("Type question id that you want to remove"); for (Integer
+		 * key : questions.keySet()) { System.out.println(key + ": " +
+		 * questions.get(key).toString()); }
+		 **/
+		questions.remove(IDnumber);
 	}
 
 	public HashMap<Integer, Question> getQuestions() {

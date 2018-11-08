@@ -31,7 +31,7 @@ public class Question {
 
 	@Override
 	public String toString() {
-		return questionBody;
+		return questionBody + ": " + answers;
 	}
 	// return array of answers
 }
