@@ -3,20 +3,20 @@ package elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.catalina.User;
-import activities.Session;
+import activities.GameSession;
 
 public class Lesson{
 	private User teacher;
 	private String name;
 	private ArrayList<User> students;
-	private HashMap<String, Session> sessions;
+	private HashMap<String, GameSession> sessions;
 
 //constructor
 	public Lesson(String name, User teacher) {
 		this.name = name;
 		this.teacher = teacher;// teacher is a singular variable
 		this.students = new ArrayList<User>();
-		this.sessions = new HashMap<String, Session>();
+		this.sessions = new HashMap<String, GameSession>();
 
 	}
 
@@ -45,7 +45,7 @@ public class Lesson{
 		this.students = students;
 	}
 
-	public HashMap<String, Session> getSessions() {
+	public HashMap<String, GameSession> getSessions() {
 		return sessions;
 	}
 
@@ -57,7 +57,7 @@ public class Lesson{
 // create new session in the lesson
 	public void createNewSession(String name) {
 
-		Session session = new Session(students, name);
+		GameSession session = new GameSession(students, name);
 		try {
 			this.setSession(name, session);
 		} catch (Exception e) {
@@ -67,7 +67,7 @@ public class Lesson{
 	}
 
 //this function is meant for the teacher to create new session
-	public void setSession(String name, Session session) {
+	public void setSession(String name, GameSession session) {
 		if (sessions.containsKey(name)) {
 			// throw error "there is already a session under the same name"
 		} else if (sessions.containsValue(session)) {
@@ -86,7 +86,7 @@ public class Lesson{
 	}
 
 //this function will replace session 
-	private void replaceSession(String name, Session session) {
+	private void replaceSession(String name, GameSession session) {
 		this.sessions.replace(name, session);
 		System.out.println("session has been replaced");
 	}

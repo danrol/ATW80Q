@@ -7,14 +7,14 @@ import org.apache.catalina.User;
 
 import elements.Question;
 
-public class Session {
+public class GameSession {
 
 	protected HashMap<Integer, Question> questions;
 	protected ArrayList<User> participatingStudents;
 	protected String name;
 	protected HashMap<User, Integer> studentResult;
 
-	public Session(ArrayList<User> participatingStudents, String name) {
+	public GameSession(ArrayList<User> participatingStudents, String name) {
 		super();
 		questions = new HashMap<Integer, Question>();
 		this.participatingStudents = participatingStudents;
