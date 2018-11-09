@@ -3,7 +3,6 @@ package elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import activities.Location;
-import users.Student;
 
 public class Question {
 	private Location location;
