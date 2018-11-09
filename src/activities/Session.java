@@ -3,18 +3,18 @@ package activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.catalina.User;
+
 import elements.Question;
-import users.Student;
-import users.Teacher;
 
 public class Session {
 
 	protected HashMap<Integer, Question> questions;
-	protected ArrayList<Student> participatingStudents;
+	protected ArrayList<User> participatingStudents;
 	protected String name;
-	protected HashMap<Student, Integer> studentResult;
+	protected HashMap<User, Integer> studentResult;
 
-	public Session(ArrayList<Student> participatingStudents, String name) {
+	public Session(ArrayList<User> participatingStudents, String name) {
 		super();
 		questions = new HashMap<Integer, Question>();
 		this.participatingStudents = participatingStudents;
@@ -90,12 +90,12 @@ public class Session {
 	}
 
 	// view result of session
-	public HashMap<Student, Integer> getResultOfSession() {
+	public HashMap<User, Integer> getResultOfSession() {
 		return studentResult;
 	}
 
 	// new Student in ParticipatingStudents
-	public void updateParticipatingStudents(ArrayList<Student> participatingStudents) {
+	public void updateParticipatingStudents(ArrayList<User> participatingStudents) {
 		this.participatingStudents = participatingStudents;
 	}
 

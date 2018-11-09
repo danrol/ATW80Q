@@ -3,32 +3,30 @@ package elements;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
-
+import org.apache.catalina.User;
 import activities.Session;
-import users.Student;
-import users.Teacher;
 
 public class Lesson {
-	private Teacher teacher;
+	private User teacher;
 	private String name;
-	private ArrayList<Student> students;
+	private ArrayList<User> students;
 	private HashMap<String, Session> sessions;
 
 //constructor
-	public Lesson(String name, Teacher teacher) {
+	public Lesson(String name, User teacher) {
 		this.name = name;
 		this.teacher = teacher;// teacher is a singular variable
-		this.students = new ArrayList<Student>();
+		this.students = new ArrayList<User>();
 		this.sessions = new HashMap<String, Session>();
 
 	}
 
 //setter and getters 
-	public Teacher getTeacher() {
+	public User getTeacher() {
 		return teacher;
 	}
 
-	public void setTeacher(Teacher teacher) {
+	public void setTeacher(User teacher) {
 		this.teacher = teacher;
 	}
 
@@ -40,11 +38,11 @@ public class Lesson {
 		this.name = name;
 	}
 
-	public ArrayList<Student> getStudents() {
+	public ArrayList<User> getStudents() {
 		return students;
 	}
 
-	public void setStudents(ArrayList<Student> students) {
+	public void setStudents(ArrayList<User> students) {
 		this.students = students;
 	}
 
@@ -53,7 +51,7 @@ public class Lesson {
 	}
 
 //
-	public void addStudentToLesson(Student student) {
+	public void addStudentToLesson(User student) {
 		this.students.add(student);
 	}
 
