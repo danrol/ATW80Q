@@ -28,27 +28,31 @@ public class Teacher extends User {
 	public void addSession(int lessonId, int sessionId) {
 //		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
 //		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+		//TODO make this into a query in the database
 			}
 
 	@Override
 	public void writeMessage(String message) {
 		this.msgBoard.writeMessage(message);
+		//TODO move it to User
 		
 	}
 	
 	public String[] viewStudentsPerfomance(int lessonId, int sessionId) {
 		return this.lessons.get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
-		
+		//TODO make this into a query in the database
 	}
 	
 	public void editQuestionInSession(int lessonId,int sessionId, int questionId, 
 			String questionBody, String correctAnswer) {
 		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().
 		get(questionId).editQuestion(questionBody, correctAnswer);
+		//TODO make this into a query in the database
 	}
 	
 	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
 		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
+		//TODO make this into a query in the database
 	}
 
 	@Override
