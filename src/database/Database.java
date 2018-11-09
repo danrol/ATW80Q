@@ -8,11 +8,12 @@ import users.Teacher;
 
 public class Database {
 
-	private HashMap<String, Lesson> lessons; //TODO add hardcoded hmap of lessons TODO add hardcoded hmap of Sessions
+	private HashMap<String, Lesson> lessons; //TODO add hard-coded HashMap of lessons TODO add hard-coded HashMap of Sessions
 	private HashMap<String, Teacher> teachers;
 	private HashMap<String, Student> students;
 
-	
+	//TODO Eden D: add functions with keys to return values
+	//TODO Eden D: class should support easy change of database
 	public HashMap<String, Lesson> getLessons() {
 		return lessons;
 	}

@@ -15,9 +15,9 @@ public class Lesson {
 	private HashMap<String, Session> sessions;
 
 //constructor
-	public Lesson(String name, Teacher tchr) {
+	public Lesson(String name, Teacher teacher) {
 		this.Name = name;
-		this.tchr = tchr;// teacher is a singular variable
+		this.tchr = teacher;// teacher is a singular variable
 		this.students = new ArrayList<Student>();
 		this.sessions = new HashMap<String, Session>();
 
@@ -28,7 +28,7 @@ public class Lesson {
 		return tchr;
 	}
 
-	public void setTchr(Teacher tchr) {
+	public void setTeacher(Teacher tchr) {
 		this.tchr = tchr;
 	}
 

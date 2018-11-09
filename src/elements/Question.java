@@ -6,7 +6,7 @@ import activities.Location;
 
 public class Question {
 	
-	private Location lctn;
+	private Location location;
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;
