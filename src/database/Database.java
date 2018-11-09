@@ -4,29 +4,36 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
-import activities.Session;
 import elements.Lesson;
 import elements.MessageBoard;
-import users.Student;
-import users.Teacher;
+import playground.Playground_constants;
+import users.User;
 
 @Component
-public class Database {
+public class Database implements Playground_constants{
 
+	
 	
 	//TODO Eden D: add functions with keys to return values
 	//TODO Eden D: class should support easy change of database
 
 	private static HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
-	private static HashMap<String, Teacher> teachers;
-	private static HashMap<String, Student> students;
+	private static HashMap<String, User> teachers;
+	private static HashMap<String, User> students;
 	private static MessageBoard messageBoard = new MessageBoard();
 	
-	public void addTeacher(Teacher teacher) {
-		this.teachers = teachers;
+	public void addTeacher(User teacher) {
+		if(TEACHER.equals(teacher.getRole()) && teachers.get(teacher.getEmail()) == null)
+		{
+			teachers.put(teacher.getEmail(), teacher);
+		}
+		
 	}
-	public void addStudent(Student student) {
-		this.students = students;
+	public void addStudent(User student) {
+		if(STUDENT.equals(student.getRole()) && students.get(student.getEmail()) == null)
+		{
+			teachers.put(student.getEmail(), student);
+		}
 	}
 
 	private String gameRules = "Our vision is to become a part of the official school program.\r\n" + 
@@ -41,10 +48,10 @@ public class Database {
 	public HashMap<String, Lesson> getLessons() {
 		return lessons;
 	}
-	public HashMap<String, Teacher> getTeachers() {
+	public HashMap<String, User> getTeachers() {
 		return teachers;
 	}
-	public HashMap<String, Student> getStudents() {
+	public HashMap<String, User> getStudents() {
 		return students;
 	}
 	

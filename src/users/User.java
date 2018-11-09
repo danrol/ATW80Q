@@ -20,9 +20,9 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.avatar = avatar;
-		this.role = role;
-		this.playground = playground;
-		points = 0;
+		this.setRole(role);
+		this.setPlayground(playground);
+		setPoints(0);
 	}
 
 
@@ -66,5 +66,47 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+
+
+
+	public String getRole() {
+		return role;
+	}
+
+
+
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+
+
+
+	public String getPlayground() {
+		return playground;
+	}
+
+
+
+
+	public void setPlayground(String playground) {
+		this.playground = playground;
+	}
+
+
+
+
+	public long getPoints() {
+		return points;
+	}
+
+
+
+
+	public void setPoints(long points) {
+		this.points = points;
 	}	
 }
