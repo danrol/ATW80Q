@@ -11,17 +11,18 @@ import activities.Session;
 import elements.Lesson;
 import elements.MessageBoard;
 
-public class Teacher implements User{
-	private int id;
+public class Teacher extends User {
+
+
+
 
 	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
 //	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
 	private MessageBoard msgBoard;
 	
-	@Override
-	public void setId(int id) {
-		this.id = id;
-		
+	public Teacher(int id) {
+		super(id);
+		// TODO Auto-generated constructor stub
 	}
 
 	public void addSession(int lessonId, int sessionId) {

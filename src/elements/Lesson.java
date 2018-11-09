@@ -9,35 +9,35 @@ import users.Student;
 import users.Teacher;
 
 public class Lesson {
-	private Teacher tchr;
-	private String Name;
+	private Teacher teacher;
+	private String name;
 	private ArrayList<Student> students;
 	private HashMap<String, Session> sessions;
 
 //constructor
 	public Lesson(String name, Teacher teacher) {
-		this.Name = name;
-		this.tchr = teacher;// teacher is a singular variable
+		this.name = name;
+		this.teacher = teacher;// teacher is a singular variable
 		this.students = new ArrayList<Student>();
 		this.sessions = new HashMap<String, Session>();
 
 	}
 
 //setter and getters 
-	public Teacher getTchr() {
-		return tchr;
+	public Teacher getTeacher() {
+		return teacher;
 	}
 
-	public void setTeacher(Teacher tchr) {
-		this.tchr = tchr;
+	public void setTeacher(Teacher teacher) {
+		this.teacher = teacher;
 	}
 
 	public String getName() {
-		return Name;
+		return name;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.name = name;
 	}
 
 	public ArrayList<Student> getStudents() {

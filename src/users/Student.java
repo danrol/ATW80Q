@@ -5,35 +5,29 @@ import java.util.ArrayList;
 
 import elements.Lesson;
 
-public class Student implements User{
+public class Student extends User {
 	
-	private int id;
 	private String name;
-	private ArrayList<Lesson> lessonLst;
-	private DB;
+	private ArrayList<Lesson> lessonList;
+	//private DB;
+	//TODO DB?
 	
 	//constructor
-	public Student(int id,String name )
+	public Student (int id,String name)
 	{
-		this.id=id;
+		super(id);
 		this.name=name;
-		this.lessonLst=new ArrayList<Lesson>();
+		this.lessonList=new ArrayList<Lesson>();
 	}
 
-	@Override
-	public void setId(int id) {
 
-	}
 	
 	public void setClassId(int id) {
 		
 	}
 
 	
-	@Override
-	public void writeMessage(String message) {
-		
-	}
+
 	
 	public void viewRules() {
 		
@@ -48,7 +42,7 @@ public class Student implements User{
 	public void addLesson(String lesson)
 	{
 		//DB get the lesson
-		//this.lessonLst.add(lesson);
+		//this.lessonList.add(lesson);
 	}
 
 
