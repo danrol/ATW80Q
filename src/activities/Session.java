@@ -99,9 +99,7 @@ public class Session {
 		this.participatingStudents = participatingStudents;
 	}
 
-	/**
-	 * public void countStudentResult() { this.studentResult =
-	 * questions.get(0).questionResult(studentResult, null); }
-	 **/
+	// Student ansewr to question
+	// protected HashMap<Student, Integer> studentResult;
 
 }

@@ -36,12 +36,13 @@ public class Question {
 	// return array of answers
 	// if student answer right or wrong
 
-	/**
-	 * public int questionResult(HashMap<Student, Integer> studentResult, String
-	 * studentAnswer) { if (studentAnswer == correctAnswer) studentResult =
-	 * studentResult + 50; else studentResult = studentResult - 50; return
-	 * studentResult; }
-	 **/
+	public int questionResult(int studentResult, String studentAnswer) {
+		if (studentAnswer == correctAnswer)
+			studentResult = studentResult + 50;
+		else
+			studentResult = studentResult - 50;
+		return studentResult;
+	}
 
 	@Override
 	public String toString() {
