@@ -32,13 +32,11 @@ public class Database implements Playground_constants{
 			teachers.put(student.getEmail(), student);
 	}
 	
-	public void addUser(User user) throws Exception {
-		if(user.getRole().equals(TEACHER.toLowerCase()))
+	public void addUser(User user) {
+		if(user.getRole().equals(TEACHER))
 			addTeacher(user);
-		else if(user.getRole().equals(STUDENT.toLowerCase()))
+		else if(user.getRole().equals(STUDENT))
 			addStudent(user);
-		else
-			throw new Exception("Role undefined");
 		
 	}
 

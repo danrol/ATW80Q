@@ -1,11 +1,8 @@
 package elements;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import activities.Location;
 
 public class Question {
-	private Location location;
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;

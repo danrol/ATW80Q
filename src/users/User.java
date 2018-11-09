@@ -1,8 +1,9 @@
 package users;
 
 import database.Database;
+import playground.Playground_constants;
 
-public class User {
+public class User implements Playground_constants{
 	
 	private String email;
 	private String avatar;
@@ -20,7 +21,12 @@ public class User {
 		this.username = username;
 		this.email = email;
 		this.avatar = avatar;
-		this.setRole(role);
+		if(role.toLowerCase().equals("teacher"))
+			this.setRole(TEACHER);
+		else if(role.toLowerCase().equals("student"))
+			this.setRole(STUDENT);
+		else
+			this.setRole(UNDEFINED_ROLE);
 		this.setPlayground(playground);
 		setPoints(0);
 	}

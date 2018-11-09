@@ -64,8 +64,7 @@ public class WebUI implements Playground_constants {
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void newUserForm(@PathVariable("email") String email, @PathVariable("userName") String username, 
 			@PathVariable("avatar") String avatar, @PathVariable("role") String role,
-			@PathVariable("playground") String playground) throws Exception {
-		role = role.toLowerCase();
+			@PathVariable("playground") String playground) {
 				this.db.addUser(new User(username, email, avatar, role, playground));
 	}
 	
