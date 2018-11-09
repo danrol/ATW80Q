@@ -2,11 +2,10 @@ package elements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import org.apache.catalina.User;
 import activities.Session;
 
-public class Lesson {
+public class Lesson{
 	private User teacher;
 	private String name;
 	private ArrayList<User> students;
