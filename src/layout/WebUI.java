@@ -45,7 +45,7 @@ public class WebUI {
 			path="view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages() {
-		return this.db.getMessageBoard().viewMessagesBoardAsString();
+		return this.db.getMessageBoard().viewMessagesBoard();
 	}
 	
 	@RequestMapping(

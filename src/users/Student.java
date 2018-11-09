@@ -7,34 +7,26 @@ import elements.Lesson;
 
 public class Student extends User {
 	
-	private String name;
 	private ArrayList<Lesson> lessonList;
-	//private DB;
-	//TODO DB?
 	
-	//constructor
-	public Student (int id,String name)
+	
+	public Student (String name, String email, String avatar)
 	{
-		super(id);
-		this.name=name;
-		this.lessonList=new ArrayList<Lesson>();
+		super(name, email,avatar);
 	}
 
-
-	
+	/*
 	public void setClassId(int id) {
 		
 	}
-
-	
-
+	 */
 	
 	public void viewRules() {
-		
+	//TODO	
 	}
 	
 	public void openActiveSession() {
-		
+		//TODO
 	}
 	
 	
@@ -43,6 +35,7 @@ public class Student extends User {
 	{
 		//DB get the lesson
 		//this.lessonList.add(lesson);
+		//TODO
 	}
 
 

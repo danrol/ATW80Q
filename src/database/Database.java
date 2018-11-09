@@ -17,6 +17,7 @@ public class Database {
 	private HashMap<String, Teacher> teachers;
 	private HashMap<String, Student> students;
 	private MessageBoard msgBoard = new MessageBoard();
+	
 	public void addTeacher(Teacher teacher) {
 		this.teachers = teachers;
 	}
