@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import database.Database;
-import elements.GameRules;
-import elements.MessageBoard;
 import playground.logic.Message;
 import users.Student;
 import users.Teacher;
@@ -21,12 +19,13 @@ public class WebUI {
 	
 	@Autowired
 	private Database db;
+	
 	private String defaultPlayground = "atw80q";
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="view_rules",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+			path="/view_rules"
+			)
 	public String getGameRules() {
 		return this.db.getGameRules();
 	}
@@ -65,10 +64,10 @@ public class WebUI {
 			@PathVariable("avatar") String avatar, @PathVariable("role") String role) {
 		role = role.toLowerCase();
 			if (role == "teacher") {
-				this.db.addTeacher(new Teacher(username, email, avatar, defaultPlayground));
+				this.db.addTeacher(new Teacher(username, email, avatar));
 			}
 			else if(role == "student") {
-				this.db.addStudent(new Student(username, email, avatar, defaultPlayground));
+				this.db.addStudent(new Student(username, email, avatar));
 			}
 	}
 	
