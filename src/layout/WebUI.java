@@ -32,35 +32,150 @@ public class WebUI implements Playground_constants {
 	 * 
 	 * */
 	
-	
-	@RequestMapping(
-			method=RequestMethod.POST,
-			path="/playground/users/login/{playground}/{email}",
-			produces=MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void login() {
-	}
-	
 	@RequestMapping(
 			method=RequestMethod.POST,
 			path="/playground/users",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void newUserForm(@PathVariable("email") String email, @PathVariable("userName") String username, 
-			@PathVariable("avatar") String avatar, @PathVariable("role") String role,
-			@PathVariable("playground") String playground) {
+	public void newUserForm(String email, String username, String avatar, @PathVariable("role") String role, String playground) 
+		{
+		/* function 1
+		 * INPUT: NewUserForm
+		 * OUTPUT: UserTO
+		 */
 				this.db.addUser(new User(username, email, avatar, role, playground));
-	}
+		}
+	
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages1(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code) {
-		return "stam"; //TODO understand {code} meaning
+			@PathVariable("code") String code) 
+		{
+		/* function 2
+		 * INPUT: NONE
+		 * OUTPUT: UserTO
+		 */
+		
+
+		//TODO understand {code} meaning
+		return "stam"; 
+		}
+	
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/users/login/{playground}/{email}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void login() {
+		/* function 3
+		 * INPUT: NONE
+		 * OUTPUT: UserTO
+		 */
 	}
 	
+
+	@RequestMapping(
+			method=RequestMethod.PUT,
+			path="/playground/users/{playground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void function4(@PathVariable("email") String email,@PathVariable("playground") String playground) 
+		{
+		/* function 4
+		 * INPUT: UserTO
+		 * OUTPUT: NONE
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/elements/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function5(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 5
+		 * INPUT: ElementTO
+		 * OUTPUT: ElementTO
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.PUT,
+			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void function6(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+		{
+		/* function 6
+		 * INPUT: ElementTO
+		 * OUTPUT: NONE
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function7(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+		{
+		/* function 7
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/all",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function8(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 8
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function9(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+			@PathVariable("x") int x_point,@PathVariable("y") int y_point,@PathVariable("distance") double distance ) 
+		{
+		/* function 9
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function10(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+			@PathVariable("attributeName") String attributeName,@PathVariable("value") String value) 
+		{
+		/* function 10
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/activities/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function11(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 11
+		 * INPUT: ActivityTO
+		 * OUTPUT: Object
+		 */
+		}
 	
 	/*
 	 * 
