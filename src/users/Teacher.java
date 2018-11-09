@@ -8,56 +8,62 @@ import org.assertj.core.util.Arrays;
 import com.sun.javafx.collections.MappingChange.Map;
 
 import activities.Session;
+import database.Database;
 import elements.Lesson;
 import elements.MessageBoard;
 
-public class Teacher extends User {
-
-
-
-
-	private HashMap<Integer, Lesson> lessons;// TODO add lesson constructor. TODO add hardcoded hmap of lessons 
-//	private HashMap<Integer, Session> sessions; ////TODO define Session Constructor. TODO add hardcoded hmap of Sessions
-	private MessageBoard msgBoard;
+public class Teacher extends User{
+//	private int id;
+	private String email;
+	private String avatar;
+	private String name;
+	private String playground;
 	
-	public Teacher(int id) {
-		super(id);
-		// TODO Auto-generated constructor stub
+	public Teacher(String name, String email, String avatar, String playground) {
+		super();
+//		this.id = id;
+		this.email = email;
+		this.avatar = avatar;
+		this.name = name;
+		this.playground = playground;
 	}
 
-	public void addSession(int lessonId, int sessionId) {
-//		if(!this.lessons.get(lessonId).getSessions().containsKey(sessionId))
-//		this.lessons.get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
-		//TODO make this into a query in the database
-			}
+	private MessageBoard msgBoard;
+	private Database db;
+	
+//	@Override
+//	public void setId(int id) {
+//		this.id = id;
+//	}
 
-	@Override
+	public void addSession(String lessonId, String sessionId) {
+//		if(!this.db.getLessons().get(lessonId).getSessions().containsKey(sessionId))
+//			this.db.getLessons().get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
+	}
+
 	public void writeMessage(String message) {
 		this.msgBoard.writeMessage(message);
-		//TODO move it to User
 		
 	}
 	
-	public String[] viewStudentsPerfomance(int lessonId, int sessionId) {
-		return this.lessons.get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
-		//TODO make this into a query in the database
+	public String[] viewStudentsPerfomance(String lessonId, String sessionId) {
+		return this.db.getLessons().get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
+		
 	}
 	
-	public void editQuestionInSession(int lessonId,int sessionId, int questionId, 
+	public void editQuestionInSession(String lessonId,String sessionId, int questionId, 
 			String questionBody, String correctAnswer) {
-		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().
+		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().
 		get(questionId).editQuestion(questionBody, correctAnswer);
-		//TODO make this into a query in the database
 	}
 	
 	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
-		this.lessons.get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
-		//TODO make this into a query in the database
+		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
 	}
 
 	@Override
 	public void viewMessages() {
-		this.msgBoard.viewMessagesBoard();
+		this.msgBoard.viewMessagesBoardAsString();
 		
 	}
 	
