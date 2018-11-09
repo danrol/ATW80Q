@@ -13,7 +13,7 @@ public class Database {
 	//TODO Eden D: add functions with keys to return values
 	//TODO Eden D: class should support easy change of database
 
-	private HashMap<String, Lesson> lessons; //TODO add hardcoded hmap of lessons TODO add hardcoded hmap of Sessions
+	private HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
 	private HashMap<String, Teacher> teachers;
 	private HashMap<String, Student> students;
 	private MessageBoard msgBoard = new MessageBoard();
@@ -50,4 +50,3 @@ public class Database {
 
 }
 
-}
