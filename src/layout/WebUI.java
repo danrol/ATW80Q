@@ -24,7 +24,8 @@ public class WebUI {
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="/view_rules"
+			path="/view_rules",
+			produces=MediaType.APPLICATION_JSON_VALUE
 			)
 	public String getGameRules() {
 		return this.db.getGameRules();
@@ -32,7 +33,7 @@ public class WebUI {
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
-			path="add_message",
+			path="/add_message",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addMessage(@RequestBody String newMessage) {
@@ -41,7 +42,7 @@ public class WebUI {
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="view_messages",
+			path="/view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages() {
 		return this.db.getMessageBoard().viewMessagesBoard();
@@ -73,7 +74,7 @@ public class WebUI {
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="playground/users/confirm/{playground}/{email}/{code}",
+			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages(@PathVariable("playground") String playground, @PathVariable("email") String email, 
 			@PathVariable("code") String code) {
