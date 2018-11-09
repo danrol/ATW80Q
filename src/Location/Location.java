@@ -1,4 +1,4 @@
-package activities;
+package Location;
 
 public class Location {
 	private double x;
