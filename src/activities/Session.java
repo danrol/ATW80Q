@@ -98,9 +98,10 @@ public class Session {
 	public void updateParticipatingStudents(ArrayList<Student> participatingStudents) {
 		this.participatingStudents = participatingStudents;
 	}
-	
-	/**public void countStudentResult() {
-		this.studentResult = questions.get(0).questionResult(studentResult, null);
-	}**/
+
+	/**
+	 * public void countStudentResult() { this.studentResult =
+	 * questions.get(0).questionResult(studentResult, null); }
+	 **/
 
 }
