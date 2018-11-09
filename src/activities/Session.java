@@ -3,8 +3,6 @@ package activities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.springframework.http.codec.multipart.SynchronossPartHttpMessageReader;
-
 import elements.Question;
 import users.Student;
 import users.Teacher;
@@ -100,5 +98,9 @@ public class Session {
 	public void updateParticipatingStudents(ArrayList<Student> participatingStudents) {
 		this.participatingStudents = participatingStudents;
 	}
+	
+	/**public void countStudentResult() {
+		this.studentResult = questions.get(0).questionResult(studentResult, null);
+	}**/
 
 }

@@ -1,11 +1,13 @@
 package elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import activities.Location;
+import users.Student;
 
 public class Question {
-	
+
 	private Location lctn;
 	private String questionBody;
 	private ArrayList<String> answers;
@@ -33,9 +35,19 @@ public class Question {
 		this.correctAnswer = correctAnswer;
 	}
 
+	// return array of answers
+	// if student answer right or wrong
+
+	/**
+	 * public int questionResult(HashMap<Student, Integer> studentResult, String
+	 * studentAnswer) { if (studentAnswer == correctAnswer) studentResult =
+	 * studentResult + 50; else studentResult = studentResult - 50; return
+	 * studentResult; }
+	 **/
+
 	@Override
 	public String toString() {
 		return questionBody + ": " + answers;
 	}
-	// return array of answers
+
 }
