@@ -1,12 +1,13 @@
 package users;
 
+import database.Database;
+
 public class User {
 	
 	private String email;
-	
-
 	private String avatar;
 	private String name;
+	private Database db;
 	
 	public User(String name, String email, String avatar) {
 		super();
@@ -15,15 +16,20 @@ public class User {
 		this.avatar = avatar;
 	}
 
+
 	
+
 	public void writeMessage(String message) {
-		//TODO
+		db.getMessageBoard().writeMessage(message);
+		
 	}
 	
 	public void viewMessages() {
-		// TODO Auto-generated method stub
+		db.getMessageBoard().viewMessagesBoard();
 		
 	}
+	
+	
 	public String getEmail() {
 		return email;
 	}

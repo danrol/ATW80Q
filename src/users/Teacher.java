@@ -12,46 +12,15 @@ import database.Database;
 import elements.Lesson;
 import elements.MessageBoard;
 
+@Component
 public class Teacher extends User{
 
 	
 	public Teacher(String name, String email, String avatar) {
 		super(name, email,avatar);
 	}
-
-	private MessageBoard msgBoard;
-	private Database db;
 	
 
-	public void addSession(String lessonId, String sessionId) {
-//		if(!this.db.getLessons().get(lessonId).getSessions().containsKey(sessionId))
-//			this.db.getLessons().get(lessonId).getSessions().put(sessionId, new Session()); //TODO add hardcoded sessions
-	}
 
-	public void writeMessage(String message) {
-		this.msgBoard.writeMessage(message);
-		
-	}
-	
-	public String[] viewStudentsPerfomance(String lessonId, String sessionId) {
-		return this.db.getLessons().get(lessonId).getSessions().get(sessionId).getAllResults();//TODO add viewResults in Session
-		
-	}
-	
-	public void editQuestionInSession(String lessonId,String sessionId, int questionId, 
-			String questionBody, String correctAnswer) {
-		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().
-		get(questionId).editQuestion(questionBody, correctAnswer);
-	}
-	
-	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
-		this.db.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
-	}
-
-	@Override
-	public void viewMessages() {
-		this.msgBoard.viewMessagesBoard();
-		
-	}
 	
 }
