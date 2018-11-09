@@ -7,8 +7,13 @@ import activities.Location;
 import users.Student;
 
 public class Question {
+<<<<<<< HEAD
 
 	private Location lctn;
+=======
+	
+	private Location location;
+>>>>>>> 6781a750db81e61a953a85be84213201fb1330f4
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;
