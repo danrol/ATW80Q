@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import database.Database;
+import playground.Playground_constants;
 import playground.logic.Message;
 import users.User;
 
 
 @RestController
-public class WebUI {
+public class WebUI implements Playground_constants {
 	
 	@Autowired
 	private Database db;
@@ -63,7 +64,7 @@ public class WebUI {
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void newUserForm(@PathVariable("email") String email, @PathVariable("userName") String username, 
 			@PathVariable("avatar") String avatar, @PathVariable("role") String role,
-			@PathVariable("playground") String playground) {
+			@PathVariable("playground") String playground) throws Exception {
 		role = role.toLowerCase();
 				this.db.addUser(new User(username, email, avatar, role, playground));
 	}

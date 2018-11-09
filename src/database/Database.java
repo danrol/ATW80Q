@@ -24,16 +24,22 @@ public class Database implements Playground_constants{
 	
 	public void addTeacher(User teacher) {
 		if(TEACHER.equals(teacher.getRole()) && teachers.get(teacher.getEmail()) == null)
-		{
 			teachers.put(teacher.getEmail(), teacher);
-		}
 		
 	}
 	public void addStudent(User student) {
 		if(STUDENT.equals(student.getRole()) && students.get(student.getEmail()) == null)
-		{
 			teachers.put(student.getEmail(), student);
-		}
+	}
+	
+	public void addUser(User user) throws Exception {
+		if(user.getRole().equals(TEACHER.toLowerCase()))
+			addTeacher(user);
+		else if(user.getRole().equals(STUDENT.toLowerCase()))
+			addStudent(user);
+		else
+			throw new Exception("Role undefined");
+		
 	}
 
 	private String gameRules = "Our vision is to become a part of the official school program.\r\n" + 
@@ -84,9 +90,10 @@ public class Database implements Playground_constants{
 		get(questionId).editQuestion(questionBody, correctAnswer);
 	}
 	
-	public void deleteQuestionInSession(int lessonId, int sessionId, int questionId) {
-		this.getLessons().get(lessonId).getSessions().get(sessionId).getQuestions().remove(questionId);
+	public void deleteQuestionInSession(String lesson_key, String session_key, int questionId) {
+		this.getLessons().get(lesson_key).getSessions().get(session_key).getQuestions().remove(questionId);
 	}
+
 }
  
  
