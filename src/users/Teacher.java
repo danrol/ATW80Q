@@ -12,7 +12,7 @@ import database.Database;
 import elements.Lesson;
 import elements.MessageBoard;
 
-@Component
+
 public class Teacher extends User{
 
 	
