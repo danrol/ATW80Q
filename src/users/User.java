@@ -6,14 +6,23 @@ public class User {
 	
 	private String email;
 	private String avatar;
-	private String name;
+	private String username;
+	private String role;
+	private String playground;
+	private long points;
+	
+	
+	
 	private Database db;
 	
-	public User(String name, String email, String avatar) {
+	public User(String username, String email, String avatar, String role, String playground) {
 		super();
-		this.name = name;
+		this.username = username;
 		this.email = email;
 		this.avatar = avatar;
+		this.role = role;
+		this.playground = playground;
+		points = 0;
 	}
 
 
@@ -50,12 +59,12 @@ public class User {
 	}
 
 
-	public String getName() {
-		return name;
+	public String getUsername() {
+		return username;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUsername(String username) {
+		this.username = username;
 	}	
 }
