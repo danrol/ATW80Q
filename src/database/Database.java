@@ -20,7 +20,7 @@ public class Database {
 	private static HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
 	private static HashMap<String, Teacher> teachers;
 	private static HashMap<String, Student> students;
-	private static MessageBoard msgBoard = new MessageBoard();
+	private static MessageBoard messageBoard = new MessageBoard();
 	
 	public void addTeacher(Teacher teacher) {
 		this.teachers = teachers;
@@ -49,15 +49,11 @@ public class Database {
 	}
 	
 	public MessageBoard getMessageBoard() {
-		return msgBoard;
+		return messageBoard;
 	}
 
-	public static MessageBoard getMsgBoard() {
-		return msgBoard;
-	}
-	public static void setMsgBoard(MessageBoard msgBoard) {
-		Database.msgBoard = msgBoard;
-	}
+
+	
 	public void addSession(String lessonId, String sessionId)
 	{
 		/*
