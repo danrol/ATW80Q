@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.catalina.User;
 import activities.GameSession;
+import elements.Element;
 
-public class Lesson{
+public class Lesson extends Element {
 	private User teacher;
-	private String name;
+//	private String name;
+//	private String id;
 	private ArrayList<User> students;
 	private HashMap<String, GameSession> sessions;
 
@@ -15,6 +17,7 @@ public class Lesson{
 	public Lesson(String name, User teacher) {
 		this.name = name;
 		this.teacher = teacher;// teacher is a singular variable
+		this.type = LESSON;
 		this.students = new ArrayList<User>();
 		this.sessions = new HashMap<String, GameSession>();
 

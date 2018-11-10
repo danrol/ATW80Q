@@ -1,7 +1,7 @@
 package users;
 
-import database.Database;
 import playground.Playground_constants;
+import database.Database;
 
 public class User implements Playground_constants{
 	
@@ -10,10 +10,27 @@ public class User implements Playground_constants{
 	private String username;
 	private String role;
 	private String playground;
+	private String verificationCode;
+	private String status = OFFLINE; 
 	private long points;
 	
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
+	}	
 	
 	
+	public String getStatus() {
+		return status;
+	}
+
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
 	private Database db;
 	
 	public User(String username, String email, String avatar, String role, String playground) {
@@ -33,6 +50,13 @@ public class User implements Playground_constants{
 
 
 	
+
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+
+
+
 
 	public void writeMessage(String message) {
 		db.getMessageBoard().writeMessage(message);
