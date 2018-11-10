@@ -10,13 +10,12 @@ public class NewUserForm implements Serializable {
 	private String role;
 	private String playground;
 	
-	public NewUserForm(String email, String username, String avatar, String role, String playground) {
+	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
 		this.email = email;
 		this.username = username;
 		this.avatar = avatar;
 		this.role = role;
-		this.playground = playground;
 	}
 	
 	public String getEmail() {
@@ -42,12 +41,6 @@ public class NewUserForm implements Serializable {
 	}
 	public void setRole(String role) {
 		this.role = role;
-	}
-	public String getPlayground() {
-		return playground;
-	}
-	public void setPlayground(String playground) {
-		this.playground = playground;
 	}
 	
 	@Override

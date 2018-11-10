@@ -2,6 +2,7 @@ package layout;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +23,13 @@ public class WebUI implements Playground_constants {
 	
 	@Autowired
 	private Database db;
-	
+	private String defaultPlaygroundName;
 
+	@Value("${playground.name:no-playground}")
+	public void setDefaultUserName(String defaultPlaygroundName) {
+		this.defaultPlaygroundName = defaultPlaygroundName;
+	}
+	
 	/*
 	 * 
 	 * 
@@ -43,7 +49,7 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-				User u = new User(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), form.getPlayground());
+				User u = new User(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(),defaultPlaygroundName);
 				this.db.addUser(u);
 				return u;
 		}
