@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
-import elements.Lesson;
-import elements.MessageBoard;
 import playground.Playground_constants;
+import playground.logic.Lesson;
+import playground.logic.MessageBoard;
 import users.User;
 
 @Component

@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import org.apache.catalina.User;
 
-import elements.Question;
+import playground.logic.Question;
 
 public class GameSession {
 
@@ -99,7 +99,7 @@ public class GameSession {
 		this.participatingStudents = participatingStudents;
 	}
 
-	// Student ansewr to question
+	// Student answer to question
 	// protected HashMap<Student, Integer> studentResult;
 
 }

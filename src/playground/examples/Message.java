@@ -1,5 +1,4 @@
-package playground.logic;
-
+package playground.examples;
 
 import java.util.Date;
 import java.util.HashMap;

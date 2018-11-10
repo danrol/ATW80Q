@@ -1,10 +1,6 @@
 package playground.layout;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,101 +8,204 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import playground.logic.Message;
-import playground.logic.MessageGenerator;
+import database.Database;
+import playground.Playground_constants;
+import users.User;
+
 
 @RestController
-public class WebUI {
-	private String defaultUserName;
-	private MessageGenerator messageGenerator;
+public class WebUI implements Playground_constants {
 	
 	@Autowired
-	public void setMessageGenerator(MessageGenerator messageGenerator) {
-		this.messageGenerator = messageGenerator;
-	}
+	private Database db;
 	
-	@Value("${name.of.user.to.be.greeted:Anonymous}")
-	public void setDefaultUserName(String defaultUserName) {
-		this.defaultUserName = defaultUserName;
-	}
+	/*
+	 * 
+	 * 
+	 * General API 
+	 * 
+	 * 
+	 * */
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/users",
+			produces=MediaType.APPLICATION_JSON_VALUE,
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void newUserForm(String email, String username, String avatar, @PathVariable("role") String role, String playground) 
+		{
+		/* function 1
+		 * INPUT: NewUserForm
+		 * OUTPUT: UserTO
+		 */
+				this.db.addUser(new User(username, email, avatar, role, playground));
+		}
+	
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="/showMessage",
+			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Message getDefaultMessage () {
-		return this.messageGenerator.createMessage(this.defaultUserName);
-	}
-	
-//	@RequestMapping(
-//			method=RequestMethod.GET,
-//			path="/showMessageWithNullName",
-//			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Message getMessageWithNullName () {
-		return this.messageGenerator.createMessage(null);
-	}
-	
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/messages",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Message[] getAllMessages () {
-		List<Message> messages = Arrays.asList(
-				new Message("first"),
-				new Message("second"),
-				new Message("last")
-				);
+	public String viewMessages1(@PathVariable("playground") String playground, @PathVariable("email") String email, 
+			@PathVariable("code") String code) 
+		{
+		/* function 2
+		 * INPUT: NONE
+		 * OUTPUT: UserTO
+		 */
 		
-		return messages.toArray(new Message[0]);		
+
+		//TODO understand {code} meaning
+		return "stam"; 
+		}
+	
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/users/login/{playground}/{email}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void login() {
+		/* function 3
+		 * INPUT: NONE
+		 * OUTPUT: UserTO
+		 */
 	}
+	
 
 	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/messages/{name}",
+			method=RequestMethod.PUT,
+			path="/playground/users/{playground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void function4(@PathVariable("email") String email,@PathVariable("playground") String playground) 
+		{
+		/* function 4
+		 * INPUT: UserTO
+		 * OUTPUT: NONE
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/elements/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Message getCustomMessage (@PathVariable("name") String name) {
-		return this.messageGenerator.createMessage(name);
+	public void function5(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 5
+		 * INPUT: ElementTO
+		 * OUTPUT: ElementTO
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.PUT,
+			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void function6(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+		{
+		/* function 6
+		 * INPUT: ElementTO
+		 * OUTPUT: NONE
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function7(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+		{
+		/* function 7
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/all",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function8(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 8
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function9(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+			@PathVariable("x") int x_point,@PathVariable("y") int y_point,@PathVariable("distance") double distance ) 
+		{
+		/* function 9
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function10(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+			@PathVariable("attributeName") String attributeName,@PathVariable("value") String value) 
+		{
+		/* function 10
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
+		 */
+		}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/activities/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public void function11(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 11
+		 * INPUT: ActivityTO
+		 * OUTPUT: Object
+		 */
+		}
+	
+	/*
+	 * 
+	 * 
+	 * Project API 
+	 * 
+	 * 
+	 * */
+	
+	
+	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/view_rules",
+			produces=MediaType.APPLICATION_JSON_VALUE
+			)
+	public String getGameRules() {
+		return this.db.getGameRules();
 	}
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
-			path="/messages",
+			path="/add_message",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public Message storeMessage (@RequestBody Message newMessage) {
-		return newMessage;
+	public void addMessage(@RequestBody String newMessage) {
+		this.db.getMessageBoard().writeMessage(newMessage);
 	}
-
-	@RequestMapping(
-			method=RequestMethod.PUT,
-			path="/messages/{name}",
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateMessage (
-			@PathVariable("name") String name,
-			@RequestBody Message newMessage) throws Exception {
-		validateNull(name);
-	}
-	
 	
 	@RequestMapping(
-			method=RequestMethod.DELETE,
-			path="/messages/{name}")
-	public void deleteMessage (@PathVariable("name") String name) throws Exception {
-		validateNull(name);
+			method=RequestMethod.GET,
+			path="/view_messages",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public String viewMessages() {
+		return this.db.getMessageBoard().viewMessagesBoard();
 	}
 	
-	private void validateNull(String name) throws Exception {
-		if ("null".equals(name) || name == null) {
-			throw new Exception("message not found");
-		}
-	}
 }
-
-
-
-
-
-
-
-
-

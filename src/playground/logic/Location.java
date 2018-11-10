@@ -5,6 +5,7 @@ public class Location {
 	private double y;
 
 	public Location() {
+		
 	}
 
 	public Location(double x, double y) {

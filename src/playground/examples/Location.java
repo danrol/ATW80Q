@@ -1,11 +1,10 @@
-package Location;
+package playground.examples;
 
 public class Location {
 	private double x;
 	private double y;
 
 	public Location() {
-		
 	}
 
 	public Location(double x, double y) {

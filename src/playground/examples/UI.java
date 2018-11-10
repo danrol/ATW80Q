@@ -1,13 +1,10 @@
-package playground.layout;
+package playground.examples;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import playground.logic.Message;
-import playground.logic.MessageGenerator;
 
 //import playground.logic.Message;
 //import playground.logic.MessageGenerator;
