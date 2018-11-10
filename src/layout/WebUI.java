@@ -1,5 +1,7 @@
 package layout;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,9 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import elements.Element;
 
+import application.Playground_constants;
 import database.Database;
-import playground.Playground_constants;
 import playground.logic.Message;
 import users.User;
 
@@ -60,8 +63,14 @@ public class WebUI implements Playground_constants {
 		 */
 		
 
-		//TODO understand {code} meaning
-		return "stam"; 
+		if(this.db.getUsers().containsKey(email)) {
+			if(this.db.getUsers().get(email).getVerificationCode() == code)
+				return "verification passed";
+			else
+				return "wrong verification code";
+		}
+			else
+				return "wrong email";
 		}
 	
 	
@@ -69,11 +78,16 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/users/login/{playground}/{email}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void login() {
+	public void login(@PathVariable("playground") String playground, 
+			@PathVariable("email") String email) {
 		/* function 3
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
+		
+		//TODO add try catch
+		this.db.getUsers().get(email).setStatus(ONLINE);
+		
 	}
 	
 
@@ -81,12 +95,15 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.PUT,
 			path="/playground/users/{playground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void function4(@PathVariable("email") String email,@PathVariable("playground") String playground) 
+	public void changePlayground(@PathVariable("email") String email,@PathVariable("playground") String playground) 
 		{
 		/* function 4
 		 * INPUT: UserTO
 		 * OUTPUT: NONE
 		 */
+		
+		this.db.getUsers().get(email).setPlayground(playground);
+		//return this.db.getLessons();
 		}
 	
 	@RequestMapping(
@@ -100,6 +117,8 @@ public class WebUI implements Playground_constants {
 		 * INPUT: ElementTO
 		 * OUTPUT: ElementTO
 		 */
+		
+		//this.db
 		}
 	
 	@RequestMapping(
@@ -130,12 +149,17 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/all",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function8(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+	public Element[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
+			@PathVariable("userPlayground") String userPlayground) 
 		{
+		// returns all element with the same playground and email as in url
 		/* function 8
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
+		
+		return this.db.getAllElementsByEmailAndCreatorPlayground(userPlayground, email);
+		
 		}
 	
 	@RequestMapping(
@@ -184,9 +208,6 @@ public class WebUI implements Playground_constants {
 	 * 
 	 * 
 	 * */
-	
-	
-	
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/view_rules",

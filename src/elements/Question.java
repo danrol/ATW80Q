@@ -2,10 +2,13 @@ package elements;
 
 import java.util.ArrayList;
 
-public class Question {
+import application.Playground_constants;
+
+public class Question extends Element implements Playground_constants{
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;
+	
 
 	public Question(String questionBody, ArrayList<String> answers, String correctAnswer, int max, int min) {
 		super();
