@@ -12,6 +12,7 @@ import elements.Element;
 
 import playground.Playground_constants;
 import playground.logic.Location;
+import playground.logic.NewUserForm;
 import database.Database;
 import users.User;
 
@@ -36,13 +37,15 @@ public class WebUI implements Playground_constants {
 			path="/playground/users",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void newUserForm(String email, String username, String avatar, @PathVariable("role") String role, String playground) 
+	public User addNewUser(@RequestBody NewUserForm form) 
 		{
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-				this.db.addUser(new User(username, email, avatar, role, playground));
+				User u = new User(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), form.getPlayground());
+				this.db.addUser(u);
+				return u;
 		}
 	
 	

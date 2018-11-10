@@ -38,12 +38,7 @@ public class User implements Playground_constants{
 		this.username = username;
 		this.email = email;
 		this.avatar = avatar;
-		if(role.toLowerCase().equals("teacher"))
-			this.setRole(TEACHER);
-		else if(role.toLowerCase().equals("student"))
-			this.setRole(STUDENT);
-		else
-			this.setRole(UNDEFINED_ROLE);
+		setRole(role);
 		this.setPlayground(playground);
 		setPoints(0);
 	}
@@ -109,7 +104,17 @@ public class User implements Playground_constants{
 
 
 	public void setRole(String role) {
-		this.role = role;
+		role = role.toLowerCase();
+		if(role.equals(TEACHER.toLowerCase()))
+		{
+			this.role = TEACHER;
+		}
+		else if(role.equals(STUDENT.toLowerCase()))
+		{
+			this.role = STUDENT;
+		}
+		else
+			this.role = UNDEFINED_ROLE;
 	}
 
 
