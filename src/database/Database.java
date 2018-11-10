@@ -8,11 +8,11 @@ import org.mockito.internal.util.collections.Iterables;
 import org.springframework.stereotype.Component;
 
 import activities.GameSession;
-import application.Playground_constants;
 import elements.Element;
-import elements.Lesson;
-import elements.MessageBoard;
-import elements.Question;
+import playground.Playground_constants;
+import playground.logic.Lesson;
+import playground.logic.MessageBoard;
+import playground.logic.Question;
 import users.User;
 
 @Component

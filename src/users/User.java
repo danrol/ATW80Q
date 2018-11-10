@@ -1,6 +1,6 @@
 package users;
 
-import application.Playground_constants;
+import playground.Playground_constants;
 import database.Database;
 
 public class User implements Playground_constants{

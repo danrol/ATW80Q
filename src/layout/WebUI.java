@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import elements.Element;
 
-import application.Playground_constants;
+import playground.Playground_constants;
 import database.Database;
 import users.User;
 

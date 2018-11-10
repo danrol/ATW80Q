@@ -2,18 +2,20 @@ package elements;
 
 import java.util.Date;
 
-import Location.Location;
+import playground.Playground_constants;
+import playground.logic.Location;
 
-public class Element {
+
+public class Element implements Playground_constants {
 	protected String name;
 	protected String id;
 	protected String playground;
-	protected Location location;
 	protected Date creationDate;
 	protected Date exirationDate;
 	protected String type;
 	protected String creatorPlayground;
 	protected String creatorEmail;
+	protected Location location;
 	public String getName() {
 		return name;
 	}
