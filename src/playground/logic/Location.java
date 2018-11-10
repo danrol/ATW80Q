@@ -1,11 +1,13 @@
 package playground.logic;
 
 public class Location {
+	
 	private double x;
 	private double y;
 
 	public Location() {
-		
+		this.x = 0;
+		this.y = 0;
 	}
 
 	public Location(double x, double y) {

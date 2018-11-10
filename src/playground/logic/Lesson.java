@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.catalina.User;
 import activities.GameSession;
-import elements.Element;
+import elements.ElementTO;
 
-public class Lesson extends Element {
+public class Lesson extends ElementTO {
 	private User teacher;
 //	private String name;
 //	private String id;

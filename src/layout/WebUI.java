@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import elements.Element;
+import elements.ElementTO;
 
 import playground.Playground_constants;
 import playground.logic.Location;
 import playground.logic.NewUserForm;
 import database.Database;
-import users.User;
+import users.UserTo;
 
 
 @RestController
@@ -43,13 +43,13 @@ public class WebUI implements Playground_constants {
 			path="/playground/users",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public User addNewUser(@RequestBody NewUserForm form) 
+	public UserTo addNewUser(@RequestBody NewUserForm form) 
 		{
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-				User u = new User(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(),defaultPlaygroundName);
+				UserTo u = new UserTo(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), defaultPlaygroundName);
 				this.db.addUser(u);
 				return u;
 		}
@@ -154,7 +154,7 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/all",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Element[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
+	public ElementTO[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground) 
 		{
 		// returns all element with the same playground and email as in url

@@ -8,12 +8,12 @@ import org.mockito.internal.util.collections.Iterables;
 import org.springframework.stereotype.Component;
 
 import activities.GameSession;
-import elements.Element;
+import elements.ElementTO;
 import playground.Playground_constants;
 import playground.logic.Lesson;
 import playground.logic.MessageBoard;
 import playground.logic.Question;
-import users.User;
+import users.UserTo;
 
 @Component
 public class Database implements Playground_constants{
@@ -22,7 +22,7 @@ public class Database implements Playground_constants{
 	private static HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
 	//	private static HashMap<String, User> teachers;
 	//	private static HashMap<String, User> students;
-	private static HashMap<String, User> users;
+	private static HashMap<String, UserTo> users;
 	private static MessageBoard messageBoard = new MessageBoard();
 
 	//	public void addTeacher(User teacher) {
@@ -43,7 +43,7 @@ public class Database implements Playground_constants{
 	//		
 	//	}
 
-	public void addUser(User user) {
+	public void addUser(UserTo user) {
 		this.users.put(user.getEmail(), user);
 	}
 
@@ -66,7 +66,7 @@ public class Database implements Playground_constants{
 
 
 
-	public HashMap<String, User> getUsers() {
+	public HashMap<String, UserTo> getUsers() {
 		return users;
 	}
 
@@ -98,9 +98,9 @@ public class Database implements Playground_constants{
 	}
 
 
-	public Element[] getAllElementsByEmailAndCreatorPlayground(String userPlayground, String email) {
+	public ElementTO[] getAllElementsByEmailAndCreatorPlayground(String userPlayground, String email) {
 
-		ArrayList<Element> elementsList = new ArrayList<>();
+		ArrayList<ElementTO> elementsList = new ArrayList<>();
 		for (Lesson el : this.lessons.values()) {
 			if (el.getCreatorPlayground() == userPlayground && el.getCreatorEmail() == email)
 				elementsList.add(el);
@@ -113,7 +113,7 @@ public class Database implements Playground_constants{
 			}
 		}
 		// TODO add message board check
-		return (Element[]) elementsList.toArray();
+		return (ElementTO[]) elementsList.toArray();
 	}	
 }
 

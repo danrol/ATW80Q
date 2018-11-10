@@ -2,10 +2,10 @@ package playground.logic;
 
 import java.util.ArrayList;
 
-import elements.Element;
+import elements.ElementTO;
 
 
-public class Question extends Element {
+public class Question extends ElementTO {
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;

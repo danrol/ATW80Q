@@ -6,16 +6,17 @@ import playground.Playground_constants;
 import playground.logic.Location;
 
 
-public class Element implements Playground_constants {
+public class ElementTO implements Playground_constants {
 	protected String name;
 	protected String id;
 	protected String playground;
 	protected Date creationDate;
-	protected Date exirationDate;
+	protected Date expirationDate;
 	protected String type;
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
+	
 	public String getName() {
 		return name;
 	}
@@ -47,10 +48,10 @@ public class Element implements Playground_constants {
 		this.creationDate = creationDate;
 	}
 	public Date getExirationDate() {
-		return exirationDate;
+		return expirationDate;
 	}
 	public void setExirationDate(Date exirationDate) {
-		this.exirationDate = exirationDate;
+		this.expirationDate = exirationDate;
 	}
 	public String getType() {
 		return type;
@@ -69,6 +70,12 @@ public class Element implements Playground_constants {
 	}
 	public void setCreatorEmail(String creatorEmail) {
 		this.creatorEmail = creatorEmail;
+	}
+	@Override
+	public String toString() {
+		return "ElementTO [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
+				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
+				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
 	}
 	
 }

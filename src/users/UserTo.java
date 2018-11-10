@@ -3,7 +3,7 @@ package users;
 import playground.Playground_constants;
 import database.Database;
 
-public class User implements Playground_constants{
+public class UserTo implements Playground_constants{
 	
 	private String email;
 	private String avatar;
@@ -33,7 +33,7 @@ public class User implements Playground_constants{
 
 	private Database db;
 	
-	public User(String username, String email, String avatar, String role, String playground) {
+	public UserTo(String username, String email, String avatar, String role, String playground) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -114,7 +114,10 @@ public class User implements Playground_constants{
 			this.role = STUDENT;
 		}
 		else
+		{
 			this.role = UNDEFINED_ROLE;
+			throw new RuntimeException("Undefined role");
+		}
 	}
 
 
