@@ -29,6 +29,10 @@ public class Location {
 		this.y = y;
 	}
 
+	public double length()
+	{
+		return Math.abs(Math.sqrt(x*x+y*y));
+	}
 	@Override
 	public String toString() {
 		return "Location [x=" + x + ", y=" + y + "]";

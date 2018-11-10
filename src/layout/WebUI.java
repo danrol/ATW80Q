@@ -1,20 +1,18 @@
 package layout;
 
-import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import elements.Element;
 
 import playground.Playground_constants;
+import playground.logic.Location;
 import database.Database;
-import playground.logic.Message;
 import users.User;
 
 
@@ -23,8 +21,6 @@ public class WebUI implements Playground_constants {
 	
 	@Autowired
 	private Database db;
-	
-	private String defaultPlayground = "atw80q";
 	
 
 	/*
@@ -166,13 +162,16 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function9(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+	public String distance(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
 			@PathVariable("x") int x_point,@PathVariable("y") int y_point,@PathVariable("distance") double distance ) 
 		{
 		/* function 9
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
+		Location l = new Location(x_point,y_point);
+		String s = "Distance of points x=" + x_point + " y=" + y_point + " from " + distance + " is : " + Math.abs(l.length()-distance) + " units";
+		return s;
 		}
 	
 	@RequestMapping(

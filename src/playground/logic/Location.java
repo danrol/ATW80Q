@@ -14,6 +14,10 @@ public class Location {
 		this.y = y;
 	}
 
+	public double length()
+	{
+		return Math.sqrt(x*x+y*y);
+	}
 	public double getX() {
 		return x;
 	}
