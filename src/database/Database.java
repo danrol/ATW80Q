@@ -12,11 +12,7 @@ import users.User;
 @Component
 public class Database implements Playground_constants{
 
-	
-	
-	//TODO Eden D: add functions with keys to return values
-	//TODO Eden D: class should support easy change of database
-
+	//TODO add databases from Session and Lesson
 	private static HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
 	private static HashMap<String, User> teachers;
 	private static HashMap<String, User> students;
@@ -39,15 +35,9 @@ public class Database implements Playground_constants{
 			addStudent(user);
 		
 	}
-
-	private String gameRules = "Our vision is to become a part of the official school program.\r\n" + 
-			"We aim to improve the memory of students on facts about the world in all topics, and to become the best tool in the market which could help teachers create more interactive lessons for their students. \r\n" + 
-			"For students it will be an alternative way to improving their knowledge in the school material and possibly quiz themselves before tests. \r\n" + 
-			"";
-
 	
 	public String getGameRules() {
-		return gameRules;
+		return GAME_RULES;
 	}
 	public HashMap<String, Lesson> getLessons() {
 		return lessons;
