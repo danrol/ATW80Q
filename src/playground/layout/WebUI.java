@@ -26,7 +26,6 @@ public class WebUI implements Playground_constants {
 	 * 
 	 * 
 	 * */
-	
 	@RequestMapping(
 			method=RequestMethod.POST,
 			path="/playground/users",
