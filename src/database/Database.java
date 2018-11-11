@@ -20,9 +20,9 @@ public class Database implements Playground_constants{
 
 	//TODO add databases from Session and Lesson
 	private static HashMap<String, Lesson> lessons; //TODO add hard-coded hmap of lessons TODO add hardcoded hmap of Sessions
-	//	private static HashMap<String, User> teachers;
-	//	private static HashMap<String, User> students;
-	private static HashMap<String, UserTo> users;
+	//	private static HashMap<String, User> teachers = new HashMap<String,UserTo>();
+	//	private static HashMap<String, User> students = new HashMap<String,UserTo>();
+	private static HashMap<String, UserTo> users = new HashMap<String,UserTo>();
 	private static MessageBoard messageBoard = new MessageBoard();
 
 	//	public void addTeacher(User teacher) {
@@ -42,7 +42,15 @@ public class Database implements Playground_constants{
 	//			addStudent(user);
 	//		
 	//	}
-
+	public Database()
+	{
+		UserTo user1 = new UserTo("username1","username1@gmail.com","avatar1","Teacher","myPlayground",1234);
+		UserTo user2 = new UserTo("username2","username2@gmail.com","avatar2","Student","myPlayground",545);
+		UserTo user3 = new UserTo("username2","username3@gmail.com","avatar3","TeAchEr","myPlayground",312);
+		this.addUser(user1);
+		this.addUser(user2);
+		this.addUser(user3);
+	}
 	public void addUser(UserTo user) {
 		this.users.put(user.getEmail(), user);
 	}
