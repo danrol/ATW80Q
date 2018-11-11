@@ -253,7 +253,7 @@ public class WebUI implements Playground_constants {
 	 * */
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="/view_rules",
+			path="/playground/users/view_rules",
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
 	public String getGameRules() {
@@ -262,7 +262,7 @@ public class WebUI implements Playground_constants {
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
-			path="/add_message",
+			path="/playground/users/add_message",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addMessage(@RequestBody String newMessage) {
@@ -271,7 +271,7 @@ public class WebUI implements Playground_constants {
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
-			path="/view_messages",
+			path="/playground/users/view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages() {
 		return this.db.getMessageBoard().viewMessagesBoard();
