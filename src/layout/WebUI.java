@@ -234,14 +234,14 @@ public class WebUI implements Playground_constants {
 			path="/playground/activities/{userPlayground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function11(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+	public String function11(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
 		{
 		/* function 11
 		 * INPUT: ActivityTO
 		 * OUTPUT: Object
 		 */
-		
-		
+		//TODO add activity to RequestBody
+		return "Hello, " + username + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground; 
 		}
 	
 	/*
