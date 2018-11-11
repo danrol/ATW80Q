@@ -145,19 +145,21 @@ public class WebUI implements Playground_constants {
 		 */
 		//TODO change return to ElementTO
 		
-		return "receieved in POST: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + " this URL will return JSon of ElementTo type";
+		return "received in POST: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + " this URL will return JSon of ElementTo type";
 		}
 	
 	@RequestMapping(
 			method=RequestMethod.PUT,
 			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void function6(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+	public String function6(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
 		{
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
+		//TODO change return type to void
+		return "received in PUT: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will return nothing";
 		}
 	
 	@RequestMapping(
