@@ -87,7 +87,7 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/users/login/{playground}/{email}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void login2(@PathVariable("playground") String playground, 
+	public UserTo login2(@PathVariable("playground") String playground, 
 			@PathVariable("email") String email) {
 		/* function 3
 		 * INPUT: NONE
@@ -95,7 +95,13 @@ public class WebUI implements Playground_constants {
 		 */
 		
 		//TODO add try catch
-		this.db.getUsers().get(email).setStatus(ONLINE);
+		UserTo u  = this.db.getUsers().get(email);
+		if(u != null)
+		{
+			u.setStatus(ONLINE);
+			return u;
+		}
+		return null;
 		
 	}
 	
