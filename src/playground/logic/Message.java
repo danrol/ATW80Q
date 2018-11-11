@@ -1,6 +1,5 @@
 package playground.logic;
 
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +47,7 @@ public class Message {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
-	
+
 	public Map<String, Object> getMoreAttributes() {
 		return moreAttributes;
 	}

@@ -1,7 +1,7 @@
 package playground.logic;
 
 public class Location {
-	
+
 	private double x;
 	private double y;
 
@@ -16,10 +16,10 @@ public class Location {
 		this.y = y;
 	}
 
-	public double length()
-	{
-		return Math.sqrt(x*x+y*y);
+	public double length() {
+		return Math.sqrt(x * x + y * y);
 	}
+
 	public double getX() {
 		return x;
 	}

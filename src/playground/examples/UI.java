@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UI {
 	private MessageGenerator messageGenerator;
-	
+
 	private String name;
 
 	public UI() {
@@ -28,26 +28,18 @@ public class UI {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 //	@Autowired
 	public void setMessageGenerator(MessageGenerator messageGenerator) {
 		this.messageGenerator = messageGenerator;
 	}
-	
+
 	@PostConstruct
-	public void showMessage () {
+	public void showMessage() {
 //		String name = "Spring IoC Wolrd!";
-		
+
 		Message message = this.messageGenerator.createMessage(name);
-		
+
 		System.err.println(message);
 	}
 }
-
-
-
-
-
-
-
-

@@ -4,12 +4,10 @@ import java.util.ArrayList;
 
 import elements.ElementTO;
 
-
 public class Question extends ElementTO {
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;
-	
 
 	public Question(String questionBody, ArrayList<String> answers, String correctAnswer, int max, int min) {
 		super();

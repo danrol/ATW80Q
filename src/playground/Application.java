@@ -6,15 +6,15 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"database", "layout"})
+@ComponentScan(basePackages = { "database", "layout" })
 @PropertySource("classpath:resources/application.properties")
 public class Application {
-	
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
-	//test_DANIEL
+	// test_DANIEL
 //	public static void main(String[] args) {
 //		
 //		// TODO Spring IoC should instantiate this
