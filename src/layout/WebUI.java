@@ -24,7 +24,7 @@ public class WebUI implements Playground_constants {
 	@Autowired
 	private Database db;
 	private String defaultPlaygroundName;
-	private String defaultUsername;
+	private String username;
 
 	@Value("${playground.name:no-playground}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
@@ -33,7 +33,7 @@ public class WebUI implements Playground_constants {
 	
 	@Value("${playground.default.username:noname}")
 	public void setDefaultUsername(String defaultUsername) {
-		this.defaultUsername = defaultUsername;
+		this.username = defaultUsername;
 	}
 	
 	/*
@@ -71,15 +71,16 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
+		String string = "Hello, " + username + " ";
 		UserTo u = this.db.getUsers().get(email);
 		if(u !=null) {
 			if(u.getPlayground().equals(playground))
 			{
 				int VerificationCode = this.db.getUsers().get(email).getVerificationCode();
 				if (VerificationCode == code)
-					return "Verified user";
+					string.concat("Verified user");
 				else
-					return "Wrong verification code";
+					string.concat("Wrong verification code");
 			}
 				else
 			{
@@ -88,6 +89,7 @@ public class WebUI implements Playground_constants {
 		}
 			else
 				return "Wrong email";
+		return string;
 		}
 	
 	
@@ -107,6 +109,7 @@ public class WebUI implements Playground_constants {
 		if(u != null)
 		{
 			u.setStatus(ONLINE);
+			this.username = u.getUsername();
 			return u;
 		}
 		return null;
@@ -118,15 +121,15 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.PUT,
 			path="/playground/users/{playground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void changePlayground(@PathVariable("email") String email,@PathVariable("playground") String playground) 
+	public void changePlayground(@RequestBody UserTo user, @PathVariable("email") String email,@PathVariable("playground") String playground) 
 		{
 		/* function 4
 		 * INPUT: UserTO
 		 * OUTPUT: NONE
 		 */
+		if(user.getEmail().equals(email))
+			user.setPlayground(playground);
 		
-		this.db.getUsers().get(email).setPlayground(playground);
-		//return this.db.getLessons();
 		}
 	
 	@RequestMapping(
