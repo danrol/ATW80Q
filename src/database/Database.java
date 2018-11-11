@@ -139,8 +139,7 @@ public class Database implements Playground_constants{
 			}
 		
 		
-		return null;
+		return elementsList.toArray(new ElementTO[elementsList.size()]);
 	}	
-}
-
+	}}
 

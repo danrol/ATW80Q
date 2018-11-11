@@ -9,7 +9,12 @@ public class Location {
 		this.x = 0;
 		this.y = 0;
 	}
-
+	public Location(String location) {	//format "x,y"
+		super();
+		String[] s = location.split(",");
+		this.x = new Integer(s[0]);
+		this.y = new Integer(s[2]);
+	}
 	public Location(double x, double y) {
 		super();
 		this.x = x;

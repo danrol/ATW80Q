@@ -13,12 +13,7 @@ public class Location {
 		this.y = y;
 	}
 	
-	public Location(String location) {	//format "x,y"
-		super();
-		String[] s = location.split(",");
-		this.x = new Integer(s[0]);
-		this.y = new Integer(s[2]);
-	}
+
 	
 	
 	public double getX() {
