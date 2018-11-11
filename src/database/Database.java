@@ -44,9 +44,9 @@ public class Database implements Playground_constants{
 	//	}
 	public Database()
 	{
-		UserTo user1 = new UserTo("username1","username1@gmail.com","avatar1","Teacher","myPlayground",1234);
-		UserTo user2 = new UserTo("username2","username2@gmail.com","avatar2","Student","myPlayground",545);
-		UserTo user3 = new UserTo("username2","username3@gmail.com","avatar3","TeAchEr","myPlayground",312);
+		UserTo user1 = new UserTo("username1","username1@gmail.com","avatar1","Teacher", PLAYGROUND_NAME,1234);
+		UserTo user2 = new UserTo("username2","username2@gmail.com","avatar2","Student", PLAYGROUND_NAME,545);
+		UserTo user3 = new UserTo("username2","username3@gmail.com","avatar3","TeAchEr", PLAYGROUND_NAME,312);
 		this.addUser(user1);
 		this.addUser(user2);
 		this.addUser(user3);

@@ -64,19 +64,27 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String login1(@PathVariable("playground") String playground, @PathVariable("email") String email, 
+	public String getUserInformation(@PathVariable("playground") String playground, @PathVariable("email") String email, 
 			@PathVariable("code") int code) 
 		{
 		/* function 2
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		if(this.db.getUsers().containsKey(email)) {
-			int VerificationCode = this.db.getUsers().get(email).getVerificationCode();
-			if (VerificationCode == code)
-				return "Verified user";
-			else
-				return "Wrong verification code";
+		UserTo u = this.db.getUsers().get(email);
+		if(u !=null) {
+			if(u.getPlayground().equals(playground))
+			{
+				int VerificationCode = this.db.getUsers().get(email).getVerificationCode();
+				if (VerificationCode == code)
+					return "Verified user";
+				else
+					return "Wrong verification code";
+			}
+				else
+			{
+					return "User does not belong to the specified playground";
+			}
 		}
 			else
 				return "Wrong email";
@@ -87,7 +95,7 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/users/login/{playground}/{email}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTo login2(@PathVariable("playground") String playground, 
+	public UserTo login(@PathVariable("playground") String playground, 
 			@PathVariable("email") String email) {
 		/* function 3
 		 * INPUT: NONE

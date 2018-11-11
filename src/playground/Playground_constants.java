@@ -1,5 +1,7 @@
 package playground;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public interface Playground_constants {
 	final String TEACHER = "TEACHER";
 	final String STUDENT = "STUDENT";
@@ -13,5 +15,5 @@ public interface Playground_constants {
 	final String LESSON = "LESSON";
 	final String MESSAGEBOARD = "MESSAGE_BOARD";
 	final String QUESTION = "QUESTION";
-
+	final String PLAYGROUND_NAME = "atw80q";
 }
