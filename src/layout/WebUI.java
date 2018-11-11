@@ -1,6 +1,8 @@
 package layout;
 
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -166,12 +168,14 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function7(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+	public String function7(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
 		{
 		/* function 7
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
+		
+		return "received GET request:"  + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will an ElementTO";
 		}
 	
 	@RequestMapping(
@@ -203,7 +207,7 @@ public class WebUI implements Playground_constants {
 		 * OUTPUT: ElementTO[]
 		 */
 		Location l = new Location(x_point,y_point);
-		String s = "Distance of points x=" + x_point + " y=" + y_point + " from " + distance + " is : " + Math.abs(l.length()-distance) + " units";
+		String s = "Hello, " + username + "\nDistance of points x=" + x_point + " y=" + y_point + " from " + distance + " is : " + Math.abs(l.length()-distance) + " units";
 		return s;
 		}
 	
@@ -211,13 +215,18 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function10(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
+	public ElementTO[] function10(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,
 			@PathVariable("attributeName") String attributeName,@PathVariable("value") String value) 
 		{
 		/* function 10
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
+		UserTo u = this.db.getUsers().get(email);
+		if(u.getPlayground().equals(userPlayground))
+			return db.getElementsWithValueInAttribute(attributeName, value);
+		else 
+			return null;
 		}
 	
 	@RequestMapping(

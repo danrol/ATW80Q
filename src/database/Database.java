@@ -109,19 +109,37 @@ public class Database implements Playground_constants{
 	public ElementTO[] getAllElementsByEmailAndCreatorPlayground(String userPlayground, String email) {
 
 		ArrayList<ElementTO> elementsList = new ArrayList<>();
-		for (Lesson el : this.lessons.values()) {
-			if (el.getCreatorPlayground() == userPlayground && el.getCreatorEmail() == email)
+		for (Lesson el : Database.lessons.values()) {
+			
+			if (el.getCreatorPlayground().equals(userPlayground) && el.getCreatorEmail().equals(email))
 				elementsList.add(el);
+			
 			for (GameSession ses : el.getSessions().values()) {
-				for (Question question : ses.getQuestions().values()) {
-					if(question.getCreatorPlayground() == userPlayground && question.getCreatorEmail() == email){
+				for (Question question : ses.getQuestions().values())
+					if(question.getCreatorPlayground().equals(userPlayground) && question.getCreatorEmail().equals(email))
 						elementsList.add(question);
-					}
-				}
 			}
+			
 		}
 		// TODO add message board check
 		return (ElementTO[]) elementsList.toArray();
+	}
+	public ElementTO[] getElementsWithValueInAttribute(String attributeName, String value) {
+
+		ArrayList<ElementTO> elementsList = new ArrayList<>();
+		for (Lesson el : Database.lessons.values()) {
+			
+			if (el.attributeExists(attributeName,value))
+				elementsList.add(el);
+			
+			for (GameSession ses : el.getSessions().values()) {
+				for (Question question : ses.getQuestions().values())
+					if(question.attributeExists(attributeName,value))
+						elementsList.add(question);
+			}
+		
+		
+		return null;
 	}	
 }
 

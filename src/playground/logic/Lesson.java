@@ -15,6 +15,7 @@ public class Lesson extends ElementTO {
 
 //constructor
 	public Lesson(String name, User teacher) {
+		super();
 		this.name = name;
 		this.teacher = teacher;// teacher is a singular variable
 		this.type = LESSON;
@@ -114,5 +115,6 @@ public class Lesson extends ElementTO {
 		String[] nameSet = this.sessions.keySet().toArray(new String[this.sessions.size()]);
 		watchResultOfSession(nameSet[nameSet.length]);
 	}
+
 
 }
