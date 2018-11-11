@@ -137,14 +137,15 @@ public class WebUI implements Playground_constants {
 			path="/playground/elements/{userPlayground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public void function5(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+	public String function5(@RequestBody ElementTO element, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
 		{
 		/* function 5
 		 * INPUT: ElementTO
 		 * OUTPUT: ElementTO
 		 */
+		//TODO change return to ElementTO
 		
-		//this.db
+		return "receieved in POST: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + " this URL will return JSon of ElementTo type";
 		}
 	
 	@RequestMapping(
