@@ -17,7 +17,7 @@ import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.Location;
 import playground.logic.NewUserForm;
-import users.UserTo;
+import playground.logic.UserTO;
 
 
 @RestController
@@ -51,13 +51,13 @@ public class WebUI implements Playground_constants {
 			path="/playground/users",
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public UserTo addNewUser(@RequestBody NewUserForm form) 
+	public UserTO addNewUser(@RequestBody NewUserForm form) 
 		{
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-				UserTo u = new UserTo(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), defaultPlaygroundName);
+				UserTO u = new UserTO(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), defaultPlaygroundName);
 				this.db.addUser(u);
 				return u;
 		}
@@ -74,7 +74,7 @@ public class WebUI implements Playground_constants {
 		 * OUTPUT: UserTO
 		 */
 		String string = "Hello, " + username + " ";
-		UserTo u = this.db.getUsers().get(email);
+		UserTO u = this.db.getUsers().get(email);
 		if(u !=null) {
 			if(u.getPlayground().equals(playground))
 			{
@@ -99,7 +99,7 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.GET,
 			path="/playground/users/login/{playground}/{email}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTo login(@PathVariable("playground") String playground, 
+	public UserTO login(@PathVariable("playground") String playground, 
 			@PathVariable("email") String email) {
 		/* function 3
 		 * INPUT: NONE
@@ -107,7 +107,7 @@ public class WebUI implements Playground_constants {
 		 */
 		
 		//TODO add try catch
-		UserTo u  = this.db.getUsers().get(email);
+		UserTO u  = this.db.getUsers().get(email);
 		if(u != null)
 		{
 			u.setStatus(ONLINE);
@@ -123,7 +123,7 @@ public class WebUI implements Playground_constants {
 			method=RequestMethod.PUT,
 			path="/playground/users/{playground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void changePlayground(@RequestBody UserTo user, @PathVariable("email") String email,@PathVariable("playground") String playground) 
+	public void changePlayground(@RequestBody UserTO user, @PathVariable("email") String email,@PathVariable("playground") String playground) 
 		{
 		/* function 4
 		 * INPUT: UserTO
@@ -222,7 +222,7 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		UserTo u = this.db.getUsers().get(email);
+		UserTO u = this.db.getUsers().get(email);
 		if(u.getPlayground().equals(userPlayground))
 			return db.getElementsWithValueInAttribute(attributeName, value);
 		else 

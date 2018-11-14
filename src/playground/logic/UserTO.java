@@ -1,9 +1,9 @@
-package users;
+package playground.logic;
 
 import playground.Playground_constants;
 import playground.database.Database;
 
-public class UserTo implements Playground_constants {
+public class UserTO implements Playground_constants {
 
 	private String email;
 	private String avatar;
@@ -24,7 +24,7 @@ public class UserTo implements Playground_constants {
 
 	private Database db;
 
-	public UserTo(String username, String email, String avatar, String role, String playground) {
+	public UserTO(String username, String email, String avatar, String role, String playground) {
 		super();
 		setUsername(username);
 		setEmail(email);
@@ -34,7 +34,7 @@ public class UserTo implements Playground_constants {
 		setPoints(0);
 	}
 
-	public UserTo(String username, String email, String avatar, String role, String playground, int code) {
+	public UserTO(String username, String email, String avatar, String role, String playground, int code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
