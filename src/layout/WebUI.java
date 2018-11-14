@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import elements.ElementTO;
 
 import playground.Playground_constants;
+import playground.database.Database;
+import playground.elements.ElementTO;
 import playground.logic.Location;
 import playground.logic.NewUserForm;
-import database.Database;
 import users.UserTo;
 
 

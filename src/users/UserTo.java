@@ -1,7 +1,7 @@
 package users;
 
 import playground.Playground_constants;
-import database.Database;
+import playground.database.Database;
 
 public class UserTo implements Playground_constants {
 

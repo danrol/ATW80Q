@@ -2,7 +2,7 @@ package playground.logic;
 
 import java.util.ArrayList;
 
-import elements.ElementTO;
+import playground.elements.ElementTO;
 
 public class Question extends ElementTO {
 	private String questionBody;

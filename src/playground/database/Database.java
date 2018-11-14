@@ -1,4 +1,4 @@
-package database;
+package playground.database;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,8 +8,8 @@ import org.mockito.internal.util.collections.Iterables;
 import org.springframework.stereotype.Component;
 
 import activities.GameSession;
-import elements.ElementTO;
 import playground.Playground_constants;
+import playground.elements.ElementTO;
 import playground.logic.Lesson;
 import playground.logic.MessageBoard;
 import playground.logic.Question;

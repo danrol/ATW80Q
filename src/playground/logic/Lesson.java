@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.catalina.User;
 import activities.GameSession;
-import elements.ElementTO;
+import playground.elements.ElementTO;
 
 public class Lesson extends ElementTO {
 	private User teacher;
