@@ -1,6 +1,6 @@
 package playground.database;
 
-import activities.AnswerQuestionTO;
+import playground.activities.AnswerQuestionTO;
 
 public interface ATW {
 	public AnswerQuestionTO editQuestion();

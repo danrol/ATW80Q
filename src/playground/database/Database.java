@@ -7,8 +7,8 @@ import java.util.HashMap;
 import org.mockito.internal.util.collections.Iterables;
 import org.springframework.stereotype.Component;
 
-import activities.AnswerQuestionTO;
 import playground.Playground_constants;
+import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
 import playground.elements.MessageBoard;
 import playground.elements.Question;
