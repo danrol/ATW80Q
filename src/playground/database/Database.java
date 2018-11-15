@@ -1,17 +1,13 @@
 package playground.database;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
-import org.mockito.internal.util.collections.Iterables;
 import org.springframework.stereotype.Component;
 
 import playground.Playground_constants;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
 import playground.elements.MessageBoard;
-import playground.elements.Question;
 import playground.logic.UserTO;
 
 @Component
@@ -23,16 +19,16 @@ public class Database implements Playground_constants, ATW {
 	private static MessageBoard messageBoard = new MessageBoard();
 
 	public Database() {
-		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "Teacher", PLAYGROUND_NAME, 1234);
-		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "Student", PLAYGROUND_NAME, 545);
-		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "TeAchEr", PLAYGROUND_NAME, 312);
+		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "Teacher", PLAYGROUND_NAME, "");
+		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "Student", PLAYGROUND_NAME, "abc");
+		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "TeAchEr", PLAYGROUND_NAME, "blabla");
 		this.addUser(user1);
 		this.addUser(user2);
 		this.addUser(user3);
 	}
 
 	public void addUser(UserTO user) {
-		this.users.put(user.getEmail(), user);
+		Database.users.put(user.getEmail(), user);
 	}
 
 	public String getGameRules() {
@@ -57,6 +53,11 @@ public class Database implements Playground_constants, ATW {
 	public void deleteQuestion() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public ElementTO[] getElementsWithValueInAttribute(String attributeName, String value) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

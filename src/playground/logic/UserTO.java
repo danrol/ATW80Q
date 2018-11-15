@@ -10,8 +10,9 @@ public class UserTO implements Playground_constants {
 	private String username;
 	private String role;
 	private String playground;
-	private int verificationCode = 0;
+	private String verificationCode = "";
 	private String status = OFFLINE;
+	private int verified_user = USER_NOT_VERIFIED;
 	private long points;
 
 	public String getStatus() {
@@ -34,16 +35,16 @@ public class UserTO implements Playground_constants {
 		setPoints(0);
 	}
 
-	public UserTO(String username, String email, String avatar, String role, String playground, int code) {
+	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
 
-	public int getVerificationCode() {
+	public String getVerificationCode() {
 		return verificationCode;
 	}
 
-	public void setVerificationCode(int verificationCode) {
+	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
 
@@ -111,5 +112,18 @@ public class UserTO implements Playground_constants {
 
 	public void setPoints(long points) {
 		this.points = points;
+	}
+
+	public int getVerified_user() {
+		return verified_user;
+	}
+
+	public void setVerified_user(int verified_user) {
+		this.verified_user = verified_user;
+	}
+	
+	public void verifyUser()
+	{
+		setVerified_user(USER_VERIFIED);
 	}
 }

@@ -62,36 +62,42 @@ public class WebUI implements Playground_constants {
 				return u;
 		}
 	
+
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String getUserInformation(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") int code) 
+	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
+			@PathVariable("code") String code) 
 		{
 		/* function 2
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		String string = "Hello, " + username + " ";
-		UserTO u = this.db.getUsers().get(email);
-		if(u !=null) {
-			if(u.getPlayground().equals(playground))
+		UserTO user = this.db.getUsers().get(email);
+		if(user !=null) {
+			if(user.getPlayground().equals(playground))
 			{
-				int VerificationCode = this.db.getUsers().get(email).getVerificationCode();
-				if (VerificationCode == code)
-					string.concat("Verified user");
+				String VerificationCode = user.getVerificationCode();
+				if (VerificationCode.equals(code))
+					{
+					user.verifyUser();
+					}
 				else
-					string.concat("Wrong verification code");
+					{
+						throw new RuntimeException("invalid verification code");
+					}
 			}
 				else
 			{
-					return "User does not belong to the specified playground";
+					throw new RuntimeException("User does not belong to the specified playground");
 			}
 		}
 			else
-				return "Wrong email";
-		return string;
+			{
+				throw new RuntimeException("Email is not registered.");
+			}
+		return user;
 		}
 	
 	

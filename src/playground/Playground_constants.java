@@ -16,4 +16,6 @@ public interface Playground_constants {
 	final String MESSAGEBOARD = "MESSAGE_BOARD";
 	final String QUESTION = "QUESTION";
 	final String PLAYGROUND_NAME = "atw80q";
+	final int USER_VERIFIED = 1;
+	final int USER_NOT_VERIFIED = 0;
 }
