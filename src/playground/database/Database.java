@@ -5,17 +5,20 @@ import java.util.HashMap;
 import org.springframework.stereotype.Component;
 
 import playground.Playground_constants;
+import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
 import playground.elements.MessageBoard;
 import playground.logic.UserTO;
 
 @Component
-public class Database implements Playground_constants, ATW {
+public class Database implements Playground_constants, ATW_Database {
 
-	// TODO add databases from Session and Lesson
 
 	private static HashMap<String, UserTO> users = new HashMap<String, UserTO>();
+	private static HashMap<String, ElementTO> elements = new HashMap<String, ElementTO>();
+	private static HashMap<String, ActivityTO> activities = new HashMap<String, ActivityTO>();
+	
 	private static MessageBoard messageBoard = new MessageBoard();
 
 	public Database() {
@@ -58,6 +61,22 @@ public class Database implements Playground_constants, ATW {
 	public ElementTO[] getElementsWithValueInAttribute(String attributeName, String value) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public static HashMap<String, ElementTO> getElements() {
+		return elements;
+	}
+
+	public static void setElements(HashMap<String, ElementTO> elements) {
+		Database.elements = elements;
+	}
+
+	public static HashMap<String, ActivityTO> getActivities() {
+		return activities;
+	}
+
+	public static void setActivities(HashMap<String, ActivityTO> activities) {
+		Database.activities = activities;
 	}
 
 
