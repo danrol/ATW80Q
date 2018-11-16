@@ -169,19 +169,19 @@ public class WebUI implements Playground_constants {
 		//TODO change return type to void
 		return "received in PUT: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will return nothing";
 		}
-	
+	//returns null if element not found
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String function7(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") int id) 
+	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") String id) 
 		{
 		/* function 7
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		
-		return "received GET request:"  + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will an ElementTO";
+		ElementTO element = db.getElement(id);
+		return element;
 		}
 	
 	@RequestMapping(

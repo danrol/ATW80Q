@@ -1,5 +1,6 @@
 package playground.database;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
@@ -15,11 +16,16 @@ import playground.logic.UserTO;
 public class Database implements Playground_constants, ATW_Database {
 
 
-	private static HashMap<String, UserTO> users = new HashMap<String, UserTO>();
-	private static HashMap<String, ElementTO> elements = new HashMap<String, ElementTO>();
-	private static HashMap<String, ActivityTO> activities = new HashMap<String, ActivityTO>();
-	
+
+	private static ArrayList<UserTO> users = new ArrayList<UserTO>();
+	private static ArrayList<ElementTO> elements = new ArrayList<ElementTO>();
+	private static ArrayList<ActivityTO> activities = new ArrayList<ActivityTO>();
 	private static MessageBoard messageBoard = new MessageBoard();
+	
+	
+
+
+
 
 	public Database() {
 		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "Teacher", PLAYGROUND_NAME, "");
@@ -30,8 +36,37 @@ public class Database implements Playground_constants, ATW_Database {
 		this.addUser(user3);
 	}
 
+	public static ArrayList<UserTO> getUsers() {
+		return users;
+	}
+
+	public static void setUsers(ArrayList<UserTO> users) {
+		Database.users = users;
+	}
+
+	public static ArrayList<ElementTO> getElements() {
+		return elements;
+	}
+
+	public static void setElements(ArrayList<ElementTO> elements) {
+		Database.elements = elements;
+	}
+
+	public static ArrayList<ActivityTO> getActivities() {
+		return activities;
+	}
+
+	public static void setActivities(ArrayList<ActivityTO> activities) {
+		Database.activities = activities;
+	}
+
+	public static void setMessageBoard(MessageBoard messageBoard) {
+		Database.messageBoard = messageBoard;
+	}
+
+	
 	public void addUser(UserTO user) {
-		Database.users.put(user.getEmail(), user);
+		Database.users.add(user);
 	}
 
 	public String getGameRules() {
@@ -42,9 +77,6 @@ public class Database implements Playground_constants, ATW_Database {
 		return messageBoard;
 	}
 
-	public HashMap<String, UserTO> getUsers() {
-		return users;
-	}
 
 	@Override
 	public AnswerQuestionTO editQuestion() {
@@ -63,20 +95,15 @@ public class Database implements Playground_constants, ATW_Database {
 		return null;
 	}
 
-	public static HashMap<String, ElementTO> getElements() {
-		return elements;
-	}
 
-	public static void setElements(HashMap<String, ElementTO> elements) {
-		Database.elements = elements;
-	}
 
-	public static HashMap<String, ActivityTO> getActivities() {
-		return activities;
-	}
-
-	public static void setActivities(HashMap<String, ActivityTO> activities) {
-		Database.activities = activities;
+	public ElementTO getElement(String id) {
+		for(ElementTO e: elements)
+		{
+			if(e.getId().equals(id))
+				return e;
+		}
+		return null;
 	}
 
 

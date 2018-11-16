@@ -1,6 +1,5 @@
 package playground;
 
-import org.springframework.beans.factory.annotation.Value;
 
 public interface Playground_constants {
 	final String TEACHER = "TEACHER";
