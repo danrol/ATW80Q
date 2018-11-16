@@ -38,7 +38,7 @@ public class DanielController implements Playground_constants{
 			path = "playground/users",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO registerNewUser(NewUserForm newUserForm) {
+	public UserTO registerNewUser(@RequestBody NewUserForm newUserForm) {
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
@@ -52,7 +52,6 @@ public class DanielController implements Playground_constants{
 	@RequestMapping(
 			method=RequestMethod.PUT,
 			path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addNewElement(@RequestBody ElementTO element,@PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,
@@ -70,7 +69,7 @@ public class DanielController implements Playground_constants{
 			path="/playground/activities/{userPlayground}/{email}",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public Object saveActivityAsObject(ActivityTO activity, 
+	public Object saveActivityAsObject(@RequestBody ActivityTO activity, 
 			@PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email) {
 		/* function 11
 		 * INPUT: ActivityTO
