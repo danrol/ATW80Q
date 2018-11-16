@@ -33,8 +33,27 @@ public class ElementTO implements Playground_constants {
 		}
 		return false;
 	}
-
 	
+	public ElementTO( String id, String playground, String creatorPlayground, String creatorEmail) {
+		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
+		//which won't pass expirationDate, name, type and location
+		// TODO add expirationDate, location implementation
+		super();
+//		this.name = name;
+		this.id = id;
+		this.playground = playground;
+		this.creationDate = new Date();
+//		this.expirationDate = expirationDate;
+//		this.type = type;
+		this.creatorPlayground = creatorPlayground;
+		this.creatorEmail = creatorEmail;
+//		this.location = location;
+		
+	}
+
+
+
+
 	public String getName() {
 		return name;
 	}

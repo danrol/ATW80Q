@@ -68,6 +68,10 @@ public class Database implements Playground_constants, ATW_Database {
 	public void addUser(UserTO user) {
 		Database.users.add(user);
 	}
+	
+	public void addElement(ElementTO element) {
+		getElements().add(element);
+	}
 
 	public String getGameRules() {
 		return GAME_RULES;
