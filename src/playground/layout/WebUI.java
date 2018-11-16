@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Playground_constants;
+import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.Location;
@@ -228,26 +229,25 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		UserTO u = this.db.getUsers().get(email);
-		if(u.getPlayground().equals(userPlayground))
-			return db.getElementsWithValueInAttribute(attributeName, value);
-		else 
+		//UserTO u = this.db.getUsers().get(email);
+		//if(u.getPlayground().equals(userPlayground))
+		//	return db.getElementsWithValueInAttribute(attributeName, value);
+		//else 
 			return null;
 		}
-	
 	@RequestMapping(
 			method=RequestMethod.POST,
 			path="/playground/activities/{userPlayground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String function11(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+	public Object getActivity(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
 		{
 		/* function 11
 		 * INPUT: ActivityTO
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		return "Hello, " + username + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground; 
+		return "Hello, " + username + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity; 
 		}
 	
 	/*
