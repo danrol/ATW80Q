@@ -56,9 +56,6 @@ public class Database implements Playground_constants, ATW_Database {
 		Database.activities = activities;
 	}
 
-	public static void setMessageBoard(MessageBoard messageBoard) {
-		Database.messageBoard = messageBoard;
-	}
 
 	
 	public void addUser(UserTO user) {
@@ -73,9 +70,7 @@ public class Database implements Playground_constants, ATW_Database {
 		return GAME_RULES;
 	}
 
-	public MessageBoard getMessageBoard() {
-		return messageBoard;
-	}
+
 
 
 	@Override
