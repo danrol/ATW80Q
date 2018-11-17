@@ -54,6 +54,10 @@ public class ElementTO implements Playground_constants {
 
 
 
+	public ElementTO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getName() {
 		return name;
 	}
