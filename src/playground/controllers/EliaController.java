@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.activities.ActivityTO;
 import playground.database.Database;
+import playground.elements.ElementTO;
 
 @RestController
 public class EliaController {
@@ -27,12 +28,11 @@ public class EliaController {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distan ce}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String[] getElementsAtLocation() {
-		return db.getElements();
-		//function to do 
-		int num=5;
-		String[] elements;
-		return  elements=new String[num];
+	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,double distance) {
+		ElementTO[] obelement= db.getAllElementsTOInRadius(element,distance);
+		
+		
+		return obelement;
 	}
 	
 	@RequestMapping(

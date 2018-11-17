@@ -122,6 +122,28 @@ public class Database implements Playground_constants, ATW_Database {
 	public static void setMessages(ArrayList<Message> messages) {
 		Database.messages = messages;
 	}
+	
+	public ElementTO[] getAllElementsTOInRadius(ElementTO element,double distance)
+	{
+		//element.getLocation();
+		double x=0;
+		double y=0;
+		//bounderies
+		double north=y+distance;
+		double south=y-distance;
+		double east=x-distance;
+		double west=x+distance;
+		
+		ArrayList<ElementTO> array=new ArrayList<>();
+		for(ElementTO el:this.elements) {
+			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
+					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
+				array.add(el);
+			}
+			
+		}
+		return (ElementTO[]) array.toArray();
+	}
 
 
 //	public ElementTO[] getAllElementsByEmailAndCreatorPlayground(String userPlayground, String email) {
