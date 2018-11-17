@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import playground.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class TestDanielController {
+public class TestEdenDupontController {
 	
 	private RestTemplate restTemplate;
 	
@@ -36,6 +36,11 @@ public class TestDanielController {
 
 	@After
 	public void teardown() {
+	}
+
+	@Test
+	public void testServerIsBootingCorrectly() throws Exception {
+		
 	}
 	
 	@Test

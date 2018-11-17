@@ -10,6 +10,7 @@ import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
 import playground.elements.MessageBoard;
+import playground.logic.Message;
 import playground.logic.UserTO;
 
 @Component
@@ -20,12 +21,7 @@ public class Database implements Playground_constants, ATW_Database {
 	private static ArrayList<UserTO> users = new ArrayList<UserTO>();
 	private static ArrayList<ElementTO> elements = new ArrayList<ElementTO>();
 	private static ArrayList<ActivityTO> activities = new ArrayList<ActivityTO>();
-	private static MessageBoard messageBoard = new MessageBoard();
-	
-	
-
-
-
+	private static ArrayList<Message> messages = new ArrayList<Message>();
 
 	public Database() {
 		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "Teacher", PLAYGROUND_NAME, "");
@@ -108,6 +104,23 @@ public class Database implements Playground_constants, ATW_Database {
 				return e;
 		}
 		return null;
+	}
+
+	public UserTO getUser(String email) {
+		for(UserTO u:users)
+		{
+			if(u.getEmail().equals(email))
+				return u;
+		}
+		return null;
+	}
+
+	public static ArrayList<Message> getMessages() {
+		return messages;
+	}
+
+	public static void setMessages(ArrayList<Message> messages) {
+		Database.messages = messages;
 	}
 
 

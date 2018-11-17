@@ -114,7 +114,7 @@ public class WebUI implements Playground_constants {
 		 */
 		
 		//TODO add try catch
-		UserTO u  = this.db.getUsers().get(email);
+		UserTO u  = this.db.getUser(email);
 		if(u != null)
 		{
 			u.setStatus(ONLINE);
