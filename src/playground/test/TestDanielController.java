@@ -39,7 +39,17 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testRegisterNewUser() {
+	public void testRegisterNewUser() throws Exception{
+		
+	}
+	
+	@Test
+	public void testAddNewElement() throws Exception{
+		
+	}
+	
+	@Test
+	public void testSaveActivityAsObject() throws Exception{
 		
 	}
 	
