@@ -2,11 +2,11 @@ package playground.elements;
 
 import java.util.Date;
 
-import playground.Playground_constants;
+
 import playground.logic.Location;
 
 
-public class ElementTO implements Playground_constants {
+public class ElementTO {
 	protected String name;
 	protected String id;
 	protected String playground;

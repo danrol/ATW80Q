@@ -1,20 +1,18 @@
 package playground.database;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.springframework.stereotype.Component;
 
-import playground.Playground_constants;
+import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
-import playground.elements.MessageBoard;
 import playground.logic.Message;
 import playground.logic.UserTO;
 
 @Component
-public class Database implements Playground_constants, ATW_Database {
+public class Database implements  ATW_Database {
 
 
 
@@ -24,9 +22,9 @@ public class Database implements Playground_constants, ATW_Database {
 	private static ArrayList<Message> messages = new ArrayList<Message>();
 
 	public Database() {
-		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "moderator", PLAYGROUND_NAME, "");
-		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "player", PLAYGROUND_NAME, "abc");
-		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "player", PLAYGROUND_NAME, "blabla");
+		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "moderator", Constants.PLAYGROUND_NAME, "");
+		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "player", Constants.PLAYGROUND_NAME, "abc");
+		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "player", Constants.PLAYGROUND_NAME, "blabla");
 		this.addUser(user1);
 		this.addUser(user2);
 		this.addUser(user3);
@@ -67,7 +65,7 @@ public class Database implements Playground_constants, ATW_Database {
 	}
 
 	public String getGameRules() {
-		return GAME_RULES;
+		return Constants.GAME_RULES;
 	}
 
 

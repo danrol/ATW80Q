@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import playground.Playground_constants;
+import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
@@ -22,22 +22,10 @@ import playground.logic.UserTO;
 
 
 @RestController
-public class WebUI implements Playground_constants {
+public class WebUI {
 	
 	@Autowired
 	private Database db;
-	private String defaultPlaygroundName;
-	private String username;
-
-	@Value("${playground.name:no-playground}")
-	public void setDefaultUserName(String defaultPlaygroundName) {
-		this.defaultPlaygroundName = defaultPlaygroundName;
-	}
-	
-	@Value("${playground.default.username:noname}")
-	public void setDefaultUsername(String defaultUsername) {
-		this.username = defaultUsername;
-	}
 	
 	/*
 	 * 
@@ -58,7 +46,7 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-				UserTO u = new UserTO(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), defaultPlaygroundName);
+				UserTO u = new UserTO(form.getEmail(),form.getUsername(), form.getAvatar(), form.getRole(), Constants.PLAYGROUND_NAME);
 				this.db.addUser(u);
 				return u;
 		}
@@ -77,7 +65,7 @@ public class WebUI implements Playground_constants {
 		 */
 		UserTO user = this.db.getUser(email);
 		if(user !=null) {
-			if(user.getPlayground().equals(defaultPlaygroundName))
+			if(user.getPlayground().equals(Constants.PLAYGROUND_NAME))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
@@ -117,8 +105,7 @@ public class WebUI implements Playground_constants {
 		UserTO u  = this.db.getUser(email);
 		if(u != null)
 		{
-			u.setStatus(ONLINE);
-			this.username = u.getUsername();
+			u.setStatus(Constants.ONLINE);
 			return u;
 		}
 		return null;
@@ -214,7 +201,7 @@ public class WebUI implements Playground_constants {
 		 * OUTPUT: ElementTO[]
 		 */
 		Location l = new Location(x_point,y_point);
-		String s = "Hello, " + username + "\nDistance of points x=" + x_point + " y=" + y_point + " from " + distance + " is : " + Math.abs(l.length()-distance) + " units";
+		String s = "Hello, " + Constants.DEFAULT_USERNAME + "\nDistance of points x=" + x_point + " y=" + y_point + " from " + distance + " is : " + Math.abs(l.length()-distance) + " units";
 		return s;
 		}
 	
@@ -247,7 +234,7 @@ public class WebUI implements Playground_constants {
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		return "Hello, " + username + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity; 
+		return "Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity; 
 		}
 	
 	/*

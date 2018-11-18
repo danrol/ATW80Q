@@ -2,10 +2,11 @@ package playground.logic;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import playground.Constants;
 import playground.Playground_constants;
 import playground.database.Database;
 
-public class UserTO implements Playground_constants {
+public class UserTO {
 
 	private static String defaultusername;
 	private static String defaultPlaygroundName;
@@ -14,10 +15,10 @@ public class UserTO implements Playground_constants {
 	private String avatar = "";
 	private String username;
 	private String playground;
-	private String role = UNDEFINED_ROLE;
+	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = "";
-	private String status = OFFLINE;
-	private int verified_user = USER_NOT_VERIFIED;
+	private String status = Constants.OFFLINE;
+	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points=0;
 	private Database db;
 	
@@ -110,12 +111,12 @@ public class UserTO implements Playground_constants {
 
 	public void setRole(String role) {
 		role = role.toLowerCase();
-		if (role.equals(MODERATOR_ROLE.toLowerCase())) {
-			this.role = MODERATOR_ROLE;
-		} else if (role.equals(PLAYER_ROLE.toLowerCase())) {
-			this.role = PLAYER_ROLE;
+		if (role.equals(Constants.MODERATOR_ROLE.toLowerCase())) {
+			this.role = Constants.MODERATOR_ROLE;
+		} else if (role.equals(Constants.PLAYER_ROLE.toLowerCase())) {
+			this.role = Constants.PLAYER_ROLE;
 		} else {
-			this.role = UNDEFINED_ROLE;
+			this.role = Constants.UNDEFINED_ROLE;
 			throw new RuntimeException("Undefined role");
 		}
 	}
@@ -146,12 +147,12 @@ public class UserTO implements Playground_constants {
 	
 	public void verifyUser()
 	{
-		setVerified_user(USER_VERIFIED);
+		setVerified_user(Constants.USER_VERIFIED);
 	}
 	
 	public boolean isVerified()
 	{
-		if(getVerified_user() == USER_VERIFIED)
+		if(getVerified_user() == Constants.USER_VERIFIED)
 			return true;
 		else return false;
 	}

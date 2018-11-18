@@ -1,9 +1,9 @@
 package playground.logic;
 
-import playground.Playground_constants;
+import playground.Constants;
 import playground.database.Database;
 
-public class UserEntity implements Playground_constants {
+public class UserEntity {
 
 	private String email;
 	private String avatar;
@@ -11,8 +11,8 @@ public class UserEntity implements Playground_constants {
 	private String role;
 	private String playground;
 	private String verificationCode = "";
-	private String status = OFFLINE;
-	private int verified_user = USER_NOT_VERIFIED;
+	private String status = Constants.OFFLINE;
+	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points;
 
 	public String getStatus() {
@@ -49,12 +49,12 @@ public class UserEntity implements Playground_constants {
 	}
 
 	public void writeMessage(String message) {
-		db.getMessageBoard().writeMessage(message);
+		db.writeMessage(message);
 
 	}
 
 	public void viewMessages() {
-		db.getMessageBoard().viewMessagesBoard();
+		db.viewMessagesBoard();
 
 	}
 
@@ -88,12 +88,12 @@ public class UserEntity implements Playground_constants {
 
 	public void setRole(String role) {
 		role = role.toLowerCase();
-		if (role.equals(TEACHER.toLowerCase())) {
-			this.role = TEACHER;
-		} else if (role.equals(STUDENT.toLowerCase())) {
-			this.role = STUDENT;
+		if (role.equals(Constants.MODERATOR_ROLE.toLowerCase())) {
+			this.role = Constants.MODERATOR_ROLE;
+		} else if (role.equals(Constants.PLAYER_ROLE.toLowerCase())) {
+			this.role = Constants.PLAYER_ROLE;
 		} else {
-			this.role = UNDEFINED_ROLE;
+			this.role = Constants.UNDEFINED_ROLE;
 			throw new RuntimeException("Undefined role");
 		}
 	}
@@ -124,6 +124,6 @@ public class UserEntity implements Playground_constants {
 	
 	public void verifyUser()
 	{
-		setVerified_user(USER_VERIFIED);
+		setVerified_user(Constants.USER_VERIFIED);
 	}
 }

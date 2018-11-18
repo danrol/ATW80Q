@@ -20,7 +20,7 @@ import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class TestEdenDupontController implements Playground_constants {
+public class TestEdenDupontController {
 	
 	private RestTemplate restTemplate;
 	
@@ -82,13 +82,13 @@ public class TestEdenDupontController implements Playground_constants {
 				 * */
 	@Test
 	public void testConfirmUserNullCode() {
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", MODERATOR_ROLE ,PLAYGROUND_NAME);
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME);
 		
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ PLAYGROUND_NAME +"/userTest@gmail.com/", UserTO.class, u);
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ Constants.PLAYGROUND_NAME +"/userTest@gmail.com/", UserTO.class, u);
 		
 		//verify that Message received applies to the following assertion: message.message is exactly "demo"
 		assertThat(user).isNotNull();
@@ -98,13 +98,13 @@ public class TestEdenDupontController implements Playground_constants {
 	
 	@Test
 	public void testConfirmUserWithCode() {
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", MODERATOR_ROLE ,PLAYGROUND_NAME, "1234");
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ PLAYGROUND_NAME +"/userTest@gmail.com/1234", UserTO.class, u);
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ Constants.PLAYGROUND_NAME +"/userTest@gmail.com/1234", UserTO.class, u);
 		
 		//verify that Message received applies to the following assertion: message.message is exactly "demo"
 		assertThat(user).isNotNull();

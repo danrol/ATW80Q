@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import playground.Playground_constants;
+import playground.Constants;
 import playground.database.Database;
 import playground.logic.UserTO;
 
 
 @RestController
-public class EdenDupontController implements Playground_constants {
+public class EdenDupontController {
 	
 	@Autowired
 	Database db;
@@ -32,7 +32,7 @@ public class EdenDupontController implements Playground_constants {
 		 */
 		UserTO user = this.db.getUser(email);
 		if(user !=null) {
-			if(user.getPlayground().equals(PLAYGROUND_NAME))
+			if(user.getPlayground().equals(Constants.PLAYGROUND_NAME))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
