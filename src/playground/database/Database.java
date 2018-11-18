@@ -24,9 +24,9 @@ public class Database implements Playground_constants, ATW_Database {
 	private static ArrayList<Message> messages = new ArrayList<Message>();
 
 	public Database() {
-		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "Teacher", PLAYGROUND_NAME, "");
-		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "Student", PLAYGROUND_NAME, "abc");
-		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "TeAchEr", PLAYGROUND_NAME, "blabla");
+		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "moderator", PLAYGROUND_NAME, "");
+		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "player", PLAYGROUND_NAME, "abc");
+		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "player", PLAYGROUND_NAME, "blabla");
 		this.addUser(user1);
 		this.addUser(user2);
 		this.addUser(user3);
@@ -123,7 +123,7 @@ public class Database implements Playground_constants, ATW_Database {
 		//element.getLocation();
 		double x=0;
 		double y=0;
-		//bounderies
+		//boundaries
 		double north=y+distance;
 		double south=y-distance;
 		double east=x-distance;

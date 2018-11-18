@@ -75,9 +75,9 @@ public class WebUI implements Playground_constants {
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		UserTO user = this.db.getUsers().get(email);
+		UserTO user = this.db.getUser(email);
 		if(user !=null) {
-			if(user.getPlayground().equals(playground))
+			if(user.getPlayground().equals(defaultPlaygroundName))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
@@ -272,7 +272,7 @@ public class WebUI implements Playground_constants {
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addMessage(@RequestBody String newMessage) {
-		this.db.getMessageBoard().writeMessage(newMessage);
+		this.db.writeMessage(newMessage);
 	}
 	
 	@RequestMapping(
@@ -280,7 +280,7 @@ public class WebUI implements Playground_constants {
 			path="/playground/users/view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages() {
-		return this.db.getMessageBoard().viewMessagesBoard();
+		return this.db.viewMessagesBoard();
 	}
 	
 }
