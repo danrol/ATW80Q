@@ -49,7 +49,7 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testSaveActivityAsObject() throws Exception{
+	public void testgetElementsByUserPlaygroundEmailAttributeNameValue() throws Exception{
 		
 	}
 	

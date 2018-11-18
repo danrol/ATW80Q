@@ -1,5 +1,7 @@
 package playground.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import playground.Playground_constants;
+import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
+import playground.logic.Message;
 import playground.logic.NewUserForm;
 import playground.logic.UserTO;
 
 @RestController
-public class DanielController implements Playground_constants{
+public class DanielController {
 	
 	private Database database;
 	
@@ -29,8 +32,8 @@ public class DanielController implements Playground_constants{
 			method=RequestMethod.GET,
 			path="/playground/users/view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String viewMessages() {
-		return this.database.getMessageBoard().viewMessagesBoard();
+	public ArrayList<Message> viewMessages() {
+		return Database.getMessages();
 	}
 	
 	@RequestMapping(
@@ -44,7 +47,7 @@ public class DanielController implements Playground_constants{
 		 * OUTPUT: UserTO
 		 */
 		UserTO newUserTO = new UserTO(newUserForm.getUsername(), newUserForm.getEmail(), 
-				newUserForm.getAvatar(), newUserForm.getRole(), PLAYGROUND_NAME);
+				newUserForm.getAvatar(), newUserForm.getRole(), Constants.PLAYGROUND_NAME);
 		database.addUser(newUserTO);
 		return newUserTO;
 	} //TODO understand where from registerNewUser receives NewUserForm
@@ -54,7 +57,7 @@ public class DanielController implements Playground_constants{
 			path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addNewElement(@RequestBody ElementTO element,@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,
+			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String playground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
@@ -66,16 +69,18 @@ public class DanielController implements Playground_constants{
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
-			path="/playground/activities/{userPlayground}/{email}",
+			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public Object saveActivityAsObject(@RequestBody ActivityTO activity, 
-			@PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email) {
-		/* function 11
-		 * INPUT: ActivityTO
-		 * OUTPUT: Object
+	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
+	(@RequestBody ActivityTO activity,@PathVariable("userPlayground") String userPlayground, 
+			@PathVariable ("email") String email, @PathVariable("attributeName") String attributeName,
+			@PathVariable("value") String value) {
+		/* function 10
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO[]
 		 */
-		return new Object();
+		return new ElementTO[10];
 	}
 	
 	
