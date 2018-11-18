@@ -16,12 +16,12 @@ public class Constants {
 	public static String LESSON = "LESSON";
 	public static String MESSAGEBOARD = "MESSAGE_BOARD";
 	public static String QUESTION = "QUESTION";
-	public static String PLAYGROUND_NAME;
-	public static String DEFAULT_USERNAME = "playground.rolnik";
+	public static String PLAYGROUND_NAME = "playground.rolnik - not properties";
+	public static String DEFAULT_USERNAME = "Curiosity";
 	public static int USER_VERIFIED = 1;
 	public static int USER_NOT_VERIFIED = 0;
 	
-	@Value("${playground.name:playground.rolnik}")
+	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Constants.PLAYGROUND_NAME = defaultPlaygroundName;
 	}
@@ -29,5 +29,11 @@ public class Constants {
 	@Value("${playground.default.username:noname}")
 	public void setDefaultUsername(String defaultUsername) {
 		Constants.DEFAULT_USERNAME = defaultUsername;
+	}
+	
+	//TODO fix the get values from properties
+	
+	public Constants() {
+		
 	}
 }

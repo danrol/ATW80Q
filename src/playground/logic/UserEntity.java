@@ -48,15 +48,6 @@ public class UserEntity {
 		this.verificationCode = verificationCode;
 	}
 
-	public void writeMessage(String message) {
-		db.writeMessage(message);
-
-	}
-
-	public void viewMessages() {
-		db.viewMessagesBoard();
-
-	}
 
 	public String getEmail() {
 		return email;

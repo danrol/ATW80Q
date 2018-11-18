@@ -24,6 +24,7 @@ public class Database implements  ATW_Database {
 	public Database() {
 		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "moderator", Constants.PLAYGROUND_NAME, "");
 		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "player", Constants.PLAYGROUND_NAME, "abc");
+		user2.setPlayground(Constants.PLAYGROUND_NAME);
 		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "player", Constants.PLAYGROUND_NAME, "blabla");
 		this.addUser(user1);
 		this.addUser(user2);

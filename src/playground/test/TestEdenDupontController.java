@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
@@ -34,7 +35,7 @@ public class TestEdenDupontController {
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
-		this.url = "http://localhost:" + port + "/";
+		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 	}
 	
@@ -69,6 +70,12 @@ public class TestEdenDupontController {
 				
 				Given Server is up 
 				AND 
+				 I GET /playground/users/confirm/{playground}/{email}/
+				When email is on the database AND code is ""
+				Then I get a 4xx exception
+				
+				Given Server is up 
+				AND 
 				 I GET /playground/users/confirm/{playground}/{email}/{code}
 				When email is on the database and code is correct and user belongs to playground
 				Then I get a verified user message
@@ -81,35 +88,38 @@ public class TestEdenDupontController {
 		
 				 * */
 	@Test
-	public void testConfirmUserNullCode() {
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME);
-		
-		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
-		
-		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ Constants.PLAYGROUND_NAME +"/userTest@gmail.com/", UserTO.class, u);
-		
-		//verify that Message received applies to the following assertion: message.message is exactly "demo"
-		assertThat(user).isNotNull();
-		assertThat(user.isVerified());
-		
-	}
-	
-	@Test
-	public void testConfirmUserWithCode() {
+	public void testConfirmUserWithCorrectCode() {
 		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/"+ Constants.PLAYGROUND_NAME +"/userTest@gmail.com/1234", UserTO.class, u);
-		
-		//verify that Message received applies to the following assertion: message.message is exactly "demo"
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+		//verify that unverified user is now verified
 		assertThat(user).isNotNull();
-		assertThat(user.isVerified());
+		assertThat(user.isVerified()).isTrue();
 		
 	}
+	
+	@Test (expected= RuntimeException.class)
+	public void testConfirmUserEmailAndNotInDatabase() {
+		
+			UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+
+	}
+	
+	@Test (expected= RuntimeException.class)
+	public void testConfirmUserWithIncorrectVerificationCode() {
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		
+		// given database contains user { "user": "userTest"}
+		this.db.addUser(u);
+		
+		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
+			assertThat(user).isNull();
+	}
+	
 	
 }
