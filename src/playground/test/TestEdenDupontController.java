@@ -102,8 +102,9 @@ public class TestEdenDupontController {
 		
 	}
 	
+	
 	@Test
-	public void testConfirmUserEmailAndNotInDatabase() {
+	public void testConfirmUserEmailNotInDatabase() {
 		UserTO user;
 		String[] s = {"0","0"};
 		try {
@@ -119,7 +120,31 @@ public class TestEdenDupontController {
 			
 	}
 	
-	@Test (expected= RuntimeException.class)
+	@Test
+	public void ConfirmUserNotInPlayground() {
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
+		
+		// given database contains user { "user": "userTest"}
+		this.db.addUser(u);
+		
+		UserTO user;
+		String[] s = {"0","0"};
+		try {
+			user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+
+		}
+		catch(RuntimeException e)
+		{
+			s=e.toString().split(" ", 3);
+		}
+		System.err.println(s[1]);
+		assertThat(s[1]).isEqualTo("500");
+			
+	}
+	
+	
+	
+	@Test (expected=RuntimeException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
 		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
