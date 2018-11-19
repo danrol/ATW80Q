@@ -102,11 +102,21 @@ public class TestEdenDupontController {
 		
 	}
 	
-	@Test (expected= RuntimeException.class)
+	@Test
 	public void testConfirmUserEmailAndNotInDatabase() {
-		
-			UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+		UserTO user;
+		String[] s = {"0","0"};
+		try {
+			user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 
+		}
+		catch(RuntimeException e)
+		{
+			s=e.toString().split(" ", 3);
+		}
+		System.err.println(s[1]);
+		assertThat(s[1]).isEqualTo("500");
+			
 	}
 	
 	@Test (expected= RuntimeException.class)
