@@ -18,7 +18,7 @@ public class Constants {
 	public static String DEFAULT_USERNAME = "Curiosity";
 	public static int USER_VERIFIED = 1;
 	public static int USER_NOT_VERIFIED = 0;
-	
+	public static String LOCAL_HOST_ADDRESS = "";
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Constants.PLAYGROUND_NAME = defaultPlaygroundName;

@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.database.Database;
 import playground.elements.ElementTO;
+import playground.logic.ConfirmException;
 import playground.logic.UserTO;
-
+import playground.controllers.*;
 
 @RestController
 public class EdenDupontController {
@@ -42,42 +43,23 @@ public class EdenDupontController {
 					}
 				else
 					{
-						throw new RuntimeException("invalid verification code");
+						throw new ConfirmException("invalid verification code");
 					}
 			}
 				else
 			{
-					throw new RuntimeException("User does not belong to the specified playground");
+					throw new ConfirmException("User does not belong to the specified playground");
 			}
 		}
 			else
 			{
-				throw new RuntimeException("Email is not registered.");
+				throw new ConfirmException("Email is not registered.");
 			}
 		return user;
 		}
 	
 
-	
-	//method from Eden's controller 
-	//DO NOT COPY!!!!!!!!! here for tests
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
-		/*
-		 * function 3INPUT: NONE OUTPUT: UserTO
-		 */
-		UserTO u = this.db.getUser(email);
-		if (u != null) {
-			if (u.isVerified()) {
-				return u;
-			} else {
-				throw new RuntimeException("User is not verified");
-			}
-		} else {
-			throw new RuntimeException("Email is not registered.");
-		}
-	}
-	//DO NOT COPY!!!!!!!!!
+
 	
 	//throws exception if element is not found
 	@RequestMapping(
@@ -92,7 +74,7 @@ public class EdenDupontController {
 		 */
 		ElementTO element = null;
 		//logins user
-		login(userPlayground,email);
+		//TODO add login here
 		//if login succeeded, get element
 			element = db.getElement(id, playground);
 		if(element == null)

@@ -2,6 +2,10 @@ package playground.logic;
 
 public class ConfirmException extends RuntimeException {
 
+	public ConfirmException(String string) {
+		super(string);
+	}
+
 	/**
 	 * 
 	 */

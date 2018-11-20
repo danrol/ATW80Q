@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
+import playground.logic.ConfirmException;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
@@ -101,7 +102,7 @@ public class TestEdenDupontController {
 	}
 	
 	
-	@Test
+	@Test(expected=ConfirmException.class)
 	public void testConfirmUserEmailNotInDatabase() {
 		/*
 		 * 				Given Server is up 
@@ -110,25 +111,15 @@ public class TestEdenDupontController {
 				When email is not on the database
 				Then I get a Wrong email message
 		 */
-		UserTO user;
-		String[] s = {"0","0"};
-		try {
-			user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+		 UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 
-		}
-		catch(RuntimeException e)
-		{
-			s=e.toString().split(" ", 3);
-		}
-		System.err.println(s[1]);
-		assertThat(s[1]).isEqualTo("500");
 			
 	}
 	
-	@Test
+	@Test(expected=ConfirmException.class)
 	public void ConfirmUserNotInPlayground() {
 		/*
-		 * 				Given Server is up 
+		 * 		Given Server is up 
 				AND  
 				 I GET /playground/users/confirm/{playground}/{email}/{code}
 				When email is on the database and code is correct and user does not belong to playground
@@ -137,24 +128,14 @@ public class TestEdenDupontController {
 		UserTO u = new UserTO("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
+		u = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");
 
-		u=null;
-		String[] s = {"0","0"};
-		try {
-			u = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");
-
-		}
-		catch(RuntimeException e)
-		{
-			s=e.toString().split(" ", 3);
-		}
-		assertThat(s[1]).isEqualTo("500");
 			
 	}
 	
 	
 	
-	@Test (expected=RuntimeException.class)
+	@Test (expected=ConfirmException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
 		/*				Given Server is up 
 				AND 
