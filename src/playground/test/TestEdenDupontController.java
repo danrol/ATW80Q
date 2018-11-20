@@ -102,7 +102,7 @@ public class TestEdenDupontController {
 	}
 	
 	
-	@Test(expected=ConfirmException.class)
+	@Test(expected=RuntimeException.class)
 	public void testConfirmUserEmailNotInDatabase() {
 		/*
 		 * 				Given Server is up 
@@ -116,7 +116,7 @@ public class TestEdenDupontController {
 			
 	}
 	
-	@Test(expected=ConfirmException.class)
+	@Test(expected=RuntimeException.class)
 	public void ConfirmUserNotInPlayground() {
 		/*
 		 * 		Given Server is up 
@@ -135,7 +135,7 @@ public class TestEdenDupontController {
 	
 	
 	
-	@Test (expected=ConfirmException.class)
+	@Test (expected=RuntimeException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
 		/*				Given Server is up 
 				AND 
@@ -150,7 +150,7 @@ public class TestEdenDupontController {
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
-			assertThat(user).isNull();
+	
 	}
 	
 	

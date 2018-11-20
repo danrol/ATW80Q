@@ -26,7 +26,7 @@ public class EdenDupontController {
 			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code) 
+			@PathVariable("code") String code) throws ConfirmException
 		{
 		/* function 2
 		 * INPUT: NONE
