@@ -1,6 +1,7 @@
 package playground.logic;
 
 import java.io.Serializable;
+import java.util.Random;
 
 import playground.Constants;
 
@@ -12,6 +13,7 @@ public class NewUserForm implements Serializable {
 	private String avatar;
 	private String role;
 	private String playground;
+	private String verificationCode;
 	
 	public NewUserForm() {
 		this.email = "default";
@@ -19,6 +21,7 @@ public class NewUserForm implements Serializable {
 		this.avatar = "ava";
 		this.role = "no";
 		this.playground = Constants.PLAYGROUND_NAME;
+		this.verificationCode = createVerificationCode();
 	}
 	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
@@ -26,6 +29,11 @@ public class NewUserForm implements Serializable {
 		this.username = username;
 		this.avatar = avatar;
 		this.role = role;
+	}
+	
+	private String createVerificationCode() {
+		Random r = new Random();
+	    return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
 	}
 
 	public String getEmail() {
