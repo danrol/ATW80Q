@@ -84,9 +84,18 @@ public class Database implements  ATW_Database {
 		
 	}
 
-	public ElementTO[] getElementsWithValueInAttribute(String attributeName, String value) {
+	public ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, 
+			String creatorEmail, String attributeName, String value) {
 		// TODO Auto-generated method stub
-		return null;
+		ArrayList<ElementTO> tempElementsList = new ArrayList<>();
+		for (ElementTO element: elements)
+		{
+			if (element.getCreatorPlayground() == creatorPlayground &&
+					element.getCreatorEmail() == creatorEmail && element.attributeExists(attributeName, value))
+				tempElementsList.add(element);
+		}
+		return tempElementsList.toArray(
+				new ElementTO[tempElementsList.size()]);
 	}
 
 

@@ -80,7 +80,12 @@ public class DanielController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		return new ElementTO[10];
+		
+		
+		database.getElementsWithValueInAttribute(
+				userPlayground, email, attributeName, value);
+		return database.getElementsWithValueInAttribute(
+				userPlayground, email, attributeName, value);
 	}
 	
 	
