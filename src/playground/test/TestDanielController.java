@@ -62,12 +62,12 @@ public class TestDanielController {
 	public void testRegisterNewUser() throws Exception{
 //		Given Server is up
 //		When I POST /playground/users
-//		  with headers:
+//		  With headers:
 //			  Accept:application/json
 //			  content-type: application/json
-//		  With Body
+//		  With Body:
 //		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
-//		Then The response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
+//		Then the response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
 //			And database contains new UserTO with the same fields as in the body
 		String emailForTest = "danMadMan@gmail.com";
 		String nameForTest = "random name";
@@ -97,12 +97,14 @@ public class TestDanielController {
 	public void testAddNewElement(){
 //		Given Server is up
 //		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
-//			with headers:
+//			With headers:
 //				Accept:application/json
 //				content-type: application/json
-//		Then 
+//			With Body:
+//			{"newAttributeName1": "stam", newAttributeName1:"line"} 
+//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with added attributes {"newAttributeName1": "stam", newAttributeName1:"line"} 
 //			
-//		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
 	}
 	
 	@Test
