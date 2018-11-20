@@ -79,7 +79,7 @@ public class EdenDupontController {
 	}
 	//DO NOT COPY!!!!!!!!!
 	
-	//returns null if element not found
+	//throws exception if element is not found
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
@@ -90,17 +90,13 @@ public class EdenDupontController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		UserTO u = null;
 		ElementTO element = null;
 		//logins user
-		u = login(userPlayground,email);
+		login(userPlayground,email);
 		//if login succeeded, get element
-		if(u != null)
 			element = db.getElement(id, playground);
-		else
-			throw new RuntimeException("Can't log in to system with mail: " + email + " and playground: " + userPlayground);
 		if(element == null)
-			throw new RuntimeException("Could not find specified element in " + playground);
+			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
 		return element;
 		}
 }
