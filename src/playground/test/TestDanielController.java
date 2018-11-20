@@ -5,10 +5,14 @@ import javax.annotation.PostConstruct;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import playground.Constants;
+import playground.database.Database;
+
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -31,6 +35,9 @@ public class TestDanielController {
 	@LocalServerPort
 	private int port;
 	private String url;
+	
+	@Autowired
+	private Database db;
 
 	private ObjectMapper jsonMapper;
 
@@ -62,6 +69,7 @@ public class TestDanielController {
 //		  With Body
 //		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
 //		Then The response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
+//			And database contains new UserTO with the same fields as in the body
 		String emailForTest = "danMadMan@gmail.com";
 		String nameForTest = "random name";
 		String avatarForTest = "pikachu";
@@ -69,19 +77,31 @@ public class TestDanielController {
 		
 		
 		NewUserForm postUser = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
-		String jsonFromNewUser = this.jsonMapper.writeValueAsString(new UserTO(postUser));
+		UserTO userForTest = new UserTO(postUser);
+//		String jsonFromNewUser = this.jsonMapper.writeValueAsString(userForTest);
 		
-		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
-				postUser, String.class);
+		JSONObject  actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
+				postUser, JSONObject .class);
+//		assertThat(actualReturnedValue)
 		assertThat(actualReturnedValue)
 		.isNotNull()
-		.isEqualTo(jsonFromNewUser);
+		.extracting("email","username","avatar", "role")
+		.containsExactly(emailForTest, nameForTest, avatarForTest, roleForTest);
+		
+		assertThat(this.db).isEqualTo(userForTest);	
+		
 	}
 	
 	//ToDO
 	@Test
 	public void testAddNewElement() throws Exception{
-		
+//		Given Server is up
+//		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
+//			with headers:
+//				Accept:application/json
+//				content-type: application/json
+//		Then 
+//			
 //		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
 	}
 	
