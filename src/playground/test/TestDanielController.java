@@ -14,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import playground.*;
 import playground.logic.NewUserForm;
 import playground.logic.UserTO;
@@ -29,11 +32,15 @@ public class TestDanielController {
 	private int port;
 	private String url;
 
+	private ObjectMapper jsonMapper;
+
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
+		// Jackson init
+				this.jsonMapper = new ObjectMapper();
 	}
 	
 	@Before
@@ -55,22 +62,23 @@ public class TestDanielController {
 //		  With Body
 //		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
 //		Then The response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
+		String emailForTest = "danMadMan@gmail.com";
+		String nameForTest = "random name";
+		String avatarForTest = "pikachu";
+		String roleForTest = "teacher";
 		
-		NewUserForm postUser = new NewUserForm("danMadMan@gmail.com", "random name", "pikachu", "teacher");
-		UserTO userTOToCheckWith = new UserTO(postUser);
-		System.out.println(userTOToCheckWith.toString());
-
-		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
-				postUser, UserTO.class);
-		System.out.println("before actual");
-		System.out.println("Actual value: "+actualReturnedValue.toString());
-		System.out.println("after actual");
-		assertThat(actualReturnedValue.toString())
+		
+		NewUserForm postUser = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+		String jsonFromNewUser = this.jsonMapper.writeValueAsString(new UserTO(postUser));
+		
+		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
+				postUser, String.class);
+		assertThat(actualReturnedValue)
 		.isNotNull()
-		.isEqualTo(userTOToCheckWith.toString());
+		.isEqualTo(jsonFromNewUser);
 	}
 	
-	
+	//ToDO
 	@Test
 	public void testAddNewElement() throws Exception{
 		

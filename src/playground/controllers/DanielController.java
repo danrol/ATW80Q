@@ -38,7 +38,7 @@ public class DanielController {
 	
 	@RequestMapping(
 			method = RequestMethod.POST,
-			path = "playground/users",
+			path = "/playground/users",
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO registerNewUser(@RequestBody NewUserForm newUserForm) {
@@ -46,11 +46,10 @@ public class DanielController {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-		UserTO newUserTO = new UserTO(newUserForm.getUsername(), newUserForm.getEmail(), 
-				newUserForm.getAvatar(), newUserForm.getRole(), Constants.PLAYGROUND_NAME);
+		UserTO newUserTO = new UserTO(newUserForm);
 		database.addUser(newUserTO);
 		return newUserTO;
-	} //TODO understand where from registerNewUser receives NewUserForm
+	}
 	
 	@RequestMapping(
 			method=RequestMethod.PUT,
