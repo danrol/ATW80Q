@@ -32,7 +32,7 @@ public class EdenDupontController {
 		 */
 		UserTO user = this.db.getUser(email);
 		if(user !=null) {
-			if(user.getPlayground().equals(Constants.PLAYGROUND_NAME))
+			if(user.getPlayground().equals(playground))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))

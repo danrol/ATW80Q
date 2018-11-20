@@ -7,26 +7,16 @@ import playground.database.Database;
 
 public class UserTO {
 
-
-
 	private String email = "";
 	private String avatar = "";
 	private String username;
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = "";
-	private String status = Constants.OFFLINE;
 	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 	private Database db;
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	public UserTO() {
 	}
@@ -42,6 +32,15 @@ public class UserTO {
 		// verification is done separately
 	}
 
+	public UserTO(NewUserForm newUserForm) {
+		this.email = newUserForm.getEmail();
+		this.username = newUserForm.getUsername();
+		this.avatar = newUserForm.getAvatar();
+		this.role = newUserForm.getRole();
+		setPoints(0);
+		setPlayground(Constants.PLAYGROUND_NAME);
+	}
+
 	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
@@ -54,8 +53,6 @@ public class UserTO {
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-
-
 
 	public String getEmail() {
 		return email;
@@ -135,8 +132,7 @@ public class UserTO {
 	@Override
 	public String toString() {
 		return "UserTO [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground=" + playground
-				+ ", role=" + role + ", verificationCode=" + verificationCode + ", status=" + status
-				+ ", verified_user=" + verified_user + ", points=" + points + ", db=" + db + "]";
+				+ ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user=" + verified_user + ", points=" + points + ", db=" + db + "]";
 	}
 
 	@Override
