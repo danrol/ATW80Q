@@ -52,9 +52,6 @@ public class TestEdenDupontController {
 		
 	}
 	
-
-
-	
 	@Test
 	public void testConfirmUserWithNullCode() {
 		/*

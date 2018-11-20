@@ -11,17 +11,10 @@ public class UserEntity {
 	private String role;
 	private String playground;
 	private String verificationCode = "";
-	private String status = Constants.OFFLINE;
 	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points;
 
-	public String getStatus() {
-		return status;
-	}
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
 
 	private Database db;
 
