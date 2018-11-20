@@ -13,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
@@ -54,41 +53,43 @@ public class TestEdenDupontController {
 	}
 	
 
-				/*
-				 * 
-				Given Server is up 
-				AND  
-				I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is not on the database
-				Then I get a Wrong email message
-				
-				Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database AND code is wrong
-				Then I get a Wrong verification code error message
-				
-				Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/
-				When email is on the database AND code is ""
-				Then I get a 4xx exception
-				
+
+	
+	@Test
+	public void testConfirmUserWithNullCode() {
+		/*
+		 * 
+		Given Server is up 
+		AND 
+		 I GET /playground/users/confirm/{playground}/{email}/
+		When email is on the database AND code is ""
+		Then I get a 404 exception
+		 * */
+		String[] s = {"0","0"};
+		UserTO user;
+		try {
+			user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
+
+		}
+		catch(RuntimeException e)
+		{
+			s=e.toString().split(" ", 3);
+		}
+		System.err.println(s[1]);
+		assertThat(s[1]).isEqualTo("404");
+		
+	}
+	@Test
+	public void testConfirmUserWithCorrectCode() {
+		/*
+		 * 
 				Given Server is up 
 				AND 
 				 I GET /playground/users/confirm/{playground}/{email}/{code}
 				When email is on the database and code is correct and user belongs to playground
 				Then I get a verified user message
 				
-				Given Server is up 
-				AND  
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database and code is correct and user does not belong to playground
-				Then I get a user is not on playground message
-		
-				 * */
-	@Test
-	public void testConfirmUserWithCorrectCode() {
+		 * */
 		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
 		// given database contains user { "user": "userTest"}
@@ -105,6 +106,13 @@ public class TestEdenDupontController {
 	
 	@Test
 	public void testConfirmUserEmailNotInDatabase() {
+		/*
+		 * 				Given Server is up 
+				AND  
+				I GET /playground/users/confirm/{playground}/{email}/{code}
+				When email is not on the database
+				Then I get a Wrong email message
+		 */
 		UserTO user;
 		String[] s = {"0","0"};
 		try {
@@ -122,6 +130,13 @@ public class TestEdenDupontController {
 	
 	@Test
 	public void ConfirmUserNotInPlayground() {
+		/*
+		 * 				Given Server is up 
+				AND  
+				 I GET /playground/users/confirm/{playground}/{email}/{code}
+				When email is on the database and code is correct and user does not belong to playground
+				Then I get a user is not on playground message
+		 * */
 		UserTO u = new UserTO("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
@@ -144,6 +159,12 @@ public class TestEdenDupontController {
 	
 	@Test (expected=RuntimeException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
+		/*				Given Server is up 
+				AND 
+				 I GET /playground/users/confirm/{playground}/{email}/{code}
+				When email is on the database AND code is wrong
+				Then I get a Wrong verification code error message
+				*/
 		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
 		// given database contains user { "user": "userTest"}
