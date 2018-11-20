@@ -2,6 +2,9 @@ package playground.logic;
 
 import java.io.Serializable;
 
+import playground.Constants;
+
+
 public class NewUserForm implements Serializable {
 
 	private String email;
@@ -9,7 +12,14 @@ public class NewUserForm implements Serializable {
 	private String avatar;
 	private String role;
 	private String playground;
-
+	
+	public NewUserForm() {
+		this.email = "default";
+		this.username = "random";
+		this.avatar = "ava";
+		this.role = "no";
+		this.playground = Constants.PLAYGROUND_NAME;
+	}
 	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
 		this.email = email;

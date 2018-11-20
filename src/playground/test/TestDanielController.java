@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.logic.NewUserForm;
 import playground.logic.UserTO;
+
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 public class TestDanielController {
@@ -30,7 +32,7 @@ public class TestDanielController {
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
-		this.url = "http://localhost:" + port + "/messages";
+		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 	}
 	
@@ -44,7 +46,7 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testRegisterNewUser() throws Exception{
+	public void testRegisterNewUserCreatesAndReturnsNewUserTOFromNewUserForm() throws Exception{
 //		Given Server is up
 //		When I POST /playground/users
 //		  with headers:
@@ -56,19 +58,23 @@ public class TestDanielController {
 		
 		NewUserForm postUser = new NewUserForm("danMadMan@gmail.com", "random name", "pikachu", "teacher");
 		UserTO userTOToCheckWith = new UserTO(postUser);
-		
+		System.out.println(userTOToCheckWith.toString());
 
-		UserTO actualReturnedValue = this.restTemplate.postForObject("playground/users",
+		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
 				postUser, UserTO.class);
-		
+		System.out.println("before actual");
+		System.out.println("Actual value: "+actualReturnedValue.toString());
+		System.out.println("after actual");
 		assertThat(actualReturnedValue.toString())
 		.isNotNull()
 		.isEqualTo(userTOToCheckWith.toString());
 	}
 	
+	
 	@Test
 	public void testAddNewElement() throws Exception{
 		
+//		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
 	}
 	
 	@Test
