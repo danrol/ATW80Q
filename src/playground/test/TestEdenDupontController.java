@@ -156,16 +156,7 @@ public class TestEdenDupontController {
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
 	
 	}
-	/*
 
-
-
-
-
-	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
-	When user login details are correct and element is not in database
-	Then I get an exception
-*/
 	@Test
 	public void testGetElementCorrectLoginElementExists() {
 		/*
@@ -217,8 +208,25 @@ public class TestEdenDupontController {
 		this.db.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
+	}
+
+
+
+	
+	@Test(expected=RuntimeException.class)
+	public void testGetElementCorrectLoginElementNotInDatabase() {
+	/*
+	 * 
+	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+	When user login details are correct and element is not in database
+	Then I get an exception
+		
+	*/
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		u.verifyUser();
+		this.db.addUser(u);
+		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
-	
 	
 }
