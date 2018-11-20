@@ -12,7 +12,7 @@ import playground.database.Database;
 import playground.logic.UserTO;
 
 @RestController
-public class EdenSharoniConroller {
+public class EdenSharoniController {
 	@Autowired
 	Database db;
 

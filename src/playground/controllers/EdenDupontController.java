@@ -6,13 +6,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import playground.Constants;
+import playground.controllers.EdenSharoniController;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.ConfirmException;
 import playground.logic.UserTO;
-import playground.controllers.*;
+
 
 @RestController
 public class EdenDupontController {
@@ -75,10 +74,13 @@ public class EdenDupontController {
 		ElementTO element = null;
 		//logins user
 		//TODO add login here
+		login("adsa","Asda");
 		//if login succeeded, get element
 			element = db.getElement(id, playground);
 		if(element == null)
 			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
 		return element;
 		}
+	
+	
 }
