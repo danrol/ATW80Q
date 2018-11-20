@@ -1,5 +1,6 @@
 package playground.logic;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import playground.Constants;
 import playground.database.Database;
 
-public class UserTO {
+public class UserTO implements Serializable{
 
 	private String email = "";
 	private String avatar = "";
@@ -20,7 +21,7 @@ public class UserTO {
 	private Database db;
 
 
-	public UserTO() {
+	public UserTO(){
 	}
 
 	public UserTO(String username, String email, String avatar, String role, String playground) {
