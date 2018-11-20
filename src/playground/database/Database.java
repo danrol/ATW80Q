@@ -171,6 +171,14 @@ public class Database implements  ATW_Database {
 		}
 		return (ElementTO[]) array.toArray();
 	}
+	
+	public void cleanDatabase()
+	{
+		elements.clear();
+		users.clear();
+		activities.clear();
+		messages.clear();
+	}
 
 
 //	public ElementTO[] getAllElementsByEmailAndCreatorPlayground(String userPlayground, String email) {

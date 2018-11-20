@@ -47,6 +47,7 @@ public class TestEdenDupontController {
 
 	@After
 	public void teardown() {
+		db.cleanDatabase();
 	}
 
 	@Test
@@ -164,9 +165,7 @@ public class TestEdenDupontController {
 	When user login details are incorrect and element is not in database
 	Then I get an exception
 
-	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
-	When user login details are correct and element exists
-	Then I get the element
+
 
 	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
 	When user login details are correct and element is not in database
@@ -176,8 +175,8 @@ public class TestEdenDupontController {
 	public void testGetElementCorrectLoginElementExists() {
 		/*
 		Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
-		When user login details are incorrect and element exists
-		Then I get an exception
+		When user login details are correct and element exists
+		Then I get the element
 		*/
 		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
