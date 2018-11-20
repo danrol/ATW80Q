@@ -100,10 +100,10 @@ public class Database implements  ATW_Database {
 
 
 
-	public ElementTO getElement(String id) {
+	public ElementTO getElement(String id, String playground) {
 		for(ElementTO e: elements)
 		{
-			if(e.getId().equals(id))
+			if(e.getId().equals(id) && e.getPlayground().equals(playground))
 				return e;
 		}
 		return null;

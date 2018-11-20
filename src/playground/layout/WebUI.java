@@ -51,43 +51,6 @@ public class WebUI {
 				return u;
 		}
 	
-
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/users/confirm/{playground}/{email}/{code}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code) 
-		{
-		/* function 2
-		 * INPUT: NONE
-		 * OUTPUT: UserTO
-		 */
-		UserTO user = this.db.getUser(email);
-		if(user !=null) {
-			if(user.getPlayground().equals(Constants.PLAYGROUND_NAME))
-			{
-				String VerificationCode = user.getVerificationCode();
-				if (VerificationCode.equals(code))
-					{
-					user.verifyUser();
-					}
-				else
-					{
-						throw new RuntimeException("invalid verification code");
-					}
-			}
-				else
-			{
-					throw new RuntimeException("User does not belong to the specified playground");
-			}
-		}
-			else
-			{
-				throw new RuntimeException("Email is not registered.");
-			}
-		return user;
-		}
 	
 	
 	@RequestMapping(
@@ -157,20 +120,8 @@ public class WebUI {
 		//TODO change return type to void
 		return "received in PUT: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will return nothing";
 		}
-	//returns null if element not found
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") String id) 
-		{
-		/* function 7
-		 * INPUT: NONE
-		 * OUTPUT: ElementTO
-		 */
-		ElementTO element = db.getElement(id);
-		return element;
-		}
+	
+	
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
