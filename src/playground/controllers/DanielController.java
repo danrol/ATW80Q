@@ -55,15 +55,14 @@ public class DanielController {
 			method=RequestMethod.PUT,
 			path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void addNewElement(@RequestBody ElementTO element,@PathVariable("email") String email,
+	public void UpdateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String playground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-		ElementTO newElementTO = new ElementTO( id, playground,	userPlayground, email);
-		database.addElement(newElementTO);
+		database.updateElementInDatabaseFromExternalElement(element, id, playground);
 	}
 	
 	@RequestMapping(

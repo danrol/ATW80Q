@@ -36,7 +36,7 @@ public class TestDanielController {
 	private String url;
 	
 	@Autowired
-	private Database db;
+	private Database database;
 
 	private ObjectMapper jsonMapper;
 
@@ -76,35 +76,38 @@ public class TestDanielController {
 		
 		
 		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
-		UserTO userForTest = new UserTO(postUserForm);
+		String testValue = jsonMapper.writeValueAsString(new UserTO(postUserForm));
 		
-		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
-				postUserForm, String.class);
+		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
 		System.out.println(actualReturnedValue);
 		//TODO fix problem with mapping
 		assertThat(actualReturnedValue)
 		.isNotNull()
-		.isEqualTo(jsonMapper.writeValueAsString(userForTest));
+		.isEqualTo(testValue);
 		
 		
 		//TODO add gherkin database check
-		assertThat(jsonMapper.writeValueAsString(this.db.getUser(emailForTest))).isEqualTo(jsonMapper.writeValueAsString(userForTest));	
-		
+		assertThat(jsonMapper.writeValueAsString(this.database.getUser(emailForTest))).isEqualTo(testValue);	
+		//TODO check if its right to use JSON for tests this way
 	}
 	
-	//ToDO
+	
 	@Test
-	public void testAddNewElement(){
+	public void testUpdateElement(){
 //		Given Server is up
+//		And database contains element with fields {userPlayground}, {email}, {playground}, {id}
 //		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
 //			With headers:
 //				Accept:application/json
 //				content-type: application/json
 //			With Body:
-//			{"newAttributeName1": "stam", newAttributeName1:"line"} 
-//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with added attributes {"newAttributeName1": "stam", newAttributeName1:"line"} 
+//			{"name": "stam", "id" : "123", "playground": "atw80", "type": "random type", 
+//		"creatorPlayground":"Main_Playground", "creatorEmail":"naknik@taim.com", "location":{"x":1, "y":1},"creationDate":"11/12/1984", "expirationDate: "12/10/1990"} 
+//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
 //			
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
+		String jsonStringToElement = "{\"name\": \"stam\", \"id\" : \"123\", \"playground\": \"atw80\", \"type\": \"random type\"" +
+				"\"creatorPlayground\":\"Main_Playground\", \"creatorEmail\":\"naknik@taim.com\", \"location\":{\"x\":1, \"y\":1},\"creationDate\":\"11/12/1984\", \"expirationDate: \"12/10/1990\"}";
+//		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
 	}
 	
 	@Test
