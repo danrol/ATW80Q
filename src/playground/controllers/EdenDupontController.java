@@ -72,15 +72,33 @@ public class EdenDupontController {
 		 * OUTPUT: ElementTO
 		 */
 		ElementTO element = null;
-		//logins user
-		//TODO add login here
-		login("adsa","Asda");
+		login(userPlayground,email);
 		//if login succeeded, get element
 			element = db.getElement(id, playground);
 		if(element == null)
 			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
 		return element;
 		}
+
 	
+	//*****************************************
+	//do not copy this - originally from EdenSharoni
+	//*****************************************
+	@RequestMapping(method = RequestMethod.GET, path = "/loginTest", produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+		/*
+		 * function 3INPUT: NONE OUTPUT: UserTO
+		 */
+		UserTO u = this.db.getUser(email);
+		if (u != null) {
+			if (u.isVerified()) {
+				return u;
+			} else {
+				throw new RuntimeException("User is not verified");
+			}
+		} else {
+			throw new RuntimeException("Email is not registered.");
+		}
+	}
 	
 }
