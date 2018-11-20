@@ -1,5 +1,7 @@
 package playground.database;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Component;
@@ -84,14 +86,30 @@ public class Database implements  ATW_Database {
 		
 	}
 
+	public ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String Email) {
+		ArrayList<ElementTO> result = new ArrayList<>();
+		for (ElementTO element : elements) {
+			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), element.getCreatorPlayground()))
+				result.add(element);
+		}
+		return result;
+	}
+	
+	public Boolean checkIfElementsMadeBySpecificUserInSpecificPlayground(ElementTO element, 
+			String creatorPlayground, String creatorEmail) {
+		if(element.getCreatorPlayground() == creatorPlayground && element.getCreatorEmail() == creatorEmail)
+			return true;
+		else
+			return false;
+	}
 	public ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, 
 			String creatorEmail, String attributeName, String value) {
 		// TODO Auto-generated method stub
 		ArrayList<ElementTO> tempElementsList = new ArrayList<>();
 		for (ElementTO element: elements)
 		{
-			if (element.getCreatorPlayground() == creatorPlayground &&
-					element.getCreatorEmail() == creatorEmail && element.attributeExists(attributeName, value))
+			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
+					element.getCreatorPlayground()) && element.attributeExists(attributeName, value))
 				tempElementsList.add(element);
 		}
 		return tempElementsList.toArray(
@@ -100,6 +118,12 @@ public class Database implements  ATW_Database {
 
 
 
+	public void updateElementInDatabaseFromExternalElement(ElementTO element, String id, String playground) {
+		elements.remove(getElement(id, playground));
+		elements.add(element);
+	}
+	
+	
 	public ElementTO getElement(String id, String playground) {
 		for(ElementTO e: elements)
 		{
@@ -146,6 +170,14 @@ public class Database implements  ATW_Database {
 			
 		}
 		return (ElementTO[]) array.toArray();
+	}
+	
+	public void cleanDatabase()
+	{
+		elements.clear();
+		users.clear();
+		activities.clear();
+		messages.clear();
 	}
 
 

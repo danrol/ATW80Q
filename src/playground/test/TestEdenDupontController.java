@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
+import playground.elements.ElementTO;
 import playground.logic.ConfirmException;
 import playground.logic.UserTO;
 
@@ -46,12 +47,15 @@ public class TestEdenDupontController {
 
 	@After
 	public void teardown() {
+		db.cleanDatabase();
 	}
 
 	@Test
 	public void testServerIsBootingCorrectly() throws Exception {
 		
 	}
+	
+	
 	
 	@Test
 	public void testConfirmUserWithNullCode() {
@@ -151,6 +155,54 @@ public class TestEdenDupontController {
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
 	
+	}
+	/*
+	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+	When user login details are incorrect and element exists
+	Then I get an exception
+
+	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+	When user login details are incorrect and element is not in database
+	Then I get an exception
+
+
+
+	Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+	When user login details are correct and element is not in database
+	Then I get an exception
+*/
+	@Test
+	public void testGetElementCorrectLoginElementExists() {
+		/*
+		Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+		When user login details are correct and element exists
+		Then I get the element
+		*/
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		u.verifyUser();
+		ElementTO element = new ElementTO("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		this.db.addUser(u);
+		this.db.addElement(element);
+		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		assertThat(el).isNotNull();
+		assertThat(el.getId()).isEqualTo(element.getId());
+		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testGetElementInCorrectLoginElementExists() {
+		/*
+		Given the server is up and I GET /playground/elements/{userPlayground}/{email}/{playground}/{id}
+		When user login details are incorrect and element exists
+		Then I get an exception
+		*/
+		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		u.verifyUser();
+		ElementTO element = new ElementTO("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		this.db.addUser(u);
+		this.db.addElement(element);
+		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		
 	}
 	
 	
