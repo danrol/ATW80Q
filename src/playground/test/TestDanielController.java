@@ -21,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import playground.*;
 import playground.logic.NewUserForm;
 import playground.logic.UserTO;
 
@@ -60,7 +59,7 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testRegisterNewUserCreatesAndReturnsNewUserTOFromNewUserForm() throws Exception{
+	public void testRegisterNewUser() throws Exception{
 //		Given Server is up
 //		When I POST /playground/users
 //		  with headers:
@@ -76,25 +75,26 @@ public class TestDanielController {
 		String roleForTest = "teacher";
 		
 		
-		NewUserForm postUser = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
-		UserTO userForTest = new UserTO(postUser);
-//		String jsonFromNewUser = this.jsonMapper.writeValueAsString(userForTest);
+		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+		UserTO userForTest = new UserTO(postUserForm);
 		
-		JSONObject  actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
-				postUser, JSONObject .class);
-//		assertThat(actualReturnedValue)
+		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users",
+				postUserForm, String.class);
+		System.out.println(actualReturnedValue);
+		//TODO fix problem with mapping
 		assertThat(actualReturnedValue)
 		.isNotNull()
-		.extracting("email","username","avatar", "role")
-		.containsExactly(emailForTest, nameForTest, avatarForTest, roleForTest);
+		.isEqualTo(jsonMapper.writeValueAsString(userForTest));
 		
-		assertThat(this.db).isEqualTo(userForTest);	
+		
+		//TODO add gherkin database check
+		assertThat(jsonMapper.writeValueAsString(this.db.getUser(emailForTest))).isEqualTo(jsonMapper.writeValueAsString(userForTest));	
 		
 	}
 	
 	//ToDO
 	@Test
-	public void testAddNewElement() throws Exception{
+	public void testAddNewElement(){
 //		Given Server is up
 //		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
 //			with headers:
@@ -106,7 +106,7 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testgetElementsByUserPlaygroundEmailAttributeNameValue() throws Exception{
+	public void testgetElementsByUserPlaygroundEmailAttributeNameValue(){
 		
 	}
 	
