@@ -45,7 +45,7 @@ public class TestEdenSharoniController {
 
 	@After
 	public void teardown() {
-		db.clearDatabase();
+		db.cleanDatabase();
 	}
 
 	@Test
@@ -61,9 +61,8 @@ public class TestEdenSharoniController {
 	@Test
 	public void testLoginUserWithNullEmail() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/
-		 * When: email is ""
-		 * Then: I get a 404 exception
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/ When:
+		 * email is "" Then: I get a 404 exception
 		 */
 		String[] s = { "0", "0" };
 		UserTO user;
@@ -83,10 +82,9 @@ public class TestEdenSharoniController {
 	public void testLoginUserWithCorrectEmail() {
 		/*
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: user is in database and is verified
-		 * Then: User gets Logged in 
+		 * When: user is in database and is verified Then: User gets Logged in
 		 */
-		
+
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
@@ -101,37 +99,35 @@ public class TestEdenSharoniController {
 		assertThat(user).isNotNull();
 		assertThat(user.isVerified()).isTrue();
 	}
-	
 
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserEmailNotInDatabase() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}/{code} 
-		 * When: email is not on the database
-		 * Then: I get a Wrong email message
+		 * Given: Server is up AND I GET
+		 * /playground/users/login/{playground}/{email}/{code} When: email is not on the
+		 * database Then: I get a Wrong email message
 		 */
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
-//
+
 //	@Test(expected = RuntimeException.class)
-//	public void ConfirmUserNotInPlayground() {
+//	public void LoginUserNotInPlayground() {
 //		/*
-//		 * Given Server is up AND I GET
-//		 * /playground/users/login/{playground}/{email}/{code} When email is on the
-//		 * database and code is correct and user does not belong to playground Then I
-//		 * get a user is not on playground message
+//		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
+//		 * When: email is on the database and code is correct and user does not belong to
+//		 * playground Then: I get a user is not on playground message
 //		 */
-//		UserTO u = new UserTO("userTest", "userTestPlayground@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
-//				"OtherPlayground", "1234");
+//		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
+//				"OtherPlayground");
 //		// given database contains user { "user": "userTest"}
 //		this.db.addUser(u);
 //		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}/{code}",
 //				UserTO.class, Constants.PLAYGROUND_NAME, "userTestPlayground@gmail.com", "1234");
 //
 //	}
-//
+
 //	@Test(expected = RuntimeException.class)
 //	public void testConfirmUserWithIncorrectVerificationCode() {
 //		/*

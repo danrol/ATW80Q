@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.database.Database;
+import playground.logic.LoginException;
 import playground.logic.UserTO;
 
 @RestController
@@ -26,10 +27,10 @@ public class EdenSharoniController {
 			if (u.isVerified()) {
 				return u;
 			} else {
-				throw new RuntimeException("User is not verified");
+				throw new LoginException("User is not verified");
 			}
 		} else {
-			throw new RuntimeException("Email is not registered.");
+			throw new LoginException("Email is not registered.");
 		}
 	}
 }
