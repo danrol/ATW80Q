@@ -119,8 +119,8 @@ public class Database implements  ATW_Database {
 
 
 	public void updateElementInDatabaseFromExternalElement(ElementTO element, String id, String playground) {
-		this.elements.remove(getElement(id, playground));
-		this.elements.add(element);
+		elements.remove(getElement(id, playground));
+		elements.add(element);
 	}
 	
 	
