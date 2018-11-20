@@ -1,5 +1,7 @@
 package playground.logic;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import playground.Constants;
@@ -29,6 +31,7 @@ public class UserTO {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
+		this.setVerificationCode(createVerificationCode());
 		// verification is done separately
 	}
 
@@ -39,6 +42,12 @@ public class UserTO {
 		this.role = newUserForm.getRole();
 		setPoints(0);
 		setPlayground(Constants.PLAYGROUND_NAME);
+		this.setVerificationCode(createVerificationCode());
+	}
+
+	private String createVerificationCode() {
+		Random r = new Random();
+	    return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
 	}
 
 	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
