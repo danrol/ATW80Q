@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import playground.Constants;
 import playground.database.Database;
+import playground.elements.ElementTO;
 
 import org.json.JSONObject;
 import org.junit.After;
@@ -93,7 +94,7 @@ public class TestDanielController {
 	
 	
 	@Test
-	public void testUpdateElement(){
+	public void testUpdateElement() throws Exception{
 //		Given Server is up
 //		And database contains element with fields {userPlayground}, {email}, {playground}, {id}
 //		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
@@ -104,10 +105,26 @@ public class TestDanielController {
 //			{"name": "stam", "id" : "123", "playground": "atw80", "type": "random type", 
 //		"creatorPlayground":"Main_Playground", "creatorEmail":"naknik@taim.com", "location":{"x":1, "y":1},"creationDate":"11/12/1984", "expirationDate: "12/10/1990"} 
 //		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
-//			
-		String jsonStringToElement = "{\"name\": \"stam\", \"id\" : \"123\", \"playground\": \"atw80\", \"type\": \"random type\"" +
-				"\"creatorPlayground\":\"Main_Playground\", \"creatorEmail\":\"naknik@taim.com\", \"location\":{\"x\":1, \"y\":1},\"creationDate\":\"11/12/1984\", \"expirationDate: \"12/10/1990\"}";
-//		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}", request);
+//		
+		System.out.println("Start update element test:");
+		String userPlayground = "MainPlayground";
+		String email = "nudnik@mail.ru";
+		String playground = "atw80";
+		String id = "123";
+		
+		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
+//		String jsonStringToElement = "{\"name\": \"stam\", \"id\" : \"123\", \"playground\": \""+playground+"\", \"type\": \"random type\" "
+//				+ ",\"creatorPlayground\":\""+userPlayground+"\", \"creatorEmail\":\""+email+ "\" ,\"id\":\""+id+"\"}";
+//		ElementTO elementForTest = this.jsonMapper.readValue(jsonStringToElement, ElementTO.class);
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, userPlayground, email, playground, id);
+		
+		System.out.println("Element for test: " + elementForTest);
+		System.out.println("Element from database: "+this.database.getElement(id, playground));
+		//TODO change to Entity
+		ElementTO actualEntity = this.database.getElement(id, playground);
+		assertThat(actualEntity)
+		.isNotNull()
+		.isEqualTo(elementForTest);
 	}
 	
 	@Test

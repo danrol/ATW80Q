@@ -1,8 +1,7 @@
 package playground.database;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
-
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.stereotype.Component;
 
@@ -119,7 +118,18 @@ public class Database implements  ATW_Database {
 
 
 	public void updateElementInDatabaseFromExternalElement(ElementTO element, String id, String playground) {
-		elements.remove(getElement(id, playground));
+		
+		System.out.println("Perform update");
+		
+		ElementTO tempElement = this.getElement(id, playground);
+		Date tempCreationDate = tempElement.getCreationDate();
+		Date tempExpirationDate = tempElement.getExirationDate();
+		
+		elements.remove(tempElement);
+		if(tempCreationDate != null)
+			element.setCreationDate(tempCreationDate);
+		if(tempExpirationDate != null)
+			element.setExirationDate(tempExpirationDate);
 		elements.add(element);
 	}
 	
