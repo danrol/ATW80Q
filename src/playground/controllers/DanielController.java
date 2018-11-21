@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
@@ -55,22 +56,28 @@ public class DanielController {
 			method=RequestMethod.PUT,
 			path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
 			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void UpdateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
+	public void updateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String playground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-		database.updateElementInDatabaseFromExternalElement(element, id, playground);
+//		database.updateElementInDatabaseFromExternalElement(element, id, playground);
+		if (database.getUser(email).isVerified()) {
+			System.out.println("Entered update");
+			database.updateElementInDatabaseFromExternalElement(element, id, playground);
+		}
+		else
+			System.out.println("Verificate first, beach"); //TODO throw specific exception
 	}
 	
 	@RequestMapping(
-			method=RequestMethod.POST,
+			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
 	(@RequestBody ActivityTO activity,@PathVariable("userPlayground") String userPlayground, 
 			@PathVariable ("email") String email, @PathVariable("attributeName") String attributeName,
 			@PathVariable("value") String value) {
@@ -78,9 +85,7 @@ public class DanielController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		
-		return database.getElementsWithValueInAttribute(
-				userPlayground, email, attributeName, value);
+			return database.getElementsWithValueInAttribute(userPlayground, email, attributeName, value);
 	}
 	
 	

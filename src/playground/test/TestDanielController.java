@@ -22,6 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -99,43 +104,43 @@ public class TestDanielController {
 	}
 	
 	
+	public void createVerifiedUserFromEmail(String email) {
+		UserTO u = new UserTO("bestNameEvar", email, "pikachuAvatar", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		u.setVerified_user(Constants.USER_VERIFIED);
+		this.database.addUser(u);
+	}
+	
 	@Test
 	public void testUpdateElement() throws Exception{
 //		Given Server is up
-//		And database contains element with fields {userPlayground}, {email}, {playground}, {id}
+//		And database contains element with fields {userPlayground}, {playground}, {id}
+//		And database contains verified user with {email}
 //		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
 //			With headers:
 //				Accept:application/json
 //				content-type: application/json
-//			With Body:
-//			{"name": "stam", "id" : "123", "playground": "atw80", "type": "random type", 
-//		"creatorPlayground":"Main_Playground", "creatorEmail":"naknik@taim.com", "location":{"x":1, "y":1},"creationDate":"11/12/1984", "expirationDate: "12/10/1990"} 
 //		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
 //		
-		System.out.println("Start update element test:");
 		String userPlayground = "MainPlayground";
 		String email = "nudnik@mail.ru";
 		String playground = "atw80";
 		String id = "123";
 		
 		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
-//		String jsonStringToElement = "{\"name\": \"stam\", \"id\" : \"123\", \"playground\": \""+playground+"\", \"type\": \"random type\" "
-//				+ ",\"creatorPlayground\":\""+userPlayground+"\", \"creatorEmail\":\""+email+ "\" ,\"id\":\""+id+"\"}";
-//		ElementTO elementForTest = this.jsonMapper.readValue(jsonStringToElement, ElementTO.class);
+		createVerifiedUserFromEmail(email);
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, userPlayground, email, playground, id);
 		
-		System.out.println("Element for test: " + elementForTest);
-		System.out.println("Element from database: "+this.database.getElement(id, playground));
 		//TODO change to Entity
 		ElementTO actualEntity = this.database.getElement(id, playground);
-		assertThat(actualEntity).isNotNull();
+//		assertThat(actualEntity).isNotNull();
 		assertThat(actualEntity).isEqualToComparingFieldByField(elementForTest);
 		}
 	
 	@Test
-	public void testgetElementsByUserPlaygroundEmailAttributeNameValue(){
+	public void testGetElementsByUserPlaygroundEmailAttributeNameValue(){
 //		Given Server is up
 //		And database contains element with fields {userPlayground}, {email}, {attributeName}, {value}
+//		And database contains verified user with {email}
 //		When I GET /playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}
 //			With headers:
 //				Accept:application/json
@@ -148,6 +153,7 @@ public class TestDanielController {
 		String email = "nudnik@mail.ru";
 		String playground = "atw80";
 		String id = "123";
+		
 		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
 		System.out.println("Test search, element for test"+elementForTest.toString());
 		HashMap<String, Object> testMap = new HashMap<>();
@@ -156,15 +162,48 @@ public class TestDanielController {
 		testMap.put("attr3","attr3Val");
 		
 		elementForTest.setAttributes(testMap);
+		this.database.addElement(elementForTest);
+		System.out.println("Check that element added" + this.database.getElements().toString());
 		
-		ElementTO actualValue = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", 
-				ElementTO.class, userPlayground, email, playground, id);
+//		ResponseEntity<ElementTO[]> response = restTemplate.exchange(
+//				  this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
+//				  HttpMethod.GET,
+//				  null,
+//				  new ParameterizedTypeReference<ElementTO[]>(){});
+//		ElementTO[] actualValue = response.getBody();
+		System.out.println("before response");
+		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
+		ElementTO[] elements = responseEntity.getBody();
+//		ElementArray response = this.restTemplate.getForObject(this.url + 
+//				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementArray.class, 
+//				userPlayground, email, "attribute1", "attr1Value");
+		System.out.println("print"+responseEntity);
+//		ElementTO[] elementsArr = response.getElements();
+		
+		System.out.println("Print elements from http"+elements);
 		
 		System.out.println("Test searh, actualValue"+elementForTest.toString());
 		
-		assertThat(actualValue).isNotNull();
-		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
+		assertThat(elements).isNotNull();
+//		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
 		
 	}
 	
+//	 class ElementArray{
+//		private ElementTO[] elements;
+//		
+//		public ElementArray() {
+//			elements = new ElementTO[1];
+//		}
+//
+//		public ElementTO[] getElements() {
+//			return elements;
+//		}
+//
+//		public void setElements(ElementTO[] elements) {
+//			this.elements = elements;
+//		}
+		
+//	}
 }
