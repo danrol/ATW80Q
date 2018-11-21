@@ -160,15 +160,24 @@ public class Database implements  ATW_Database {
 		double south=y-distance;
 		double east=x-distance;
 		double west=x+distance;
-		
+		//find in a circle
 		ArrayList<ElementTO> array=new ArrayList<>();
 		for(ElementTO el:this.elements) {
-			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
-					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
+			double xin=el.getLocation().getX()-element.getLocation().getX();
+			double yin=el.getLocation().getY()-element.getLocation().getY();
+			
+			if(Math.sqrt(xin*xin+yin*yin)<=distance) {
 				array.add(el);
 			}
-			
 		}
+		//find in double x and double y 
+//		for(ElementTO el:this.elements) {
+//			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
+//					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
+//				array.add(el);
+//			}
+//			
+//		}
 		return (ElementTO[]) array.toArray();
 	}
 	
