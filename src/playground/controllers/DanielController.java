@@ -79,9 +79,6 @@ public class DanielController {
 		 * OUTPUT: ElementTO[]
 		 */
 		
-		
-		database.getElementsWithValueInAttribute(
-				userPlayground, email, attributeName, value);
 		return database.getElementsWithValueInAttribute(
 				userPlayground, email, attributeName, value);
 	}
