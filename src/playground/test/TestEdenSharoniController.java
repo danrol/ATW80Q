@@ -62,9 +62,9 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserWithNullEmail() {
 		/*
-		 * Given: GET /playground/users/login/{playground}/
-		 * When:  User is verified AND is in database AND email is " " 
-		 * Then: I get mail messege.
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/
+		 * When:  User is verified AND is in database AND email is empty 
+		 * Then: I get login exception.
 		 */
 		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
@@ -76,8 +76,8 @@ public class TestEdenSharoniController {
 	@Test
 	public void testLoginUserWithCorrectEmail() {
 		/*
-		 * Given: GET /playground/users/login/{playground}/{email}
-		 * When: user is in database and is verified
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
+		 * When: user is in playground database and is verified
 		 * Then: User gets Logged in
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -96,9 +96,9 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserEmailNotInDatabase() {
 		/*
-		 * Given: GET /playground/users/login/{playground}/{email}
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
 		 * When: email is not on the database
-		 * Then: I get email message
+		 * Then:  I get login exception.
 		 */
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
@@ -108,7 +108,7 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void LoginUserNotInPlayground() {
 		/*
-		 * Given: GET /playground/users/login/{playground}/{email}
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
 		 * When: email is on the database and verified and user does not belong to playground
 		 * Then: I get a user is not on playground message
 		 */
@@ -124,9 +124,9 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserWhenUserNotVerification() {
 		/*
-		 * Given: GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database AND not verificate
-		 * Then: I get a not verified email message
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
+		 * When: email is on the database AND not verified
+		 * Then: I get login exception.
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);

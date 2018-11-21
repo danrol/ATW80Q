@@ -3,6 +3,7 @@ package playground.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,16 +41,21 @@ public class EdenSharoniController {
 			throw new LoginException("Email is not registered.");
 		}
 	}
-
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/elements/{userPlayground}/{email}/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground) {
-		// returns all element with the same playground and email as in url
-		/*
-		 * function 8 INPUT: NONE OUTPUT: ElementTO[]
+	
+	
+	@RequestMapping(
+			method=RequestMethod.PUT,
+			path="/playground/users/{playground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE)
+	public void changePlayground(@RequestBody UserTO user, @PathVariable("email") String email,@PathVariable("playground") String playground) 
+		{
+		/* function 4
+		 * INPUT: UserTO
+		 * OUTPUT: NONE
 		 */
-
-		return this.db.getAllElementsByEmailAndCreatorPlayground(userPlayground, email);
-
-	}
+		if(user.getEmail().equals(email))
+			user.setPlayground(playground);
+		
+		}
+	
 }
