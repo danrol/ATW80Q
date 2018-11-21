@@ -1,12 +1,18 @@
 package playground.elements;
 
+import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
 
 import playground.logic.Location;
 
 
-public class ElementTO {
+public class ElementTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String id;
 	protected String playground;
