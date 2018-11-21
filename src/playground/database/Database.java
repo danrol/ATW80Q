@@ -145,14 +145,14 @@ public class Database implements  ATW_Database {
 		System.out.println("Perform update");
 		
 		ElementTO tempElement = this.getElement(id, playground);
-		Date tempCreationDate = tempElement.getCreationDate();
-		Date tempExpirationDate = tempElement.getExirationDate();
+//		Date tempCreationDate = tempElement.getCreationDate();
+//		Date tempExpirationDate = tempElement.getExirationDate();
 		
 		elements.remove(tempElement);
-		if(tempCreationDate != null)
-			element.setCreationDate(tempCreationDate);
-		if(tempExpirationDate != null)
-			element.setExirationDate(tempExpirationDate);
+//		if(tempCreationDate != null)
+//			element.setCreationDate(tempCreationDate);
+//		if(tempExpirationDate != null)
+//			element.setExirationDate(tempExpirationDate);
 		elements.add(element);
 	}
 	
