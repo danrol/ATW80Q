@@ -131,8 +131,10 @@ public class Database implements  ATW_Database {
 		for (ElementTO element: elements)
 		{
 			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
-					element.getCreatorPlayground()) && element.attributeExists(attributeName, value))
-				tempElementsList.add(element);
+					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)) {
+				if(element.getAttributes().get(attributeName).equals(value));
+					tempElementsList.add(element);
+			}
 		}
 		return tempElementsList.toArray(
 				new ElementTO[tempElementsList.size()]);
