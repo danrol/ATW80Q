@@ -240,8 +240,7 @@ public class TestEdenDupontController {
 	*/
 		
 		ActivityTO act = new ActivityTO();
-		this.d
-		Object ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
-		
+		Object ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, Object.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
+		System.err.println(ob);
 	}
 }
