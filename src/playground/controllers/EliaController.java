@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
+import playground.logic.ConfirmException;
 
 @RestController
 public class EliaController {
@@ -28,7 +29,13 @@ public class EliaController {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distan ce}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,double distance) {
+	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,double distance)throws ConfirmException{
+		if(distance<1) {
+			throw new ConfirmException("distance is not in the natural numbers");
+		}
+		if(element.getCreatorPlayground().equals(" ")) {
+			throw new ConfirmException("element->CreatorPlayground :is not valid");
+		}
 		ElementTO[] obelement= db.getAllElementsTOInRadius(element,distance);
 		
 		
