@@ -62,33 +62,29 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserWithNullEmail() {
 		/*
-		 * Given: User is verified AND I GET /playground/users/login/{playground}/ When:
-		 * email is "" Then: I get a 404 exception
+		 * Given: GET /playground/users/login/{playground}/
+		 * When:  User is verified AND is in database AND email is " " 
+		 * Then: I get mail messege.
 		 */
-
-		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME);
+		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(user);
-		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
-				Constants.PLAYGROUND_NAME, " ");
+		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
 	public void testLoginUserWithCorrectEmail() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: user is in database and is verified Then: User gets Logged in
+		 * Given: GET /playground/users/login/{playground}/{email}
+		 * When: user is in database and is verified
+		 * Then: User gets Logged in
 		 */
-
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
-
 		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
 		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
@@ -100,9 +96,9 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserEmailNotInDatabase() {
 		/*
-		 * Given: Server is up AND I GET
-		 * /playground/users/login/{playground}/{email}/{code} When: email is not on the
-		 * database Then: I get a Wrong email message
+		 * Given: GET /playground/users/login/{playground}/{email}
+		 * When: email is not on the database
+		 * Then: I get email message
 		 */
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
@@ -112,9 +108,9 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void LoginUserNotInPlayground() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database and user does not belong to playground Then: I
-		 * get a user is not on playground message
+		 * Given: GET /playground/users/login/{playground}/{email}
+		 * When: email is on the database and verified and user does not belong to playground
+		 * Then: I get a user is not on playground message
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
 				"OtherPlayground");
@@ -126,17 +122,16 @@ public class TestEdenSharoniController {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testLoginUserWithIncorrectVerificationEmail() {
+	public void testLoginUserWhenUserNotVerification() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database BUT not verificate Then: I get a not verified
-		 * email message
+		 * Given: GET /playground/users/login/{playground}/{email}
+		 * When: email is on the database AND not verificate
+		 * Then: I get a not verified email message
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
-
 		// When I invoke GET this.url +
 		// "/playground/users/login/{playground}/{email}"
 		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
