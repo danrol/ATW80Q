@@ -1,12 +1,19 @@
 package playground.elements;
 
+import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import playground.logic.Location;
 
 
-public class ElementTO {
+public class ElementTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String id;
 	protected String playground;
@@ -16,6 +23,7 @@ public class ElementTO {
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
+	protected Map<String, Object>attributes; 
 	
 	public boolean attributeExists(String attributeName, String value) {
 		switch(attributeName)
@@ -47,12 +55,29 @@ public class ElementTO {
 //		this.type = type;
 		this.creatorPlayground = creatorPlayground;
 		this.creatorEmail = creatorEmail;
+		this.attributes = Collections.synchronizedMap(new HashMap<>());
 //		this.location = location;
 		
 	}
 
 
 
+
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+
+	public void setAttributes(HashMap<String, Object> attributes) {
+		this.attributes = attributes;
+	}
 
 	public ElementTO() {
 		// TODO Auto-generated constructor stub
