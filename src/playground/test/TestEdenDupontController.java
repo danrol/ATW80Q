@@ -3,6 +3,8 @@ package playground.test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.annotation.PostConstruct;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import playground.*;
 import playground.activities.ActivityTO;
 import playground.database.Database;

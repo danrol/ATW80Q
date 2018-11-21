@@ -53,27 +53,6 @@ public class WebUI {
 	
 	
 	
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/users/login/{playground}/{email}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, 
-			@PathVariable("email") String email) {
-		/* function 3
-		 * INPUT: NONE
-		 * OUTPUT: UserTO
-		 */
-		
-		//TODO add try catch
-		UserTO u  = this.db.getUser(email);
-		if(u != null)
-		{
-			u.setStatus(Constants.ONLINE);
-			return u;
-		}
-		return null;
-		
-	}
 	
 
 	@RequestMapping(
@@ -123,22 +102,6 @@ public class WebUI {
 	
 	
 	
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/elements/{userPlayground}/{email}/all",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground) 
-		{
-		// returns all element with the same playground and email as in url
-		/* function 8
-		 * INPUT: NONE
-		 * OUTPUT: ElementTO[]
-		 */
-		
-		return this.db.getAllElementsByEmailAndCreatorPlayground(userPlayground, email);
-		
-		}
 	
 	@RequestMapping(
 			method=RequestMethod.GET,
@@ -173,20 +136,7 @@ public class WebUI {
 		//else 
 			return null;
 		}
-	@RequestMapping(
-			method=RequestMethod.POST,
-			path="/playground/activities/{userPlayground}/{email}",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Object getActivity(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
-		{
-		/* function 11
-		 * INPUT: ActivityTO
-		 * OUTPUT: Object
-		 */
-		//TODO add activity to RequestBody
-		return "Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity; 
-		}
+
 	
 	/*
 	 * 
@@ -210,7 +160,7 @@ public class WebUI {
 			produces=MediaType.APPLICATION_JSON_VALUE,
 			consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void addMessage(@RequestBody String newMessage) {
-		this.db.writeMessage(newMessage);
+		
 	}
 	
 	@RequestMapping(
@@ -218,7 +168,7 @@ public class WebUI {
 			path="/playground/users/view_messages",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public String viewMessages() {
-		return this.db.viewMessagesBoard();
+		return "string";
 	}
 	
 }

@@ -118,8 +118,7 @@ public class EdenDupontController {
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		String s = new String("Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
+		String s = new String("FHello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
 		return s; 
 		}
-	
 }
