@@ -3,6 +3,11 @@ package playground.test;
 import javax.annotation.PostConstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import playground.Constants;
 import playground.database.Database;
@@ -57,6 +62,7 @@ public class TestDanielController {
 
 	@After
 	public void teardown() {
+		database.cleanDatabase();
 	}
 	
 	@Test
@@ -122,13 +128,42 @@ public class TestDanielController {
 		System.out.println("Element from database: "+this.database.getElement(id, playground));
 		//TODO change to Entity
 		ElementTO actualEntity = this.database.getElement(id, playground);
-		assertThat(actualEntity)
-		.isNotNull()
-		.isEqualTo(elementForTest);
-	}
+		assertThat(actualEntity).isNotNull();
+		assertThat(actualEntity).isEqualToComparingFieldByField(elementForTest);
+		}
 	
 	@Test
 	public void testgetElementsByUserPlaygroundEmailAttributeNameValue(){
+//		Given Server is up
+//		And database contains element with fields {userPlayground}, {email}, {attributeName}, {value}
+//		When I GET /playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}
+//			With headers:
+//				Accept:application/json
+//				content-type: application/json
+//			With parametrs:
+//			userPlayground = "sht", email = "agile@bumbamail.ru", attributeName = "attribute", value = "random_value"
+//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
+//		
+		String userPlayground = "MainPlayground";
+		String email = "nudnik@mail.ru";
+		String playground = "atw80";
+		String id = "123";
+		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
+		System.out.println("Test search, element for test"+elementForTest.toString());
+		HashMap<String, Object> testMap = new HashMap<>();
+		testMap.put("attribute1","attr1Value");
+		testMap.put("attribute2","attr2Value");
+		testMap.put("attr3","attr3Val");
+		
+		elementForTest.setAttributes(testMap);
+		
+		ElementTO actualValue = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", 
+				ElementTO.class, userPlayground, email, playground, id);
+		
+		System.out.println("Test searh, actualValue"+elementForTest.toString());
+		
+		assertThat(actualValue).isNotNull();
+		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
 		
 	}
 	

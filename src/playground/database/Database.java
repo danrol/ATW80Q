@@ -131,8 +131,10 @@ public class Database implements  ATW_Database {
 		for (ElementTO element: elements)
 		{
 			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
-					element.getCreatorPlayground()) && element.attributeExists(attributeName, value))
-				tempElementsList.add(element);
+					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)) {
+				if(element.getAttributes().get(attributeName).equals(value));
+					tempElementsList.add(element);
+			}
 		}
 		return tempElementsList.toArray(
 				new ElementTO[tempElementsList.size()]);
@@ -185,14 +187,7 @@ public class Database implements  ATW_Database {
 	
 	public ElementTO[] getAllElementsTOInRadius(ElementTO element,double distance)
 	{
-		//element.getLocation();
-		double x=0;
-		double y=0;
-		//boundaries
-		double north=y+distance;
-		double south=y-distance;
-		double east=x-distance;
-		double west=x+distance;
+		
 		//find in a circle
 		ArrayList<ElementTO> array=new ArrayList<>();
 		for(ElementTO el:this.elements) {
@@ -203,7 +198,14 @@ public class Database implements  ATW_Database {
 				array.add(el);
 			}
 		}
-		//
+		//element.getLocation();
+//		double x=0;
+//		double y=0;
+//		//boundaries
+//		double north=y+distance;
+//		double south=y-distance;
+//		double east=x-distance;
+//		double west=x+distance;
 		//find in double x and double y 
 //		for(ElementTO el:this.elements) {
 //			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
