@@ -17,8 +17,8 @@ import playground.logic.UserTO;
 @RestController
 public class EdenSharoniController {
 	@Autowired
-	Database db;
-
+	Database db;	
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*

@@ -137,5 +137,36 @@ public class TestEdenSharoniController {
 		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
+	
+	@Test
+	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUser() {
+		/*
+		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
+		 * When: new I am moderator AND wants to update other user
+		 * Then: changes are accepted
+		 */
+		UserTO newUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", newUser, newUser.getEmail(), Constants.PLAYGROUND_NAME);
+	}
+	
+//	@Test
+//	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
+//		/*
+//		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
+//		 * When: new I am moderator AND wants to update my user
+//		 * Then: changes are accepted
+//		 */
+//	}
+//	
+//	@Test
+//	public void testChangeUserWhenRoleIsPlayer() {
+//		
+//	}
+//	
+//	@Test
+//	public void testChangeUserWhenRoleIsUndentified() {
+//		
+//	}
 
 }
