@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
+import playground.elements.ElementTO;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
@@ -58,24 +59,20 @@ public class TestEdenSharoniController {
 
 	}
 
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void testLoginUserWithNullEmail() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/ When:
+		 * Given: User is verified AND I GET /playground/users/login/{playground}/ When:
 		 * email is "" Then: I get a 404 exception
 		 */
-		String[] s = { "0", "0" };
-		UserTO user;
-		try {
-			user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
-					UserTO.class, Constants.PLAYGROUND_NAME, "");
 
-		} catch (RuntimeException e) {
-			s = e.toString().split(" ", 3);
-		}
-		System.err.println(s[1]);
-		assertThat(s[1]).isEqualTo("404");
-
+		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		// given database contains user { "user": "userTest"}
+		this.db.addUser(user);
+		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+				Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
@@ -93,11 +90,11 @@ public class TestEdenSharoniController {
 		this.db.addUser(u);
 
 		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
-				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 		// verify that unverified user is now verified
-		assertThat(user).isNotNull();
-		assertThat(user.isVerified()).isTrue();
+		assertThat(u).isNotNull();
+		assertThat(u.isVerified()).isTrue();
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -112,40 +109,38 @@ public class TestEdenSharoniController {
 
 	}
 
-//	@Test(expected = RuntimeException.class)
-//	public void LoginUserNotInPlayground() {
-//		/*
-//		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-//		 * When: email is on the database and code is correct and user does not belong to
-//		 * playground Then: I get a user is not on playground message
-//		 */
-//		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
-//				"OtherPlayground");
-//		// given database contains user { "user": "userTest"}
-//		this.db.addUser(u);
-//		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}/{code}",
-//				UserTO.class, Constants.PLAYGROUND_NAME, "userTestPlayground@gmail.com", "1234");
-//
-//	}
+	@Test(expected = RuntimeException.class)
+	public void LoginUserNotInPlayground() {
+		/*
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
+		 * When: email is on the database and user does not belong to playground Then: I
+		 * get a user is not on playground message
+		 */
+		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
+				"OtherPlayground");
+		// given database contains user { "user": "userTest"}
+		u.verifyUser();
+		this.db.addUser(u);
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+	}
 
-//	@Test(expected = RuntimeException.class)
-//	public void testConfirmUserWithIncorrectVerificationCode() {
-//		/*
-//		 * Given Server is up AND I GET
-//		 * /playground/users/login/{playground}/{email}/{code} When email is on the
-//		 * database AND code is wrong Then I get a Wrong verification code error message
-//		 */
-//		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
-//				Constants.PLAYGROUND_NAME, "1234");
-//
-//		// given database contains user { "user": "userTest"}
-//		this.db.addUser(u);
-//
-//		// When I invoke GET this.url +
-//		// "/playground/users/login/{playground}/{email}/{code}"
-//		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}",
-//				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com", "1");
-//
-//	}
+	@Test(expected = RuntimeException.class)
+	public void testLoginUserWithIncorrectVerificationEmail() {
+		/*
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
+		 * When: email is on the database BUT not verificate Then: I get a not verified
+		 * email message
+		 */
+		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		// given database contains user { "user": "userTest"}
+		this.db.addUser(u);
+
+		// When I invoke GET this.url +
+		// "/playground/users/login/{playground}/{email}"
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+	}
 
 }

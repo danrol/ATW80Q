@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.database.Database;
+import playground.logic.ConfirmException;
 import playground.logic.LoginException;
 import playground.logic.UserTO;
 
@@ -24,11 +25,16 @@ public class EdenSharoniController {
 		 */
 		UserTO u = this.db.getUser(email);
 		if (u != null) {
-			if (u.isVerified()) {
-				return u;
+			if (u.getPlayground().equals(playground)) {
+				if (u.isVerified()) {
+					return u;
+				} else {
+					throw new LoginException("User is not verified.");
+				}
 			} else {
-				throw new LoginException("User is not verified");
+				throw new ConfirmException("User does not belong to the specified playground.");
 			}
+
 		} else {
 			throw new LoginException("Email is not registered.");
 		}
