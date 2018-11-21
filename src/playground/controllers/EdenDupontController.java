@@ -89,7 +89,7 @@ public class EdenDupontController {
 	//*****************************************
 	//do not copy this - originally from EdenSharoni
 	//*****************************************
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, path = "/messages", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO

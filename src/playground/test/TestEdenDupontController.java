@@ -241,6 +241,6 @@ public class TestEdenDupontController {
 		
 		ActivityTO act = new ActivityTO();
 		Object ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, Object.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
-		System.err.println(ob);
+		System.err.println((String) ob);
 	}
 }
