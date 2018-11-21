@@ -15,6 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
+import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.ConfirmException;
@@ -229,4 +230,18 @@ public class TestEdenDupontController {
 		
 	}
 	
+	@Test
+	public void testSendValidActivityToServer() {
+	/*
+	 * 
+		Given the server is up and I POST /playground/activities/{userPlayground}/{email}
+		When user login details are correct and activity is valid
+		Then an Object is returned
+	*/
+		
+		ActivityTO act = new ActivityTO();
+		this.d
+		Object ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		
+	}
 }

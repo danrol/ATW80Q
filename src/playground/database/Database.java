@@ -65,6 +65,29 @@ public class Database implements  ATW_Database {
 	public void addElement(ElementTO element) {
 		getElements().add(element);
 	}
+	
+	public void addActivity(ActivityTO activity)
+	{
+		Database.activities.add(activity);
+	}
+	public ActivityTO getActivity(String id, String playground)
+	{
+		for(ActivityTO act:activities)
+		{
+			if(act.getPlayground().equals(playground) && act.getId().equals(id))
+				return act;
+		}
+		return null;
+	}
+	public void removeActivity(String id, String playground)
+	{
+		for(ActivityTO act:activities)
+		{
+			if(act.getPlayground().equals(playground) && act.getId().equals(id))
+				activities.remove(act);
+		}
+		
+	}
 
 	public String getGameRules() {
 		return Constants.GAME_RULES;

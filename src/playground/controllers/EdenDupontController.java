@@ -3,13 +3,18 @@ package playground.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import playground.Constants;
+import playground.activities.ActivityTO;
 import playground.controllers.EdenSharoniController;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.ConfirmException;
+import playground.logic.LoginException;
 import playground.logic.UserTO;
 
 
@@ -42,12 +47,12 @@ public class EdenDupontController {
 					}
 				else
 					{
-						throw new ConfirmException("invalid verification code");
+						throw new ConfirmException("Invalid verification code");
 					}
 			}
 				else
 			{
-					throw new ConfirmException("User does not belong to the specified playground");
+					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
 			}
 		}
 			else
@@ -74,7 +79,7 @@ public class EdenDupontController {
 		ElementTO element = null;
 		login(userPlayground,email);
 		//if login succeeded, get element
-			element = db.getElement(id, playground);
+		element = db.getElement(id, playground);
 		if(element == null)
 			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
 		return element;
@@ -84,7 +89,7 @@ public class EdenDupontController {
 	//*****************************************
 	//do not copy this - originally from EdenSharoni
 	//*****************************************
-	@RequestMapping(method = RequestMethod.GET, path = "/loginTest", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
@@ -94,11 +99,27 @@ public class EdenDupontController {
 			if (u.isVerified()) {
 				return u;
 			} else {
-				throw new RuntimeException("User is not verified");
+				throw new LoginException("User is not verified");
 			}
 		} else {
-			throw new RuntimeException("Email is not registered.");
+			throw new LoginException("Email is not registered.");
 		}
 	}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/activities/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public Object getActivity(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 11
+		 * INPUT: ActivityTO
+		 * OUTPUT: Object
+		 */
+		//TODO add activity to RequestBody
+		String s = new String("Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
+		return s; 
+		}
 	
 }
