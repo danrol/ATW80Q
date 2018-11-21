@@ -17,8 +17,8 @@ import playground.logic.UserTO;
 @RestController
 public class EdenSharoniController {
 	@Autowired
-	Database db;	
-	
+	Database db;
+
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
@@ -49,10 +49,10 @@ public class EdenSharoniController {
 		 */
 		login(playground, email);
 		if (db.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
-			db.updateUserInDatabase(user, email);
+			db.updateUserInDatabase(user);
 		} else if (db.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
-				db.updateUserInDatabase(user, email);
+				db.updateUserInDatabase(user);
 			} else {
 				throw new RuntimeException("PLAYER_ROLE cannot change other users information");
 			}

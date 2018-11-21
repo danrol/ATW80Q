@@ -62,23 +62,25 @@ public class TestEdenSharoniController {
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserWithNullEmail() {
 		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/
-		 * When:  User is verified AND is in database AND email is empty 
-		 * Then: I get login exception.
+		 * Given: Server is up AND I GET /playground/users/login/{playground}/ When:
+		 * User is verified AND is in database AND email is empty Then: I get login
+		 * exception.
 		 */
-		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(user);
-		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
+		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+				Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
 	public void testLoginUserWithCorrectEmail() {
 		/*
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: user is in playground database and is verified
-		 * Then: User gets Logged in
+		 * When: user is in playground database and is verified Then: User gets Logged
+		 * in
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
@@ -97,8 +99,7 @@ public class TestEdenSharoniController {
 	public void testLoginUserEmailNotInDatabase() {
 		/*
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is not on the database
-		 * Then:  I get login exception.
+		 * When: email is not on the database Then: I get login exception.
 		 */
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
@@ -109,8 +110,8 @@ public class TestEdenSharoniController {
 	public void LoginUserNotInPlayground() {
 		/*
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database and verified and user does not belong to playground
-		 * Then: I get a user is not on playground message
+		 * When: email is on the database and verified and user does not belong to
+		 * playground Then: I get a user is not on playground message
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
 				"OtherPlayground");
@@ -125,8 +126,7 @@ public class TestEdenSharoniController {
 	public void testLoginUserWhenUserNotVerification() {
 		/*
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database AND not verified
-		 * Then: I get login exception.
+		 * When: email is on the database AND not verified Then: I get login exception.
 		 */
 		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
@@ -137,36 +137,71 @@ public class TestEdenSharoniController {
 		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
-	
+
+	@Test
+	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
+		/*
+		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When: I
+		 * am moderator AND want to update my user Then: changes are accepted
+		 */
+		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		db.addUser(moderatorUser);
+		moderatorUser.verifyUser();
+
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser,
+				Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+	}
+
 	@Test
 	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUser() {
 		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: new I am moderator AND wants to update other user
-		 * Then: changes are accepted
+		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When:
+		 * I am moderator AND want to update other user Then: changes are accepted
 		 */
-		UserTO newUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", newUser, newUser.getEmail(), Constants.PLAYGROUND_NAME);
-	}
-	
-//	@Test
-//	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
-//		/*
-//		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-//		 * When: new I am moderator AND wants to update my user
-//		 * Then: changes are accepted
-//		 */
-//	}
-//	
-//	@Test
-//	public void testChangeUserWhenRoleIsPlayer() {
-//		
-//	}
-//	
-//	@Test
-//	public void testChangeUserWhenRoleIsUndentified() {
-//		
-//	}
+		db.addUser(moderatorUser);
+		moderatorUser.verifyUser();
 
+		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		
+
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+				moderatorUser.getEmail());
+	}
+
+	@Test
+	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
+		/*
+		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When: I
+		 * am Player AND want to update my user Then: changes are accepted
+		 */
+		UserTO PlayerUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+				Constants.PLAYGROUND_NAME);
+		db.addUser(PlayerUser);
+		PlayerUser.verifyUser();
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser, Constants.PLAYGROUND_NAME,
+				PlayerUser.getEmail());
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUser() {
+		/*
+		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
+		 * When: I am Player AND want to update other user
+		 * Then: I get changes exception
+		 */
+		UserTO PlayerUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+				Constants.PLAYGROUND_NAME);
+		db.addUser(PlayerUser);
+		PlayerUser.verifyUser();
+		
+		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+				Constants.PLAYGROUND_NAME);
+		
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+				PlayerUser.getEmail());
+	}
 }
