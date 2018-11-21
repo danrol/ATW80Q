@@ -20,7 +20,7 @@ import playground.logic.UserEntity;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 public class TestEliaController {
-	
+	//
 	private RestTemplate restTemplate;
 	
 	@Autowired

@@ -180,6 +180,7 @@ public class Database implements  ATW_Database {
 				array.add(el);
 			}
 		}
+		//
 		//find in double x and double y 
 //		for(ElementTO el:this.elements) {
 //			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
