@@ -1,5 +1,7 @@
 package playground.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import javax.annotation.PostConstruct;
 
 import org.junit.After;
@@ -58,13 +60,28 @@ public class TestEliaController {
 	}
 	
 	@Test
+	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
+		double distance=-1;
+		assertThat(db.getAllElementsTOInRadius(element, distance));
+	}
+	
+	@Test
+	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
+		double distance=0;
+		assertThat(db.getAllElementsTOInRadius(element, distance));
+	}
+	
+	@Test
 	public void testPOSTNewElement() {
-		String playground="playground";
-		String creatorPlayground="creator";
-		String name="nameOfElement:(english hei 7)";
-		String email="email@email.com";
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
 		db.addElement(element);
+		assertThat(db.getElements().contains(element));
 	}
 	
 
