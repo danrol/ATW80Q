@@ -65,6 +65,29 @@ public class Database implements  ATW_Database {
 	public void addElement(ElementTO element) {
 		getElements().add(element);
 	}
+	
+	public void addActivity(ActivityTO activity)
+	{
+		Database.activities.add(activity);
+	}
+	public ActivityTO getActivity(String id, String playground)
+	{
+		for(ActivityTO act:activities)
+		{
+			if(act.getPlayground().equals(playground) && act.getId().equals(id))
+				return act;
+		}
+		return null;
+	}
+	public void removeActivity(String id, String playground)
+	{
+		for(ActivityTO act:activities)
+		{
+			if(act.getPlayground().equals(playground) && act.getId().equals(id))
+				activities.remove(act);
+		}
+		
+	}
 
 	public String getGameRules() {
 		return Constants.GAME_RULES;
@@ -122,14 +145,14 @@ public class Database implements  ATW_Database {
 		System.out.println("Perform update");
 		
 		ElementTO tempElement = this.getElement(id, playground);
-		Date tempCreationDate = tempElement.getCreationDate();
-		Date tempExpirationDate = tempElement.getExirationDate();
+//		Date tempCreationDate = tempElement.getCreationDate();
+//		Date tempExpirationDate = tempElement.getExirationDate();
 		
 		elements.remove(tempElement);
-		if(tempCreationDate != null)
-			element.setCreationDate(tempCreationDate);
-		if(tempExpirationDate != null)
-			element.setExirationDate(tempExpirationDate);
+//		if(tempCreationDate != null)
+//			element.setCreationDate(tempCreationDate);
+//		if(tempExpirationDate != null)
+//			element.setExirationDate(tempExpirationDate);
 		elements.add(element);
 	}
 	
@@ -170,15 +193,25 @@ public class Database implements  ATW_Database {
 		double south=y-distance;
 		double east=x-distance;
 		double west=x+distance;
-		
+		//find in a circle
 		ArrayList<ElementTO> array=new ArrayList<>();
 		for(ElementTO el:this.elements) {
-			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
-					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
+			double xin=el.getLocation().getX()-element.getLocation().getX();
+			double yin=el.getLocation().getY()-element.getLocation().getY();
+			
+			if(Math.sqrt(xin*xin+yin*yin)<=distance) {
 				array.add(el);
 			}
-			
 		}
+		//
+		//find in double x and double y 
+//		for(ElementTO el:this.elements) {
+//			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
+//					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
+//				array.add(el);
+//			}
+//			
+//		}
 		return (ElementTO[]) array.toArray();
 	}
 	

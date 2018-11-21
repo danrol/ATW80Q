@@ -41,7 +41,7 @@ public class EliaController {
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public String setUser (@RequestBody ElementTO element)  {
-		//function to do 
+		db.addElement(element);
 		return " ";
 		
 		
