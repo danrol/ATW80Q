@@ -41,21 +41,25 @@ public class EdenSharoniController {
 			throw new LoginException("Email is not registered.");
 		}
 	}
-	
-	
-	@RequestMapping(
-			method=RequestMethod.PUT,
-			path="/playground/users/{playground}/{email}",
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void changePlayground(@RequestBody UserTO user, @PathVariable("email") String email,@PathVariable("playground") String playground) 
-		{
-		/* function 4
-		 * INPUT: UserTO
-		 * OUTPUT: NONE
+
+	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public void updateUser(@RequestBody UserTO user, @PathVariable("email") String email,
+			@PathVariable("playground") String playground) {
+		/*
+		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
-		if(user.getEmail().equals(email))
-			user.setPlayground(playground);
-		
+		login(playground, email);
+		if (db.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
+			db.updateUserInDatabase(user, email);
+		} else if (db.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
+			if (email.equals(user.getEmail())) {
+				db.updateUserInDatabase(user, email);
+			} else {
+				throw new RuntimeException("PLAYER_ROLE cannot change other users information");
+			}
+		} else {
+			throw new RuntimeException("invalid role " + db.getUser(email).getRole());
 		}
-	
+	}
+
 }

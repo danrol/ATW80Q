@@ -159,6 +159,12 @@ public class Database implements  ATW_Database {
 	}
 	
 	
+	public void updateUserInDatabase(UserTO user, String email) {
+		UserTO tempUser = this.getUser(email);
+		users.remove(tempUser);
+		users.add(user);
+	}
+	
 	public ElementTO getElement(String id, String playground) {
 		for(ElementTO e: elements)
 		{
