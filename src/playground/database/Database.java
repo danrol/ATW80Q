@@ -9,6 +9,7 @@ import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
+import playground.logic.ElementDataException;
 import playground.logic.Message;
 import playground.logic.UserTO;
 
@@ -145,19 +146,30 @@ public class Database implements  ATW_Database {
 	public void updateElementInDatabaseFromExternalElement(ElementTO element, String id, String playground) {
 		
 		System.out.println("Perform update");
-		
+		System.out.println("Not updated element" + this.getElement(id, playground));
+		System.out.println("Updated element" + element);
 		ElementTO tempElement = this.getElement(id, playground);
-//		Date tempCreationDate = tempElement.getCreationDate();
-//		Date tempExpirationDate = tempElement.getExirationDate();
-		
-		elements.remove(tempElement);
-//		if(tempCreationDate != null)
-//			element.setCreationDate(tempCreationDate);
-//		if(tempExpirationDate != null)
-//			element.setExirationDate(tempExpirationDate);
-		elements.add(element);
+		if (checkElementIsCorrect(element) && 
+				tempElement != null) {
+			System.out.println("Elemnt by id and string"+this.getElement(id, playground).toString());
+			
+			System.out.println("temp element" + tempElement.toString());
+			System.out.println("element" + element.toString());
+			elements.remove(tempElement);
+			elements.add(element);
+		}
+		else
+			throw new ElementDataException("element data for update is incorrect");
 	}
 	
+	public boolean checkElementIsCorrect(ElementTO element) {
+		UserTO userToCheckWith = getUser(element.getCreatorEmail());
+		if (userToCheckWith != null && 
+				userToCheckWith.getPlayground().equals(element.getCreatorPlayground())) 
+			return true;
+		else
+			return false;
+	}
 	
 	public void updateUserInDatabase(UserTO user) {
 		UserTO tempUser = this.getUser(user.getEmail());

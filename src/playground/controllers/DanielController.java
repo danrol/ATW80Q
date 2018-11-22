@@ -64,9 +64,12 @@ public class DanielController {
 		 * OUTPUT: NONE
 		 */
 //		database.updateElementInDatabaseFromExternalElement(element, id, playground);
-		if (database.getUser(email).isVerified()) {
+		ElementTO el = database.getElement(id, playground);
+		System.out.println("before update");
+		if (database.getUser(email).isVerified() && database.getElement(id, playground) != null) {
 			System.out.println("Entered update");
 			database.updateElementInDatabaseFromExternalElement(element, id, playground);
+			System.out.println("updatePerformed");
 		}
 		else
 			System.out.println("Verificate first, beach"); //TODO throw specific exception

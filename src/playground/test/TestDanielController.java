@@ -93,7 +93,7 @@ public class TestDanielController {
 	}
 	
 	@Test
-	public void testRegisterNewUserWithCorrectInput() throws Exception{
+	public void testSuccessfullyRegisterNewUser() throws Exception{
 /*		
 		Given Server is up
 		When I POST /playground/users
@@ -128,40 +128,74 @@ public class TestDanielController {
 	}
 	
 	
-	public void createVerifiedUserFromEmail(String email) {
-		UserTO u = new UserTO("bestNameEvar", email, "pikachuAvatar", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+	public void createVerifiedUserFromEmailAndPlayground(String email, String creatorPlayground) {
+		UserTO u = new UserTO("bestNameEvar", email, "pikachuAvatar", Constants.MODERATOR_ROLE, creatorPlayground);
 		u.setVerified_user(Constants.USER_VERIFIED);
 		this.database.addUser(u);
 	}
 	
-	@Test
-	public void testUpdateElement() throws Exception{
-//		Given Server is up
-//		And database contains element with fields {userPlayground}, {playground}, {id}
-//		And database contains verified user with {email}
-//		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
-//			With headers:
-//				Accept:application/json
-//				content-type: application/json
-//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
-//		
+	@Test(expected = RuntimeException.class)
+	public void testWrongElementPassedForUpdate() {
+		/*		
+		Given Server is up
+		And database contains element with fields {userPlayground}, {playground}, {id}
+		And database contains verified user with {email}
+		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
+			With headers:
+				Accept:application/json
+				content-type: application/json
+		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
+		*/
 		String userPlayground = "MainPlayground";
 		String email = "nudnik@mail.ru";
 		String playground = "atw80";
 		String id = "123";
 		
 		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
-		createVerifiedUserFromEmail(email);
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, userPlayground, email, playground, id);
+
+	}
+	@Test
+	public void testSuccessfullyUpdateElementWith() throws Exception{
+/*		
+		Given Server is up
+		And database contains element with fields {userPlayground}, {playground}, {id}
+		And database contains verified user with {email}
+		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
+			With headers:
+				Accept:application/json
+				content-type: application/json
+		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
+		*/
+		String userPlayground = "MainPlayground";
+		String email = "nudnik@mail.ru";
+		String playground = "atw80";
+		String id = "123";
+		
+		createVerifiedUserFromEmailAndPlayground(email, userPlayground);
+		ElementTO updatedElementForTest = new ElementTO(id, playground, userPlayground, email);
+		
+		this.database.addElement(new ElementTO(id, playground, userPlayground, email));
+		
+		HashMap<String, Object> attributes = new HashMap<>();
+		attributes.put("attribute1","attr1Value");
+		attributes.put("attribute2","attr2Value");
+		attributes.put("attr3","attr3Val");
+		updatedElementForTest.setAttributes(attributes);
+		
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTest, userPlayground, email, playground, id);
 		
 		//TODO change to Entity
+		
 		ElementTO actualEntity = this.database.getElement(id, playground);
 //		assertThat(actualEntity).isNotNull();
-		assertThat(actualEntity).isEqualToComparingFieldByField(elementForTest);
+		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTest);
+		assertThat(actualEntity.getAttributes()).isEqualTo(updatedElementForTest.getAttributes());
 		}
 	
+	/*
 	@Test
-	public void testGetElementsByUserPlaygroundEmailAttributeNameValue(){
+	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
 //		Given Server is up
 //		And database contains element with fields {userPlayground}, {email}, {attributeName}, {value}
 //		And database contains verified user with {email}
@@ -213,6 +247,7 @@ public class TestDanielController {
 //		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
 		
 	}
+	*/
 	
 //	 class ElementArray{
 //		private ElementTO[] elements;
