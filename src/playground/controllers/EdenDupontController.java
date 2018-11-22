@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.activities.ActivityTO;
-import playground.controllers.EdenSharoniController;
 import playground.database.Database;
 import playground.elements.ElementTO;
-import playground.logic.ConfirmException;
-import playground.logic.LoginException;
+import playground.exceptions.ConfirmException;
+import playground.exceptions.LoginException;
 import playground.logic.UserTO;
 
 

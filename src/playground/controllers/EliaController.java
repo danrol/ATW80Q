@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
-import playground.logic.ConfirmException;
+import playground.exceptions.ConfirmException;
 
 @RestController
 public class EliaController {

@@ -24,7 +24,7 @@ import playground.*;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
-import playground.logic.ConfirmException;
+import playground.exceptions.ConfirmException;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
