@@ -73,16 +73,6 @@ public class TestDanielController {
 	
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
-/*		
-		Given Server is up
-		When I POST /playground/users
-			With headers:
-			  Accept:application/json
-			  content-type: application/json
-			With Body:
-		  	  {"email" : "wrongEmail", "username":"random name", "avatar":"pikachu", "role":"teacher"}
-		  	Then will throw RuntimeException
-		*/
 		String emailForTest = "wrongEmail";
 		String nameForTest = "random name";
 		String avatarForTest = "pikachu";
@@ -93,18 +83,21 @@ public class TestDanielController {
 	}
 	
 	@Test
+	public void testUserAlreadyExists() {
+		String emailForTest = "danMadMan@gmail.com";
+		String nameForTest = "random name";
+		String avatarForTest = "pikachu";
+		String roleForTest = "teacher";
+		
+		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+		UserTO userToAdd = new UserTO(postUserForm);
+		this.database.addUser(userToAdd);
+		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
+		assertThat(actualReturnedValue).isNull();
+	}
+	
+	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
-/*		
-		Given Server is up
-		When I POST /playground/users
-		  With headers:
-			  Accept:application/json
-			  content-type: application/json
-		  With Body:
-		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
-		Then the response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
-			And database contains new UserTO with the same fields as in the body
-			*/
 		String emailForTest = "danMadMan@gmail.com";
 		String nameForTest = "random name";
 		String avatarForTest = "pikachu";

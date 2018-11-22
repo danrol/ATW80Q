@@ -83,18 +83,7 @@ public class WebUI {
 		}
 	
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/elements/{userPlayground}/{email}/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] returnAllElementsByEmailAndCreatorPlayground(@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground) {
-		// returns all element with the same playground and email as in url
-		/*
-		 * function 8 INPUT: NONE OUTPUT: ElementTO[]
-		 */
 
-		return this.db.getAllElementsByEmailAndCreatorPlayground(userPlayground, email);
-
-	}
-	
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
