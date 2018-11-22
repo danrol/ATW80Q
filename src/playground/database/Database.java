@@ -9,7 +9,6 @@ import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
-import playground.logic.ElementDataException;
 import playground.logic.Message;
 import playground.logic.UserTO;
 
