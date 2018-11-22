@@ -193,6 +193,12 @@ public class TestDanielController {
 		assertThat(actualEntity.getAttributes()).isEqualTo(updatedElementForTest.getAttributes());
 		}
 	
+	@Test(expected=RuntimeException.class)
+	public void testAttributeNotExist() {
+		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
+		ElementTO[] elements = responseEntity.getBody();
+	}
 	/*
 	@Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){

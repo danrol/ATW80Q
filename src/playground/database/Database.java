@@ -132,10 +132,11 @@ public class Database implements  ATW_Database {
 		for (ElementTO element: elements)
 		{
 			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
-					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)) {
-				if(element.getAttributes().get(attributeName).equals(value));
+					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)
+					&& element.getAttributes().get(attributeName).equals(value))
 					tempElementsList.add(element);
-			}
+			else
+				throw new ElementDataException("No attribute suits defined search data");				
 		}
 		return tempElementsList.toArray(
 				new ElementTO[tempElementsList.size()]);
