@@ -20,7 +20,7 @@ public class Constants {
 	
 	public static String EMAIL_FOR_TESTS = "nudnik@mail.ru";
 	public static String ID_FOR_TESTS = "123";
-	public static String CREATOR__PLAYGROUND_FOR_TESTS = "crPlayground";
+	public static String CREATOR_PLAYGROUND_FOR_TESTS = "crPlayground";
 	public static String AVATAR_FOR_TESTS = "ava";
 	
 	@Value("${playground.name:playgroundrolnik}")

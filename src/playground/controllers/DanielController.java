@@ -69,8 +69,11 @@ public class DanielController {
 		 */
 //		database.updateElementInDatabaseFromExternalElement(element, id, playground);
 		ElementTO el = database.getElement(id, playground);
-		System.out.println("before update");
-		if (database.getUser(email).isVerified() && database.getElement(id, playground) != null) {
+		System.out.println("before update"+el.toString());
+		System.out.println("user before update"+database.getUser(email));
+		
+		if (database.getUser(email) != null && database.getUser(email).isVerified() 
+				&& database.getElement(id, playground) != null) {
 			System.out.println("Entered update");
 			database.updateElementInDatabaseFromExternalElement(element, id, playground);
 			System.out.println("updatePerformed");

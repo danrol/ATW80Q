@@ -57,8 +57,7 @@ public class TestDanielController {
 		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
-		// Jackson init
-				this.jsonMapper = new ObjectMapper();
+		this.jsonMapper = new ObjectMapper();
 	}
 	
 	@Before
@@ -73,23 +72,13 @@ public class TestDanielController {
 	
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
-		String emailForTest = "wrongEmail";
-		String nameForTest = "random name";
-		String avatarForTest = "pikachu";
-		String roleForTest = "teacher";
-		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
-			
-		String testValue = jsonMapper.writeValueAsString(new UserTO(postUserForm));
+		NewUserForm postUserForm =  new NewUserForm("wrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
+		jsonMapper.writeValueAsString(new UserTO(postUserForm));
 	}
 	
 	@Test
 	public void testUserAlreadyExists() {
-		String emailForTest = "danMadMan@gmail.com";
-		String nameForTest = "random name";
-		String avatarForTest = "pikachu";
-		String roleForTest = "teacher";
-		
-		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+		NewUserForm postUserForm =  new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO userToAdd = new UserTO(postUserForm);
 		this.database.addUser(userToAdd);
 		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
@@ -98,57 +87,43 @@ public class TestDanielController {
 	
 	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
-		String emailForTest = "danMadMan@gmail.com";
-		String nameForTest = "random name";
-		String avatarForTest = "pikachu";
-		String roleForTest = "teacher";
-		
-		
-		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		String testValue = jsonMapper.writeValueAsString(new UserTO(postUserForm));
 		
 		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
-		System.out.println(actualReturnedValue);
 		//TODO fix problem with mapping
 		assertThat(actualReturnedValue)
 		.isNotNull()
 		.isEqualTo(testValue);
 		
-		
-		//TODO add gherkin database check
-		assertThat(jsonMapper.writeValueAsString(this.database.getUser(emailForTest))).isEqualTo(testValue);	
+		assertThat(jsonMapper.writeValueAsString(this.database.getUser(Constants.EMAIL_FOR_TESTS))).isEqualTo(testValue);	
 		//TODO check if its right to use JSON for tests this way
 	}
 	
 	
 	public void createVerifiedUserFromEmailAndPlayground(String email, String creatorPlayground) {
-		UserTO u = new UserTO("bestNameEvar", email, "pikachuAvatar", Constants.MODERATOR_ROLE, creatorPlayground);
+		UserTO u = new UserTO(Constants.DEFAULT_USERNAME, email, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, creatorPlayground);
 		u.setVerified_user(Constants.USER_VERIFIED);
 		this.database.addUser(u);
+		System.out.println(u.toString());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testWrongElementPassedForUpdate() {
-		String userPlayground = "MainPlayground";
-		String email = "nudnik@mail.ru";
-		String playground = "atw80";
-		String id = "123";
-		
-		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, userPlayground, email, playground, id);
+
+		ElementTO elementForTest = new ElementTO(
+				Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, 
+				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
 
 	}
 	@Test
-	public void testSuccessfullyUpdateElementWith() throws Exception{
-		String userPlayground = "MainPlayground";
-		String email = "nudnik@mail.ru";
-		String playground = "atw80";
-		String id = "123";
+	public void testSuccessfullyUpdateElement() throws Exception{
+	
+		createVerifiedUserFromEmailAndPlayground(Constants.EMAIL_FOR_TESTS, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		ElementTO updatedElementForTest = new ElementTO(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
 		
-		createVerifiedUserFromEmailAndPlayground(email, userPlayground);
-		ElementTO updatedElementForTest = new ElementTO(id, playground, userPlayground, email);
-		
-		this.database.addElement(new ElementTO(id, playground, userPlayground, email));
+		this.database.addElement(new ElementTO(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS));
 		
 		HashMap<String, Object> attributes = new HashMap<>();
 		attributes.put("attribute1","attr1Value");
@@ -156,12 +131,14 @@ public class TestDanielController {
 		attributes.put("attr3","attr3Val");
 		updatedElementForTest.setAttributes(attributes);
 		
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTest, userPlayground, email, playground, id);
-		
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTest, Constants.CREATOR_PLAYGROUND_FOR_TESTS, 
+				Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
 		//TODO change to Entity
 		
-		ElementTO actualEntity = this.database.getElement(id, playground);
-//		assertThat(actualEntity).isNotNull();
+		System.out.println("Arrived");
+		ElementTO actualEntity = this.database.getElement(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME);
+		
+		assertThat(actualEntity).isNotNull();
 		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTest);
 		assertThat(actualEntity.getAttributes()).isEqualTo(updatedElementForTest.getAttributes());
 		}
@@ -174,26 +151,14 @@ public class TestDanielController {
 		assertThat(elements).isNull();
 	}
 	
+	public String[] getGenericDataForTests() {
+		return new String []{"MainPlayground", "nudnik@mail.ru","atw80", "123"};
+	}
 	
 	@Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
-//		Given Server is up
-//		And database contains element with fields {userPlayground}, {email}, {attributeName}, {value}
-//		And database contains verified user with {email}
-//		When I GET /playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}
-//			With headers:
-//				Accept:application/json
-//				content-type: application/json
-//			With parametrs:
-//			userPlayground = "sht", email = "agile@bumbamail.ru", attributeName = "attribute", value = "random_value"
-//		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
-//		
-		String userPlayground = "MainPlayground";
-		String email = "nudnik@mail.ru";
-		String playground = "atw80";
-		String id = "123";
-		
-		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
+		ElementTO elementForTest = new ElementTO(Constants.ID_FOR_TESTS, 
+				Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
@@ -203,15 +168,9 @@ public class TestDanielController {
 		this.database.addElement(elementForTest);
 		System.out.println("Check that element added" + this.database.getElements().toString());
 		
-		
-		
-//		System.out.println("Print elements from http"+actualValue);
-		
-//		System.out.println("Test searh, actualValue"+elementForTest.toString());
-		
 		ElementTO forNow = this.restTemplate.getForObject(this.url + 
-				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO.class, userPlayground, email,
-				"attr3", "attr3Val");
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO.class, 
+				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, "attr3", "attr3Val");
 	    
 		System.out.println("forNow"+forNow.toString());
 //		assertThat(actualValue).isNotNull();
