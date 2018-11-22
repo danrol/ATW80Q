@@ -49,7 +49,14 @@ public class EdenSharoniController {
 		 */
 		login(playground, email);
 		if (db.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
-			db.updateUserInDatabase(user);
+			if(user.getEmail().equals(email)) {
+				db.updateUserInDatabase(user);
+			}
+			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
+				db.updateUserInDatabase(user);
+			} else {
+				throw new RuntimeException("Moderator cannot change other moderator user");
+			}
 		} else if (db.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
 				db.updateUserInDatabase(user);
