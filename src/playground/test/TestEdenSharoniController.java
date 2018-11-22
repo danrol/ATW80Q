@@ -1,9 +1,7 @@
 package playground.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import javax.annotation.PostConstruct;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

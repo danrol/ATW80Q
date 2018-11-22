@@ -13,6 +13,7 @@ import playground.elements.ElementTO;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
+import playground.logic.ElementService;
 import playground.logic.UserTO;
 
 @RestController
@@ -76,6 +77,8 @@ public class EdenSharoniController {
 		/*
 		 * function 8 INPUT: NONE OUTPUT: ElementTO[]
 		 */
+		
+		
 		login(userPlayground, email);
 		return db.getElements().toArray(new ElementTO[db.getElements().size()]);
 		

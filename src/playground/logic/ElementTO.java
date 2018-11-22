@@ -3,7 +3,7 @@ package playground.logic;
 import playground.Constants;
 import playground.database.Database;
 
-public class UserEntity {
+public class ElementTO {
 
 	private String email;
 	private String avatar;
@@ -18,7 +18,7 @@ public class UserEntity {
 
 	private Database db;
 
-	public UserEntity(String username, String email, String avatar, String role, String playground) {
+	public ElementTO(String username, String email, String avatar, String role, String playground) {
 		super();
 		setUsername(username);
 		setEmail(email);
@@ -28,7 +28,7 @@ public class UserEntity {
 		setPoints(0);
 	}
 
-	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
+	public ElementTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
