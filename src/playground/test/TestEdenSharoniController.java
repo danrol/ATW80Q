@@ -154,7 +154,7 @@ public class TestEdenSharoniController {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherAndOtherUserIsModerator() {
+	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
 		/*
 		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When:
 		 * I am moderator AND want to update other user AND other user is moderator Then: I get changeUser exception
@@ -173,7 +173,7 @@ public class TestEdenSharoniController {
 	}
 	
 	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherAndOtherUserIsPlayer() {
+	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
 		/*
 		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When:
 		 * I am moderator AND want to update other user AND other user is player Then: changes are accepted
@@ -191,25 +191,6 @@ public class TestEdenSharoniController {
 				moderatorUser.getEmail());
 	}
 	
-	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email} When:
-		 * I am moderator AND want to update other player user Then: changes are accepted
-		 */
-		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME);
-		db.addUser(moderatorUser);
-		moderatorUser.verifyUser();
-
-		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
-				Constants.PLAYGROUND_NAME);
-		
-
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
-				moderatorUser.getEmail());
-	}
-
 	@Test
 	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
 		/*
