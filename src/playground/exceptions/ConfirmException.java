@@ -1,4 +1,4 @@
-package playground.logic;
+package playground.exceptions;
 
 public class ConfirmException extends RuntimeException {
 

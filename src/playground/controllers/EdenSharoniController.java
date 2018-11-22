@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.database.Database;
 import playground.elements.ElementTO;
-import playground.logic.ChangeUserException;
-import playground.logic.ConfirmException;
-import playground.logic.LoginException;
+import playground.exceptions.ChangeUserException;
+import playground.exceptions.ConfirmException;
+import playground.exceptions.LoginException;
 import playground.logic.UserTO;
 
 @RestController

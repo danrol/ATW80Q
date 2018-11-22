@@ -48,8 +48,13 @@ public class DanielController {
 		 * OUTPUT: UserTO
 		 */
 		UserTO newUserTO = new UserTO(newUserForm);
+		if (database.getUser(newUserForm.getEmail()) != null)
+			return null;
+		
+		else {
 		database.addUser(newUserTO);
 		return newUserTO;
+		}
 	}
 	
 	@RequestMapping(

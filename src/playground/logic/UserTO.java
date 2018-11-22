@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import playground.Constants;
 import playground.database.Database;
+import playground.exceptions.RegisterNewUserException;
 
 public class UserTO implements Serializable{
 
