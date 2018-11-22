@@ -129,16 +129,6 @@ public class TestDanielController {
 	
 	@Test(expected = RuntimeException.class)
 	public void testWrongElementPassedForUpdate() {
-		/*		
-		Given Server is up
-		And database contains element with fields {userPlayground}, {playground}, {id}
-		And database contains verified user with {email}
-		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
-			With headers:
-				Accept:application/json
-				content-type: application/json
-		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
-		*/
 		String userPlayground = "MainPlayground";
 		String email = "nudnik@mail.ru";
 		String playground = "atw80";
@@ -150,16 +140,6 @@ public class TestDanielController {
 	}
 	@Test
 	public void testSuccessfullyUpdateElementWith() throws Exception{
-/*		
-		Given Server is up
-		And database contains element with fields {userPlayground}, {playground}, {id}
-		And database contains verified user with {email}
-		When I PUT /playground/elements/{userPlayground}/{email}/{playground}/{id}
-			With headers:
-				Accept:application/json
-				content-type: application/json
-		Then element with matching creatorPlayground, creatorEmail, playground, id will be updated with new element defined in JSON body 
-		*/
 		String userPlayground = "MainPlayground";
 		String email = "nudnik@mail.ru";
 		String playground = "atw80";
@@ -191,8 +171,10 @@ public class TestDanielController {
 		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
 		ElementTO[] elements = responseEntity.getBody();
+		assertThat(elements).isNull();
 	}
-	/*
+	
+	
 	@Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
 //		Given Server is up
@@ -212,7 +194,6 @@ public class TestDanielController {
 		String id = "123";
 		
 		ElementTO elementForTest = new ElementTO(id, playground, userPlayground, email);
-		System.out.println("Test search, element for test"+elementForTest.toString());
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
@@ -222,46 +203,21 @@ public class TestDanielController {
 		this.database.addElement(elementForTest);
 		System.out.println("Check that element added" + this.database.getElements().toString());
 		
-//		ResponseEntity<ElementTO[]> response = restTemplate.exchange(
-//				  this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-//				  HttpMethod.GET,
-//				  null,
-//				  new ParameterizedTypeReference<ElementTO[]>(){});
-//		ElementTO[] actualValue = response.getBody();
-		System.out.println("before response");
-		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
-				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
-		ElementTO[] elements = responseEntity.getBody();
-//		ElementArray response = this.restTemplate.getForObject(this.url + 
-//				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementArray.class, 
-//				userPlayground, email, "attribute1", "attr1Value");
-		System.out.println("print"+responseEntity);
-//		ElementTO[] elementsArr = response.getElements();
 		
-		System.out.println("Print elements from http"+elements);
 		
-		System.out.println("Test searh, actualValue"+elementForTest.toString());
+//		System.out.println("Print elements from http"+actualValue);
 		
-		assertThat(elements).isNotNull();
+//		System.out.println("Test searh, actualValue"+elementForTest.toString());
+		
+		ElementTO forNow = this.restTemplate.getForObject(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO.class, userPlayground, email,
+				"attr3", "attr3Val");
+	    
+		System.out.println("forNow"+forNow.toString());
+//		assertThat(actualValue).isNotNull();
 //		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
-		
+
 	}
-	*/
 	
-//	 class ElementArray{
-//		private ElementTO[] elements;
-//		
-//		public ElementArray() {
-//			elements = new ElementTO[1];
-//		}
-//
-//		public ElementTO[] getElements() {
-//			return elements;
-//		}
-//
-//		public void setElements(ElementTO[] elements) {
-//			this.elements = elements;
-//		}
-		
-//	}
+	
 }

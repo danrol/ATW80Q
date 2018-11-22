@@ -50,7 +50,6 @@ public class DanielController {
 		UserTO newUserTO = new UserTO(newUserForm);
 		if (database.getUser(newUserForm.getEmail()) != null)
 			return null;
-		
 		else {
 		database.addUser(newUserTO);
 		return newUserTO;
@@ -77,7 +76,7 @@ public class DanielController {
 			System.out.println("updatePerformed");
 		}
 		else
-			System.out.println("Verificate first, beach"); //TODO throw specific exception
+			throw new RuntimeException();
 	}
 	
 	@RequestMapping(
@@ -85,7 +84,7 @@ public class DanielController {
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
+	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
 	(@RequestBody ActivityTO activity,@PathVariable("userPlayground") String userPlayground, 
 			@PathVariable ("email") String email, @PathVariable("attributeName") String attributeName,
 			@PathVariable("value") String value) {
@@ -93,6 +92,7 @@ public class DanielController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
+		System.out.println();
 			return database.getElementsWithValueInAttribute(userPlayground, email, attributeName, value);
 	}
 	
