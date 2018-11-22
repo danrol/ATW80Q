@@ -16,6 +16,7 @@ import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
+import playground.exceptions.ConfirmException;
 import playground.logic.Location;
 import playground.logic.NewUserForm;
 import playground.logic.UserTO;
@@ -50,7 +51,46 @@ public class WebUI {
 				this.db.addUser(u);
 				return u;
 		}
+
+
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/users/confirm/{playground}/{email}/{code}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
+			@PathVariable("code") String code) throws ConfirmException
+		{
+		/* function 2
+		 * INPUT: NONE
+		 * OUTPUT: UserTO
+		 */
+		UserTO user = this.db.getUser(email);
+		if(user !=null) {
+			if(user.getPlayground().equals(playground))
+			{
+				String VerificationCode = user.getVerificationCode();
+				if (VerificationCode.equals(code))
+					{
+					user.verifyUser();
+					}
+				else
+					{
+						throw new ConfirmException("Invalid verification code");
+					}
+			}
+				else
+			{
+					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
+			}
+		}
+			else
+			{
+				throw new ConfirmException("Email is not registered.");
+			}
+		return user;
+		}
 	
+
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
@@ -82,7 +122,25 @@ public class WebUI {
 		return "received in PUT: \n" + element + "\n email: " + email + "userPlayground: " + userPlayground + "playground: "+ playground + " id: "+ id +" this URL will return nothing";
 		}
 	
-	
+	@RequestMapping(
+			method=RequestMethod.GET,
+			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") String id) 
+		{
+		/* function 7
+		 * INPUT: NONE
+		 * OUTPUT: ElementTO
+		 */
+		ElementTO element = null;
+		login(userPlayground,email);
+		//if login succeeded, get element
+		element = db.getElement(id, playground);
+		if(element == null)
+			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
+		return element;
+		}
+
 
 	@RequestMapping(
 			method=RequestMethod.GET,
@@ -118,6 +176,21 @@ public class WebUI {
 			return null;
 		}
 
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/activities/{userPlayground}/{email}",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public Object getActivity(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+		{
+		/* function 11
+		 * INPUT: ActivityTO
+		 * OUTPUT: Object
+		 */
+		//TODO add activity to RequestBody
+		String s = new String("FHello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
+		return s; 
+		}
 	
 	/*
 	 * 
