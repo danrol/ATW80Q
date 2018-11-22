@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.database.Database;
-import playground.elements.ElementTO;
+import playground.logic.ChangeUserException;
 import playground.logic.ConfirmException;
 import playground.logic.LoginException;
 import playground.logic.UserTO;
@@ -55,16 +55,16 @@ public class EdenSharoniController {
 			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
 				db.updateUserInDatabase(user);
 			} else {
-				throw new RuntimeException("Moderator cannot change other moderator user");
+				throw new ChangeUserException("Moderator cannot change other moderator user");
 			}
 		} else if (db.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
 				db.updateUserInDatabase(user);
 			} else {
-				throw new RuntimeException("PLAYER_ROLE cannot change other users information");
+				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}
 		} else {
-			throw new RuntimeException("invalid role " + db.getUser(email).getRole());
+			throw new ChangeUserException("invalid role " + db.getUser(email).getRole());
 		}
 	}
 

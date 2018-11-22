@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
-import playground.elements.ElementTO;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
@@ -101,7 +100,7 @@ public class TestEdenSharoniController {
 		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
 		 * When: email is not on the database Then: I get login exception.
 		 */
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
