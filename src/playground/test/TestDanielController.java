@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.logic.NewUserForm;
@@ -70,17 +71,40 @@ public class TestDanielController {
 		database.cleanDatabase();
 	}
 	
+	@Test(expected=RuntimeException.class)
+	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
+/*		
+		Given Server is up
+		When I POST /playground/users
+			With headers:
+			  Accept:application/json
+			  content-type: application/json
+			With Body:
+		  	  {"email" : "wrongEmail", "username":"random name", "avatar":"pikachu", "role":"teacher"}
+		  	Then will throw RuntimeException
+		*/
+		String emailForTest = "wrongEmail";
+		String nameForTest = "random name";
+		String avatarForTest = "pikachu";
+		String roleForTest = "teacher";
+		NewUserForm postUserForm = new NewUserForm(emailForTest, nameForTest, avatarForTest, roleForTest);
+			
+		String testValue = jsonMapper.writeValueAsString(new UserTO(postUserForm));
+	}
+	
 	@Test
-	public void testRegisterNewUser() throws Exception{
-//		Given Server is up
-//		When I POST /playground/users
-//		  With headers:
-//			  Accept:application/json
-//			  content-type: application/json
-//		  With Body:
-//		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
-//		Then the response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
-//			And database contains new UserTO with the same fields as in the body
+	public void testRegisterNewUserWithCorrectInput() throws Exception{
+/*		
+		Given Server is up
+		When I POST /playground/users
+		  With headers:
+			  Accept:application/json
+			  content-type: application/json
+		  With Body:
+		  {"email" : "danMadMan@gmail.com", "username":"random name", "avatar":"pikachu", "role":"teacher"}
+		Then the response body contains new UserTO with the "email" : "danMadMan@gmail.com", "avatar:"pikachu", "role":"teacher""
+			And database contains new UserTO with the same fields as in the body
+			*/
 		String emailForTest = "danMadMan@gmail.com";
 		String nameForTest = "random name";
 		String avatarForTest = "pikachu";
