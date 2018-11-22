@@ -2,6 +2,7 @@ package playground.logic;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -37,16 +38,33 @@ public class UserTO implements Serializable{
 	}
 
 	public UserTO(NewUserForm newUserForm) {
+		if(emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() 
+				!= null && newUserForm.getRole() != null) {
 		this.email = newUserForm.getEmail();
 		this.username = newUserForm.getUsername();
 		this.avatar = newUserForm.getAvatar();
 		this.role = newUserForm.getRole();
+		}
+		else
+			throw new RegisterNewUserException("registration data is not correct. Check your input");
 		setPoints(0);
 		setPlayground(Constants.PLAYGROUND_NAME);
 	}
 
 
-
+	public static boolean emailIsValid(String email) 
+    { 
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+        Pattern pat = Pattern.compile(emailRegex); 
+        if (email == null) 
+            return false; 
+        return pat.matcher(email).matches(); 
+    } 
+	
 	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
