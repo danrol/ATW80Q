@@ -10,7 +10,9 @@ import playground.activities.ActivityTO;
 import playground.activities.AnswerQuestionTO;
 import playground.elements.ElementTO;
 import playground.logic.ElementDataException;
+import playground.logic.ElementEntity;
 import playground.logic.Message;
+import playground.logic.UserEntity;
 import playground.logic.UserTO;
 
 @Component
@@ -18,37 +20,19 @@ public class Database implements  ATW_Database {
 
 
 
-	private static ArrayList<UserTO> users = new ArrayList<UserTO>();
-	private static ArrayList<ElementTO> elements = new ArrayList<ElementTO>();
+	private static ArrayList<UserEntity> users = new ArrayList<UserEntity>();
+	private static ArrayList<ElementEntity> elements = new ArrayList<ElementEntity>();
 	private static ArrayList<ActivityTO> activities = new ArrayList<ActivityTO>();
 	private static ArrayList<Message> messages = new ArrayList<Message>();
 
 	public Database() {
-		UserTO user1 = new UserTO("username1", "username1@gmail.com", "avatar1", "moderator", Constants.PLAYGROUND_NAME, "");
-		UserTO user2 = new UserTO("username2", "username2@gmail.com", "avatar2", "player", Constants.PLAYGROUND_NAME, "abc");
-		user2.setPlayground(Constants.PLAYGROUND_NAME);
-		UserTO user3 = new UserTO("username2", "username3@gmail.com", "avatar3", "player", Constants.PLAYGROUND_NAME, "blabla");
-		this.addUser(user1);
-		this.addUser(user2);
-		this.addUser(user3);
 	}
 
-	public static ArrayList<UserTO> getUsers() {
-		return users;
-	}
+//	public static void setElements(ArrayList<ElementTO> elements) {
+//		Database.elements = elements;
+//	}
 
-	public static void setUsers(ArrayList<UserTO> users) {
-		Database.users = users;
-	}
-
-	public static ArrayList<ElementTO> getElements() {
-		return elements;
-	}
-
-	public static void setElements(ArrayList<ElementTO> elements) {
-		Database.elements = elements;
-	}
-
+	
 	public static ArrayList<ActivityTO> getActivities() {
 		return activities;
 	}
@@ -59,13 +43,9 @@ public class Database implements  ATW_Database {
 
 
 	
-	public void addUser(UserTO user) {
-		Database.users.add(user);
-	}
+
 	
-	public void addElement(ElementTO element) {
-		getElements().add(element);
-	}
+	
 	
 	public void addActivity(ActivityTO activity)
 	{
@@ -109,90 +89,10 @@ public class Database implements  ATW_Database {
 		
 	}
 
-	public ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email) {
-		ArrayList<ElementTO> result = new ArrayList<>();
-		for (ElementTO element : elements) {
-			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground, email))
-				result.add(element);
-		}
-		return result;
-	}
 	
-	public Boolean checkIfElementsMadeBySpecificUserInSpecificPlayground(ElementTO element, 
-			String creatorPlayground, String creatorEmail) {
-		if(element.getCreatorPlayground() == creatorPlayground && element.getCreatorEmail() == creatorEmail)
-			return true;
-		else
-			return false;
-	}
-	public ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, 
-			String creatorEmail, String attributeName, String value) {
-		// TODO Auto-generated method stub
-		ArrayList<ElementTO> tempElementsList = new ArrayList<>();
-		for (ElementTO element: elements)
-		{
-			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
-					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)
-					&& element.getAttributes().get(attributeName).equals(value))
-					tempElementsList.add(element);			
-		}
-		return tempElementsList.toArray(
-				new ElementTO[tempElementsList.size()]);
-	}
+	
 
 
-
-	public void updateElementInDatabaseFromExternalElement(ElementTO element, String id, String playground) {
-		
-		System.out.println("Perform update");
-		System.out.println("Not updated element" + this.getElement(id, playground));
-		System.out.println("Updated element" + element);
-		ElementTO tempElement = this.getElement(id, playground);
-		if (checkElementIsCorrect(element) && 
-				tempElement != null) {
-			System.out.println("Elemnt by id and string"+this.getElement(id, playground).toString());
-			
-			System.out.println("temp element" + tempElement.toString());
-			System.out.println("element" + element.toString());
-			elements.remove(tempElement);
-			elements.add(element);
-		}
-		else
-			throw new ElementDataException("element data for update is incorrect");
-	}
-	
-	public boolean checkElementIsCorrect(ElementTO element) {
-		UserTO userToCheckWith = getUser(element.getCreatorEmail());
-		if (userToCheckWith != null && 
-				userToCheckWith.getPlayground().equals(element.getCreatorPlayground())) 
-			return true;
-		else
-			return false;
-	}
-	
-	public void updateUserInDatabase(UserTO user) {
-		UserTO tempUser = this.getUser(user.getEmail());
-		users.remove(tempUser);
-		users.add(user);
-	}
-	
-	public ElementTO getElement(String id, String playground) {
-		for(ElementTO e: elements)
-		{
-			if(e.getId().equals(id) && e.getPlayground().equals(playground))
-				return e;
-		}
-		return null;
-	}
-
-	public UserTO getUser(String email) {
-		for(UserTO u:users)
-		{
-			if(u.getEmail().equals(email))
-				return u;
-		}
-		return null;
-	}
 
 	public static ArrayList<Message> getMessages() {
 		return messages;
@@ -202,37 +102,7 @@ public class Database implements  ATW_Database {
 		Database.messages = messages;
 	}
 	
-	public ElementTO[] getAllElementsTOInRadius(ElementTO element,double distance)
-	{
-		
-		//find in a circle
-		ArrayList<ElementTO> array=new ArrayList<>();
-		for(ElementTO el:this.elements) {
-			double xin=el.getLocation().getX()-element.getLocation().getX();
-			double yin=el.getLocation().getY()-element.getLocation().getY();
-			
-			if(Math.sqrt(xin*xin+yin*yin)<=distance) {
-				array.add(el);
-			}
-		}
-		//element.getLocation();
-//		double x=0;
-//		double y=0;
-//		//boundaries
-//		double north=y+distance;
-//		double south=y-distance;
-//		double east=x-distance;
-//		double west=x+distance;
-		//find in double x and double y 
-//		for(ElementTO el:this.elements) {
-//			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
-//					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
-//				array.add(el);
-//			}
-//			
-//		}
-		return (ElementTO[]) array.toArray();
-	}
+
 	
 	public void cleanDatabase()
 	{

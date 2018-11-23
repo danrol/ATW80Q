@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import playground.elements.ElementTO;
 
 @Service
-public class ElementServiceImpl implements ElementService {
+public class ElementServiceImplEden implements ElementServiceEden {
 
 	@Autowired
-	ElementService elementService;
+	ElementServiceEden elementService;
 	
     @Override
     public ElementTO[] getElement(int page, int limit) {

@@ -1,19 +1,13 @@
 package playground.logic;
 
-import java.io.Serializable;
-import java.util.Random;
 import java.util.regex.Pattern;
-
-import org.springframework.beans.factory.annotation.Value;
 
 import playground.Constants;
 import playground.database.Database;
 import playground.exceptions.RegisterNewUserException;
 
-public class UserTO implements Serializable{
+public class UserEntity {
 
-
-	private static final long serialVersionUID = -1313647147242659048L;
 	private String email = "";
 	private String avatar = "";
 	private String username;
@@ -24,10 +18,10 @@ public class UserTO implements Serializable{
 	private long points = 0;
 
 
-	public UserTO(){
+	public UserEntity(){
 	}
 
-	public UserTO(String username, String email, String avatar, String role, String playground) {
+	public UserEntity(String username, String email, String avatar, String role, String playground) {
 		super();
 		setUsername(username);
 		setEmail(email);
@@ -39,7 +33,7 @@ public class UserTO implements Serializable{
 		// verification is done separately
 	}
 
-	public UserTO(NewUserForm newUserForm) {
+	public UserEntity(NewUserForm newUserForm) {
 		if(emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() 
 				!= null && newUserForm.getRole() != null) {
 		this.email = newUserForm.getEmail();
@@ -67,7 +61,7 @@ public class UserTO implements Serializable{
         return pat.matcher(email).matches(); 
     } 
 	
-	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
+	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
@@ -154,20 +148,9 @@ public class UserTO implements Serializable{
 		else
 			return false;
 	}
-
-	@Override
-	public String toString() {
-		return "UserTO [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground=" + playground
-				+ ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user=" + verified_user + ", points=" + points + "]";
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
 	
-	public UserEntity toEntity() {
-		UserEntity rv = new UserEntity();
+	public UserTO toTO() {
+		UserTO rv = new UserTO();
 		rv.setEmail(email);
 		rv.setAvatar(avatar);
 		rv.setUsername(username);
@@ -177,5 +160,4 @@ public class UserTO implements Serializable{
 		rv.setPoints(points);
 		return rv;
 	}
-
 }

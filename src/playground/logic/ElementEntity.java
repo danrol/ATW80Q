@@ -1,4 +1,4 @@
-package playground.elements;
+package playground.logic;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -6,12 +6,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import playground.logic.ElementEntity;
-import playground.logic.Location;
+import playground.elements.ElementTO;
 
+public class ElementEntity implements Serializable{
 
-public class ElementTO{
-
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String id;
 	protected String playground;
@@ -21,7 +20,7 @@ public class ElementTO{
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
-	protected Map<String, Object>attributes; 
+	protected Map<String, Object>attributes = Collections.synchronizedMap(new HashMap<>()); 
 	
 	public boolean attributeExists(String attributeName, String value) {
 		switch(attributeName)
@@ -40,7 +39,7 @@ public class ElementTO{
 		return false;
 	}
 	
-	public ElementTO( String id, String playground, String creatorPlayground, String creatorEmail) {
+	public ElementEntity( String id, String playground, String creatorPlayground, String creatorEmail) {
 		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
 		//which won't pass expirationDate, name, type and location
 		// TODO add expirationDate, location implementation
@@ -53,34 +52,15 @@ public class ElementTO{
 //		this.type = type;
 		this.creatorPlayground = creatorPlayground;
 		this.creatorEmail = creatorEmail;
-		this.attributes = Collections.synchronizedMap(new HashMap<>());
+//		this.attributes ;
 //		this.location = location;
 		
 	}
-
-
-
-
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	public Map<String, Object> getAttributes() {
-		return attributes;
-	}
-
-//	public void setAttributes(Map<String, Object> attributes) {
-//		this.attributes = attributes;
-//	}
-
-	public ElementTO() {
+	
+	public ElementEntity() {
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -114,7 +94,7 @@ public class ElementTO{
 	public Date getExirationDate() {
 		return expirationDate;
 	}
-	public void setExirationDate(Date exirationDate) {
+	public void setExpirationDate(Date exirationDate) {
 		this.expirationDate = exirationDate;
 	}
 	public String getType() {
@@ -135,31 +115,32 @@ public class ElementTO{
 	public void setCreatorEmail(String creatorEmail) {
 		this.creatorEmail = creatorEmail;
 	}
-	@Override
+	public void setAttributes(Map<String, Object> attributes) {
+		this.attributes = attributes;
+	}
+	
+	public Map<String, Object> getAttributes() {
+		return attributes;
+	}
+	
 	public String toString() {
-		return "ElementTO [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
+		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
 				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
 	}
 
-	public void setAttributes(Map<String, Object> attributes) {
-		this.attributes = attributes;
-		
-	}
-	
-	public ElementEntity toEntity() {
-		ElementEntity rv = new ElementEntity();
-		rv.setName(name);
-		rv.setId(id);
-		rv.setPlayground(playground);
-		rv.setCreationDate(creationDate);
-		rv.setExpirationDate(expirationDate);
-		rv.setType(type);
-		rv.setCreatorPlayground(creatorPlayground);
-		rv.setCreatorEmail(creatorEmail);
-		rv.setLocation(location);
-		rv.setAttributes(attributes);
+
+	public ElementTO toTO() {
+		ElementTO rv = new ElementTO();
+		rv.setAttributes(this.attributes);
+		rv.setCreationDate(this.creationDate);
+		rv.setCreatorEmail(this.creatorEmail);
+		rv.setCreatorPlayground(this.creatorPlayground);
+		rv.setExirationDate(this.expirationDate);
+		rv.setType(this.type);
+		rv.setId(this.id);
+		rv.setLocation(this.location);
+		rv.setName(this.name);
 		return rv;
 	}
-	
 }

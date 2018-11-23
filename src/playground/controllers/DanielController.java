@@ -15,18 +15,34 @@ import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
+import playground.logic.ElementEntity;
+import playground.logic.ElementService;
 import playground.logic.Message;
 import playground.logic.NewUserForm;
+import playground.logic.UserService;
 import playground.logic.UserTO;
 
 @RestController
 public class DanielController {
 	
-	private Database database;
+//	private Database database;
+	private ElementService elementService;
+	private UserService userService;
+	
+	
+//	@Autowired
+//	public void setDatabase(Database database) {
+//		this.database = database;
+//	}
 	
 	@Autowired
-	public void setDatabase(Database database) {
-		this.database = database;
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
 	}
 	
 	@RequestMapping(
@@ -48,10 +64,10 @@ public class DanielController {
 		 * OUTPUT: UserTO
 		 */
 		UserTO newUserTO = new UserTO(newUserForm);
-		if (database.getUser(newUserForm.getEmail()) != null)
+		if (userService.getUser(newUserForm.getEmail()) != null)
 			return null;
 		else {
-		database.addUser(newUserTO);
+		userService.addUser(newUserTO.toEntity());
 		return newUserTO;
 		}
 	}
@@ -67,19 +83,11 @@ public class DanielController {
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-//		database.updateElementInDatabaseFromExternalElement(element, id, playground);
-		ElementTO el = database.getElement(id, playground);
-		System.out.println("before update"+el.toString());
-		System.out.println("user before update"+database.getUser(email));
+
 		
-		if (database.getUser(email) != null && database.getUser(email).isVerified() 
-				&& database.getElement(id, playground) != null) {
 			System.out.println("Entered update");
-			database.updateElementInDatabaseFromExternalElement(element, id, playground);
+			elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), id, playground);
 			System.out.println("updatePerformed");
-		}
-		else
-			throw new RuntimeException();
 	}
 	
 	@RequestMapping(
@@ -96,7 +104,7 @@ public class DanielController {
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
-			return database.getElementsWithValueInAttribute(userPlayground, email, attributeName, value);
+			return elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value);
 	}
 	
 	
