@@ -109,10 +109,10 @@ public class Database implements  ATW_Database {
 		
 	}
 
-	public ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String Email) {
+	public ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email) {
 		ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementTO element : elements) {
-			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), element.getCreatorPlayground()))
+			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground, email))
 				result.add(element);
 		}
 		return result;
