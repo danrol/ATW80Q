@@ -76,7 +76,7 @@ public class EdenDupontController {
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-		//login(userPlayground,email);
+		login(userPlayground,email);
 		//if login succeeded, get element
 		element = elementService.getElement(id, playground);
 		if(element == null)
