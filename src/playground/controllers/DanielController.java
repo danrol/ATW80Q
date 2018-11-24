@@ -19,6 +19,7 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Message;
 import playground.logic.NewUserForm;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 import playground.logic.UserTO;
 
@@ -63,7 +64,7 @@ public class DanielController {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-		UserTO newUserTO = new UserTO(newUserForm);
+		UserTO newUserTO = new UserTO(new UserEntity(newUserForm));
 		if (userService.getUser(newUserForm.getEmail()) != null)
 			return null;
 		else {
@@ -83,7 +84,6 @@ public class DanielController {
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-
 		
 			System.out.println("Entered update");
 			elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), id, playground);
