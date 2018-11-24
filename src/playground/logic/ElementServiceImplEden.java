@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import playground.elements.ElementTO;
 
-@Service
+//@Service
 public class ElementServiceImplEden implements ElementServiceEden {
-
+/*
 	@Autowired
 	ElementServiceEden elementService;
 	
@@ -30,5 +30,5 @@ public class ElementServiceImplEden implements ElementServiceEden {
         }
         return returnValue.toArray(new ElementTO[returnValue.size()]);
     }
-
+*/
 }
