@@ -70,6 +70,10 @@ public class ElementTO{
 		this.setLocation(e.getLocation());
 		this.setAttributes(e.getAttributes());
 	}
+	
+	public ElementTO() {
+		
+	}
 
 
 
