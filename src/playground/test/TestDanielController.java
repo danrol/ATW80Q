@@ -36,6 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 import playground.logic.UserTO;
 
@@ -83,13 +84,13 @@ public class TestDanielController {
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
 		NewUserForm postUserForm =  new NewUserForm("wrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		jsonMapper.writeValueAsString(new UserTO(postUserForm));
+		jsonMapper.writeValueAsString(new UserTO(new UserEntity(postUserForm)));
 	}
 	
 	@Test
 	public void testUserAlreadyExists() {
 		NewUserForm postUserForm =  new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		UserTO userToAdd = new UserTO(postUserForm);
+		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
 		userService.addUser(userToAdd.toEntity());
 		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
 		assertThat(actualReturnedValue).isNull();
@@ -98,7 +99,7 @@ public class TestDanielController {
 	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
 		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		String testValue = jsonMapper.writeValueAsString(new UserTO(postUserForm));
+		String testValue = jsonMapper.writeValueAsString(new UserTO(new UserEntity(postUserForm)));
 		
 		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
 		//TODO fix problem with mapping
@@ -178,13 +179,13 @@ public class TestDanielController {
 		elementService.addElement(elementForTest.toEntity());
 		System.out.println("Check that element added" + elementService.getElements().toString());
 		
-		ElementTO forNow = this.restTemplate.getForObject(url + 
-				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO.class, 
+		ElementTO[] forNow = this.restTemplate.getForObject(url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class, 
 				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, "attr3", "attr3Val");
 	    
 		System.out.println("forNow"+forNow.toString());
-//		assertThat(actualValue).isNotNull();
-//		assertThat(actualValue).isEqualToComparingFieldByField(elementForTest);
+		assertThat(forNow).isNotNull();
+//		assertThat(forNow).isEqualToComparingFieldByField(elementForTest);
 
 	}
 	

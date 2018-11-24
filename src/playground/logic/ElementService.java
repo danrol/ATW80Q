@@ -44,7 +44,7 @@ public class ElementService implements Serializable{
 		ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground, email))
-				result.add(ElementTO(element));
+				result.add(new ElementTO(element));
 		}
 		return result;
 	}
@@ -66,7 +66,7 @@ public class ElementService implements Serializable{
 			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(), 
 					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)
 					&& element.getAttributes().get(attributeName).equals(value))
-					tempElementsList.add(element.toTO());			
+					tempElementsList.add(new ElementTO(element));			
 		}
 		return tempElementsList.toArray(
 				new ElementTO[tempElementsList.size()]);
@@ -100,7 +100,7 @@ public class ElementService implements Serializable{
 			double yin=el.getLocation().getY()-element.getLocation().getY();
 			
 			if(Math.sqrt(xin*xin+yin*yin)<=distance) {
-				array.add(el.toTO());
+				array.add(new ElementTO(el));
 			}
 		}
 		//element.getLocation();
