@@ -14,6 +14,10 @@ import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
+import playground.logic.ElementEntity;
+import playground.logic.ElementService;
+import playground.logic.UserEntity;
+import playground.logic.UserService;
 import playground.logic.UserTO;
 
 
@@ -21,7 +25,9 @@ import playground.logic.UserTO;
 public class EdenDupontController {
 	
 	@Autowired
-	Database db;
+	private ElementService elementService;
+	@Autowired
+	private UserService userService;
 	
 
 	@RequestMapping(
@@ -35,7 +41,7 @@ public class EdenDupontController {
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		UserTO user = this.db.getUser(email);
+		UserEntity user = this.userService.getUser(email);
 		if(user !=null) {
 			if(user.getPlayground().equals(playground))
 			{
@@ -58,7 +64,7 @@ public class EdenDupontController {
 			{
 				throw new ConfirmException("Email is not registered.");
 			}
-		return user;
+		return user.toTO();
 		}
 	
 
@@ -75,34 +81,25 @@ public class EdenDupontController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		ElementTO element = null;
+		ElementEntity element = null;
 		login(userPlayground,email);
 		//if login succeeded, get element
-		element = db.getElement(id, playground);
+		element = elementService.getElement(id, playground);
 		if(element == null)
 			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
-		return element;
+		return element.toTO();
 		}
 
 	
 	//*****************************************
 	//do not copy this - originally from EdenSharoni
 	//*****************************************
-	@RequestMapping(method = RequestMethod.GET, path = "/messages", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	@RequestMapping(method = RequestMethod.GET, path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+	public void login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
 		 */
-		UserTO u = this.db.getUser(email);
-		if (u != null) {
-			if (u.isVerified()) {
-				return u;
-			} else {
-				throw new LoginException("User is not verified");
-			}
-		} else {
-			throw new LoginException("Email is not registered.");
-		}
+
 	}
 	
 	@RequestMapping(

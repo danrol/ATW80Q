@@ -132,6 +132,7 @@ public class ElementEntity implements Serializable{
 
 	public ElementTO toTO() {
 		ElementTO rv = new ElementTO();
+		rv.setPlayground(this.playground);
 		rv.setAttributes(this.attributes);
 		rv.setCreationDate(this.creationDate);
 		rv.setCreatorEmail(this.creatorEmail);

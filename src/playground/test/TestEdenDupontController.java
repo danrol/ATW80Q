@@ -25,6 +25,10 @@ import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
+import playground.logic.ElementEntity;
+import playground.logic.ElementService;
+import playground.logic.UserEntity;
+import playground.logic.UserService;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
@@ -34,7 +38,9 @@ public class TestEdenDupontController {
 	private RestTemplate restTemplate;
 	
 	@Autowired
-	Database db;
+	private ElementService elementService;
+	@Autowired
+	private UserService userService;
 	
 	@LocalServerPort
 	private int port;
@@ -54,7 +60,8 @@ public class TestEdenDupontController {
 
 	@After
 	public void teardown() {
-		db.cleanDatabase();
+		userService.cleanUserService();
+		elementService.cleanElementService();
 	}
 
 	@Test
@@ -88,6 +95,7 @@ public class TestEdenDupontController {
 		assertThat(s[1]).isEqualTo("404");
 		
 	}
+	
 	@Test
 	public void testConfirmUserWithCorrectCode() {
 		/*
@@ -99,10 +107,9 @@ public class TestEdenDupontController {
 				Then I get a verified user message
 				
 		 * */
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
+		this.userService.addUser(u);
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
@@ -136,10 +143,10 @@ public class TestEdenDupontController {
 				When email is on the database and code is correct and user does not belong to playground
 				Then I get a user is not on playground message
 		 * */
-		UserTO u = new UserTO("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
+		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
-		u = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");
+		this.userService.addUser(u);
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");
 
 			
 	}
@@ -154,14 +161,14 @@ public class TestEdenDupontController {
 				When email is on the database AND code is wrong
 				Then I get a Wrong verification code error message
 				*/
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
+		this.userService.addUser(u);
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
-	
+		assertThat(user.getVerified_user()).isEqualTo(Constants.USER_NOT_VERIFIED);
 	}
 
 	@Test
@@ -171,11 +178,11 @@ public class TestEdenDupontController {
 		When user login details are correct and element exists
 		Then I get the element
 		*/
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
-		ElementTO element = new ElementTO("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
-		this.db.addUser(u);
-		this.db.addElement(element);
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		this.userService.addUser(u);
+		this.elementService.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		assertThat(el).isNotNull();
 		assertThat(el.getId()).isEqualTo(element.getId());
@@ -189,11 +196,11 @@ public class TestEdenDupontController {
 		When user login details are incorrect and element exists
 		Then I get an exception
 		*/
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
-		ElementTO element = new ElementTO("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
-		this.db.addUser(u);
-		this.db.addElement(element);
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		this.userService.addUser(u);
+		this.elementService.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
@@ -208,11 +215,11 @@ public class TestEdenDupontController {
 		Then I get an exception
 		
 	*/
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
-		ElementTO element = new ElementTO("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
-		this.db.addUser(u);
-		this.db.addElement(element);
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		this.userService.addUser(u);
+		this.elementService.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
@@ -229,9 +236,9 @@ public class TestEdenDupontController {
 	Then I get an exception
 		
 	*/
-		UserTO u = new UserTO("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
-		this.db.addUser(u);
+		this.userService.addUser(u);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
