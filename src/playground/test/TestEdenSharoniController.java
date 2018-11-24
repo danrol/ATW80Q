@@ -13,7 +13,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
-import playground.database.Database;
+import playground.logic.UserEntity;
+import playground.logic.UserService;
 import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
@@ -23,7 +24,7 @@ public class TestEdenSharoniController {
 	private RestTemplate restTemplate;
 
 	@Autowired
-	Database db;
+	UserService db;
 
 	@LocalServerPort
 	private int port;
@@ -43,7 +44,7 @@ public class TestEdenSharoniController {
 
 	@After
 	public void teardown() {
-		db.cleanDatabase();
+		db.cleanUserService();
 	}
 
 	@Test
@@ -63,11 +64,11 @@ public class TestEdenSharoniController {
 		 * When: User is verified AND is in database AND email is empty
 		 * Then: I get login exception.
 		 */
-		UserTO user = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(user);
-		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
+		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
@@ -77,12 +78,12 @@ public class TestEdenSharoniController {
 		 * When: user is in playground database and is verified
 		 * Then: User gets Logged in
 		 */
-		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
 		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 		// verify that unverified user is now verified
 		assertThat(u).isNotNull();
 		assertThat(u.isVerified()).isTrue();
@@ -95,7 +96,7 @@ public class TestEdenSharoniController {
 		 * When: email is not on the database
 		 * Then: I get login exception.
 		 */
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
 
@@ -106,11 +107,11 @@ public class TestEdenSharoniController {
 		 * When: email is on the database and verified and user does not belong to playground
 		 * Then: I get a user is not on playground message
 		 */
-		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
+		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
 		// given database contains user { "user": "userTest"}
 		u.verifyUser();
 		this.db.addUser(u);
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -120,12 +121,12 @@ public class TestEdenSharoniController {
 		 * When: email is on the database AND not verified
 		 * Then: I get login exception.
 		 */
-		UserTO u = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		// given database contains user { "user": "userTest"}
 		this.db.addUser(u);
 		// When I invoke GET this.url +
 		// "/playground/users/login/{playground}/{email}"
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test
@@ -135,7 +136,7 @@ public class TestEdenSharoniController {
 		 * When: I am moderator AND want to update my user
 		 * Then: changes are accepted
 		 */
-		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
@@ -149,7 +150,7 @@ public class TestEdenSharoniController {
 		 * When: I am moderator AND want to update other user AND other user is moderator
 		 * Then: I get changeUser exception
 		 */
-		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
@@ -166,7 +167,7 @@ public class TestEdenSharoniController {
 		 * When: I am moderator AND want to update other user AND other user is player
 		 * Then: changes are accepted
 		 */
-		UserTO moderatorUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
@@ -183,7 +184,7 @@ public class TestEdenSharoniController {
 		 * When: I am Player AND want to update my user
 		 * Then: changes are accepted
 		 */
-		UserTO PlayerUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
@@ -196,7 +197,7 @@ public class TestEdenSharoniController {
 		 * When: I am Player AND want to update other user AND other user is player
 		 * Then: I get changesUser exception
 		 */
-		UserTO PlayerUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		
@@ -212,7 +213,7 @@ public class TestEdenSharoniController {
 		 * When: I am Player AND want to update other user AND other user is moderator
 		 * Then: I get changesUser exception
 		 */
-		UserTO PlayerUser = new UserTO("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		db.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		

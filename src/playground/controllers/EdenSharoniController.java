@@ -8,25 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
-import playground.database.Database;
-import playground.elements.ElementTO;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
-import playground.logic.ElementServiceEden;
-import playground.logic.UserTO;
+import playground.logic.UserEntity;
+import playground.logic.UserService;
 
 @RestController
 public class EdenSharoniController {
 	@Autowired
-	Database db;
+	UserService db;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	public UserEntity login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
 		 */
-		UserTO u = this.db.getUser(email);
+		UserEntity u = this.db.getUser(email);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
@@ -44,7 +42,7 @@ public class EdenSharoniController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUser(@RequestBody UserTO user, @PathVariable("email") String email,
+	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
 			@PathVariable("playground") String playground) {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
@@ -70,20 +68,18 @@ public class EdenSharoniController {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/elements/{userPlayground}/{email}/all", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] returnAllElements(@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground) {
-		// returns all element with the same playground and email as in url
-		/*
-		 * function 8 INPUT: NONE OUTPUT: ElementTO[]
-		 */
-		
-		
-		login(userPlayground, email);
-		return db.getElements().toArray(new ElementTO[db.getElements().size()]);
-		
-
-	}
-	
-
+//	@RequestMapping(method = RequestMethod.GET, path = "/playground/elements/{userPlayground}/{email}/all", produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ElementTO[] returnAllElements(@PathVariable("email") String email,
+//			@PathVariable("userPlayground") String userPlayground) {
+//		// returns all element with the same playground and email as in url
+//		/*
+//		 * function 8 INPUT: NONE OUTPUT: ElementTO[]
+//		 */
+//		
+//		
+//		login(userPlayground, email);
+//		return db.getElements().toArray(new ElementTO[db.getElements().size()]);
+//		
+//
+//	}
 }
