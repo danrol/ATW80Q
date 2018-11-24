@@ -90,7 +90,7 @@ public class ElementService implements Serializable{
 			throw new ElementDataException("element data for update is incorrect");
 	}
 	
-	public ElementTO[] getAllElementsTOInRadius(ElementTO element,double distance)
+	public ElementTO[] getAllElementsTOInRadius(ElementTO element,int x, int y, double distance)
 	{
 		
 		//find in a circle
@@ -103,22 +103,6 @@ public class ElementService implements Serializable{
 				array.add(new ElementTO(el));
 			}
 		}
-		//element.getLocation();
-//		double x=0;
-//		double y=0;
-//		//boundaries
-//		double north=y+distance;
-//		double south=y-distance;
-//		double east=x-distance;
-//		double west=x+distance;
-		//find in double x and double y 
-//		for(ElementTO el:this.elements) {
-//			if(el.getLocation().getX()>=east&&el.getLocation().getX()<=west&&
-//					el.getLocation().getY()>=south&&el.getLocation().getY()<=north) {
-//				array.add(el);
-//			}
-//			
-//		}
 		return (ElementTO[]) array.toArray();
 	}
 	

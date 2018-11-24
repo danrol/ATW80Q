@@ -17,8 +17,10 @@ import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
 import playground.layout.ElementTO;
+import playground.logic.ElementService;
 import playground.logic.MessageService;
 import playground.logic.UserEntity;
+import playground.logic.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 public class TestEliaController {
@@ -26,7 +28,9 @@ public class TestEliaController {
 	private RestTemplate restTemplate;
 	
 	@Autowired
-	private Database db;
+	private ElementService elementService;
+	@Autowired
+	private UserService userService;
 	
 	@LocalServerPort
 	private int port;
@@ -35,7 +39,7 @@ public class TestEliaController {
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
-		this.url = "http://localhost:" + port + "/messages";
+		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 	}
 	
@@ -46,11 +50,12 @@ public class TestEliaController {
 
 	@After
 	public void teardown() {
-		this.db.cleanDatabase();
+		userService.cleanUserService();
+		elementService.cleanElementService();
 	}
 
 	private void clean() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
