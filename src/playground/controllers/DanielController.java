@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.activities.ActivityTO;
-import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -44,14 +43,6 @@ public class DanielController {
 	@Autowired
 	public void setUserService(UserService userService){
 		this.userService = userService;
-	}
-	
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/users/view_messages",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ArrayList<Message> viewMessages() {
-		return Database.getMessages();
 	}
 	
 	@RequestMapping(

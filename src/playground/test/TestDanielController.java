@@ -3,17 +3,12 @@ package playground.test;
 import javax.annotation.PostConstruct;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
-import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import playground.Constants;
-import playground.database.Database;
 import playground.elements.ElementTO;
 
-import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,10 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -112,13 +103,6 @@ public class TestDanielController {
 	}
 	
 	
-//	public void createVerifiedUserFromEmailAndPlayground(String email, String creatorPlayground) {
-//		UserTO u = new UserTO(Constants.DEFAULT_USERNAME, email, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, creatorPlayground);
-//		u.setVerified_user(Constants.USER_VERIFIED);
-//		userService.addUser(u.toEntity());
-//		System.out.println(u.toString());
-//	}
-	
 	@Test(expected = RuntimeException.class)
 	public void testWrongElementPassedForUpdate() {
 
@@ -131,7 +115,6 @@ public class TestDanielController {
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
 	
-//		createVerifiedUserFromEmailAndPlayground(Constants.EMAIL_FOR_TESTS, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
 		ElementTO updatedElementForTestTO = new ElementTO(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
 		
 		elementService.addElement(new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS));
