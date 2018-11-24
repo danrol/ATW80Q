@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.activities.ActivityTO;
-import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
 
 @RestController
 public class EliaController {
-	@Autowired
-	Database db;
 
 	@RequestMapping(
 			method=RequestMethod.GET,

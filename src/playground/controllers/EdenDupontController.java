@@ -95,7 +95,7 @@ public class EdenDupontController {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
 		 */
-		UserEntity u = this.db.getUser(email);
+		UserEntity u = this.userService.getUser(email);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {

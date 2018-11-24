@@ -3,7 +3,6 @@ package playground.logic;
 import java.util.regex.Pattern;
 
 import playground.Constants;
-import playground.database.Database;
 import playground.exceptions.RegisterNewUserException;
 
 public class UserEntity {

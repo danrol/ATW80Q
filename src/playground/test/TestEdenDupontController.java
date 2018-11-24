@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.*;
 import playground.activities.ActivityTO;
-import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
 import playground.logic.ElementEntity;

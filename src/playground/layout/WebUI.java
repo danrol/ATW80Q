@@ -31,8 +31,6 @@ public class WebUI {
 	private ElementService elementService;
 	@Autowired
 	private UserService userService;
-	@Autowired
-	Database db;
 	/*
 	 * 
 	 * Please see DanielController, EdenDupontController, EdenSharoniController, EliaController for API 
@@ -51,7 +49,7 @@ public class WebUI {
 			produces=MediaType.APPLICATION_JSON_VALUE
 			)
 	public String getGameRules() {
-		return this.db.getGameRules();
+		return Constants.GAME_RULES;
 	}
 	
 	@RequestMapping(
