@@ -64,7 +64,7 @@ public class EdenDupontController {
 			{
 				throw new ConfirmException("Email is not registered.");
 			}
-		return user.toTO();
+		return UserTO(user);
 		}
 	
 

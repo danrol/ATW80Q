@@ -44,7 +44,7 @@ public class ElementService implements Serializable{
 		ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if(checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground, email))
-				result.add(element.toTO());
+				result.add(ElementTO(element));
 		}
 		return result;
 	}
