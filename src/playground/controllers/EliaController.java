@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
-import playground.logic.ActivityTO;
+import playground.layout.ActivityTO;
+import playground.layout.ElementTO;
 
 @RestController
 public class EliaController {

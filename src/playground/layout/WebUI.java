@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.database.Database;
-import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
-import playground.logic.ActivityTO;
 import playground.logic.ElementService;
 import playground.logic.Location;
 import playground.logic.NewUserForm;
 import playground.logic.UserService;
-import playground.logic.UserTO;
 
 
 @RestController

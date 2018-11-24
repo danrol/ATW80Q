@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
-import playground.elements.ElementTO;
-import playground.logic.ActivityTO;
+import playground.layout.ActivityTO;
+import playground.layout.ElementTO;
+import playground.layout.UserTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Message;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-import playground.logic.UserTO;
 
 @RestController
 public class DanielController {

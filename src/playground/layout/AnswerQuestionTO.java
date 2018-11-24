@@ -1,4 +1,4 @@
-package playground.activities;
+package playground.layout;
 
 public class AnswerQuestionTO {
 

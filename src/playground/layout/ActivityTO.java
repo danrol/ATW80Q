@@ -1,8 +1,10 @@
-package playground.logic;
+package playground.layout;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import playground.logic.ActivityEntity;
 
 public class ActivityTO implements Serializable {
 	/**

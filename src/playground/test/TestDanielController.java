@@ -7,7 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashMap;
 
 import playground.Constants;
-import playground.elements.ElementTO;
+import playground.layout.ElementTO;
+import playground.layout.UserTO;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +30,6 @@ import playground.logic.ElementService;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-import playground.logic.UserTO;
 
 
 @RunWith(SpringRunner.class)

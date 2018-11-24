@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import playground.elements.ElementTO;
+import playground.layout.ElementTO;
 
 public class ElementEntity implements Serializable{
 

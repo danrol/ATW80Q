@@ -1,6 +1,8 @@
-package playground.elements;
+package playground.logic;
 
 import java.util.ArrayList;
+
+import playground.layout.ElementTO;
 
 public class Question extends ElementTO {
 	private String questionBody;

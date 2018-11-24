@@ -13,9 +13,9 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
+import playground.layout.UserTO;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

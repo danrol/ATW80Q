@@ -21,14 +21,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.*;
-import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
-import playground.logic.ActivityTO;
+import playground.layout.ActivityTO;
+import playground.layout.ElementTO;
+import playground.layout.UserTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-import playground.logic.UserTO;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)

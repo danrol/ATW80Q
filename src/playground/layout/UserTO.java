@@ -1,4 +1,4 @@
-package playground.logic;
+package playground.layout;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Value;
 
 import playground.Constants;
-import playground.database.Database;
 import playground.exceptions.RegisterNewUserException;
+import playground.logic.UserEntity;
 
 public class UserTO implements Serializable{
 

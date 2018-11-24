@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
-import playground.elements.ElementTO;
+import playground.layout.ElementTO;
 import playground.logic.MessageService;
 import playground.logic.UserEntity;
 @RunWith(SpringRunner.class)

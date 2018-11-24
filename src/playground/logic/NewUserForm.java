@@ -8,6 +8,10 @@ import playground.Constants;
 
 public class NewUserForm implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String username;
 	private String avatar;
@@ -21,7 +25,7 @@ public class NewUserForm implements Serializable {
 		this.avatar = "ava";
 		this.role = "no";
 		this.playground = Constants.PLAYGROUND_NAME;
-		this.verificationCode = createVerificationCode();
+		this.setVerificationCode(createVerificationCode());
 	}
 	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
@@ -72,6 +76,12 @@ public class NewUserForm implements Serializable {
 	public String toString() {
 		return "NewUserForm [email=" + email + ", username=" + username + ", avatar=" + avatar + ", role=" + role
 				+ ", playground=" + playground + "]";
+	}
+	public String getVerificationCode() {
+		return verificationCode;
+	}
+	public void setVerificationCode(String verificationCode) {
+		this.verificationCode = verificationCode;
 	}
 
 }
