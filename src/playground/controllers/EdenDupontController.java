@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
-import playground.activities.ActivityTO;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
@@ -124,7 +123,6 @@ public class EdenDupontController {
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		String s = new String("Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
-		return s; 
+		return new ActivityTO(); 
 		}
 }

@@ -21,9 +21,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.*;
-import playground.activities.ActivityTO;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
+import playground.logic.ActivityTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
@@ -255,7 +255,7 @@ public class TestEdenDupontController {
 	*/
 		
 		ActivityTO act = new ActivityTO();
-		Object ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, Object.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
-		System.err.println((String) ob);
+		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
+		System.err.println(ob);
 	}
 }

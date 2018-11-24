@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
-import playground.activities.ActivityTO;
 import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
+import playground.logic.ActivityTO;
 import playground.logic.ElementService;
 import playground.logic.Location;
 import playground.logic.NewUserForm;

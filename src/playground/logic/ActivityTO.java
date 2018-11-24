@@ -1,4 +1,4 @@
-package playground.activities;
+package playground.logic;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -25,6 +25,10 @@ public class ActivityTO implements Serializable {
 		this.id = String.valueOf(idCounter++);
 	}
 	
+	public ActivityTO(ActivityEntity a)
+	{
+		
+	}
 	@Override
 	public String toString() {
 		return "ActivityTO [toString()=" + super.toString() + "]";
