@@ -175,6 +175,7 @@ public class UserTO implements Serializable{
 		rv.setRole(role);
 		rv.setVerificationCode(verificationCode);
 		rv.setPoints(points);
+		rv.setVerified_user(this.verified_user);
 		return rv;
 	}
 
