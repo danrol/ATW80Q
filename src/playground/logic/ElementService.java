@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import playground.elements.ElementTO;
+import playground.exceptions.ElementDataException;
 
 @Service
 public class ElementService implements Serializable{

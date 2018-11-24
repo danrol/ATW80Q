@@ -64,7 +64,7 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
 		double distance=-1;
-		assertThat(db.getAllElementsTOInRadius(element, distance));
+		assertThat(db.getAllElementsInRadius(element, distance));
 	}
 	
 	@Test
@@ -72,7 +72,7 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
 		double distance=0;
-		assertThat(db.getAllElementsTOInRadius(element, distance));
+		assertThat(db.getAllElementsInRadius(element, distance));
 	}
 	
 	@Test

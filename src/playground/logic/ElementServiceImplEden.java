@@ -24,7 +24,7 @@ public class ElementServiceImplEden implements ElementServiceEden {
         Page<ElementTO> users = elementService.findAll(pageableRequest);
         List<ElementTO> userEntities = users.getContent();
         for (ElementTO element : userEntities) {
-            ElementTO element2 = new UserDto();
+            ElementTO element2 = new ElementTO();
             BeanUtils.copyProperties(element, element2);
             returnValue.add(element2);
         }

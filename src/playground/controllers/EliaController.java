@@ -36,7 +36,7 @@ public class EliaController {
 		if(element.getCreatorPlayground().equals(" ")) {
 			throw new ConfirmException("element->CreatorPlayground :is not valid");
 		}
-		ElementTO[] obelement= db.getAllElementsTOInRadius(element,distance);
+		ElementTO[] obelement= db.getAllElementsInRadius(element,distance);
 		
 		
 		return obelement;
