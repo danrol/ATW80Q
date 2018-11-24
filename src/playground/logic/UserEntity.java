@@ -149,16 +149,4 @@ public class UserEntity {
 			return false;
 	}
 	
-	public UserTO toTO() {
-		UserTO rv = new UserTO();
-		rv.setEmail(email);
-		rv.setAvatar(avatar);
-		rv.setUsername(username);
-		rv.setPlayground(playground);
-		rv.setRole(role);
-		rv.setVerificationCode(verificationCode);
-		rv.setPoints(points);
-		rv.setVerified_user(this.verified_user);
-		return rv;
-	}
 }

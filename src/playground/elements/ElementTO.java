@@ -40,7 +40,7 @@ public class ElementTO{
 		return false;
 	}
 	
-	public ElementTO( String id, String playground, String creatorPlayground, String creatorEmail) {
+	public ElementTO(String id, String playground, String creatorPlayground, String creatorEmail) {
 		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
 		//which won't pass expirationDate, name, type and location
 		// TODO add expirationDate, location implementation

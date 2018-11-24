@@ -91,7 +91,7 @@ public class ElementEntity implements Serializable{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Date getExirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
 	public void setExpirationDate(Date exirationDate) {
@@ -127,21 +127,5 @@ public class ElementEntity implements Serializable{
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
 				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
-	}
-
-
-	public ElementTO toTO() {
-		ElementTO rv = new ElementTO();
-		rv.setPlayground(this.playground);
-		rv.setAttributes(this.attributes);
-		rv.setCreationDate(this.creationDate);
-		rv.setCreatorEmail(this.creatorEmail);
-		rv.setCreatorPlayground(this.creatorPlayground);
-		rv.setExirationDate(this.expirationDate);
-		rv.setType(this.type);
-		rv.setId(this.id);
-		rv.setLocation(this.location);
-		rv.setName(this.name);
-		return rv;
 	}
 }

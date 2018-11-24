@@ -39,18 +39,16 @@ public class UserTO implements Serializable{
 		// verification is done separately
 	}
 
-	public UserTO(NewUserForm newUserForm) {
-		if(emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() 
-				!= null && newUserForm.getRole() != null) {
-		this.email = newUserForm.getEmail();
-		this.username = newUserForm.getUsername();
-		this.avatar = newUserForm.getAvatar();
-		this.role = newUserForm.getRole();
-		}
-		else
-			throw new RegisterNewUserException("registration data is not correct. Check your input");
-		setPoints(0);
-		setPlayground(Constants.PLAYGROUND_NAME);
+	public UserTO(UserEntity u)
+	{
+		this.setEmail(u.getEmail());
+		this.setAvatar(u.getAvatar());
+		this.setUsername(u.getUsername());
+		this.setPlayground(u.getPlayground());
+		this.setRole(u.getRole());
+		this.setVerificationCode(u.getVerificationCode());
+		this.setPoints(u.getPoints());
+		this.setVerified_user(u.getVerified_user());
 	}
 
 

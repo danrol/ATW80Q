@@ -87,7 +87,8 @@ public class EdenDupontController {
 		element = elementService.getElement(id, playground);
 		if(element == null)
 			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
-		return element.toTO();
+		
+		return new ElementTO(element);
 		}
 
 	
@@ -114,7 +115,7 @@ public class EdenDupontController {
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		String s = new String("FHello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
+		String s = new String("Hello, " + Constants.DEFAULT_USERNAME + "\n received in POST an activity with mail : " + email + " userPlayground: " + userPlayground + "\n activity:\n" + activity);
 		return s; 
 		}
 }
