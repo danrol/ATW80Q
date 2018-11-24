@@ -98,4 +98,17 @@ public class ActivityTO implements Serializable {
 		this.attribute = attribute;
 	}
 
+	public ActivityEntity toEntity()
+	{
+		ActivityEntity rv = new ActivityEntity();
+		rv.setAttribute(this.getAttribute());
+		rv.setElementId(this.getElementId());
+		rv.setElementPlayground(this.getElementPlayground());
+		rv.setId(this.getId());
+		rv.setPlayerEmail(this.getPlayerEmail());
+		rv.setPlayerPlayground(this.getPlayerPlayground());
+		rv.setPlayground(this.getPlayground());
+		rv.setType(this.getType());
+		return rv;
+	}
 }
