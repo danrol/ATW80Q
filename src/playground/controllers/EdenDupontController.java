@@ -12,6 +12,7 @@ import playground.Constants;
 import playground.activities.ActivityTO;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
+import playground.exceptions.LoginException;
 import playground.logic.*;
 
 
@@ -76,7 +77,7 @@ public class EdenDupontController {
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-		login(userPlayground,email);
+		//login(userPlayground,email);
 		//if login succeeded, get element
 		element = elementService.getElement(id, playground);
 		if(element == null)
@@ -90,11 +91,25 @@ public class EdenDupontController {
 	//do not copy this - originally from EdenSharoni
 	//*****************************************
 	@RequestMapping(method = RequestMethod.GET, path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-	public void login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	public UserEntity login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
 		 */
+		UserEntity u = this.db.getUser(email);
+		if (u != null) {
+			if (u.getPlayground().equals(playground)) {
+				if (u.isVerified()) {
+					return u;
+				} else {
+					throw new LoginException("User is not verified.");
+				}
+			} else {
+				throw new ConfirmException("User does not belong to the specified playground.");
+			}
 
+		} else {
+			throw new LoginException("Email is not registered.");
+		}
 	}
 	
 	@RequestMapping(
