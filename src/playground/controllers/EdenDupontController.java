@@ -10,15 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
 import playground.activities.ActivityTO;
-import playground.database.Database;
 import playground.elements.ElementTO;
 import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
-import playground.logic.ElementEntity;
-import playground.logic.ElementService;
-import playground.logic.UserEntity;
-import playground.logic.UserService;
-import playground.logic.UserTO;
+import playground.logic.*;
 
 
 @RestController
@@ -64,7 +58,7 @@ public class EdenDupontController {
 			{
 				throw new ConfirmException("Email is not registered.");
 			}
-		return UserTO(user);
+		return new UserTO(user);
 		}
 	
 

@@ -58,27 +58,23 @@ public class ElementTO{
 		
 	}
 
-
-
-
-	public Date getExpirationDate() {
-		return expirationDate;
+	public ElementTO(ElementEntity e) {
+		this.setName(e.getName());
+		this.setId(e.getId());
+		this.setPlayground(e.getPlayground());
+		this.setCreationDate(e.getCreationDate());
+		this.setExpirationDate(e.getExpirationDate());
+		this.setType(e.getType());
+		this.setCreatorPlayground(e.getCreatorPlayground());
+		this.setCreatorEmail(e.getCreatorEmail());
+		this.setLocation(e.getLocation());
+		this.setAttributes(e.getAttributes());
 	}
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+
 
 	public Map<String, Object> getAttributes() {
 		return attributes;
-	}
-
-//	public void setAttributes(Map<String, Object> attributes) {
-//		this.attributes = attributes;
-//	}
-
-	public ElementTO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {
@@ -111,10 +107,10 @@ public class ElementTO{
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	public Date getExirationDate() {
+	public Date getExpirationDate() {
 		return expirationDate;
 	}
-	public void setExirationDate(Date exirationDate) {
+	public void setExpirationDate(Date exirationDate) {
 		this.expirationDate = exirationDate;
 	}
 	public String getType() {
