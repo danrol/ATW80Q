@@ -11,29 +11,30 @@ import playground.Constants;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
+import playground.layout.UserTO;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RestController
 public class EdenSharoniController {
 	@Autowired
-	UserService db;
+	UserService userService;
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserEntity login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
 		 * function 3INPUT: NONE OUTPUT: UserTO
 		 */
-		UserEntity u = this.db.getUser(email);
+		UserEntity u = this.userService.getUser(email);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
-					return u;
+					return new UserTO(u);
 				} else {
 					throw new LoginException("User is not verified.");
 				}
 			} else {
-				throw new ConfirmException("User does not belong to the specified playground.");
+				throw new LoginException("User does not belong to the specified playground.");
 			}
 
 		} else {
@@ -48,23 +49,23 @@ public class EdenSharoniController {
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
 		login(playground, email);
-		if (db.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
+		if (userService.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if(user.getEmail().equals(email)) {
-				db.updateUserInDatabase(user);
+				userService.updateUserInDatabase(user);
 			}
 			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				db.updateUserInDatabase(user);
+				userService.updateUserInDatabase(user);
 			} else {
 				throw new ChangeUserException("Moderator cannot change other moderator user");
 			}
-		} else if (db.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
+		} else if (userService.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
-				db.updateUserInDatabase(user);
+				userService.updateUserInDatabase(user);
 			} else {
 				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}
 		} else {
-			throw new ChangeUserException("invalid role " + db.getUser(email).getRole());
+			throw new ChangeUserException("invalid role " + userService.getUser(email).getRole());
 		}
 	}
 	

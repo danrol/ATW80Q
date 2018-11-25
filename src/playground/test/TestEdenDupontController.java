@@ -37,9 +37,9 @@ public class TestEdenDupontController {
 	private RestTemplate restTemplate;
 	
 	@Autowired
-	private ElementService elementService;
+	ElementService elementService;
 	@Autowired
-	private UserService userService;
+	UserService userService;
 	
 	@LocalServerPort
 	private int port;
@@ -145,9 +145,7 @@ public class TestEdenDupontController {
 		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");
-
-			
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");	
 	}
 	
 	
@@ -177,12 +175,12 @@ public class TestEdenDupontController {
 		When user login details are correct and element exists
 		Then I get the element
 		*/
-		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
 		this.userService.addUser(u);
 		this.elementService.addElement(element);
-		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.PLAYGROUND_NAME,"elementIdTest");
 		assertThat(el).isNotNull();
 		assertThat(el.getId()).isEqualTo(element.getId());
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());

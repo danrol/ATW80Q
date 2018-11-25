@@ -12,7 +12,7 @@ public class Constants {
 	public static String LESSON = "LESSON";
 	public static String MESSAGEBOARD = "MESSAGE_BOARD";
 	public static String QUESTION = "QUESTION";
-	public static String PLAYGROUND_NAME = "playground.rolnik - not properties";
+	public static String PLAYGROUND_NAME = "playground.rolnikNotFromProperties";
 	public static String DEFAULT_USERNAME = "Curiosity";
 	public static int USER_VERIFIED = 1;
 	public static int USER_NOT_VERIFIED = 0;

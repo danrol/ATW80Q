@@ -1,13 +1,10 @@
 package playground.layout;
 
 import java.io.Serializable;
-import java.util.Random;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Value;
 
 import playground.Constants;
-import playground.exceptions.RegisterNewUserException;
 import playground.logic.UserEntity;
 
 public class UserTO implements Serializable{
@@ -144,6 +141,7 @@ public class UserTO implements Serializable{
 
 	public void verifyUser() {
 		setVerified_user(Constants.USER_VERIFIED);
+		this.setVerificationCode("");
 	}
 
 	public boolean isVerified() {

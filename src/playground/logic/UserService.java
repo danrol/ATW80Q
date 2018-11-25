@@ -39,10 +39,11 @@ public class UserService implements Serializable{
 	}
 	
 	public void addUser(UserEntity user) {
+		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
 	}
 	
-	public UserEntity getUser(String email) {
+	public synchronized UserEntity getUser(String email) {
 		for(UserEntity u:users)
 		{
 			if(u.getEmail().equals(email))
@@ -51,13 +52,13 @@ public class UserService implements Serializable{
 		return null;
 	}
 	
-	public void updateUserInDatabase(UserEntity user) {
+	public synchronized void updateUserInDatabase(UserEntity user) {
 		UserEntity tempUser = this.getUser(user.getEmail());
 		users.remove(tempUser);
 		users.add(user);
 	}
 	
-	public void cleanUserService() {
+	public synchronized void cleanUserService() {
 		users.clear();
 	}
 }

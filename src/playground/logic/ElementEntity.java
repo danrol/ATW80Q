@@ -61,6 +61,23 @@ public class ElementEntity implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public ElementEntity(String id, String playground, String email) {
+		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
+		//which won't pass expirationDate, name, type and location
+		// TODO add expirationDate, location implementation
+		super();
+//		this.name = name;
+		this.id = id;
+		this.playground = playground;
+		this.creationDate = new Date();
+//		this.expirationDate = expirationDate;
+//		this.type = type;
+		this.creatorPlayground = playground;
+		this.creatorEmail = email;
+//		this.attributes ;
+//		this.location = location;
+	}
+
 	public String getName() {
 		return name;
 	}

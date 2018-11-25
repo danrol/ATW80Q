@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import playground.Constants;
+import playground.controllers.EdenSharoniController;
 import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
@@ -31,7 +29,7 @@ public class EdenDupontController {
 			path="/playground/users/confirm/{playground}/{email}/{code}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code) throws ConfirmException
+			@PathVariable("code") String code)
 		{
 		/* function 2
 		 * INPUT: NONE
@@ -77,8 +75,10 @@ public class EdenDupontController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
+		EdenSharoniController s = new EdenSharoniController();
 		ElementEntity element = null;
-		login(userPlayground,email);
+		System.err.println("Trying to log in with " + email + " and " + userPlayground);
+		s.login(userPlayground,email);
 		//if login succeeded, get element
 		element = elementService.getElement(id, playground);
 		if(element == null)
@@ -86,33 +86,6 @@ public class EdenDupontController {
 		
 		return new ElementTO(element);
 		}
-
-	
-	//*****************************************
-	//do not copy this - originally from EdenSharoni
-	//*****************************************
-	@RequestMapping(method = RequestMethod.GET, path = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserEntity login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
-		/*
-		 * function 3INPUT: NONE OUTPUT: UserTO
-		 */
-		UserEntity u = this.userService.getUser(email);
-		if (u != null) {
-			if (u.getPlayground().equals(playground)) {
-				if (u.isVerified()) {
-					return u;
-				} else {
-					throw new LoginException("User is not verified.");
-				}
-			} else {
-				throw new ConfirmException("User does not belong to the specified playground.");
-			}
-
-		} else {
-			throw new LoginException("Email is not registered.");
-		}
-	}
-	
 	@RequestMapping(
 			method=RequestMethod.POST,
 			path="/playground/activities/{userPlayground}/{email}",

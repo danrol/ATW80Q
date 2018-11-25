@@ -10,8 +10,12 @@ import playground.logic.ElementEntity;
 import playground.logic.Location;
 
 
-public class ElementTO{
+public class ElementTO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String id;
 	protected String playground;
@@ -32,7 +36,6 @@ public class ElementTO{
 		case "type": return type.equals(value);
 		case "creatorPlayground": return creatorPlayground.equals(value);
 		case "creatorEmail": return creatorEmail.equals(value);
-		
 		case "creationDate": return (new Date(value)).equals(creationDate);
 		case "expirationDate": return (new Date(value)).equals(expirationDate);
 		case "location": return (new Location(value)).equals(location);
@@ -147,6 +150,10 @@ public class ElementTO{
 		
 	}
 	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public ElementEntity toEntity() {
 		ElementEntity rv = new ElementEntity();
 		rv.setName(name);

@@ -39,7 +39,7 @@ public class EliaController {
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public String setUser (@RequestBody ElementTO element)  {
-		db.addElement(element);
+		elementService.addElement(element.toEntity());
 		return " ";
 	}
 	
@@ -50,7 +50,8 @@ public class EliaController {
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("distance") double distance, @PathVariable("x") int x, @PathVariable("y") int y)throws ConfirmException{
-		login(userPlayground, email);
+		EdenSharoniController s = new EdenSharoniController();
+		s.login(userPlayground, email);
 		
 		if(distance<0)
 			throw new RuntimeException("Negative distance (" + distance + ")");
@@ -59,28 +60,4 @@ public class EliaController {
 		return elementsInRange;
 	}
 	
-	//*****************************************
-		//do not copy this - originally from EdenSharoni
-		//*****************************************
-		@RequestMapping(method = RequestMethod.GET, path = "/login2", produces = MediaType.APPLICATION_JSON_VALUE)
-		public UserEntity login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
-			/*
-			 * function 3INPUT: NONE OUTPUT: UserTO
-			 */
-			UserEntity u = this.userService.getUser(email);
-			if (u != null) {
-				if (u.getPlayground().equals(playground)) {
-					if (u.isVerified()) {
-						return u;
-					} else {
-						throw new LoginException("User is not verified.");
-					}
-				} else {
-					throw new ConfirmException("User does not belong to the specified playground.");
-				}
-
-			} else {
-				throw new LoginException("Email is not registered.");
-			}
-		}
 }
