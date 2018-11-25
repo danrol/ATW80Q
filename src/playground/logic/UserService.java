@@ -14,9 +14,11 @@ public class UserService implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static ArrayList<UserEntity> users = new ArrayList<UserEntity>();
+	private static ArrayList<UserEntity> users;
 
-	public UserService() {
+	public UserService()
+	{
+		users = new ArrayList<UserEntity>();
 		addDummyDatabase();
 	}
 

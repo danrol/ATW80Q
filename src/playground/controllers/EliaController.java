@@ -12,6 +12,7 @@ import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
+import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -50,14 +51,41 @@ public class EliaController {
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("distance") double distance, @PathVariable("x") int x, @PathVariable("y") int y)throws ConfirmException{
-		EdenSharoniController s = new EdenSharoniController();
-		s.login(userPlayground, email);
+		
+		login(userPlayground, email);
 		
 		if(distance<0)
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		
 		ElementTO[] elementsInRange= elementService.getAllElementsTOInRadius(element,x,y,distance);
 		return elementsInRange;
+	}
+	
+	/*
+	 * here for tests - do not copy
+	 * */
+	
+
+	@RequestMapping(method = RequestMethod.GET, path = "/login2", produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+		/*
+		 * function 3INPUT: NONE OUTPUT: UserTO
+		 */
+		UserEntity u = this.userService.getUser(email);
+		if (u != null) {
+			if (u.getPlayground().equals(playground)) {
+				if (u.isVerified()) {
+					return new UserTO(u);
+				} else {
+					throw new LoginException("User is not verified.");
+				}
+			} else {
+				throw new LoginException("User does not belong to the specified playground.");
+			}
+
+		} else {
+			throw new LoginException("Email is not registered.");
+		}
 	}
 	
 }
