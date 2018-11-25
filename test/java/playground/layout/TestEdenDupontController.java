@@ -27,6 +27,7 @@ import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -177,7 +178,7 @@ public class TestEdenDupontController {
 		*/
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(1,7));
 		this.userService.addUser(u);
 		this.elementService.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.PLAYGROUND_NAME,"elementIdTest");
@@ -197,7 +198,7 @@ public class TestEdenDupontController {
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(5,7));
 		this.elementService.addElement(element);
 		
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
@@ -218,7 +219,7 @@ public class TestEdenDupontController {
 		u.verifyUser();
 		this.userService.addUser(u);
 		
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));
 		this.elementService.addElement(element);
 		
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");

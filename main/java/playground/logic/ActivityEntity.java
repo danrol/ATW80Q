@@ -9,7 +9,6 @@ public class ActivityEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 514354009958930154L;
-	private static int idCounter = 1;
 	private String playground;
 	private String id;
 	private String elementPlayground;
@@ -22,7 +21,6 @@ public class ActivityEntity implements Serializable {
 	
 	public ActivityEntity() {
 		attribute = new HashMap<String,Object>();
-		this.id = String.valueOf(idCounter++);
 	}
 	
 	@Override

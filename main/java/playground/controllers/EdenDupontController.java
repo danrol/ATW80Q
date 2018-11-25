@@ -98,7 +98,7 @@ public class EdenDupontController {
 		 * OUTPUT: Object
 		 */
 		//TODO add activity to RequestBody
-		return new ActivityTO(); 
+		return activity; 
 		}
 	
 	

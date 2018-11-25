@@ -18,7 +18,7 @@ public class Constants {
 	public static int USER_VERIFIED = 1;
 	public static int USER_NOT_VERIFIED = 0;
 	public static String LOCAL_HOST_ADDRESS = "";
-	
+	public static String ELEMENT_DEFAULT_TYPE = "Element";
 	public static String EMAIL_FOR_TESTS = "nudnik@mail.ru";
 	public static String ID_FOR_TESTS = "123";
 	public static String CREATOR_PLAYGROUND_FOR_TESTS = "crPlayground";

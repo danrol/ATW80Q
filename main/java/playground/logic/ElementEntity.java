@@ -1,12 +1,13 @@
 package playground.logic;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import playground.layout.ElementTO;
+import playground.Constants;
 
 public class ElementEntity implements Serializable{
 
@@ -15,8 +16,8 @@ public class ElementEntity implements Serializable{
 	protected String id;
 	protected String playground;
 	protected Date creationDate;
-	protected Date expirationDate;
-	protected String type;
+	protected Date expirationDate=null;
+	protected String type = Constants.ELEMENT_DEFAULT_TYPE;
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
@@ -39,43 +40,23 @@ public class ElementEntity implements Serializable{
 		return false;
 	}
 	
-	public ElementEntity( String id, String playground, String creatorPlayground, String creatorEmail) {
-		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
-		//which won't pass expirationDate, name, type and location
-		// TODO add expirationDate, location implementation
-		super();
-//		this.name = name;
-		this.id = id;
-		this.playground = playground;
-		this.creationDate = new Date();
-//		this.expirationDate = expirationDate;
-//		this.type = type;
-		this.creatorPlayground = creatorPlayground;
-		this.creatorEmail = creatorEmail;
-//		this.attributes ;
-//		this.location = location;
+	public ElementEntity() {
 		
 	}
 	
-	public ElementEntity() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	public ElementEntity(String id, String playground, String email) {
+	public ElementEntity(String id, String playground, String email, Location xy) {
 		// this constructor is used for /playground/elements/{userPlayground}/{email}/{playground}/{id} 
 		//which won't pass expirationDate, name, type and location
 		// TODO add expirationDate, location implementation
 		super();
-//		this.name = name;
 		this.id = id;
 		this.playground = playground;
 		this.creationDate = new Date();
-//		this.expirationDate = expirationDate;
-//		this.type = type;
-		this.creatorPlayground = playground;
+		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
-//		this.attributes ;
-//		this.location = location;
+		if(xy == null)
+			throw new RuntimeException("location is null");
+		this.location = xy;
 	}
 
 	public String getName() {
