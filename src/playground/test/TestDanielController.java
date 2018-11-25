@@ -149,7 +149,8 @@ public class TestDanielController {
 	}
 	
 	
-/*	@Test
+/*	Problem with gettin ElementTO[] Eyal help needed
+ * @Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
 		ElementTO elementForTest = new ElementTO(Constants.ID_FOR_TESTS, 
 				Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
