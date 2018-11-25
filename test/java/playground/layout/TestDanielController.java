@@ -1,4 +1,4 @@
-package playground.test;
+package playground.layout;
 
 import javax.annotation.PostConstruct;
 

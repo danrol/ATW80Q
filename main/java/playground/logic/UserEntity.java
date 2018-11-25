@@ -147,5 +147,12 @@ public class UserEntity {
 		else
 			return false;
 	}
+
+	@Override
+	public String toString() {
+		return "UserEntity [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
+				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user="
+				+ verified_user + ", points=" + points + "]";
+	}
 	
 }

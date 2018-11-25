@@ -1,4 +1,4 @@
-package playground.test;
+package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -194,10 +194,9 @@ public class TestEdenDupontController {
 		Then I get an exception
 		*/
 		
-		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
 		this.userService.addUser(u);
-		
 		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com");
 		this.elementService.addElement(element);
 		

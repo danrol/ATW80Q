@@ -1,4 +1,4 @@
-package playground.test;
+package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import javax.annotation.PostConstruct;
