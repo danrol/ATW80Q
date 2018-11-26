@@ -27,7 +27,14 @@ public class ActivityTO implements Serializable {
 	
 	public ActivityTO(ActivityEntity a)
 	{
-		
+		playground = a.getPlayground();
+		id = a.getId();
+		elementPlayground = a.getElementPlayground();
+		elementId = a.getElementId();
+		type = a.getType();
+		playerPlayground = a.getPlayerPlayground();
+		playerEmail = a.getPlayerEmail();
+		attribute = a.getAttribute();
 	}
 	@Override
 	public String toString() {
