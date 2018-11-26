@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import playground.logic.ActivityEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
-import playground.logic.DummyUserService;
 
 public class ActivityTO implements Serializable {
 	/**
@@ -25,13 +24,18 @@ public class ActivityTO implements Serializable {
 	private String playerEmail;
 	private Map<String,Object> attribute;
 	
+	private ElementService elementService;
+	private UserService userService;
+	
 	
 	@Autowired
 	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
 	}
 	
 	@Autowired
 	public void setUserService(UserService userService){
+		this.userService = userService;
 	}
 	
 	public ActivityTO() {

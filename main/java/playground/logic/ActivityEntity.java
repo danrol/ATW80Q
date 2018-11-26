@@ -1,6 +1,6 @@
 package playground.logic;
 
-
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class ActivityEntity {
 	}
 	
 	@Autowired
-	public void setUserService(DummyUserService userService){
+	public void setUserService(UserService userService){
 		this.userService = userService;
 	}
 	
@@ -109,6 +109,10 @@ public class ActivityEntity {
 
 	public void setAttribute(Map<String, Object> attribute) {
 		this.attribute = attribute;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

@@ -1,10 +1,12 @@
-package playground.logic;
+package playground.logic.stubs;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
 
 import playground.exceptions.ElementDataException;
 import playground.layout.ElementTO;
+import playground.logic.ElementEntity;
+import playground.logic.ElementService;
 
 @Service
 public class DummyElementService implements ElementService{
