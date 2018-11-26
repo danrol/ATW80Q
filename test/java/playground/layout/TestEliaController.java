@@ -17,7 +17,9 @@ import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.database.Database;
 import playground.layout.ElementTO;
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 import playground.logic.MessageService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -67,15 +69,15 @@ public class TestEliaController {
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
+		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
 		double distance=-1;
-		assertThat(db.getAllElementsInRadius(element, distance));
+		assertThat(ElementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
 	}
 	
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
+		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
 		double distance=0;
 		assertThat(db.getAllElementsInRadius(element, distance));
 	}
@@ -84,7 +86,7 @@ public class TestEliaController {
 	public void testPOSTNewElement() {
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(name,playground,creatorPlayground,email);
+		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
 		db.addElement(element);
 		assertThat(db.getElements().contains(element));
 	}
