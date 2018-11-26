@@ -2,13 +2,19 @@ package playground.logic;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import playground.Constants;
 import playground.exceptions.RegisterNewUserException;
 
+@Entity
 public class UserEntity {
 
-	private String email = "";
-	private String avatar = "";
+	private String email;
+	private String avatar;
 	private String username;
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
@@ -64,7 +70,7 @@ public class UserEntity {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
-
+	@Transactional(readOnly=true)
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -72,7 +78,7 @@ public class UserEntity {
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-
+	@Id
 	public String getEmail() {
 		return email;
 	}
@@ -80,7 +86,7 @@ public class UserEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Transactional(readOnly=true)
 	public String getAvatar() {
 		return avatar;
 	}
@@ -88,7 +94,7 @@ public class UserEntity {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-
+	@Transactional(readOnly=true)
 	public String getUsername() {
 		return username;
 	}
@@ -96,7 +102,7 @@ public class UserEntity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	@Transactional(readOnly=true)
 	public String getRole() {
 		return role;
 	}
@@ -112,7 +118,7 @@ public class UserEntity {
 			throw new RuntimeException("Undefined role");
 		}
 	}
-
+	@Id
 	public String getPlayground() {
 		return playground;
 	}
@@ -120,7 +126,7 @@ public class UserEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-
+	@Transactional(readOnly=true)
 	public long getPoints() {
 		return points;
 	}
@@ -128,7 +134,7 @@ public class UserEntity {
 	public void setPoints(long points) {
 		this.points = points;
 	}
-
+	@Transactional(readOnly=true)
 	public int getVerified_user() {
 		return verified_user;
 	}

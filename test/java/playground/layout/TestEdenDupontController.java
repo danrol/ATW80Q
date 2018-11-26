@@ -37,10 +37,20 @@ public class TestEdenDupontController {
 	
 	private RestTemplate restTemplate;
 	
+
+	private ElementService elementService;
+	private UserService userService;
+	
+	
 	@Autowired
-	ElementService elementService;
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
 	@Autowired
-	UserService userService;
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 	
 	@LocalServerPort
 	private int port;

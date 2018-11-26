@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Entity
 public class ActivityEntity {
 	/**
 	 * 
@@ -18,6 +23,20 @@ public class ActivityEntity {
 	private String playerEmail;
 	private Map<String,Object> attribute;
 	
+
+	private ElementService elementService;
+	private UserService userService;
+	
+	
+	@Autowired
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 	
 	public ActivityEntity() {
 		attribute = new HashMap<String,Object>();

@@ -18,12 +18,11 @@ import playground.logic.*;
 @RestController
 public class EdenDupontController {
 	
-	@Autowired
+
 	private ElementService elementService;
-	@Autowired
 	private UserService userService;
 	
-
+	
 	@Autowired
 	public void setElementService(ElementService elementService){
 		this.elementService = elementService;
@@ -74,13 +73,12 @@ public class EdenDupontController {
 			path="/playground/activities/{userPlayground}/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public Object getActivity(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
+	public Object RequestServer(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
 		{
 		/* function 11
 		 * INPUT: ActivityTO
 		 * OUTPUT: Object
 		 */
-		//TODO add activity to RequestBody
 		return activity; 
 		}
 	
