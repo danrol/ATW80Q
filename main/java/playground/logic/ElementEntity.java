@@ -9,7 +9,7 @@ import java.util.Map;
 
 import playground.Constants;
 
-public class ElementEntity implements Serializable{
+public class ElementEntity{
 
 	private static final long serialVersionUID = 1L;
 	protected String name;
