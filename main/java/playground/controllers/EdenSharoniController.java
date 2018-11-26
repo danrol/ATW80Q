@@ -12,18 +12,32 @@ import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.layout.UserTO;
+import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RestController
 public class EdenSharoniController {
+
+	private ElementService elementService;
+	private UserService userService;
+	
+	
 	@Autowired
-	UserService userService;
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
-		 * function 3INPUT: NONE OUTPUT: UserTO
+		 * function 3
+		 * INPUT: NONE OUTPUT: UserTO
 		 */
 		UserEntity u = this.userService.getUser(email);
 		if (u != null) {

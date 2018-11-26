@@ -7,8 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+
 import playground.Constants;
 
+@Entity
 public class ElementEntity{
 
 	private static final long serialVersionUID = 1L;

@@ -20,10 +20,19 @@ import playground.logic.UserService;
 @RestController
 public class EliaController {
 	
-	@Autowired
 	private ElementService elementService;
-	@Autowired
 	private UserService userService;
+	
+	
+	@Autowired
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 
 	@RequestMapping(
 			method=RequestMethod.GET,
