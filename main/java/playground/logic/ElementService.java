@@ -1,6 +1,4 @@
 package playground.logic;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +7,7 @@ import playground.exceptions.ElementDataException;
 import playground.layout.ElementTO;
 
 @Service
-public class ElementService implements Serializable{
+public class ElementService{
 	
 	/**
 	 * 
@@ -17,7 +15,6 @@ public class ElementService implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private static ArrayList<ElementEntity> elements = new ArrayList<ElementEntity>();
-//	private static ArrayList<UserEntity> users = Database.getUsers();
 	
 	public ArrayList<ElementEntity> getElements() {
 		return elements;
@@ -108,6 +105,10 @@ public class ElementService implements Serializable{
 	
 	public void cleanElementService() {
 		elements.clear();
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	
 	//TODO change

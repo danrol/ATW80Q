@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 
 import playground.Constants;
+import playground.exceptions.ConfirmException;
 
 @Service
-public class UserService implements Serializable{
+public class UserService{
 	
 	/**
 	 * 
@@ -62,5 +63,33 @@ public class UserService implements Serializable{
 	
 	public synchronized void cleanUserService() {
 		users.clear();
+	}
+
+	public UserEntity verifyUser(String email, String playground, String code) {
+		UserEntity user = getUser(email);
+		
+		if(user !=null) {
+			if(user.getPlayground().equals(playground))
+			{
+				String VerificationCode = user.getVerificationCode();
+				if (VerificationCode.equals(code))
+					{
+					user.verifyUser();
+					}
+				else
+					{
+						throw new ConfirmException("Invalid verification code");
+					}
+			}
+				else
+			{
+					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
+			}
+		}
+			else
+			{
+				throw new ConfirmException("Email is not registered.");
+			}
+		return user;
 	}
 }

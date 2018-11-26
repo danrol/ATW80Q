@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import playground.controllers.EdenSharoniController;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.layout.ActivityTO;
@@ -46,36 +45,10 @@ public class EdenDupontController {
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		UserEntity user = this.userService.getUser(email);
-		if(user !=null) {
-			if(user.getPlayground().equals(playground))
-			{
-				String VerificationCode = user.getVerificationCode();
-				if (VerificationCode.equals(code))
-					{
-					user.verifyUser();
-					}
-				else
-					{
-						throw new ConfirmException("Invalid verification code");
-					}
-			}
-				else
-			{
-					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
-			}
-		}
-			else
-			{
-				throw new ConfirmException("Email is not registered.");
-			}
+		UserEntity user = this.userService.verifyUser(email, playground, code);
 		return new UserTO(user);
 		}
 	
-
-
-	
-	//throws exception if element is not found
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
