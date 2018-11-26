@@ -39,9 +39,12 @@ public class EliaController {
 			path="/playground/elements/{userPlayground }/{email}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-    public String setUser (@RequestBody ElementTO element)  {
+    public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
+		
+		login(userPlayground, email);
+		
 		elementService.addElement(element.toEntity());
-		return " ";
+		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
 	
 	
