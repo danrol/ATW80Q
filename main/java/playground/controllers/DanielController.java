@@ -25,15 +25,9 @@ import playground.logic.UserService;
 @RestController
 public class DanielController {
 	
-//	private Database database;
 	private ElementService elementService;
 	private UserService userService;
 	
-	
-//	@Autowired
-//	public void setDatabase(Database database) {
-//		this.database = database;
-//	}
 	
 	@Autowired
 	public void setElementService(ElementService elementService){

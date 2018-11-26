@@ -25,6 +25,16 @@ public class EdenDupontController {
 	private UserService userService;
 	
 
+	@Autowired
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
+
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/users/confirm/{playground}/{email}/{code}",

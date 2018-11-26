@@ -11,7 +11,6 @@ public class ActivityTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 514354009958930154L;
-	private static int idCounter = 1;
 	private String playground;
 	private String id;
 	private String elementPlayground;
@@ -24,7 +23,6 @@ public class ActivityTO implements Serializable {
 	
 	public ActivityTO() {
 		attribute = new HashMap<String,Object>();
-		this.id = String.valueOf(idCounter++);
 	}
 	
 	public ActivityTO(ActivityEntity a)
