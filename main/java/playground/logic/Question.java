@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import playground.layout.ElementTO;
 
 public class Question extends ElementTO {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String questionBody;
 	private ArrayList<String> answers;
 	private String correctAnswer;
