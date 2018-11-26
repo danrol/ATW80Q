@@ -69,7 +69,7 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isEmpty();;
 	}
 	
 	@Test
@@ -77,16 +77,27 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isEmpty();;
 	}
 	
 	@Test
 	public void testPOSTNewElement() {
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		
+		
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element));
+		assertThat(elementService.getElements().contains(element)).isTrue();
+	}
+	
+	@Test
+	public void testPOSTNewElementWithNoCreator() {
+		
+		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		elementService.addElement(element);
+		assertThat(elementService.getElements().contains(element)).isTrue();
 	}
 	
 
