@@ -90,7 +90,7 @@ public class ElementService implements Serializable{
 			throw new ElementDataException("element data for update is incorrect");
 	}
 	
-	public ElementTO[] getAllElementsTOInRadius(ElementTO element,int x, int y, double distance)
+	public ElementTO[] getAllElementsTOInRadius(ElementTO element,double x, double y, double distance)
 	{
 		
 		//find in a circle

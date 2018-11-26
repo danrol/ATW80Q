@@ -15,12 +15,10 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
-import playground.database.Database;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
-import playground.logic.MessageService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 @RunWith(SpringRunner.class)
@@ -69,26 +67,26 @@ public class TestEliaController {
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
+		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
-		assertThat(ElementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
 	}
 	
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
+		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
-		assertThat(db.getAllElementsInRadius(element, distance));
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance));
 	}
 	
 	@Test
 	public void testPOSTNewElement() {
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("12")));
-		db.addElement(element);
-		assertThat(db.getElements().contains(element));
+		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		elementService.addElement(element);
+		assertThat(elementService.getElements().contains(element));
 	}
 	
 
