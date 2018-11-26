@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ActivityEntity implements Serializable {
+public class ActivityEntity {
 	/**
 	 * 
 	 */
