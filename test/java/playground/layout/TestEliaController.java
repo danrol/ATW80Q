@@ -14,12 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import playground.*;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
-import playground.logic.UserEntity;
 import playground.logic.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)

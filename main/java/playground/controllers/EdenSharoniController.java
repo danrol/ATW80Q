@@ -65,16 +65,16 @@ public class EdenSharoniController {
 		login(playground, email);
 		if (userService.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if(user.getEmail().equals(email)) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			}
 			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			} else {
 				throw new ChangeUserException("Moderator cannot change other moderator user");
 			}
 		} else if (userService.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			} else {
 				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}

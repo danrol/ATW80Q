@@ -1,6 +1,6 @@
 package playground.logic;
 
-import java.io.Serializable;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity
+//@Entity
 public class ActivityEntity {
 	/**
 	 * 
@@ -34,7 +34,7 @@ public class ActivityEntity {
 	}
 	
 	@Autowired
-	public void setUserService(UserService userService){
+	public void setUserService(DummyUserService userService){
 		this.userService = userService;
 	}
 	
