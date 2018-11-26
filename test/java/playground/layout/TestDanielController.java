@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -105,9 +106,10 @@ public class TestDanielController {
 	
 	@Test(expected = RuntimeException.class)
 	public void testWrongElementPassedForUpdate() {
-
-		ElementTO elementForTest = new ElementTO(
-				Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
+		
+		ElementEntity elementEntityForTest = 
+				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
+		ElementTO elementForTest = new ElementTO(elementEntityForTest);
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, 
 				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
 
@@ -115,15 +117,17 @@ public class TestDanielController {
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
 	
-		ElementTO updatedElementForTestTO = new ElementTO(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS);
-		
-		elementService.addElement(new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS));
+		ElementEntity updatedElementForTestEntity = 
+				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
+		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
+		elementService.addElement(updatedElementForTestTO.toEntity());
 		
 		HashMap<String, Object> attributes = new HashMap<>();
 		attributes.put("attribute1","attr1Value");
 		attributes.put("attribute2","attr2Value");
 		attributes.put("attr3","attr3Val");
 		updatedElementForTestTO.setAttributes(attributes);
+		updatedElementForTestEntity.setAttributes(attributes);
 		System.out.println(elementService.getElement(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME));
 		System.out.println("Before arrived");
 		System.out.println(updatedElementForTestTO.toString());
@@ -137,7 +141,8 @@ public class TestDanielController {
 		System.out.println(actualEntity.toString());
 		
 		assertThat(actualEntity).isNotNull();
-		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
+		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestEntity);
+		//TODO check why fails because of location
 		}
 	
 	@Test(expected=RuntimeException.class)
