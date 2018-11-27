@@ -1,0 +1,10 @@
+diff a/main/java/playground/controllers/EliaController.java b/main/java/playground/controllers/EliaController.java	(rejected hunks)
+@@ -10,7 +10,7 @@
+ 
+ import playground.exceptions.ConfirmException;
+ import playground.exceptions.LoginException;
+-import playground.layout.ActivityTO;
++
+ import playground.layout.ElementTO;
+ import playground.layout.UserTO;
+ import playground.logic.ElementService;

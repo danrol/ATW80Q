@@ -9,7 +9,11 @@ import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 
+<<<<<<< HEAD
 @Service
+=======
+//@Service
+>>>>>>> origin/WorkingBranch
 public class jpaElementService implements ElementService {
 
 	@Override

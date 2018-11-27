@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
-
+import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
@@ -101,5 +101,3 @@ public class EliaController {
 	}
 	
 }
-
-

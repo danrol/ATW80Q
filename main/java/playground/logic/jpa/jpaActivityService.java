@@ -6,7 +6,11 @@ import playground.logic.ActivityService;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
+<<<<<<< HEAD
 @Service
+=======
+//@Service
+>>>>>>> origin/WorkingBranch
 public class jpaActivityService implements ActivityService {
 
 	@Override
