@@ -64,6 +64,11 @@ public class TestEliaController {
 	
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
+		/*
+		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
+		 * When: User is verified AND distance is negative.
+		 * Then: I get empty ElementTO[].
+		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
@@ -72,6 +77,11 @@ public class TestEliaController {
 	
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
+		/*
+		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
+		 * When: User is verified AND distance is 0.
+		 * Then: I get empty ElementTO[].
+		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
@@ -80,10 +90,12 @@ public class TestEliaController {
 	
 	@Test
 	public void testPOSTNewElement() {
-		
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
+		 * When: User is verified AND i post new element.
+		 * Then: a new element is saved in the serviceElement.
+		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
-		
-		
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
 		assertThat(elementService.getElements().contains(element)).isTrue();
@@ -91,11 +103,15 @@ public class TestEliaController {
 	
 	@Test
 	public void testPOSTNewElementWithNoCreator() {
-		
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
+		 * When: User is verified AND i post new element with empty creatorPlayground.
+		 * Then: a new element is saved in the serviceElement.
+		 */
 		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element)).isTrue();
+		assertThat(elementService.getElements().contains(element)).isFalse();
 	}
 	
 
