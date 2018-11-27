@@ -138,6 +138,7 @@ public class ElementTO implements Serializable{
 
 	public ElementEntity toEntity() {
 		ElementEntity rv = new ElementEntity();
+		//need to think the logic 
 		rv.setName(name);
 		rv.setId(id);
 		rv.setPlayground(playground);

@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
-import playground.exceptions.ConfirmException;
+
 import playground.exceptions.LoginException;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
-import playground.logic.UserService;
+
+import playground.logic.jpa.jpaUserService;
+
 
 @RestController
 public class EdenSharoniController {
 
 	private ElementService elementService;
-	private UserService userService;
+	private jpaUserService userService;
 	
 	
 	@Autowired
@@ -29,7 +31,7 @@ public class EdenSharoniController {
 	}
 	
 	@Autowired
-	public void setUserService(UserService userService){
+	public void setUserService(jpaUserService userService){
 		this.userService = userService;
 	}
 
@@ -65,16 +67,16 @@ public class EdenSharoniController {
 		login(playground, email);
 		if (userService.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if(user.getEmail().equals(email)) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			}
 			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			} else {
 				throw new ChangeUserException("Moderator cannot change other moderator user");
 			}
 		} else if (userService.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
-				userService.updateUserInDatabase(user);
+				userService.updateUser(user);
 			} else {
 				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}

@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
+<<<<<<< HEAD
+@Service
+=======
 //@Service
+>>>>>>> origin/WorkingBranch
 public class jpaUserService implements UserService{
 
 	@Override
