@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Entity
+//@Entity
 public class ActivityEntity {
 	/**
 	 * 
@@ -109,6 +109,10 @@ public class ActivityEntity {
 
 	public void setAttribute(Map<String, Object> attribute) {
 		this.attribute = attribute;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

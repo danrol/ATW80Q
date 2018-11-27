@@ -1,17 +1,14 @@
 package playground.logic;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Entity;
 
 import playground.Constants;
 
-@Entity
+//@Entity
 public class ElementEntity{
 
 	private static final long serialVersionUID = 1L;
@@ -128,5 +125,9 @@ public class ElementEntity{
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
 				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
