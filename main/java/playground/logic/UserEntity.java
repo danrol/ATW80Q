@@ -2,11 +2,15 @@ package playground.logic;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import playground.Constants;
 import playground.exceptions.RegisterNewUserException;
 
-//@Entity
+@Entity
+@Table(name = "USER_ENTITY")
 public class UserEntity {
 
 	private String email;
@@ -74,7 +78,7 @@ public class UserEntity {
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
-	//@Id
+	@Id
 	public String getEmail() {
 		return email;
 	}

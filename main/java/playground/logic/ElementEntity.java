@@ -5,10 +5,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+
 
 import playground.Constants;
 
-//@Entity
+@Entity
+@Table(name = "ELEMENT_ENTITY")
 public class ElementEntity{
 
 	private static final long serialVersionUID = 1L;
@@ -65,6 +71,7 @@ public class ElementEntity{
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Id
 	public String getId() {
 		return id;
 	}
