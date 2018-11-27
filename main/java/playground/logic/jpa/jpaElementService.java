@@ -3,6 +3,7 @@ package playground.logic.jpa;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
@@ -18,12 +19,14 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional(readOnly=true)
 	public ElementTO[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String id, String playground) {
 		// TODO Auto-generated method stub
 		
