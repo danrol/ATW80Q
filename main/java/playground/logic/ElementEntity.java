@@ -5,21 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 
 
 import playground.Constants;
 
-<<<<<<< HEAD
-@Entity
-@Table(name = "ELEMENT_ENTITY")
-=======
-//@Entity
-//@Table(name = "ELEMENT_ENTITY")
->>>>>>> origin/WorkingBranch
 public class ElementEntity{
 
 	private static final long serialVersionUID = 1L;

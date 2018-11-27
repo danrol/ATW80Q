@@ -14,7 +14,7 @@ import playground.exceptions.LoginException;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
-
+import playground.logic.UserService;
 import playground.logic.jpa.jpaUserService;
 
 
@@ -22,7 +22,7 @@ import playground.logic.jpa.jpaUserService;
 public class EdenSharoniController {
 
 	private ElementService elementService;
-	private jpaUserService userService;
+	private UserService userService;
 	
 	
 	@Autowired
@@ -31,7 +31,7 @@ public class EdenSharoniController {
 	}
 	
 	@Autowired
-	public void setUserService(jpaUserService userService){
+	public void setUserService(UserService userService){
 		this.userService = userService;
 	}
 

@@ -2,20 +2,11 @@ package playground.logic;
 
 import java.util.regex.Pattern;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import playground.Constants;
 import playground.exceptions.RegisterNewUserException;
 
-<<<<<<< HEAD
-@Entity
-@Table(name = "USER_ENTITY")
-=======
-//@Entity
-//@Table(name = "USER_ENTITY")
->>>>>>> origin/WorkingBranch
 public class UserEntity {
 
 	private String email;
