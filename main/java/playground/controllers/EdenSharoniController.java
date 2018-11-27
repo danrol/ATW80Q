@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
-import playground.exceptions.ConfirmException;
+
 import playground.exceptions.LoginException;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
-import playground.logic.UserService;
+
 import playground.logic.jpa.jpaUserService;
-import playground.logic.stubs.DummyUserService;
+
 
 @RestController
 public class EdenSharoniController {
