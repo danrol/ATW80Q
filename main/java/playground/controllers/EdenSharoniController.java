@@ -15,7 +15,6 @@ import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-import playground.logic.jpa.jpaUserService;
 
 
 @RestController
