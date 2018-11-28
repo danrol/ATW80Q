@@ -17,5 +17,6 @@ public interface ElementService {
 	ElementEntity getElement(String id, String playground);
 	void addElement(ElementEntity element);
 	ArrayList<ElementEntity> getElements();
+	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground);
 
 }

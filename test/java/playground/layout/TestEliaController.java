@@ -91,7 +91,7 @@ public class TestEliaController {
 	}
 	
 	@Test(expected=RuntimeException.class)
-	public void testPOSTNewElement() {
+	public void testPOSTNewElementIsAddedToDatabase() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
 		 * When: User is verified AND i post new element.
@@ -109,7 +109,7 @@ public class TestEliaController {
 	}
 	
 	@Test(expected=RuntimeException.class)
-	public void testPOSTNewElementWithNoCreator() {
+	public void testPOSTNewElementWithNoCreatorIsAdded() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
 		 * When: User is verified AND i post new element with empty creatorPlayground.
@@ -122,17 +122,7 @@ public class TestEliaController {
 		assertThat(elementService.getElements().contains(element)).isTrue();
 	}
 	
-	@Test
-	public void nothing() {
-		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
-		 * When: User is verified AND i post new element with empty creatorPlayground.
-		 * Then: a new element is saved in the serviceElement.
-		 */
-		
-		
-		assertThat(elementService.getElements().isEmpty()).isTrue();
-	}
+	
 	
 
 }
