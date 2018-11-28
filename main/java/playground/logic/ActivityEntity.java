@@ -5,14 +5,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-//@Entity
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+@Entity
+@Table(name = "ACTIVITY")
 public class ActivityEntity {
 	/**
 	 * 
 	 */
+	
+	//Primary key - playground+id
+	//TODO
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
 	private String id;
@@ -54,7 +64,7 @@ public class ActivityEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-
+	@Id
 	public String getId() {
 		return id;
 	}
@@ -103,12 +113,31 @@ public class ActivityEntity {
 		this.playerEmail = playerEmail;
 	}
 
+	@Transient
 	public Map<String, Object> getAttribute() {
 		return attribute;
 	}
 
 	public void setAttribute(Map<String, Object> attribute) {
 		this.attribute = attribute;
+	}
+	
+	@Lob
+	//large object - can take as much space as it needs in the computer
+	public String getJsonAttributes() {
+		try {
+			return new ObjectMapper().writeValueAsString(this.attribute);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void setJsonAttributes(String jsonAttributes) {
+		try {
+			this.attribute = new ObjectMapper().readValue(jsonAttributes, Map.class);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public static long getSerialversionuid() {
