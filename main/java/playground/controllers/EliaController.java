@@ -74,7 +74,8 @@ public class EliaController {
 			arr.add(element[i].toEntity());
 		}
 		elementService.updateElementsInDatabase(arr, userPlayground);
-			
+		ArrayList<ElementTO>ar=elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email);
+		return (ElementTO[]) ar.toArray();	
 		
 	}
 	
