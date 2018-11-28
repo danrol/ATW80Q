@@ -1,5 +1,7 @@
 package playground.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import playground.exceptions.LoginException;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -50,12 +53,31 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
-		//login(userPlayground, email);
+		login(userPlayground, email);
 		
 		elementService.addElement(element.toEntity());
 		System.out.println("something");
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
+	
+	@RequestMapping(
+			method=RequestMethod.POST,
+			path="/playground/elements/{userPlayground }/{email}/all",
+			consumes=MediaType.APPLICATION_JSON_VALUE,
+			produces=MediaType.APPLICATION_JSON_VALUE)
+    public ElementTO[] setAllUsers (@RequestBody ElementTO[] element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
+		
+		login(userPlayground, email);
+		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
+		for (int i=0;i<element.length;i++)
+		{
+			arr.add(element[i].toEntity());
+		}
+		elementService.updateElementsInDatabase(arr, userPlayground);
+			
+		
+	}
+	
 	
 	
 
@@ -65,7 +87,7 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("distance") double distance, @PathVariable("x") int x, @PathVariable("y") int y)throws ConfirmException{
 		
-		//login(userPlayground, email);
+		login(userPlayground, email);
 		
 		if(distance<0)
 			throw new RuntimeException("Negative distance (" + distance + ")");
