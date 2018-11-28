@@ -27,7 +27,7 @@ public class DummyElementService implements ElementService{
 	}
 	@Override
 	public void addElement(ElementEntity element) {
-		getElements().add(element);
+		elements.add(element);
 	}
 	@Override
 	public ElementEntity getElement(String id, String playground) {
@@ -106,7 +106,13 @@ public class DummyElementService implements ElementService{
 				array.add(new ElementTO(el));
 			}
 		}
-		return (ElementTO[]) array.toArray();
+		if(array.isEmpty()) {
+			return null;
+		}else
+		{
+			return (ElementTO[]) array.toArray();
+		}
+		
 	}
 	
 	@Override

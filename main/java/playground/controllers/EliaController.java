@@ -50,9 +50,10 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
-		login(userPlayground, email);
+		//login(userPlayground, email);
 		
 		elementService.addElement(element.toEntity());
+		System.out.println("something");
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
 	
@@ -64,7 +65,7 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("distance") double distance, @PathVariable("x") int x, @PathVariable("y") int y)throws ConfirmException{
 		
-		login(userPlayground, email);
+		//login(userPlayground, email);
 		
 		if(distance<0)
 			throw new RuntimeException("Negative distance (" + distance + ")");

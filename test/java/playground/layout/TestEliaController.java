@@ -2,6 +2,8 @@ package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.ArrayList;
+
 import javax.annotation.PostConstruct;
 
 import org.junit.After;
@@ -62,7 +64,7 @@ public class TestEliaController {
 		
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
@@ -72,10 +74,10 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isEmpty();;
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isNull();
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
@@ -85,23 +87,28 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isEmpty();;
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isNull();
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testPOSTNewElement() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
 		 * When: User is verified AND i post new element.
 		 * Then: a new element is saved in the serviceElement.
 		 */
+		boolean flag=false;
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element)).isTrue();
+		ArrayList <ElementEntity> arr= elementService.getElements();
+		if(arr.contains(element)) {
+			flag=true;
+		}
+		assertThat(flag).isFalse();
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testPOSTNewElementWithNoCreator() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
@@ -110,8 +117,21 @@ public class TestEliaController {
 		 */
 		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element)).isFalse();
+		assertThat(elementService.getElements().contains(element)).isTrue();
+	}
+	
+	@Test
+	public void nothing() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
+		 * When: User is verified AND i post new element with empty creatorPlayground.
+		 * Then: a new element is saved in the serviceElement.
+		 */
+		
+		
+		assertThat(elementService.getElements().isEmpty()).isTrue();
 	}
 	
 
