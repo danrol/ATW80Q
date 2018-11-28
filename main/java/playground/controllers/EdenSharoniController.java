@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
-
 import playground.exceptions.LoginException;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
