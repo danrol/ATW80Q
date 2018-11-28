@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.layout.UserTO;
+import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -23,8 +24,12 @@ public class TestEdenSharoniController {
 
 	private RestTemplate restTemplate;
 
+	private UserService userService;
+	
 	@Autowired
-	UserService db;
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 
 	@LocalServerPort
 	private int port;
@@ -44,7 +49,7 @@ public class TestEdenSharoniController {
 
 	@After
 	public void teardown() {
-		db.cleanUserService();
+		userService.cleanUserService();
 	}
 
 	@Test
@@ -67,8 +72,8 @@ public class TestEdenSharoniController {
 		UserEntity user = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(user);
-		user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, " ");
+		this.userService.addUser(user);
+		UserTO u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
@@ -81,12 +86,12 @@ public class TestEdenSharoniController {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
+		this.userService.addUser(u);
 		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 		// verify that unverified user is now verified
-		assertThat(u).isNotNull();
-		assertThat(u.isVerified()).isTrue();
+		assertThat(user).isNotNull();
+		assertThat(user.isVerified()).isTrue();
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -96,7 +101,7 @@ public class TestEdenSharoniController {
 		 * When: email is not on the database
 		 * Then: I get login exception.
 		 */
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
 
@@ -110,8 +115,8 @@ public class TestEdenSharoniController {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
 		// given database contains user { "user": "userTest"}
 		u.verifyUser();
-		this.db.addUser(u);
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		this.userService.addUser(u);
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -123,10 +128,10 @@ public class TestEdenSharoniController {
 		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		// given database contains user { "user": "userTest"}
-		this.db.addUser(u);
+		this.userService.addUser(u);
 		// When I invoke GET this.url +
 		// "/playground/users/login/{playground}/{email}"
-		u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserEntity.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test
@@ -137,7 +142,7 @@ public class TestEdenSharoniController {
 		 * Then: changes are accepted
 		 */
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(moderatorUser);
+		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
@@ -151,10 +156,10 @@ public class TestEdenSharoniController {
 		 * Then: I get changeUser exception
 		 */
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(moderatorUser);
+		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
-		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
 		
 
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
@@ -168,10 +173,10 @@ public class TestEdenSharoniController {
 		 * Then: changes are accepted
 		 */
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(moderatorUser);
+		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
 
-		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		
 
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
@@ -185,7 +190,7 @@ public class TestEdenSharoniController {
 		 * Then: changes are accepted
 		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(PlayerUser);
+		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
@@ -198,10 +203,10 @@ public class TestEdenSharoniController {
 		 * Then: I get changesUser exception
 		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(PlayerUser);
+		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		
-		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
@@ -214,10 +219,10 @@ public class TestEdenSharoniController {
 		 * Then: I get changesUser exception
 		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		db.addUser(PlayerUser);
+		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
 		
-		UserTO OtherUser = new UserTO("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
 		
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
