@@ -39,11 +39,18 @@ public class TestDanielController {
 	
 	private RestTemplate restTemplate;
 	
-	@Autowired
 	private ElementService elementService;
-	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 	
 	@LocalServerPort
 	private int port;
