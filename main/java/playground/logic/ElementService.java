@@ -10,7 +10,7 @@ public interface ElementService {
 	ElementTO[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance);
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String id, String playground);
 	ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
-			String value);
+			String value,int page, int size);
 	Boolean checkIfElementsMadeBySpecificUserInSpecificPlayground(ElementEntity element, String creatorPlayground,
 			String creatorEmail);
 	ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email);

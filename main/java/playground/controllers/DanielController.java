@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -74,16 +74,21 @@ public class DanielController {
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue
-	(@RequestBody ActivityTO activity,@PathVariable("userPlayground") String userPlayground, 
-			@PathVariable ("email") String email, @PathVariable("attributeName") String attributeName,
+	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue(
+			@RequestBody ActivityTO activity, 
+			@RequestParam(name="page", required=false, defaultValue="0") int page,
+			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			@PathVariable("userPlayground") String userPlayground, 
+			@PathVariable ("email") String email, 
+			@PathVariable("attributeName") String attributeName,
 			@PathVariable("value") String value) {
 		/* function 10
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
-			return elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value);
+			return elementService.getElementsWithValueInAttribute(
+					userPlayground, email, attributeName, value, page, size);
 	}
 	
 	

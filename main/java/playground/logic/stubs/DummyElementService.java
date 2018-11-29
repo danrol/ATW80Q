@@ -1,6 +1,7 @@
 package playground.logic.stubs;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -62,7 +63,7 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
-			String attributeName, String value) {
+			String attributeName, String value, int page, int size) {
 		// TODO Auto-generated method stub
 		ArrayList<ElementTO> tempElementsList = new ArrayList<>();
 		for (ElementEntity element : elements) {
@@ -71,14 +72,22 @@ public class DummyElementService implements ElementService {
 					&& element.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(new ElementTO(element));
 		}
-		return tempElementsList.toArray(new ElementTO[tempElementsList.size()]);
+		return getElementsBySizeAndPage(tempElementsList, page, size);
+	}
+	
+	public ElementTO[] getElementsBySizeAndPage(ArrayList<ElementTO> lst, int page, int size) {  
+		 return lst
+		.stream()
+		.skip(size * page) 
+		.limit(size) 
+		.collect(Collectors.toList()) 
+		.toArray(new ElementTO[lst.size()]);
 	}
 
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		try {
 			for (ElementEntity el : elements) {
 				updateElementInDatabaseFromExternalElement(el, el.getId(), playground);
-
 			}
 
 		} catch (ElementDataException e) {
