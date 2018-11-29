@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import playground.layout.ActivityTO;
+import playground.layout.ElementTO;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -28,11 +30,12 @@ public class DummyActivityService implements ActivityService {
 		// TODO Auto-generated method stub
 		
 	}
-	public List<ActivityEntity> getAll(int size, int page) {
-	return new ArrayList<>(this.activities)
+	public ActivityTO[] getAll(ArrayList<ActivityTO> lst, int size, int page) {
+	return lst
 		.stream()
 		.skip(size * page) 
 		.limit(size) 
-		.collect(Collectors.toList()); 
+		.collect(Collectors.toList())
+		.toArray(new ActivityTO[lst.size()]); 
 	}
 }
