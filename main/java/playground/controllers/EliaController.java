@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.exceptions.ConfirmException;
@@ -37,14 +38,6 @@ public class EliaController {
 		this.userService = userService;
 	}
 
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="elia_check",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public String viewMessages() {
-		return "Elia";
-	}
-
 	
 	@RequestMapping(
 			method=RequestMethod.POST,
@@ -65,7 +58,12 @@ public class EliaController {
 			path="/playground/elements/{userPlayground }/{email}/all",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-    public ElementTO[] setAllUsers (@RequestBody ElementTO[] element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
+    public ElementTO[] setAllUsers (
+			@RequestParam(name="page", required=false, defaultValue="0") int page,
+			@RequestParam(name="size", required=false, defaultValue="10") int size,
+    		@RequestBody ElementTO[] element,
+    		@PathVariable("email") String email,
+    		@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
 		login(userPlayground, email);
 		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
@@ -74,8 +72,8 @@ public class EliaController {
 			arr.add(element[i].toEntity());
 		}
 		elementService.updateElementsInDatabase(arr, userPlayground);
-		ArrayList<ElementTO>ar=elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email);
-		return (ElementTO[]) ar.toArray();	
+		return elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email, page, size);
+			
 		
 	}
 	
@@ -86,14 +84,22 @@ public class EliaController {
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsAtLocation(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("distance") double distance, @PathVariable("x") int x, @PathVariable("y") int y)throws ConfirmException{
+	public ElementTO[] getElementsAtLocation(
+			@RequestParam(name="page", required=false, defaultValue="0") int page,
+			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			@RequestBody ElementTO element,
+			@PathVariable("email") String email,
+			@PathVariable("userPlayground") String userPlayground,
+			@PathVariable("distance") double distance, 
+			@PathVariable("x") int x, 
+			@PathVariable("y") int y)throws ConfirmException{
 		
 		login(userPlayground, email);
 		
 		if(distance<0)
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		
-		ElementTO[] elementsInRange= elementService.getAllElementsTOInRadius(element,x,y,distance);
+		ElementTO[] elementsInRange= elementService.getAllElementsTOInRadius(element,x,y,distance, page, size);
 		return elementsInRange;
 	}
 	

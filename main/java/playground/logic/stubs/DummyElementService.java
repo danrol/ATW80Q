@@ -43,13 +43,13 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ArrayList<ElementTO> getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email) {
+	public ElementTO[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size) {
 		ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground, email))
 				result.add(new ElementTO(element));
 		}
-		return result;
+		return getElementsBySizeAndPage(result, page, size);
 	}
 
 	@Override
@@ -75,6 +75,7 @@ public class DummyElementService implements ElementService {
 		return getElementsBySizeAndPage(tempElementsList, page, size);
 	}
 	
+	//return arrays values depending on page and size
 	public ElementTO[] getElementsBySizeAndPage(ArrayList<ElementTO> lst, int page, int size) {  
 		 return lst
 		.stream()
@@ -115,7 +116,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementTO[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance) {
+	public ElementTO[] getAllElementsTOInRadius(ElementTO element, 
+			double x, double y, double distance, int page, int size) {
 
 		// find in a circle
 		ArrayList<ElementTO> array = new ArrayList<>();
@@ -130,7 +132,7 @@ public class DummyElementService implements ElementService {
 		if (array.isEmpty()) {
 			return null;
 		} else {
-			return (ElementTO[]) array.toArray();
+			return getElementsBySizeAndPage(array, page, size);
 		}
 
 	}

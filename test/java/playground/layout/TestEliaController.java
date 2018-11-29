@@ -74,7 +74,7 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isNull();
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
 	}
 	
 	@Test(expected=RuntimeException.class)
@@ -87,7 +87,7 @@ public class TestEliaController {
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance)).isNull();
+		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
 	}
 	
 	@Test(expected=RuntimeException.class)
