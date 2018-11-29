@@ -86,12 +86,13 @@ public class TestDanielController {
 		jsonMapper.writeValueAsString(new UserTO(new UserEntity(postUserForm)));
 	}
 	
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void testUserAlreadyExists() {
 		NewUserForm postUserForm =  new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
 		userService.addUser(userToAdd.toEntity());
-		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
+		String actualReturnedValue = this.restTemplate.postForObject(
+				this.url+"/playground/users", postUserForm, String.class);
 		assertThat(actualReturnedValue).isNull();
 	}
 	

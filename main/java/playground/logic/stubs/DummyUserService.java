@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import playground.Constants;
 import playground.exceptions.ConfirmException;
+import playground.exceptions.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -45,9 +46,15 @@ public class DummyUserService implements UserService{
 	}
 	@Override
 	public void addUser(UserEntity user) {
+		if (this.getUser(user.getEmail()) != null)
+			throw new RegisterNewUserException("User already registered");
+		else {
 		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
+		}
 	}
+	
+	
 	@Override
 	public UserEntity getUser(String email) {
 		for(UserEntity u:users)

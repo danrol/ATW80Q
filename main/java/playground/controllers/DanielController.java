@@ -1,7 +1,5 @@
 package playground.controllers;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,13 +47,9 @@ public class DanielController {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-		UserTO newUserTO = new UserTO(new UserEntity(newUserForm));
-		if (userService.getUser(newUserForm.getEmail()) != null)
-			return null;
-		else {
-		userService.addUser(newUserTO.toEntity());
-		return newUserTO;
-		}
+		
+		userService.addUser(new UserEntity(newUserForm));
+		return new UserTO(new UserEntity(newUserForm));
 	}
 	
 	@RequestMapping(
