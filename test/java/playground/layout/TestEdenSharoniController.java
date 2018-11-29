@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.*;
 import playground.layout.UserTO;
-import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -73,7 +72,7 @@ public class TestEdenSharoniController {
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(user);
-		UserTO u = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
 	}
 
 	@Test
@@ -116,7 +115,7 @@ public class TestEdenSharoniController {
 		// given database contains user { "user": "userTest"}
 		u.verifyUser();
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -131,7 +130,7 @@ public class TestEdenSharoniController {
 		this.userService.addUser(u);
 		// When I invoke GET this.url +
 		// "/playground/users/login/{playground}/{email}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
 	@Test
