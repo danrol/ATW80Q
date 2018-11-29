@@ -1,12 +1,8 @@
 package playground.logic.jpa;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import playground.dal.ActivityDao;
 import playground.logic.ActivityService;
@@ -15,24 +11,28 @@ import playground.logic.UserService;
 
 @Service
 public class JpaActivityService implements ActivityService {
-	private ActivityDao activity;
+	private ActivityDao activityDao;
 	private IdGeneratorDao idGenerator;
+	private ElementService elementService;
+	private UserService userService;
 	
 	@Autowired
-	public JpaMessageService(ActivityDao activity, IdGeneratorDao idGenerator) {
-		this.activity = activity;
+	public JpaActivityService(ActivityDao activity, IdGeneratorDao idGenerator) {
+		this.activityDao = activity;
 		this.idGenerator = idGenerator;
 	}
 
 	@Override
+	@Autowired
 	public void setElementService(ElementService elementService) {
-		// TODO Auto-generated method stub
+		this.elementService = elementService;
 		
 	}
 
 	@Override
+	@Autowired
 	public void setUserService(UserService userService) {
-		// TODO Auto-generated method stub
+		this.userService = userService;
 		
 	}
 
