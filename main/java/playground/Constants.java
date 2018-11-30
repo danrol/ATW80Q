@@ -13,6 +13,7 @@ public class Constants {
 	public static String QUESTION = "QUESTION";
 	public static String PLAYGROUND_NAME;
 	public static String DEFAULT_USERNAME;
+	public static String DEFAULT_ACTIVITY_TYPE = "echo";
 	public static int USER_VERIFIED = 1;
 	public static int USER_NOT_VERIFIED = 0;
 	public static String ELEMENT_DEFAULT_TYPE = "Element";

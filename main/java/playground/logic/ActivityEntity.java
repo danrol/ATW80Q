@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import playground.Constants;
+
 @Entity
 @Table(name = "ACTIVITY")
 public class ActivityEntity {
@@ -50,6 +52,7 @@ public class ActivityEntity {
 	
 	public ActivityEntity() {
 		attribute = new HashMap<String,Object>();
+		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
 	}
 	
 	@Override
