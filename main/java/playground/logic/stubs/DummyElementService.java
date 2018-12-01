@@ -67,8 +67,8 @@ public class DummyElementService implements ElementService {
 		// TODO Auto-generated method stub
 		ArrayList<ElementTO> tempElementsList = new ArrayList<>();
 		for (ElementEntity element : elements) {
-			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, element.getCreatorPlayground(),
-					element.getCreatorPlayground()) && element.getAttributes().containsKey(attributeName)
+			if (checkIfElementsMadeBySpecificUserInSpecificPlayground(element, creatorPlayground,
+					creatorEmail) && element.getAttributes().containsKey(attributeName)
 					&& element.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(new ElementTO(element));
 		}

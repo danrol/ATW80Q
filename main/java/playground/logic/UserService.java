@@ -10,5 +10,6 @@ public interface UserService {
 	void cleanUserService();
 	void updateUser(UserEntity user);
 	UserEntity getUser(String email);
+	Boolean CheckIfUserLoggedIn(UserEntity userToCheck);
 
 }

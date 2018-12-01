@@ -127,6 +127,8 @@ public class TestDanielController {
 /*	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
 	
+		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
+				Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
 		ElementEntity updatedElementForTestEntity = 
 				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
@@ -145,7 +147,7 @@ public class TestDanielController {
 		assertThat(actualEntity).isNotNull();
 		System.out.println("Location from actualEntity: "+actualEntity.getLocation().toString());
 		System.out.println("Location from actualEntity: "+updatedElementForTestEntity.getLocation().toString());
-		assertEquals(actualEntity,updatedElementForTestTO.toEntity());
+		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
 		//TODO check why fails because of location
 		}*/
 	
@@ -159,8 +161,11 @@ public class TestDanielController {
 	
 	
 	//Problem with gettin ElementTO[] Eyal help needed
-/*  @Test
+/*	@Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
+		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
+				Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
+		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity(Constants.ID_FOR_TESTS, 
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, new Location(1,0)))};
 		HashMap<String, Object> testMap = new HashMap<>();

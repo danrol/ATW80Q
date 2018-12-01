@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import playground.Constants;
 import playground.exceptions.ConfirmException;
+import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -74,7 +75,22 @@ public class DummyUserService implements UserService{
 	public void cleanUserService() {
 		users.clear();
 	}
-
+	
+	@Override
+	public Boolean CheckIfUserLoggedIn(UserEntity userToCheck) {
+		if (userToCheck == null)
+			throw new LoginException("No user with this email. Wrong email");
+		for (UserEntity u : users) {
+			if (u.getEmail() == userToCheck.getEmail())
+				if(!u.isVerified())
+					throw new LoginException("User is not verified");
+					if(u.getPlayground() != userToCheck.getPlayground())
+						throw new LoginException("User is not registred for specific playground");
+				return true;
+		}
+		throw new LoginException("Login wasn't performed");
+	}
+	
 	@Override
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(email);

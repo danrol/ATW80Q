@@ -65,7 +65,8 @@ public class DanielController {
 		 */
 		
 			System.out.println("Entered update");
-			elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), id, playground);
+			if (userService.CheckIfUserLoggedIn(userService.getUser(email)))
+				elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), id, playground);
 			System.out.println("updatePerformed");
 	}
 	
@@ -74,7 +75,7 @@ public class DanielController {
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByUserPlaygroundEmailAttributeNameValue(
+	public ElementTO[] getElementsByAttributeNameValue(
 			@RequestBody ActivityTO activity, 
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
@@ -87,8 +88,11 @@ public class DanielController {
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
+		if (userService.CheckIfUserLoggedIn(userService.getUser(email)))
 			return elementService.getElementsWithValueInAttribute(
 					userPlayground, email, attributeName, value, page, size);
+		else
+			return null;
 	}
 	
 	
