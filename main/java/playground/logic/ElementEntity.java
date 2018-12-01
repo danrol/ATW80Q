@@ -62,9 +62,7 @@ public class ElementEntity{
 			this.creationDate = elEntity.creationDate;
 			this.creatorPlayground = elEntity.creatorPlayground;
 			this.creatorEmail = elEntity.creatorEmail;
-			if(elEntity.location == null)
-				throw new RuntimeException("location is null");
-			this.location = elEntity.location;
+			setLocation(elEntity.location);
 		
 	}
 	
@@ -78,9 +76,7 @@ public class ElementEntity{
 		this.creationDate = new Date();
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
-		if(xy == null)
-			throw new RuntimeException("location is null");
-		this.location = xy;
+		setLocation(xy);
 	}
 
 	public String getName() {
@@ -106,7 +102,10 @@ public class ElementEntity{
 		return location;
 	}
 	public void setLocation(Location location) {
-		this.location = location;
+		if(location != null)
+			this.location = location;
+		else
+			throw new RuntimeException("Location is null");
 	}
 	public Date getCreationDate() {
 		return creationDate;
