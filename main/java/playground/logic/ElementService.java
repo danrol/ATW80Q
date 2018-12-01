@@ -7,6 +7,7 @@ import playground.layout.ElementTO;
 public interface ElementService {
 
 	void cleanElementService();
+
 	ElementTO[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance,int page, int size);
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String id, String playground);
 	ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
