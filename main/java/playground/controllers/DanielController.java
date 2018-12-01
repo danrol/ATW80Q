@@ -88,11 +88,10 @@ public class DanielController {
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
-		if (userService.CheckIfUserLoggedIn(userService.getUser(email)))
-			return elementService.getElementsWithValueInAttribute(
-					userPlayground, email, attributeName, value, page, size);
-		else
-			return null;
+		ElementTO[] result = (userService.CheckIfUserLoggedIn(userService.getUser(email)) == true) ?  elementService.getElementsWithValueInAttribute(
+				userPlayground, email, attributeName, value, page, size) :  null;
+				
+				return result;
 	}
 	
 	
