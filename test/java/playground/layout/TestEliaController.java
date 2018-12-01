@@ -64,6 +64,8 @@ public class TestEliaController {
 		
 	}
 	
+	//TODO add non RuntimeException tests
+	
 	@Test(expected=RuntimeException.class)
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		/*

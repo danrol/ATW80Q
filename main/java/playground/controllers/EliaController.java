@@ -46,6 +46,7 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
+		//TODO change to login check through userService
 		login(userPlayground, email);
 		
 		elementService.addElement(element.toEntity());
@@ -65,6 +66,7 @@ public class EliaController {
     		@PathVariable("email") String email,
     		@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
+		//TODO change to login check through userService
 		login(userPlayground, email);
 		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
 		for (int i=0;i<element.length;i++)
@@ -94,6 +96,7 @@ public class EliaController {
 			@PathVariable("x") int x, 
 			@PathVariable("y") int y)throws ConfirmException{
 		
+		//TODO change to login check through userService
 		login(userPlayground, email);
 		
 		if(distance<0)
@@ -108,6 +111,7 @@ public class EliaController {
 	 * */
 	
 
+	//TODO remove. Added login check instead in user service
 	@RequestMapping(method = RequestMethod.GET, path = "/login2", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
 		/*
