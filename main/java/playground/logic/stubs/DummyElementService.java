@@ -32,6 +32,17 @@ public class DummyElementService implements ElementService {
 	public void addElement(ElementEntity element) {
 		elements.add(element);
 	}
+	
+	@Override
+	public void addElements(ElementTO[] elements,String  userPlayground) {
+		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
+		for (int i=0;i<elements.length;i++)
+		{
+			arr.add(elements[i].toEntity());
+		}
+		updateElementsInDatabase(arr, userPlayground);
+		
+	}
 
 	@Override
 	public ElementEntity getElement(String id, String playground) {
@@ -118,8 +129,10 @@ public class DummyElementService implements ElementService {
 	@Override
 	public ElementTO[] getAllElementsTOInRadius(ElementTO element, 
 			double x, double y, double distance, int page, int size) {
-
-		// find in a circle
+		
+		if(distance<0) {
+			throw new RuntimeException("Negative distance (" + distance + ")");
+		}
 		ArrayList<ElementTO> array = new ArrayList<>();
 		for (ElementEntity el : elements) {
 			double xin = el.getLocation().getX() - element.getLocation().getX();

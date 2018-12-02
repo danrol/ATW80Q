@@ -9,6 +9,7 @@ public interface ElementService {
 	void cleanElementService();
 
 	ElementTO[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance,int page, int size);
+	public void addElements(ElementTO[] elements,String  userPlayground);
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String id, String playground);
 	ElementTO[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
 			String value,int page, int size);

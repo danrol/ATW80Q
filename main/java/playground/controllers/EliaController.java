@@ -47,10 +47,8 @@ public class EliaController {
     public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
 		//TODO change to login check through userService
-		login(userPlayground, email);
-		
+		userService.login(userPlayground,email);
 		elementService.addElement(element.toEntity());
-		System.out.println("something");
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
 	
@@ -66,14 +64,8 @@ public class EliaController {
     		@PathVariable("email") String email,
     		@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
-		//TODO change to login check through userService
-		login(userPlayground, email);
-		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
-		for (int i=0;i<element.length;i++)
-		{
-			arr.add(element[i].toEntity());
-		}
-		elementService.updateElementsInDatabase(arr, userPlayground);
+		userService.login(userPlayground,email);
+		elementService.addElements(element, userPlayground);
 		return elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email, page, size);
 			
 		
@@ -97,13 +89,9 @@ public class EliaController {
 			@PathVariable("y") int y)throws ConfirmException{
 		
 		//TODO change to login check through userService
-		login(userPlayground, email);
+		userService.login(userPlayground,email);
 		
-		if(distance<0)
-			throw new RuntimeException("Negative distance (" + distance + ")");
-		
-		ElementTO[] elementsInRange= elementService.getAllElementsTOInRadius(element,x,y,distance, page, size);
-		return elementsInRange;
+		return elementService.getAllElementsTOInRadius(element,x,y,distance, page, size);
 	}
 	
 	/*
@@ -111,27 +99,6 @@ public class EliaController {
 	 * */
 	
 
-	//TODO remove. Added login check instead in user service
-	@RequestMapping(method = RequestMethod.GET, path = "/login2", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
-		/*
-		 * function 3INPUT: NONE OUTPUT: UserTO
-		 */
-		UserEntity u = this.userService.getUser(email);
-		if (u != null) {
-			if (u.getPlayground().equals(playground)) {
-				if (u.isVerified()) {
-					return new UserTO(u);
-				} else {
-					throw new LoginException("User is not verified.");
-				}
-			} else {
-				throw new LoginException("User does not belong to the specified playground.");
-			}
-
-		} else {
-			throw new LoginException("Email is not registered.");
-		}
-	}
+	
 	
 }
