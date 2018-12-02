@@ -66,7 +66,7 @@ public class WebUI {
 		 */
 		
 			System.out.println("Entered update");
-//			userService.login(userPlayground, email);
+			userService.login(userPlayground, email);
 			elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), userPlayground, 
 					playground, id);
 			System.out.println("updatePerformed");
@@ -88,7 +88,7 @@ public class WebUI {
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
-//		userService.login(userPlayground, email);
+		userService.login(userPlayground, email);
 		return getElementTOArray(elementService.
 				getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size));
 				

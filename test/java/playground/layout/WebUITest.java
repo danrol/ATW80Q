@@ -117,9 +117,11 @@ private RestTemplate restTemplate;
 	
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
-	
-		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS));
+		
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
+				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userService.addUser(userElementCreator);
 		ElementEntity updatedElementForTestEntity = 
 				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
@@ -151,8 +153,10 @@ private RestTemplate restTemplate;
 	//TODO solve test problem
 	@Test
 	public void testGetElementsByAttributeNameValue(){
-		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS));
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
+				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userService.addUser(userElementCreator);
 		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity(Constants.ID_FOR_TESTS, 
 				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, new Location(1,0)))};
