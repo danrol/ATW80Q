@@ -78,13 +78,27 @@ private RestTemplate restTemplate;
 	
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
+/*		
+		Given Server is up
+		When I POST /playground/users
+		With headers: Accept:application/json, content-type: application/json
+		With "email" : "WrongEmail” in NewUserForm body
+		Then RuntimeException appears
+*/
+		
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		new UserTO(new UserEntity(postUserForm));		
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void testUserAlreadyExists() {
-		NewUserForm postUserForm =  new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
+/*		
+		Given Server is up  
+		When I POST /playground/users 
+		AND user exists in the database
+		Then a null user is returned in JSON
+*/
+		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
 		userService.addUser(userToAdd.toEntity());
 		UserTO actualReturnedValue = this.restTemplate.postForObject(
@@ -94,7 +108,18 @@ private RestTemplate restTemplate;
 	
 	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
-		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
+/*		
+		Given Server is up
+		When I POST /playground/users
+		With headers:	  Accept:application/json,  content-type: application/json
+		With Body:
+		{"email" : "nudnik@mail.ru", "username":"Curiosity", "avatar":"ava", "role":"PLAYER"}
+		Then the response body contains new UserTO with the "email" : "nudnik@mail.ru", “username”: “Curiosity”, "avatar:"ava", "role":"PLAYER""
+		AND 
+		database contains new UserTO with the same fields as in the body
+*/
+
+		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO testValue = new UserTO(new UserEntity(postUserForm));
 		
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
@@ -117,23 +142,31 @@ private RestTemplate restTemplate;
 	
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
+/*		
+		Given Server is up
+		AND database contains element with fields user playground "User playgrouNd", playground = "User playgrouNd", id = “123”, creator email = “email@email.com” 
+		AND database contains verified user with "email@email.com"
+		When I PUT /playground/elements/User playgrouNd/email@email.com/"User playgrouNd"/”123”
+			With headers: Accept:application/json, content-type: application/json
+			And element in body contains fields user playground "User playgrouNd", playground = "for test", id = “123”, creator email = “email@email.com” 
+		Then original element’s playground will be updated with “for test” 
+*/
 		
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
+				"PLAYER", "User playgrouNd");
 		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
 		userService.addUser(userElementCreator);
 		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
+				new ElementEntity("123", "User playgrouNd", "email@email.com",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
 		updatedElementForTestTO.setPlayground("for test");
 		
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, Constants.CREATOR_PLAYGROUND_FOR_TESTS, 
-				Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME,  Constants.ID_FOR_TESTS);
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "User playgrouNd", 
+				"email@email.com", "User playgrouNd",  "123");
 		
-		System.out.println("Arrived");
-		ElementEntity actualEntity = elementService.getElement(Constants.ID_FOR_TESTS, "for test");
+		ElementEntity actualEntity = elementService.getElement("123", "for test");
 
 		
 		assertThat(actualEntity).isNotNull();
@@ -141,26 +174,37 @@ private RestTemplate restTemplate;
 		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
 		}
 	
+	
 	@Test(expected=RuntimeException.class)
 	public void testAttributeNotExist() {
 		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
 		ElementTO[] elements = responseEntity.getBody();
 		assertThat(elements).isNull();
+		//TODO improve test
 	}
 	
 	
-	//TODO solve test problem
 	@Test
 	public void testGetElementsByAttributeNameValue(){
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+/*		
+		Given: the server is up
+		AND database contains elements with attributeName = “attr3”:attributeValue=”attr3Val”
+		And
+		With headers:	  Accept:application/json,  content-type: application/json
+		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
+		Then: server returns ElementTO[] with all elements with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
+*/
+		
+		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
+				"player", "creatorPlayground");
 		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity(Constants.ID_FOR_TESTS, 
-				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, new Location(1,0)))};
-		elementForTest[0].setCreatorPlayground(Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
+		
+		elementForTest[0].setCreatorPlayground("creatorPlayground");
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
@@ -172,7 +216,7 @@ private RestTemplate restTemplate;
 		
 		ElementTO[] forNow = this.restTemplate.getForObject(url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class, 
-				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, "attr3", "attr3Val");
+				"creatorPlayground", "nudnik@mail.ru", "attr3", "attr3Val");
 	    
 		System.out.println("forNow: "+forNow.toString());
 		System.out.println("element for test: "+elementForTest[0]);
