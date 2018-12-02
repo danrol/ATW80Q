@@ -76,16 +76,18 @@ public class DummyUserService implements UserService{
 		users.clear();
 	}
 	
+	
+	//EDEN DUPONT : THIS METHOD DOES NOT MATCH PROJECT REQUIREMENTS
 	@Override
 	public Boolean CheckIfUserLoggedIn(UserEntity userToCheck) {
 		if (userToCheck == null)
 			throw new LoginException("No user with this email. Wrong email");
 		for (UserEntity u : users) {
-			if (u.getEmail() == userToCheck.getEmail())
+			if (u.getEmail().equals(userToCheck.getEmail()))
 				if(!u.isVerified())
 					throw new LoginException("User is not verified");
-					if(u.getPlayground() != userToCheck.getPlayground())
-						throw new LoginException("User is not registred for specific playground");
+					if(!u.getPlayground().equals(userToCheck.getPlayground())
+						throw new LoginException("User is not registerd to the playground");
 				return true;
 		}
 		throw new LoginException("Login wasn't performed");
