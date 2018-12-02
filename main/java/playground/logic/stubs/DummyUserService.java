@@ -45,6 +45,7 @@ public class DummyUserService implements UserService{
 	public static void setUsers(ArrayList<UserEntity> usersToSet) {
 		users = usersToSet;
 	}
+	
 	@Override
 	public void addUser(UserEntity user) {
 		if (this.getUser(user.getEmail()) != null)
@@ -65,36 +66,18 @@ public class DummyUserService implements UserService{
 		}
 		return null;
 	}
+	
 	@Override
 	public void updateUser(UserEntity user) {
 		UserEntity tempUser = this.getUser(user.getEmail());
 		users.remove(tempUser);
 		users.add(user);
 	}
+	
 	@Override
 	public void cleanUserService() {
 		users.clear();
 	}
-	
-	
-	//EDEN DUPONT : THIS METHOD DOES NOT MATCH PROJECT REQUIREMENTS
-	//EDEN SHARONI: THERE IS A LOGIN METHOD - DELETE THIS METHOD
-	@Override
-	public Boolean CheckIfUserLoggedIn(UserEntity userToCheck) {
-		if (userToCheck == null)
-			throw new LoginException("No user with this email. Wrong email");
-		for (UserEntity u : users) {
-			if (u.getEmail().equals(userToCheck.getEmail()))
-				if(!u.isVerified())
-					throw new LoginException("User is not verified");
-					if(!u.getPlayground().equals(userToCheck.getPlayground()))
-						throw new LoginException("User is not registerd to the playground");
-				return true;
-		}
-		throw new LoginException("Login wasn't performed");
-	}
-	
-	
 	
 	@Override
 	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
