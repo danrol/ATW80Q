@@ -103,8 +103,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
-			@PathVariable("playground") String playground) {
+	public void updateUser(UserEntity user, String email,String playground) {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
