@@ -65,7 +65,7 @@ public class DanielController {
 		 */
 		
 			System.out.println("Entered update");
-			userService.login(userPlayground, email);
+			if (userService.CheckIfUserLoggedIn(userService.getUser(email)))
 				elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), id, playground);
 			System.out.println("updatePerformed");
 	}
@@ -88,9 +88,10 @@ public class DanielController {
 		 * OUTPUT: ElementTO[]
 		 */
 		System.out.println();
-		userService.login(userPlayground, email);
-		return elementService.getElementsWithValueInAttribute(
-				userPlayground, email, attributeName, value, page, size);
+		ElementTO[] result = (userService.CheckIfUserLoggedIn(userService.getUser(email)) == true) ?  elementService.getElementsWithValueInAttribute(
+				userPlayground, email, attributeName, value, page, size) :  null;
+				
+				return result;
 	}
 	
 	
