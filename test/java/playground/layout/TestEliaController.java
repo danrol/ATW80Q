@@ -27,10 +27,11 @@ public class TestEliaController {
 	//
 	private RestTemplate restTemplate;
 	
-	@Autowired
 	private ElementService elementService;
-	@Autowired
 	private UserService userService;
+	
+	
+	
 	
 	@LocalServerPort
 	private int port;
@@ -58,6 +59,15 @@ public class TestEliaController {
 		
 		
 	}
+	@Autowired
+	public void setElementService(ElementService elementService){
+		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setUserService(UserService userService){
+		this.userService = userService;
+	}
 
 	@Test
 	public void testServerIsBootingCorrectly() throws Exception {
@@ -67,16 +77,31 @@ public class TestEliaController {
 	//TODO add non RuntimeException tests
 	
 	@Test
+	public void testIfWeGETElementsFromDatabaseWithRightRadius() {
+		/*
+		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
+		 * When: User is verified AND distance is above 0.
+		 * Then: I get  ElementTO[] back.
+		 */
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementTO element1=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
+		ElementTO element2=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("2,1")));
+		elementService.addElement(element1.toEntity());
+		double distance=7;
+		assertThat(elementService.getAllElementsTOInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10)).isNotNull();
+	}
+	
+	@Test(expected=RuntimeException.class)
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 		 * When: User is verified AND distance is negative.
-		 * Then: I get empty ElementTO[].
+		 * Then: I get NULL ElementTO[].
 		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
+		elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
 	}
 	
 	@Test
@@ -84,7 +109,7 @@ public class TestEliaController {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 		 * When: User is verified AND distance is 0.
-		 * Then: I get empty ElementTO[].
+		 * Then: I get NULL ElementTO[].
 		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
