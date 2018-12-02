@@ -80,7 +80,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	public UserTO login(String playground, String email) {
 		/*
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
@@ -103,8 +103,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
-			@PathVariable("playground") String playground) {
+	public void updateUser(UserEntity user, String email,String playground) {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
