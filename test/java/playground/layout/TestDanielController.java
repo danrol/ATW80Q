@@ -120,32 +120,29 @@ public class TestDanielController {
 
 	}
 	
-/*	@Test
+	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
 	
 		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
+				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS));
 		ElementEntity updatedElementForTestEntity = 
 				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
-		updatedElementForTestEntity.setCreatorPlayground("for test");
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
+		updatedElementForTestTO.setPlayground("for test");
 		
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, Constants.CREATOR_PLAYGROUND_FOR_TESTS, 
-				Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
+				Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME,  Constants.ID_FOR_TESTS);
 		
 		System.out.println("Arrived");
-		ElementEntity actualEntity = elementService.getElement(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME);
-		System.out.println("Actual entity:"+actualEntity.toString());
-		System.out.println("updatedElementForTestEntity: "+updatedElementForTestEntity.toString());
+		ElementEntity actualEntity = elementService.getElement(Constants.ID_FOR_TESTS, "for test");
+
 		
 		assertThat(actualEntity).isNotNull();
-		System.out.println("Location from actualEntity: "+actualEntity.getLocation().toString());
-		System.out.println("Location from actualEntity: "+updatedElementForTestEntity.getLocation().toString());
+
 		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
-		//TODO check why fails because of location
-		}*/
+		}
 	
 	@Test(expected=RuntimeException.class)
 	public void testAttributeNotExist() {

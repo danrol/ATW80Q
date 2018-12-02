@@ -99,7 +99,7 @@ public class DummyElementService implements ElementService {
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(el, el.getId(), playground);
+				updateElementInDatabaseFromExternalElement(el, el.getCreatorPlayground(), playground, el.getId());
 			}
 
 		} catch (ElementDataException e) {
@@ -109,7 +109,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String id, String playground) {
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, 
+			String playground, String id) {
 
 		System.out.println("Perform update");
 		System.out.println("Not updated element" + this.getElement(id, playground));
