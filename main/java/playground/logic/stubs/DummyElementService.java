@@ -160,6 +160,18 @@ public class DummyElementService implements ElementService {
 		return serialVersionUID;
 	}
 
+	@Override
+	public boolean equalsEntity(ElementEntity e1, ElementEntity e2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean equalsTO(ElementTO t1, ElementTO t2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	// TODO change
 //	public boolean checkElementIsCorrect(ElementEntity element) {
 //		UserEntity userToCheckWith = null;
