@@ -17,8 +17,6 @@ public interface UserService {
 
 	UserEntity getUser(String email);
 
-	Boolean CheckIfUserLoggedIn(UserEntity userToCheck);
-
 	UserEntity login(String playground, String email);
 
 	void updateUser(UserEntity user, String email, String playground);
