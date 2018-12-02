@@ -59,7 +59,6 @@ public class EdenDupontController {
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-		System.err.println("Trying to log in with " + email + " and " + userPlayground);
 		login(userPlayground,email);
 		//if login succeeded, get element
 		element = elementService.getElement(id, playground);

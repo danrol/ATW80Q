@@ -1,5 +1,6 @@
 package playground.logic;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javax.persistence.Transient;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.Constants;
@@ -53,6 +56,22 @@ public class ActivityEntity {
 	public ActivityEntity() {
 		attribute = new HashMap<String,Object>();
 		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
+	}
+	
+//	create constructors that receive just a JSon 
+//	string and create the class in ActivityEntity
+	public ActivityEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
+			ObjectMapper objectMapper = new ObjectMapper();
+			ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class); 
+			this.id = acEntity.id;
+			this.playground = acEntity.playground;
+			this.elementPlayground = acEntity.elementPlayground;
+			this.elementId = acEntity.elementId;
+			this.type = acEntity.type;
+			this.playerPlayground = acEntity.playerPlayground;
+			this.playerEmail = acEntity.playerEmail;
+			this.attribute = acEntity.attribute;
+		
 	}
 	
 	@Override
