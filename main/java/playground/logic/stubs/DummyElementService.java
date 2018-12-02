@@ -160,21 +160,7 @@ public class DummyElementService implements ElementService {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	@Override
-	public boolean equalsEntity(ElementEntity e1, ElementEntity e2) {
-		if(e1.getName().equals(e2.getName())) {
-			if(e1.getId().equals(e2.getId())) {
-				if(e1.getType().equals(e2.getType())) {
-					if(e1.getPlayground().equals(e2.getPlayground())) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 		
-	}
 
 	// TODO change
 //	public boolean checkElementIsCorrect(ElementEntity element) {
