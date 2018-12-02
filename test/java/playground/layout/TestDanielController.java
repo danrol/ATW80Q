@@ -155,12 +155,13 @@ public class TestDanielController {
 	
 	//TODO solve test problem
 	@Test
-	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
+	public void testGetElementsByAttributeNameValue(){
 		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
-				Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
+				Constants.PLAYER_ROLE, Constants.CREATOR_PLAYGROUND_FOR_TESTS));
 		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity(Constants.ID_FOR_TESTS, 
-				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, new Location(1,0)))};
+				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, new Location(1,0)))};
+		elementForTest[0].setCreatorPlayground(Constants.CREATOR_PLAYGROUND_FOR_TESTS);
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");

@@ -78,7 +78,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public UserTO login(String playground, String email) {
+	public UserEntity login(String playground, String email) {
 		/*
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
@@ -87,7 +87,7 @@ public class DummyUserService implements UserService{
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
-					return new UserTO(u);
+					return u;
 				} else {
 					throw new LoginException("User is not verified.");
 				}
@@ -165,19 +165,4 @@ public class DummyUserService implements UserService{
 		return null;
 	}
 
-	@Override
-	public boolean equalsEntity(UserEntity e1, UserEntity e2) {
-		if(e1.getUsername().equals(e2.getUsername())) {
-			if(e1.getVerificationCode().equals(e2.getVerificationCode())) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean equalsTO(UserTO t1, UserTO t2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

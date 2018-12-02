@@ -1,5 +1,7 @@
 package playground.controllers;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
-
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 
 import playground.logic.NewUserForm;
@@ -88,8 +90,17 @@ public class DanielController {
 		 */
 		System.out.println();
 //		userService.login(userPlayground, email);
-		return elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size);
+		return getElementTOArray(elementService.
+				getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size));
 				
+	}
+	
+	public ElementTO[] getElementTOArray(ElementEntity[] lst){
+	ArrayList<ElementTO> result = new ArrayList<>();
+	for (ElementEntity e : lst) {
+		result.add(new ElementTO(e));
+	}
+	return result.toArray(new ElementTO[lst.length]);
 	}
 	
 	
