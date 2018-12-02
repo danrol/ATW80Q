@@ -66,7 +66,7 @@ public class TestEliaController {
 	
 	//TODO add non RuntimeException tests
 	
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
@@ -79,7 +79,7 @@ public class TestEliaController {
 		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
 	}
 	
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
@@ -92,25 +92,23 @@ public class TestEliaController {
 		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
 	}
 	
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void testPOSTNewElementIsAddedToDatabase() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
 		 * When: User is verified AND i post new element.
 		 * Then: a new element is saved in the serviceElement.
 		 */
-		boolean flag=false;
+		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
 		ArrayList <ElementEntity> arr= elementService.getElements();
-		if(arr.contains(element)) {
-			flag=true;
-		}
-		assertThat(flag).isFalse();
+		
+		assertThat(arr.contains(element)).isTrue();
 	}
 	
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void testPOSTNewElementWithNoCreatorIsAdded() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
