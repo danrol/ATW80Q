@@ -1,17 +1,12 @@
 package playground.logic.stubs;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
-
-import playground.Constants;
 import playground.exceptions.ElementDataException;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.Location;
 
 @Service
 public class DummyElementService implements ElementService {
