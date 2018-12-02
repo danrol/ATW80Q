@@ -169,7 +169,11 @@ public class DummyUserService implements UserService{
 
 	@Override
 	public boolean equalsEntity(UserEntity e1, UserEntity e2) {
-		// TODO Auto-generated method stub
+		if(e1.getUsername().equals(e2.getUsername())) {
+			if(e1.getVerificationCode().equals(e2.getVerificationCode())) {
+				return true;
+			}
+		}
 		return false;
 	}
 
