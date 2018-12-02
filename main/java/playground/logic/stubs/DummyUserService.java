@@ -1,8 +1,6 @@
 package playground.logic.stubs;
 import java.util.ArrayList;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
