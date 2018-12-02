@@ -86,7 +86,7 @@ public class DummyUserService implements UserService{
 			if (u.getEmail().equals(userToCheck.getEmail()))
 				if(!u.isVerified())
 					throw new LoginException("User is not verified");
-					if(!u.getPlayground().equals(userToCheck.getPlayground())
+					if(!u.getPlayground().equals(userToCheck.getPlayground()))
 						throw new LoginException("User is not registerd to the playground");
 				return true;
 		}
