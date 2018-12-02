@@ -100,16 +100,12 @@ public class TestDanielController {
 	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
 		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		String testValue = jsonMapper.writeValueAsString(new UserTO(new UserEntity(postUserForm)));
+		UserTO testValue = new UserTO(new UserEntity(postUserForm));
 		
-		String actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, String.class);
-		//TODO fix problem with mapping
+		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
 		assertThat(actualReturnedValue)
 		.isNotNull()
-		.isEqualTo(testValue);
-		
-		assertThat(jsonMapper.writeValueAsString(userService.getUser(Constants.EMAIL_FOR_TESTS))).isEqualTo(testValue);	
-		//TODO check if its right to use JSON for tests this way
+		.isEqualToComparingFieldByField(testValue);
 	}
 	
 	
