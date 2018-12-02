@@ -30,6 +30,9 @@ public class DummyActivityService implements ActivityService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
+	
 	public ActivityTO[] getAll(ArrayList<ActivityTO> lst, int size, int page) {
 	return lst
 		.stream()
@@ -37,5 +40,11 @@ public class DummyActivityService implements ActivityService {
 		.limit(size) 
 		.collect(Collectors.toList())
 		.toArray(new ActivityTO[lst.size()]); 
+	}
+
+	@Override
+	public boolean equalsEntity(ActivityEntity e1, ActivityEntity e2) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -3,6 +3,7 @@ package playground.logic;
 import java.util.ArrayList;
 
 import playground.layout.ElementTO;
+import playground.layout.UserTO;
 
 public interface ElementService {
 
@@ -20,5 +21,7 @@ public interface ElementService {
 	void addElement(ElementEntity element);
 	ArrayList<ElementEntity> getElements();
 	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground);
+	public boolean equalsEntity(ElementEntity e1,ElementEntity e2);
+	public boolean equalsTO(ElementTO t1,ElementTO t2);
 
 }

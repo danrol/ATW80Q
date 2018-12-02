@@ -167,4 +167,16 @@ public class DummyUserService implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean equalsEntity(UserEntity e1, UserEntity e2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean equalsTO(UserTO t1, UserTO t2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

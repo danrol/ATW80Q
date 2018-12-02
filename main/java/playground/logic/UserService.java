@@ -14,5 +14,7 @@ public interface UserService {
 	Boolean CheckIfUserLoggedIn(UserEntity userToCheck);
 	UserTO login(String playground, String email);
 	void updateUser(UserEntity user, String email, String playground);
+	public boolean equalsEntity(UserEntity e1,UserEntity e2);
+	public boolean equalsTO(UserTO t1,UserTO t2);
 
 }
