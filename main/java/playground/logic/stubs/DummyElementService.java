@@ -37,13 +37,13 @@ public class DummyElementService implements ElementService {
 	}
 	
 	@Override
-	public void addElements(ElementTO[] elements,String  userPlayground) {
-		ArrayList<ElementEntity> arr=new ArrayList<ElementEntity>();
+	public void addElements(ElementTO[] elements,String  Playground) {
+		
 		for (int i=0;i<elements.length;i++)
 		{
-			arr.add(elements[i].toEntity());
+			addElement(elements[i].toEntity());
 		}
-		updateElementsInDatabase(arr, userPlayground);
+		
 		
 	}
 
