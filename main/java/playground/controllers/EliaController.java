@@ -1,6 +1,6 @@
 package playground.controllers;
 
-import java.util.ArrayList;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,15 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
-import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
-import playground.layout.UserTO;
-import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RestController
@@ -46,7 +40,7 @@ public class EliaController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		
-		//TODO change to login check through userService
+		
 		userService.login(userPlayground,email);
 		elementService.addElement(element.toEntity());
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
@@ -71,8 +65,6 @@ public class EliaController {
 		
 	}
 	
-	
-	
 
 	@RequestMapping(
 			method=RequestMethod.GET,
@@ -88,7 +80,7 @@ public class EliaController {
 			@PathVariable("x") int x, 
 			@PathVariable("y") int y)throws ConfirmException{
 		
-		//TODO change to login check through userService
+		
 		userService.login(userPlayground,email);
 		
 		return elementService.getAllElementsTOInRadius(element,x,y,distance, page, size);

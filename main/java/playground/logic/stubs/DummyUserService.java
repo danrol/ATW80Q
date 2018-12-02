@@ -161,4 +161,10 @@ public class DummyUserService implements UserService{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	@Override
+	public Boolean CheckIfUserLoggedIn(UserEntity userToCheck) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
