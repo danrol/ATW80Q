@@ -78,8 +78,8 @@ private RestTemplate restTemplate;
 	
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
-		NewUserForm postUserForm =  new NewUserForm("wrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		jsonMapper.writeValueAsString(new UserTO(new UserEntity(postUserForm)));
+		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
+		new UserTO(new UserEntity(postUserForm));		
 	}
 	
 	@Test(expected=RuntimeException.class)
@@ -87,8 +87,8 @@ private RestTemplate restTemplate;
 		NewUserForm postUserForm =  new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
 		userService.addUser(userToAdd.toEntity());
-		String actualReturnedValue = this.restTemplate.postForObject(
-				this.url+"/playground/users", postUserForm, String.class);
+		UserTO actualReturnedValue = this.restTemplate.postForObject(
+				this.url+"/playground/users", postUserForm, UserTO.class);
 		assertThat(actualReturnedValue).isNull();
 	}
 	
