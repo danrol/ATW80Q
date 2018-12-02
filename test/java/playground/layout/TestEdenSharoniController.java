@@ -22,7 +22,6 @@ import playground.logic.UserService;
 public class TestEdenSharoniController {
 
 	private RestTemplate restTemplate;
-
 	private UserService userService;
 	
 	@Autowired
