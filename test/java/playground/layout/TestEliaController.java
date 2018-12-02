@@ -147,6 +147,48 @@ public class TestEliaController {
 		assertThat(elementService.getElements().contains(element)).isTrue();
 	}
 	
+	@Test
+	public void testPOSTNewElementsAreAddedToDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new element.
+		 * Then: a new element is saved in the serviceElement.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementTO[] arrElements=new ElementTO[3];
+		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
+		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,2")));
+		arrElements[2]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,3")));
+		
+		
+		elementService.addElements(arrElements, playground);
+		//todo func in dummyElementService that check if element in database
+		
+		
+	}
+	
+	@Test
+	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new element.
+		 * Then: a new element is saved in the serviceElement.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		ElementTO[] arrElements=new ElementTO[3];
+		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
+		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
+		arrElements[2]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,3")));
+		
+		
+		elementService.addElements(arrElements, playground);
+		//todo func in dummyElementService that check if element in database
+		
+		
+	}
+	
 	
 	
 
