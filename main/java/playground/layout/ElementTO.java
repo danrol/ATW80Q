@@ -1,9 +1,7 @@
 package playground.layout;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import playground.logic.ElementEntity;
