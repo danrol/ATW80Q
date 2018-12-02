@@ -153,8 +153,8 @@ public class TestDanielController {
 	}
 	
 	
-	//Problem with gettin ElementTO[] Eyal help needed
-/*	@Test
+	//TODO solve test problem
+	@Test
 	public void testSuccessfullyGetElementsByUserPlaygroundEmailAttributeNameValue(){
 		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, 
 				Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
@@ -174,10 +174,11 @@ public class TestDanielController {
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class, 
 				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, "attr3", "attr3Val");
 	    
-		System.out.println("forNow"+forNow.toString());
+		System.out.println("forNow: "+forNow.toString());
+		System.out.println("element for test: "+elementForTest[0]);
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
-	}*/
+	}
 	
 	
 }

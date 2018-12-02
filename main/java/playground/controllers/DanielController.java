@@ -74,10 +74,8 @@ public class DanielController {
 	@RequestMapping(
 			method=RequestMethod.GET,
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsByAttributeNameValue(
-			@RequestBody ActivityTO activity, 
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
 			@PathVariable("userPlayground") String userPlayground, 
