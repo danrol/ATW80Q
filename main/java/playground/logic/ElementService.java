@@ -1,9 +1,7 @@
 package playground.logic;
 
 import java.util.ArrayList;
-
 import playground.layout.ElementTO;
-import playground.layout.UserTO;
 
 public interface ElementService {
 
