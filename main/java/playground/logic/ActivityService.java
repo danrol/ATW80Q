@@ -1,7 +1,5 @@
 package playground.logic;
 
-import playground.layout.ElementTO;
-
 public interface ActivityService {
 	public void setElementService(ElementService elementService);
 	public void setUserService(UserService userService);
