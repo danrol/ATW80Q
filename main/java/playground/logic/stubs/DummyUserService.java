@@ -1,14 +1,14 @@
 package playground.logic.stubs;
-
-
 import java.util.ArrayList;
-
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import playground.Constants;
+import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
+import playground.layout.UserTO;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -78,6 +78,7 @@ public class DummyUserService implements UserService{
 	
 	
 	//EDEN DUPONT : THIS METHOD DOES NOT MATCH PROJECT REQUIREMENTS
+	//EDEN SHARONI: THERE IS A LOGIN METHOD - DELETE THIS METHOD
 	@Override
 	public Boolean CheckIfUserLoggedIn(UserEntity userToCheck) {
 		if (userToCheck == null)
@@ -91,6 +92,58 @@ public class DummyUserService implements UserService{
 				return true;
 		}
 		throw new LoginException("Login wasn't performed");
+	}
+	
+	
+	
+	@Override
+	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+		/*
+		 * function 3
+		 * INPUT: NONE OUTPUT: UserTO
+		 */
+		UserEntity u = getUser(email);
+		if (u != null) {
+			if (u.getPlayground().equals(playground)) {
+				if (u.isVerified()) {
+					return new UserTO(u);
+				} else {
+					throw new LoginException("User is not verified.");
+				}
+			} else {
+				throw new LoginException("User does not belong to the specified playground.");
+			}
+
+		} else {
+			throw new LoginException("Email is not registered.");
+		}
+	}
+	
+	@Override
+	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
+			@PathVariable("playground") String playground) {
+		/*
+		 * function 4 INPUT: UserTO OUTPUT: NONE
+		 */
+		login(playground, email);
+		if (getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
+			if(user.getEmail().equals(email)) {
+				updateUser(user);
+			}
+			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
+				updateUser(user);
+			} else {
+				throw new ChangeUserException("Moderator cannot change other moderator user");
+			}
+		} else if (getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
+			if (email.equals(user.getEmail())) {
+				updateUser(user);
+			} else {
+				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
+			}
+		} else {
+			throw new ChangeUserException("invalid role " + getUser(email).getRole());
+		}
 	}
 	
 	@Override
