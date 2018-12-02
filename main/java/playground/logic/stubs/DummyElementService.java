@@ -1,14 +1,17 @@
 package playground.logic.stubs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import playground.Constants;
 import playground.exceptions.ElementDataException;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 
 @Service
 public class DummyElementService implements ElementService {
@@ -162,14 +165,22 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public boolean equalsEntity(ElementEntity e1, ElementEntity e2) {
-		// TODO Auto-generated method stub
+		if(e1.getName().equals(e2.getName())) {
+			if(e1.getId().equals(e2.getId())) {
+				if(e1.getType().equals(e2.getType())) {
+					if(e1.getPlayground().equals(e2.getPlayground())) {
+						return true;
+					}
+				}
+			}
+		}
 		return false;
+		
 	}
 
 	@Override
 	public boolean equalsTO(ElementTO t1, ElementTO t2) {
-		// TODO Auto-generated method stub
-		return false;
+		return equalsEntity(t1.toEntity(),t2.toEntity());
 	}
 
 	// TODO change

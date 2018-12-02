@@ -44,7 +44,13 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public boolean equalsEntity(ActivityEntity e1, ActivityEntity e2) {
-		// TODO Auto-generated method stub
+		if(e1.getPlayground().equals(e2.getPlayground())) {
+			if(e1.getType().equals(e2.getType())) {
+				if(e1.getId().equals(e2.getId())) {
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 }
