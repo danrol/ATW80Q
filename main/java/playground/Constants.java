@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 @Component
 public class Constants {
-
+	public static String PLAYGROUND_NAME;
 	public static String MODERATOR_ROLE = "MODERATOR";
 	public static String PLAYER_ROLE = "PLAYER";
 	public static String UNDEFINED_ROLE = "NO_ROLE";
+	
 	public static String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
 	public static String MESSAGEBOARD = "MESSAGE_BOARD";
 	public static String QUESTION = "QUESTION";
-	public static String PLAYGROUND_NAME;
+	public static String DEFAULT_VERIFICATION_CODE = "1234";
+	
 	public static String DEFAULT_USERNAME;
 	public static String DEFAULT_ACTIVITY_TYPE = "echo";
 	public static int USER_VERIFIED = 1;

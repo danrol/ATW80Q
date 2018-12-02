@@ -14,7 +14,7 @@ public class UserEntity {
 	private String username;
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
-	private String verificationCode = "";
+	private String verificationCode = null;
 	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 
@@ -30,8 +30,7 @@ public class UserEntity {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		setVerificationCode("0");
-		// verification is done separately
+		setVerificationCode(Constants.DEFAULT_VERIFICATION_CODE);
 	}
 
 	public UserEntity(NewUserForm newUserForm) {
@@ -43,7 +42,7 @@ public class UserEntity {
 		this.role = newUserForm.getRole();
 		}
 		else
-			throw new RegisterNewUserException("registration data is not correct. Check your input");
+			throw new RegisterNewUserException("Registration data is not correct. Check your input");
 		setPoints(0);
 		setPlayground(Constants.PLAYGROUND_NAME);
 	}
@@ -141,6 +140,7 @@ public class UserEntity {
 
 	public void verifyUser() {
 		setVerified_user(Constants.USER_VERIFIED);
+		verificationCode = null;
 	}
 
 	public boolean isVerified() {
