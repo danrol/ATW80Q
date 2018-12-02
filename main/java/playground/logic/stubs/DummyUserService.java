@@ -80,7 +80,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
+	public UserTO login(String playground, String email) {
 		/*
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
