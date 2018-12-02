@@ -1,6 +1,7 @@
 package playground.logic;
 
 import java.util.ArrayList;
+import playground.layout.UserTO;
 
 public interface UserService {
 
@@ -11,5 +12,7 @@ public interface UserService {
 	void updateUser(UserEntity user);
 	UserEntity getUser(String email);
 	Boolean CheckIfUserLoggedIn(UserEntity userToCheck);
+	UserTO login(String playground, String email);
+	void updateUser(UserEntity user, String email, String playground);
 
 }
