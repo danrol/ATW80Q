@@ -2,10 +2,7 @@ package playground.elements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
