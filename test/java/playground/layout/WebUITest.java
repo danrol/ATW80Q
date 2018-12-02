@@ -326,7 +326,7 @@ private RestTemplate restTemplate;
 		
 	*/
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		u.verifyUser();
+		u.setVerified_user(Constants.USER_NOT_VERIFIED);
 		this.userService.addUser(u);
 		
 		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));

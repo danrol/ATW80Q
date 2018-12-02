@@ -30,16 +30,16 @@ public class DummyElementService implements ElementService {
 	public void addElement(ElementEntity element) {
 		elements.add(element);
 	}
-	
+
 	@Override
 	public void addElements(ElementTO[] elements,String  Playground) {
-		
+
 		for (int i=0;i<elements.length;i++)
 		{
 			addElement(elements[i].toEntity());
 		}
-		
-		
+
+
 	}
 
 	@Override
@@ -48,9 +48,10 @@ public class DummyElementService implements ElementService {
 			if (e.getId().equals(id) && e.getPlayground().equals(playground))
 				return e;
 		}
-		return null;
+		throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
 	}
 
+	
 	@Override
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size) {
 		ArrayList<ElementEntity> result = new ArrayList<>();
@@ -85,16 +86,16 @@ public class DummyElementService implements ElementService {
 		}
 		return getElementsBySizeAndPage(tempElementsList, page, size);
 	}
-	
+
 	//return arrays values depending on page and size
 	@Override
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {  
-		 return lst
-		.stream()
-		.skip(size * page) 
-		.limit(size) 
-		.collect(Collectors.toList()) 
-		.toArray(new ElementEntity[lst.size()]);
+		return lst
+				.stream()
+				.skip(size * page) 
+				.limit(size) 
+				.collect(Collectors.toList()) 
+				.toArray(new ElementEntity[lst.size()]);
 	}
 
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
@@ -131,7 +132,7 @@ public class DummyElementService implements ElementService {
 	@Override
 	public ElementEntity[] getAllElementsTOInRadius(ElementTO element, 
 			double x, double y, double distance, int page, int size) {
-		
+
 		if(distance<0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
@@ -160,22 +161,22 @@ public class DummyElementService implements ElementService {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-		
+
 
 	// TODO change
-//	public boolean checkElementIsCorrect(ElementEntity element) {
-//		UserEntity userToCheckWith = null;
-//		for (UserEntity u : users) {
-//			if(u.getEmail() == element.getCreatorEmail()) {
-//				userToCheckWith = u;
-//				break;
-//			}
-//		}
-//		if (userToCheckWith != null && 
-//				userToCheckWith.getPlayground().equals(element.getCreatorPlayground())) 
-//			return true;
-//		else
-//			return false;
-//	}
+	//	public boolean checkElementIsCorrect(ElementEntity element) {
+	//		UserEntity userToCheckWith = null;
+	//		for (UserEntity u : users) {
+	//			if(u.getEmail() == element.getCreatorEmail()) {
+	//				userToCheckWith = u;
+	//				break;
+	//			}
+	//		}
+	//		if (userToCheckWith != null && 
+	//				userToCheckWith.getPlayground().equals(element.getCreatorPlayground())) 
+	//			return true;
+	//		else
+	//			return false;
+	//	}
 
 }

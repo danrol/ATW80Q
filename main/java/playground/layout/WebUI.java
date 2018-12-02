@@ -128,7 +128,7 @@ public class WebUI {
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-//		login(userPlayground,email);
+		userService.login(userPlayground,email);
 		//if login succeeded, get element
 		element = elementService.getElement(id, playground);
 		if(element == null)
