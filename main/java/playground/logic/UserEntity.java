@@ -18,8 +18,8 @@ public class UserEntity {
 	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 
+	public UserEntity() {
 
-	public UserEntity(){
 	}
 
 	public UserEntity(String username, String email, String avatar, String role, String playground) {
@@ -34,38 +34,34 @@ public class UserEntity {
 	}
 
 	public UserEntity(NewUserForm newUserForm) {
-		if(emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() 
-				!= null && newUserForm.getRole() != null) {
-		this.email = newUserForm.getEmail();
-		this.username = newUserForm.getUsername();
-		this.avatar = newUserForm.getAvatar();
-		this.role = newUserForm.getRole();
-		}
-		else
+		if (emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() != null
+				&& newUserForm.getRole() != null) {
+			this.email = newUserForm.getEmail();
+			this.username = newUserForm.getUsername();
+			this.avatar = newUserForm.getAvatar();
+			this.role = newUserForm.getRole();
+		} else
 			throw new RegisterNewUserException("Registration data is not correct. Check your input");
 		setPoints(0);
 		setPlayground(Constants.PLAYGROUND_NAME);
 	}
 
+	public static boolean emailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
 
-	public static boolean emailIsValid(String email) 
-    { 
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
-                            "[a-zA-Z0-9_+&*-]+)*@" + 
-                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
-                            "A-Z]{2,7}$"; 
-                              
-        Pattern pat = Pattern.compile(emailRegex); 
-        if (email == null) 
-            return false; 
-        return pat.matcher(email).matches(); 
-    } 
-	
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
+
 	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -73,6 +69,7 @@ public class UserEntity {
 	public void setVerificationCode(String verificationCode) {
 		this.verificationCode = verificationCode;
 	}
+
 	@Id
 	public String getEmail() {
 		return email;
@@ -81,7 +78,8 @@ public class UserEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public String getAvatar() {
 		return avatar;
 	}
@@ -89,7 +87,8 @@ public class UserEntity {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public String getUsername() {
 		return username;
 	}
@@ -97,7 +96,8 @@ public class UserEntity {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public String getRole() {
 		return role;
 	}
@@ -113,7 +113,8 @@ public class UserEntity {
 			throw new RuntimeException("Undefined role");
 		}
 	}
-	//@Id
+
+	// @Id
 	public String getPlayground() {
 		return playground;
 	}
@@ -121,7 +122,8 @@ public class UserEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public long getPoints() {
 		return points;
 	}
@@ -129,7 +131,8 @@ public class UserEntity {
 	public void setPoints(long points) {
 		this.points = points;
 	}
-	//@Transactional(readOnly=true)
+
+	// @Transactional(readOnly=true)
 	public int getVerified_user() {
 		return verified_user;
 	}
@@ -156,5 +159,5 @@ public class UserEntity {
 				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user="
 				+ verified_user + ", points=" + points + "]";
 	}
-	
+
 }

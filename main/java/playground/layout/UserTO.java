@@ -3,12 +3,10 @@ package playground.layout;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
-
 import playground.Constants;
 import playground.logic.UserEntity;
 
-public class UserTO implements Serializable{
-
+public class UserTO implements Serializable {
 
 	private static final long serialVersionUID = -1313647147242659048L;
 	private String email = "";
@@ -20,8 +18,7 @@ public class UserTO implements Serializable{
 	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 
-
-	public UserTO(){
+	public UserTO() {
 	}
 
 	public UserTO(String username, String email, String avatar, String role, String playground) {
@@ -36,8 +33,7 @@ public class UserTO implements Serializable{
 		// verification is done separately
 	}
 
-	public UserTO(UserEntity u)
-	{
+	public UserTO(UserEntity u) {
 		this.setEmail(u.getEmail());
 		this.setAvatar(u.getAvatar());
 		this.setUsername(u.getUsername());
@@ -48,20 +44,16 @@ public class UserTO implements Serializable{
 		this.setVerified_user(u.getVerified_user());
 	}
 
+	public static boolean emailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
 
-	public static boolean emailIsValid(String email) 
-    { 
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
-                            "[a-zA-Z0-9_+&*-]+)*@" + 
-                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
-                            "A-Z]{2,7}$"; 
-                              
-        Pattern pat = Pattern.compile(emailRegex); 
-        if (email == null) 
-            return false; 
-        return pat.matcher(email).matches(); 
-    } 
-	
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
+
 	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
 		setVerificationCode(code);
@@ -154,14 +146,15 @@ public class UserTO implements Serializable{
 	@Override
 	public String toString() {
 		return "UserTO [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground=" + playground
-				+ ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user=" + verified_user + ", points=" + points + "]";
+				+ ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user=" + verified_user
+				+ ", points=" + points + "]";
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		return super.equals(obj);
 	}
-	
+
 	public UserEntity toEntity() {
 		UserEntity rv = new UserEntity();
 		rv.setEmail(email);

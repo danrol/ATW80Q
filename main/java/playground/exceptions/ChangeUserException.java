@@ -10,6 +10,5 @@ public class ChangeUserException extends RuntimeException {
 	public ChangeUserException(String string) {
 		super(string);
 	}
-	
-	
+
 }

@@ -22,28 +22,26 @@ public class ActivityTO implements Serializable {
 	private String type;
 	private String playerPlayground;
 	private String playerEmail;
-	private Map<String,Object> attribute;
-	
+	private Map<String, Object> attribute;
+
 	private ElementService elementService;
 	private UserService userService;
-	
-	
+
 	@Autowired
-	public void setElementService(ElementService elementService){
+	public void setElementService(ElementService elementService) {
 		this.elementService = elementService;
 	}
-	
+
 	@Autowired
-	public void setUserService(UserService userService){
+	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	public ActivityTO() {
-		attribute = new HashMap<String,Object>();
+		attribute = new HashMap<String, Object>();
 	}
-	
-	public ActivityTO(ActivityEntity a)
-	{
+
+	public ActivityTO(ActivityEntity a) {
 		playground = a.getPlayground();
 		id = a.getId();
 		elementPlayground = a.getElementPlayground();
@@ -53,6 +51,7 @@ public class ActivityTO implements Serializable {
 		playerEmail = a.getPlayerEmail();
 		attribute = a.getAttribute();
 	}
+
 	@Override
 	public String toString() {
 		return "ActivityTO [toString()=" + super.toString() + "]";
@@ -122,8 +121,7 @@ public class ActivityTO implements Serializable {
 		this.attribute = attribute;
 	}
 
-	public ActivityEntity toEntity()
-	{
+	public ActivityEntity toEntity() {
 		ActivityEntity rv = new ActivityEntity();
 		rv.setAttribute(this.getAttribute());
 		rv.setElementId(this.getElementId());

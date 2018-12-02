@@ -20,9 +20,9 @@ public class ActivityEntity {
 	/**
 	 * 
 	 */
-	
-	//Primary key - playground+id
-	//TODO
+
+	// Primary key - playground+id
+	// TODO
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
 	private String id;
@@ -31,44 +31,42 @@ public class ActivityEntity {
 	private String type;
 	private String playerPlayground;
 	private String playerEmail;
-	private Map<String,Object> attribute;
-	
+	private Map<String, Object> attribute;
 
 	private ElementService elementService;
 	private UserService userService;
-	
-	
+
 	@Autowired
-	public void setElementService(ElementService elementService){
+	public void setElementService(ElementService elementService) {
 		this.elementService = elementService;
 	}
-	
+
 	@Autowired
-	public void setUserService(UserService userService){
+	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	public ActivityEntity() {
-		attribute = new HashMap<String,Object>();
+		attribute = new HashMap<String, Object>();
 		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
 	}
-	
+
 //	create constructors that receive just a JSon 
 //	string and create the class in ActivityEntity
 	public ActivityEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
-			ObjectMapper objectMapper = new ObjectMapper();
-			ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class); 
-			this.id = acEntity.id;
-			this.playground = acEntity.playground;
-			this.elementPlayground = acEntity.elementPlayground;
-			this.elementId = acEntity.elementId;
-			this.type = acEntity.type;
-			this.playerPlayground = acEntity.playerPlayground;
-			this.playerEmail = acEntity.playerEmail;
-			this.attribute = acEntity.attribute;
-		
+		ObjectMapper objectMapper = new ObjectMapper();
+		ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class);
+		this.id = acEntity.id;
+		this.playground = acEntity.playground;
+		this.elementPlayground = acEntity.elementPlayground;
+		this.elementId = acEntity.elementId;
+		this.type = acEntity.type;
+		this.playerPlayground = acEntity.playerPlayground;
+		this.playerEmail = acEntity.playerEmail;
+		this.attribute = acEntity.attribute;
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return "ActivityTO [toString()=" + super.toString() + "]";
@@ -81,6 +79,7 @@ public class ActivityEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
+
 	@Id
 	public String getId() {
 		return id;
@@ -138,9 +137,9 @@ public class ActivityEntity {
 	public void setAttribute(Map<String, Object> attribute) {
 		this.attribute = attribute;
 	}
-	
+
 	@Lob
-	//large object - can take as much space as it needs in the computer
+	// large object - can take as much space as it needs in the computer
 	public String getJsonAttributes() {
 		try {
 			return new ObjectMapper().writeValueAsString(this.attribute);
