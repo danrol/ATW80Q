@@ -163,8 +163,8 @@ public class TestEliaController {
 		
 		
 		elementService.addElements(arrElements, playground);
+		assert
 		
-		//todo func in dummyElementService that check if element in database
 		
 		
 	}
@@ -183,7 +183,7 @@ public class TestEliaController {
 		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
 		arrElements[2]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,3")));
 		
-		System.out.println("testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase");
+		
 		elementService.addElements(arrElements, playground);
 		//todo func in dummyElementService that check if element in database
 		
