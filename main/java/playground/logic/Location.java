@@ -40,7 +40,14 @@ public class Location {
 	public void setY(double y) {
 		this.y = y;
 	}
-
+	
+	@Override 
+	public boolean equals(Object other) {
+		if (other == null) return false;
+		if (!(other instanceof Location))return false;
+	    if (((Location)other).x != this.x || ((Location) other).y != this.y) return false;
+	    else return true;
+	}
 	@Override
 	public String toString() {
 		return "Location [x=" + x + ", y=" + y + "]";
