@@ -92,7 +92,7 @@ public class ElementController {
 
 		//function 8
 		userService.login(userPlayground,email);
-		elementService.addElements(element, userPlayground);
+		elementService.addElements(getElementTOArray(element), userPlayground);
 		return getElementTOArray(elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email, page, size));	
 	}
 
@@ -112,7 +112,7 @@ public class ElementController {
 
 		userService.login(userPlayground,email);
 
-		return getElementTOArray(elementService.getAllElementsTOInRadius(element,x,y,distance, page, size));
+		return getElementTOArray(elementService.getAllElementsTOInRadius(element.toEntity(),x,y,distance, page, size));
 	}
 
 
@@ -147,5 +147,13 @@ public class ElementController {
 			result.add(new ElementTO(e));
 		}
 		return result.toArray(new ElementTO[lst.length]);
+	}
+	
+	public ElementEntity[] getElementTOArray(ElementTO[] lst){
+		ArrayList<ElementEntity> result = new ArrayList<>();
+		for (ElementTO e : lst) {
+			result.add(e.toEntity());
+		}
+		return result.toArray(new ElementEntity[lst.length]);
 	}
 }
