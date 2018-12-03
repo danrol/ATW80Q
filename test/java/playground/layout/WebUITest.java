@@ -636,11 +636,13 @@ private RestTemplate restTemplate;
 	
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
+		
 		/*
 		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 		 * When: User is verified AND distance is 0.
 		 * Then: I get NULL ElementTO[].
 		 */
+		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
@@ -654,6 +656,13 @@ private RestTemplate restTemplate;
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test starts
 	@Test
 	public void testAttributeNotExist() {
+		/*		
+		Given: the server is up
+		AND element service doesn't contains element with attributeName = “noSuchAttribute”
+		With headers:	  Accept:application/json,  content-type: application/json
+		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
+		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
+*/
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		
@@ -672,9 +681,7 @@ private RestTemplate restTemplate;
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
 				"creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
-//		ElementTO[] elements = responseEntity.getBody();
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
-		//TODO improve test
 	}
 	
 	
@@ -682,11 +689,10 @@ private RestTemplate restTemplate;
 	public void testSuccessfullyGetElementsByAttributeNameValue(){
 /*		
 		Given: the server is up
-		AND database contains elements with attributeName = “attr3”:attributeValue=”attr3Val”
-		And
+		AND element service contains contains element with attributeName = “attr3”:attributeValue=”attr3Val”
 		With headers:	  Accept:application/json,  content-type: application/json
 		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns ElementTO[] with all elements with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
+		Then: server returns  ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
 */
 		
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
