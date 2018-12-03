@@ -84,7 +84,8 @@ public class DummyElementService implements ElementService {
 					&& element.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(element);
 		}
-		return getElementsBySizeAndPage(tempElementsList, page, size);
+		if (tempElementsList.isEmpty())return new ElementEntity[0];
+		else return getElementsBySizeAndPage(tempElementsList, page, size);
 	}
 
 	//return arrays values depending on page and size

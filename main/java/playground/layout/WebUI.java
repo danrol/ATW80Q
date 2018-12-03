@@ -174,8 +174,11 @@ public class WebUI {
 		 */
 		System.out.println();
 		userService.login(userPlayground, email);
-		return getElementTOArray(elementService.
-				getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size));
+		ElementEntity[] elementsWithValueInAttr= elementService.
+		getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size);
+		if (elementsWithValueInAttr.length != 0  ) 
+			return getElementTOArray(elementsWithValueInAttr);
+		else return new ElementTO[0];
 
 	}
 	

@@ -1,8 +1,10 @@
 package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
@@ -650,18 +652,34 @@ private RestTemplate restTemplate;
 
 
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test starts
-	@Test(expected=RuntimeException.class)
+	@Test
 	public void testAttributeNotExist() {
-		ResponseEntity<ElementTO[]> responseEntity = restTemplate.getForEntity(this.url + 
-				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class);
-		ElementTO[] elements = responseEntity.getBody();
-		assertThat(elements).isNull();
+		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
+				"player", "creatorPlayground");
+		
+		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userService.addUser(userElementCreator);
+		
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
+		
+		elementForTest[0].setCreatorPlayground("creatorPlayground");
+		HashMap<String, Object> testMap = new HashMap<>();
+		testMap.put("attribute1","attr1Value");
+		testMap.put("attribute2","attr2Value");
+		testMap.put("attr3","attr3Val");
+		
+		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
+				"creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
+//		ElementTO[] elements = responseEntity.getBody();
+		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 		//TODO improve test
 	}
 	
 	
 	@Test
-	public void testGetElementsByAttributeNameValue(){
+	public void testSuccessfullyGetElementsByAttributeNameValue(){
 /*		
 		Given: the server is up
 		AND database contains elements with attributeName = “attr3”:attributeValue=”attr3Val”
@@ -687,14 +705,11 @@ private RestTemplate restTemplate;
 		
 		elementForTest[0].setAttributes(testMap);
 		elementService.addElement(elementForTest[0].toEntity());
-		System.out.println("Check that element added" + elementService.getElements().toString());
 		
 		ElementTO[] forNow = this.restTemplate.getForObject(url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class, 
 				"creatorPlayground", "nudnik@mail.ru", "attr3", "attr3Val");
-	    
-		System.out.println("forNow: "+forNow.toString());
-		System.out.println("element for test: "+elementForTest[0]);
+		
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
 	}
