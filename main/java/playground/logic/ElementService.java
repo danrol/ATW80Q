@@ -6,8 +6,8 @@ public interface ElementService {
 
 	void cleanElementService();
 
-	ElementEntity[] getAllElementsTOInRadius(ElementEntity element, double x, double y, double distance, int page,
-			int size);
+	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 
+			double x, double y, double distance, int page, int size);
 
 	public void addElements(ElementEntity[] elements, String userPlayground);
 

@@ -131,7 +131,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsTOInRadius(ElementEntity element, 
+	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 
 			double x, double y, double distance, int page, int size) {
 
 		if(distance<0) {

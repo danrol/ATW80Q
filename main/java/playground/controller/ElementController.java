@@ -112,7 +112,7 @@ public class ElementController {
 
 		userService.login(userPlayground,email);
 
-		return getElementTOArray(elementService.getAllElementsTOInRadius(element.toEntity(),x,y,distance, page, size));
+		return getElementTOArray(elementService.getAllElementsInRadius(element.toEntity(),x,y,distance, page, size));
 	}
 
 

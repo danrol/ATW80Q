@@ -170,12 +170,12 @@ public class ElementTest {
 	public void testSuccessfullyUpdateElement() throws Exception{
 /*		
 		Given Server is up
-		AND database contains element with fields user playground "User playgrouNd", playground = "User playgrouNd", id = “123”, creator email = “email@email.com” 
+		AND database contains element with fields user playground "User playgrouNd", playground = "User playgrouNd", id = ï¿½123ï¿½, creator email = ï¿½email@email.comï¿½ 
 		AND database contains verified user with "email@email.com"
-		When I PUT /playground/elements/User playgrouNd/email@email.com/"User playgrouNd"/”123”
+		When I PUT /playground/elements/User playgrouNd/email@email.com/"User playgrouNd"/ï¿½123ï¿½
 			With headers: Accept:application/json, content-type: application/json
-			And element in body contains fields user playground "User playgrouNd", playground = "for test", id = “123”, creator email = “email@email.com” 
-		Then original element’s playground will be updated with “for test” 
+			And element in body contains fields user playground "User playgrouNd", playground = "for test", id = ï¿½123ï¿½, creator email = ï¿½email@email.comï¿½ 
+		Then original elementï¿½s playground will be updated with ï¿½for testï¿½ 
 */
 		
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
@@ -332,11 +332,11 @@ public class ElementTest {
 		 * Then: I get  ElementTO[] back.
 		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementTO element1=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
-		ElementTO element2=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("2,1")));
-		elementService.addElement(element1.toEntity());
+		ElementEntity element1=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element2=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
+		elementService.addElement(element1);
 		double distance=7;
-		assertThat(elementService.getAllElementsTOInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10)).isNotNull();
+		assertThat(elementService.getAllElementsInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10)).isNotNull();
 	}
 	
 	@Test(expected=RuntimeException.class)
@@ -347,9 +347,9 @@ public class ElementTest {
 		 * Then: I get NULL ElementTO[].
 		 */
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
+		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		double distance=-1;
-		elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
+		elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
 	}
 	
 	@Test
@@ -362,9 +362,9 @@ public class ElementTest {
 		 */
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
+		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		double distance=0;
-		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
+		assertThat(elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
 	}
 	
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test finished
@@ -376,10 +376,10 @@ public class ElementTest {
 	public void testAttributeNotExist() {
 		/*		
 		Given: the server is up
-		AND element service doesn't contains element with attributeName = “noSuchAttribute”
+		AND element service doesn't contains element with attributeName = ï¿½noSuchAttributeï¿½
 		With headers:	  Accept:application/json,  content-type: application/json
 		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
+		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = ï¿½attr3ï¿½:attributeValue=ï¿½attr3Valï¿½
 */
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
@@ -407,10 +407,10 @@ public class ElementTest {
 	public void testSuccessfullyGetElementsByAttributeNameValue(){
 /*		
 		Given: the server is up
-		AND element service contains contains element with attributeName = “attr3”:attributeValue=”attr3Val”
+		AND element service contains contains element with attributeName = ï¿½attr3ï¿½:attributeValue=ï¿½attr3Valï¿½
 		With headers:	  Accept:application/json,  content-type: application/json
 		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns  ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = “attr3”:attributeValue=”attr3Val”
+		Then: server returns  ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = ï¿½attr3ï¿½:attributeValue=ï¿½attr3Valï¿½
 */
 		
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
