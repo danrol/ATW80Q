@@ -20,7 +20,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.Constants;
 import playground.logic.ElementEntity;
@@ -55,14 +54,12 @@ private RestTemplate restTemplate;
 //	@Autowired
 //	private Database database;
 
-	private ObjectMapper jsonMapper;
 
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
-		this.jsonMapper = new ObjectMapper();
 	}
 	
 	@Before
@@ -142,7 +139,7 @@ private RestTemplate restTemplate;
 				When email is not on the database
 				Then I get a Wrong email message
 		 */
-		 UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
+		 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 
 			
 	}
@@ -158,9 +155,9 @@ private RestTemplate restTemplate;
 		Then I get a 404 exception
 		 * */
 		String[] s = {"0","0"};
-		UserTO user;
+		
 		try {
-			user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
+			 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
 
 		}
 		catch(RuntimeException e)
@@ -207,7 +204,7 @@ private RestTemplate restTemplate;
 		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");	
+		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");	
 	}
 	
 	
@@ -367,7 +364,7 @@ private RestTemplate restTemplate;
 		 * Then: a new element is saved in the serviceElement.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
 		ArrayList <ElementEntity> arr= elementService.getElements();
@@ -382,7 +379,7 @@ private RestTemplate restTemplate;
 		 * When: User is verified AND i post new element with empty creatorPlayground.
 		 * Then: a new element is saved in the serviceElement.
 		 */
-		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)";
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		
 		elementService.addElement(element);
@@ -499,7 +496,7 @@ private RestTemplate restTemplate;
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
 	
@@ -535,7 +532,7 @@ private RestTemplate restTemplate;
 		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(5,7));
 		this.elementService.addElement(element);
 		
-		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
 	
@@ -556,7 +553,7 @@ private RestTemplate restTemplate;
 		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));
 		this.elementService.addElement(element);
 		
-		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
+		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
 		
 	}
 	
@@ -572,7 +569,7 @@ private RestTemplate restTemplate;
 		 * Then: a new element is saved in the serviceElement.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO[] arrElements=new ElementTO[3];
 		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
 		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,2")));
@@ -593,7 +590,7 @@ private RestTemplate restTemplate;
 		 * Then: a new element is saved in the serviceElement.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO[] arrElements=new ElementTO[3];
 		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
 		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
@@ -614,7 +611,7 @@ private RestTemplate restTemplate;
 		 * When: User is verified AND distance is above 0.
 		 * Then: I get  ElementTO[] back.
 		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO element1=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		ElementTO element2=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("2,1")));
 		elementService.addElement(element1.toEntity());
@@ -629,7 +626,7 @@ private RestTemplate restTemplate;
 		 * When: User is verified AND distance is negative.
 		 * Then: I get NULL ElementTO[].
 		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=-1;
 		elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
@@ -642,7 +639,7 @@ private RestTemplate restTemplate;
 		 * When: User is verified AND distance is 0.
 		 * Then: I get NULL ElementTO[].
 		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)",email="email@email.com";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementTO element=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("1,2")));
 		double distance=0;
 		assertThat(elementService.getAllElementsTOInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
