@@ -114,6 +114,23 @@ public class ElementController {
 
 		return getElementTOArray(elementService.getAllElementsInRadius(element.toEntity(),x,y,distance, page, size));
 	}
+	
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all",
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	public ElementTO[] getAllElements(
+			@RequestParam(name="page", required=false, defaultValue="0") int page,
+			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			@RequestBody ElementTO[] elements,
+			@PathVariable("email") String email,
+			@PathVariable("userPlayground") String userPlayground
+			)throws ConfirmException{
+		//function 9
+
+		userService.login(userPlayground,email);
+		elementService.addElements(this.getElementTOArray(elements), userPlayground);
+		return elements;
+		
+	}
 
 
 	@RequestMapping(

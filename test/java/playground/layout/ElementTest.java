@@ -285,8 +285,8 @@ public class ElementTest {
 	public void testPOSTNewElementsAreAddedToDatabase() {
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND i post new element.
-		 * Then: a new element is saved in the serviceElement.
+		 * When: User is verified AND i post new elements.
+		 * Then: all elements are saved in the database.
 		 */
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
@@ -302,6 +302,26 @@ public class ElementTest {
 		
 	}
 	
+	@Test
+	public void testGETNewElementsFromDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new elements.
+		 * Then: all elements are saved in the database.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		
+		
+		elementService.addElements(arrElements, playground);
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
+		
+		
+	}
 	@Test
 	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
 		/*
