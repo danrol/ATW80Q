@@ -139,7 +139,8 @@ public class WebUI {
 	}
 
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
