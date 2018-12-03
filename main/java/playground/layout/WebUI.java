@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import playground.Constants;
-import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -51,10 +49,7 @@ public class WebUI {
 		return new UserTO(new UserEntity(newUserForm));
 	}
 
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/users/confirm/{playground}/{email}/{code}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,path="/playground/users/confirm/{playground}/{email}/{code}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
 			@PathVariable("code") String code)
 	{
@@ -62,8 +57,7 @@ public class WebUI {
 		 * INPUT: NONE
 		 * OUTPUT: UserTO
 		 */
-		UserEntity user = this.userService.verifyUser(email, playground, code);
-		return new UserTO(user);
+		return new UserTO(this.userService.verifyUser(email, playground, code));
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -81,32 +75,10 @@ public class WebUI {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
-		login(playground, email);
-		if (userService.getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
-			if(user.getEmail().equals(email)) {
-				userService.updateUser(user);
-			}
-			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				userService.updateUser(user);
-			} else {
-				throw new ChangeUserException("Moderator cannot change other moderator user");
-			}
-		} else if (userService.getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
-			if (email.equals(user.getEmail())) {
-				userService.updateUser(user);
-			} else {
-				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
-			}
-		} else {
-			throw new ChangeUserException("invalid role " + userService.getUser(email).getRole());
-		}
+		this.userService.updateUser(user, email, playground);
 	}
 
-	@RequestMapping(
-			method=RequestMethod.POST,
-			path="/playground/elements/{userPlayground }/{email}",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground }/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		// function 5
 
@@ -115,10 +87,7 @@ public class WebUI {
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
 
-	@RequestMapping(
-			method=RequestMethod.PUT,
-			path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-			consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void updateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String playground,
 			@PathVariable("id") String id) {
@@ -134,10 +103,7 @@ public class WebUI {
 		System.out.println("updatePerformed");
 	}
 
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") String id) 
 	{
 		/* function 7
@@ -173,10 +139,7 @@ public class WebUI {
 	}
 
 
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
@@ -216,11 +179,7 @@ public class WebUI {
 
 	}
 	
-	@RequestMapping(
-			method=RequestMethod.POST,
-			path="/playground/activities/{userPlayground}/{email}",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.POST,path="/playground/activities/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public Object RequestServer(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
 	{
 		/* function 11
