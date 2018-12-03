@@ -6,7 +6,6 @@ import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
-import playground.layout.UserTO;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
@@ -74,21 +72,7 @@ public class WebUI {
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
 		 */
-		UserEntity u = this.userService.getUser(email);
-		if (u != null) {
-			if (u.getPlayground().equals(playground)) {
-				if (u.isVerified()) {
-					return new UserTO(u);
-				} else {
-					throw new LoginException("User is not verified.");
-				}
-			} else {
-				throw new LoginException("User does not belong to the specified playground.");
-			}
-
-		} else {
-			throw new LoginException("Email is not registered.");
-		}
+		return new UserTO(this.userService.login(playground, email));
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
