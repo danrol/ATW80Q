@@ -32,30 +32,29 @@ import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
-public class WebUITest {
-private RestTemplate restTemplate;
-	
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+public class ElementTest {
+	private RestTemplate restTemplate;
+
 	private ElementService elementService;
 	private UserService userService;
-	
+
 	@Autowired
-	public void setElementService(ElementService elementService){
+	public void setElementService(ElementService elementService) {
 		this.elementService = elementService;
 	}
-	
+
 	@Autowired
-	public void setUserService(UserService userService){
+	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@LocalServerPort
 	private int port;
 	private String url;
-	
+
 //	@Autowired
 //	private Database database;
-
 
 	@PostConstruct
 	public void init() {
@@ -63,10 +62,10 @@ private RestTemplate restTemplate;
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 	}
-	
+
 	@Before
 	public void setup() {
-		
+
 	}
 
 	@After
@@ -75,287 +74,6 @@ private RestTemplate restTemplate;
 		elementService.cleanElementService();
 	}
 	
-	// url #1 /playground/users tests start
-	@Test(expected=RuntimeException.class)
-	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
-/*		
-		Given Server is up
-		When I POST /playground/users
-		With headers: Accept:application/json, content-type: application/json
-		With "email" : "WrongEmail” in NewUserForm body
-		Then RuntimeException appears
-*/
-		
-		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
-		new UserTO(new UserEntity(postUserForm));		
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void testRegisterUserThatAlreadyExists() {
-/*		
-		Given Server is up  
-		When I POST /playground/users 
-		AND user exists in the database
-		Then a null user is returned in JSON
-*/
-		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
-		userService.addUser(userToAdd.toEntity());
-		UserTO actualReturnedValue = this.restTemplate.postForObject(
-				this.url+"/playground/users", postUserForm, UserTO.class);
-		assertThat(actualReturnedValue).isNull();
-	}
-	
-	@Test
-	public void testSuccessfullyRegisterNewUser() throws Exception{
-/*		
-		Given Server is up
-		When I POST /playground/users
-		With headers:	  Accept:application/json,  content-type: application/json
-		With Body:
-		{"email" : "nudnik@mail.ru", "username":"Curiosity", "avatar":"ava", "role":"PLAYER"}
-		Then the response body contains new UserTO with the "email" : "nudnik@mail.ru", “username”: “Curiosity”, "avatar:"ava", "role":"PLAYER""
-		AND 
-		database contains new UserTO with the same fields as in the body
-*/
-
-		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		UserTO testValue = new UserTO(new UserEntity(postUserForm));
-		
-		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
-		assertThat(actualReturnedValue)
-		.isNotNull()
-		.isEqualToComparingFieldByField(testValue);
-	}
-	
-	// url #1 playground/users tests finished
-	
-	
-	// url #2 /playground/users/confirm/{playground}/{email}/{code} test starts
-	@Test(expected=RuntimeException.class)
-	public void testConfirmUserEmailNotInDatabase() {
-		/*
-		 * 				Given Server is up 
-				AND  
-				I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is not on the database
-				Then I get a Wrong email message
-		 */
-		 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
-
-			
-	}
-	
-	@Test
-	public void testConfirmUserWithNullCode() {
-		/*
-		 * 
-		Given Server is up 
-		AND 
-		 I GET /playground/users/confirm/{playground}/{email}/
-		When email is on the database AND code is ""
-		Then I get a 404 exception
-		 * */
-		String[] s = {"0","0"};
-		
-		try {
-			 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
-
-		}
-		catch(RuntimeException e)
-		{
-			s=e.toString().split(" ", 3);
-		}
-		System.err.println(s[1]);
-		assertThat(s[1]).isEqualTo("404");
-		
-	}
-	
-	@Test
-	public void testConfirmUserWithCorrectCode() {
-		/*
-		 * 
-				Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database and code is correct and user belongs to playground
-				Then I get a verified user message
-				
-		 * */
-		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(u);
-		
-		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
-		//verify that unverified user is now verified
-		assertThat(user).isNotNull();
-		assertThat(user.isVerified()).isTrue();
-		
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void ConfirmUserNotInPlayground() {
-		/*
-		 * 		Given Server is up 
-				AND  
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database and code is correct and user does not belong to playground
-				Then I get a user is not on playground message
-		 * */
-		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");	
-	}
-	
-	
-	
-	@Test (expected=RuntimeException.class)
-	public void testConfirmUserWithIncorrectVerificationCode() {
-		/*		Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database AND code is wrong
-				Then I get a Wrong verification code error message
-				*/
-		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(u);
-		
-		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
-		assertThat(user.getVerified_user()).isEqualTo(Constants.USER_NOT_VERIFIED);
-	}
-	
-	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished
-	
-	
-	// url #3 /playground/users/login/{playground}/{email} tests started
-	
-	@Test(expected = RuntimeException.class)
-	public void testLoginUserWithNullEmail() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/
-		 * When: User is verified AND is in database AND email is empty
-		 * Then: I get login exception.
-		 */
-		UserEntity user = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		user.verifyUser();
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(user);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
-	}
-
-	@Test
-	public void testLoginUserWithCorrectEmail() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: user is in playground database and is verified
-		 * Then: User gets Logged in
-		 */
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		u.verifyUser();
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(u);
-		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
-		// verify that unverified user is now verified
-		assertThat(user).isNotNull();
-		assertThat(user.isVerified()).isTrue();
-	}
-	
-
-	@Test(expected = RuntimeException.class)
-	public void testLoginUserEmailNotInDatabase() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is not on the database
-		 * Then: I get login exception.
-		 */
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
-
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void LoginUserNotInPlayground() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database and verified and user does not belong to playground
-		 * Then: I get a user is not on playground message
-		 */
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
-		// given database contains user { "user": "userTest"}
-		u.verifyUser();
-		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void testLoginUserWhenUserNotVerification() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database AND not verified
-		 * Then: I get login exception.
-		 */
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(u);
-		// When I invoke GET this.url +
-		// "/playground/users/login/{playground}/{email}"
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
-	}
-	
-	// url #3/playground/users/login/{playground}/{email} test finished
-
-	// url #4 /playground/users/{playground}/{email} test starts
-	@Test
-	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update my user
-		 * Then: changes are accepted
-		 */
-		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update other user AND other user is player
-		 * Then: I get changesUser exception
-		 */
-		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
-		
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update other user AND other user is moderator
-		 * Then: I get changesUser exception
-		 */
-		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
-		
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
-		
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
-	
-	// url #4 /playground/users/{playground}/{email} test finished
 	
 	// url #5 /playground/elements/{userPlayground }/{email}  starts 
 	@Test
@@ -723,61 +441,4 @@ private RestTemplate restTemplate;
 
 	
 
-
-	
-	
-	
-
-	
-	// url #11 /playground/activities/{userPlayground}/{email} started
-	@Test
-	public void testSendValidActivityToServer() {
-	/*
-	 * 
-		Given the server is up and I POST /playground/activities/{userPlayground}/{email}
-		When user login details are correct and activity is valid
-		Then an Object is returned
-	*/
-		
-		ActivityTO act = new ActivityTO();
-		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
-		System.err.println(ob);
-	}
-	// url #11 /playground/activities/{userPlayground}/{email} finished
-
-	}
-	
-	
-
-
-	
-
-
-	/*
-	 * DanielController:
-	 * 
-	 * 1. Register new user
-	 * "/playground/users" POST
-	 * 
-	 * 6. Update element
-	 * "/playground/elements/{userPlayground}/{email}/{playground}/{id}" PUT
-	 * 
-	 * 10. Get element containing attribute with specific value
-	 * "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" GET
-	 * 
-	 * 
-	 * EdenDupontController
-	 * 
-	 * 2. Confirm User
-	 * "/playground/users/confirm/{playground}/{email}/{code}" GET
-	 * 
-	 * 7. Get element
-	 * "/playground/elements/{userPlayground}/{email}/{playground}/{id}" GET
-	 * 
-	 * 11. Request Server
-	 * "/playground/activities/{userPlayground}/{email}" POST
-	 * 
-	 * EdenSharoniController
-	 * 
-	 * 
-	 * */
+}
