@@ -1,16 +1,15 @@
 package playground.logic;
 
 import java.util.ArrayList;
-import playground.layout.ElementTO;
 
 public interface ElementService {
 
 	void cleanElementService();
 
-	ElementEntity[] getAllElementsTOInRadius(ElementTO element, double x, double y, double distance, int page,
+	ElementEntity[] getAllElementsTOInRadius(ElementEntity element, double x, double y, double distance, int page,
 			int size);
 
-	public void addElements(ElementTO[] elements, String userPlayground);
+	public void addElements(ElementEntity[] elements, String userPlayground);
 
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String playground,
 			String id);

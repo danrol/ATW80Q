@@ -32,11 +32,11 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void addElements(ElementTO[] elements,String  Playground) {
+	public void addElements(ElementEntity[] elements,String  Playground) {
 
 		for (int i=0;i<elements.length;i++)
 		{
-			addElement(elements[i].toEntity());
+			addElement(elements[i]);
 		}
 
 
@@ -131,7 +131,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsTOInRadius(ElementTO element, 
+	public ElementEntity[] getAllElementsTOInRadius(ElementEntity element, 
 			double x, double y, double distance, int page, int size) {
 
 		if(distance<0) {
@@ -163,21 +163,5 @@ public class DummyElementService implements ElementService {
 		return serialVersionUID;
 	}
 
-
-	// TODO change
-	//	public boolean checkElementIsCorrect(ElementEntity element) {
-	//		UserEntity userToCheckWith = null;
-	//		for (UserEntity u : users) {
-	//			if(u.getEmail() == element.getCreatorEmail()) {
-	//				userToCheckWith = u;
-	//				break;
-	//			}
-	//		}
-	//		if (userToCheckWith != null && 
-	//				userToCheckWith.getPlayground().equals(element.getCreatorPlayground())) 
-	//			return true;
-	//		else
-	//			return false;
-	//	}
 
 }
