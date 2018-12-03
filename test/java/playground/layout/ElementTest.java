@@ -290,10 +290,10 @@ public class ElementTest {
 		 */
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementTO[] arrElements=new ElementTO[3];
-		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
-		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,2")));
-		arrElements[2]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,3")));
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
@@ -311,10 +311,10 @@ public class ElementTest {
 		 */
 		
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementTO[] arrElements=new ElementTO[3];
-		arrElements[0]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
-		arrElements[1]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,1")));
-		arrElements[2]=new ElementTO(new ElementEntity(name,playground,creatorPlayground,new Location("3,3")));
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
