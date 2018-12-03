@@ -74,6 +74,7 @@ private RestTemplate restTemplate;
 		userService.cleanUserService();
 		elementService.cleanElementService();
 	}
+	//******************************************************************************************//
 	// url #11 /playground/activities/{userPlayground}/{email} started
 	@Test
 	public void testSendValidActivityToServer() {
@@ -89,7 +90,7 @@ private RestTemplate restTemplate;
 		System.err.println(ob);
 	}
 	// url #11 /playground/activities/{userPlayground}/{email} finished
-
+	//******************************************************************************************//
 
 	}
 	

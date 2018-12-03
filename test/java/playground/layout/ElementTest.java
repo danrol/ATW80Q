@@ -74,7 +74,7 @@ public class ElementTest {
 		elementService.cleanElementService();
 	}
 	
-	
+	//******************************************************************************************//
 	// url #5 /playground/elements/{userPlayground }/{email}  starts 
 	@Test
 	public void testPOSTNewElementIsAddedToDatabase() {
@@ -153,7 +153,7 @@ public class ElementTest {
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
 	// url #5 /playground/elements/{userPlayground }/{email}  finished
-
+	//******************************************************************************************//
 	
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with PUT test starts
 	@Test(expected = RuntimeException.class)
@@ -201,7 +201,7 @@ public class ElementTest {
 		}
 	
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with PUT test finished
-	
+	//******************************************************************************************//
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test started
 	
 	@Test(expected=RuntimeException.class)
@@ -279,7 +279,7 @@ public class ElementTest {
 	
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test finished
 	
-
+	//******************************************************************************************//
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
 	@Test
 	public void testPOSTNewElementsAreAddedToDatabase() {
@@ -322,7 +322,7 @@ public class ElementTest {
 		
 	}
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
-
+	//******************************************************************************************//
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test started
 	@Test
 	public void testIfWeGETElementsFromDatabaseWithRightRadius() {
@@ -369,7 +369,7 @@ public class ElementTest {
 	
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test finished
 
-
+	//******************************************************************************************//
 
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test starts
 	@Test
@@ -439,6 +439,6 @@ public class ElementTest {
 	}
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test finished
 
-	
+	//******************************************************************************************//
 
 }

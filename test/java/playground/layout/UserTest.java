@@ -74,7 +74,7 @@ private RestTemplate restTemplate;
 		userService.cleanUserService();
 		elementService.cleanElementService();
 	}
-
+//******************************************************************************************//
 	// url #1 /playground/users tests start
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
@@ -130,7 +130,7 @@ private RestTemplate restTemplate;
 	
 	// url #1 playground/users tests finished
 	
-	
+	//******************************************************************************************//
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test starts
 	@Test(expected=RuntimeException.class)
 	public void testConfirmUserEmailNotInDatabase() {
@@ -231,7 +231,7 @@ private RestTemplate restTemplate;
 	
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished
 	
-	
+	//******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
 	
 	@Test(expected = RuntimeException.class)
@@ -308,7 +308,7 @@ private RestTemplate restTemplate;
 	}
 	
 	// url #3/playground/users/login/{playground}/{email} test finished
-
+	//******************************************************************************************//
 	// url #4 /playground/users/{playground}/{email} test starts
 	@Test
 	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
@@ -356,6 +356,7 @@ private RestTemplate restTemplate;
 	}
 	
 	// url #4 /playground/users/{playground}/{email} test finished
+	//******************************************************************************************//
 	}
 	
 	
