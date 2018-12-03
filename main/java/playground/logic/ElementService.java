@@ -8,6 +8,8 @@ public interface ElementService {
 
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 
 			double x, double y, double distance, int page, int size);
+	
+	public boolean isElementInDatabase(ElementEntity element);
 
 	public void addElements(ElementEntity[] elements, String userPlayground);
 

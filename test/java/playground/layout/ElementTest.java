@@ -297,7 +297,7 @@ public class ElementTest {
 		
 		
 		elementService.addElements(arrElements, playground);
-		
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
 		
 		
 	}
@@ -318,7 +318,7 @@ public class ElementTest {
 		
 		
 		elementService.addElements(arrElements, playground);
-		//todo func in dummyElementService that check if element in database
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&(!elementService.isElementInDatabase(arrElements[1]))&&elementService.isElementInDatabase(arrElements[2]));
 		
 	}
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished

@@ -129,6 +129,16 @@ public class DummyElementService implements ElementService {
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 	}
+	@Override
+	public boolean isElementInDatabase(ElementEntity element) {
+		if(this.elements.contains(element)){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 
 	@Override
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 

@@ -78,10 +78,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public UserEntity login(String playground, String email) {
-		/*
-		 * function 3
-		 * INPUT: NONE OUTPUT: UserTO
-		 */
+		
 		UserEntity u = getUser(email);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
@@ -101,9 +98,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void updateUser(UserEntity user, String email,String playground) {
-		/*
-		 * function 4 INPUT: UserTO OUTPUT: NONE
-		 */
+		
 		login(playground, email);
 		if (getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if(user.getEmail().equals(email)) {
