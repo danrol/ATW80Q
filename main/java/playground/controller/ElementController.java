@@ -1,4 +1,4 @@
-package playground.layout;
+package playground.controller;
 
 import java.util.ArrayList;
 
@@ -10,15 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import playground.exceptions.ConfirmException;
+import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.NewUserForm;
-import playground.logic.UserEntity;
 import playground.logic.UserService;
 
+
 @RestController
-public class WebUI {
+public class ElementController {
 
 	private ElementService elementService;
 	private UserService userService;
@@ -33,50 +34,7 @@ public class WebUI {
 	public void setUserService(UserService userService){
 		this.userService = userService;
 	}
-
-	@RequestMapping(
-			method = RequestMethod.POST,
-			path = "/playground/users",
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO registerNewUser(@RequestBody NewUserForm newUserForm) {
-		/* function 1
-		 * INPUT: NewUserForm
-		 * OUTPUT: UserTO
-		 */
-
-		userService.addUser(new UserEntity(newUserForm));
-		return new UserTO(new UserEntity(newUserForm));
-	}
-
-	@RequestMapping(method=RequestMethod.GET,path="/playground/users/confirm/{playground}/{email}/{code}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code)
-	{
-		/* function 2
-		 * INPUT: NONE
-		 * OUTPUT: UserTO
-		 */
-		return new UserTO(this.userService.verifyUser(email, playground, code));
-	}
-
-	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public UserTO login(@PathVariable("playground") String playground, @PathVariable("email") String email) {
-		/*
-		 * function 3
-		 * INPUT: NONE OUTPUT: UserTO
-		 */
-		return new UserTO(this.userService.login(playground, email));
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
-			@PathVariable("playground") String playground) {
-		/*
-		 * function 4 INPUT: UserTO OUTPUT: NONE
-		 */
-		this.userService.updateUser(user, email, playground);
-	}
+	
 
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground }/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
@@ -183,17 +141,6 @@ public class WebUI {
 
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,path="/playground/activities/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public Object RequestServer(@RequestBody ActivityTO activity, @PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground) 
-	{
-		/* function 11
-		 * INPUT: ActivityTO
-		 * OUTPUT: Object
-		 */
-		return activity; 
-	}
-
-
 	public ElementTO[] getElementTOArray(ElementEntity[] lst){
 		ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementEntity e : lst) {
@@ -202,18 +149,3 @@ public class WebUI {
 		return result.toArray(new ElementTO[lst.length]);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
