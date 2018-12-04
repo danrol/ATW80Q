@@ -24,6 +24,8 @@ public class ElementTO implements Serializable {
 	protected Location location;
 	protected Map<String, Object> attributes;
 
+	
+	//TODO MOVE THIS
 	public boolean attributeExists(String attributeName, String value) {
 		switch (attributeName) {
 		case "name":

@@ -392,36 +392,6 @@ public class ElementTest {
 	//******************************************************************************************//
 
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test starts
-	@Test
-	public void testAttributeNotExist() {
-		/*		
-		Given: the server is up
-		AND element service doesn't contains element with attributeName = �noSuchAttribute�
-		With headers:	  Accept:application/json,  content-type: application/json
-		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = �attr3�:attributeValue=�attr3Val�
-*/
-		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
-				"player", "creatorPlayground");
-		
-		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
-		userService.addUser(userElementCreator);
-		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
-				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
-		
-		elementForTest[0].setCreatorPlayground("creatorPlayground");
-		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put("attribute1","attr1Value");
-		testMap.put("attribute2","attr2Value");
-		testMap.put("attr3","attr3Val");
-		
-		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
-				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
-				"creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
-		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
-	}
-	
 	
 	@Test
 	public void testSuccessfullyGetElementsByAttributeNameValue(){
@@ -457,6 +427,62 @@ public class ElementTest {
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
 	}
+	
+	@Test
+	public void testAttributeNotExist() {
+		/*		
+		Given: the server is up
+		AND element service doesn't contains element with attributeName = �noSuchAttribute�
+		With headers:	  Accept:application/json,  content-type: application/json
+		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
+		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = �attr3�:attributeValue=�attr3Val�
+*/
+		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
+				"player", "creatorPlayground");
+		
+		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userService.addUser(userElementCreator);
+		
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
+		
+		elementForTest[0].setCreatorPlayground("creatorPlayground");
+		HashMap<String, Object> testMap = new HashMap<>();
+		testMap.put("attribute1","attr1Value");
+		testMap.put("attribute2","attr2Value");
+		testMap.put("attr3","attr3Val");
+		
+		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
+				"creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
+		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
+	}
+	
+	@Test
+	public void testValueInAttributeNotExist() {
+
+		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
+				"player", "creatorPlayground");
+		
+		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userService.addUser(userElementCreator);
+		
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
+		
+		elementForTest[0].setCreatorPlayground("creatorPlayground");
+		HashMap<String, Object> testMap = new HashMap<>();
+		testMap.put("attribute1","attr1Value");
+		testMap.put("attribute2","attr2Value");
+		testMap.put("randomAttribute","attr3Val");
+		
+		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
+				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
+				"creatorPlayground", "nudnik@mail.ru", "randomAttribute", "wrongValue");
+		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
+	}
+	
+
 	// url #10 "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}" test finished
 
 	//******************************************************************************************//
