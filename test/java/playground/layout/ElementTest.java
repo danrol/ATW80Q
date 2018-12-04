@@ -156,27 +156,9 @@ public class ElementTest {
 	//******************************************************************************************//
 	
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with PUT test starts
-	@Test(expected = RuntimeException.class)
-	public void testWrongElementPassedForUpdate() {
-		
-		ElementEntity elementEntityForTest = 
-				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
-		ElementTO elementForTest = new ElementTO(elementEntityForTest);
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, 
-				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
-	}
 	
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
-/*		
-		Given Server is up
-		AND database contains element with fields user playground "User playgrouNd", playground = "User playgrouNd", id = �123�, creator email = �email@email.com� 
-		AND database contains verified user with "email@email.com"
-		When I PUT /playground/elements/User playgrouNd/email@email.com/"User playgrouNd"/�123�
-			With headers: Accept:application/json, content-type: application/json
-			And element in body contains fields user playground "User playgrouNd", playground = "for test", id = �123�, creator email = �email@email.com� 
-		Then original element�s playground will be updated with �for test� 
-*/
 		
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
 				"PLAYER", "User playgrouNd");
@@ -200,6 +182,32 @@ public class ElementTest {
 		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
 		}
 	
+	@Test(expected = RuntimeException.class)
+	public void testUpdateNonExistingElement() {
+		
+		ElementEntity elementEntityForTest = 
+				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
+		ElementTO elementForTest = new ElementTO(elementEntityForTest);
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, 
+				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
+	}
+	
+	@Test(expected = RuntimeException.class)
+	public void testUpdateElementForNonExistingCreator() throws Exception{
+		
+		ElementEntity updatedElementForTestEntity = 
+				new ElementEntity("123", "User playgrouNd", "randomMail",new Location(0,1));
+		elementService.addElement(updatedElementForTestEntity);
+		
+		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
+		updatedElementForTestTO.setPlayground("for test");
+		
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "User playgrouNd", 
+				"randomMail", "User playgrouNd",  "123");
+		
+		}
+	
+
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with PUT test finished
 	//******************************************************************************************//
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test started
