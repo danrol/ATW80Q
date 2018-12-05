@@ -78,48 +78,17 @@ private RestTemplate restTemplate;
 	// url #1 /playground/users tests start
 	@Test(expected=RuntimeException.class)
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
-/*		
-		Given Server is up
-		When I POST /playground/users
-		With headers: Accept:application/json, content-type: application/json
-		With "email" : "WrongEmail” in NewUserForm body
-		Then RuntimeException appears
-*/
+		//Test #1.1
 		
-		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
+		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, "randomPlayground");
 		new UserTO(new UserEntity(postUserForm));		
-	}
-	
-	@Test(expected=RuntimeException.class)
-	public void testRegisterUserThatAlreadyExists() {
-/*		
-		Given Server is up  
-		When I POST /playground/users 
-		AND user exists in the database
-		Then a null user is returned in JSON
-*/
-		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
-		userService.addUser(userToAdd.toEntity());
-		UserTO actualReturnedValue = this.restTemplate.postForObject(
-				this.url+"/playground/users", postUserForm, UserTO.class);
-		assertThat(actualReturnedValue).isNull();
 	}
 	
 	@Test
 	public void testSuccessfullyRegisterNewUser() throws Exception{
-/*		
-		Given Server is up
-		When I POST /playground/users
-		With headers:	  Accept:application/json,  content-type: application/json
-		With Body:
-		{"email" : "nudnik@mail.ru", "username":"Curiosity", "avatar":"ava", "role":"PLAYER"}
-		Then the response body contains new UserTO with the "email" : "nudnik@mail.ru", “username”: “Curiosity”, "avatar:"ava", "role":"PLAYER""
-		AND 
-		database contains new UserTO with the same fields as in the body
-*/
 
-		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
+		//Test #1.2
+		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER", "randomPlayground");
 		UserTO testValue = new UserTO(new UserEntity(postUserForm));
 		
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
@@ -127,6 +96,19 @@ private RestTemplate restTemplate;
 		.isNotNull()
 		.isEqualToComparingFieldByField(testValue);
 	}
+	
+	@Test(expected=RuntimeException.class)
+	public void testRegisterUserThatAlreadyExists() {
+		//Test #1.3
+		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER", "randomPlayground");
+		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
+		userService.addUser(userToAdd.toEntity());
+		UserTO actualReturnedValue = this.restTemplate.postForObject(
+				this.url+"/playground/users", postUserForm, UserTO.class);
+		assertThat(actualReturnedValue).isNull();
+	}
+	
+
 	
 	// url #1 playground/users tests finished
 	

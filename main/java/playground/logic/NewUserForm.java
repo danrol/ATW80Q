@@ -27,12 +27,13 @@ public class NewUserForm implements Serializable {
 		this.setVerificationCode(createVerificationCode());
 	}
 
-	public NewUserForm(String email, String username, String avatar, String role) {
+	public NewUserForm(String email, String username, String avatar, String role, String playground) {
 		super();
 		this.email = email;
 		this.username = username;
 		this.avatar = avatar;
 		this.role = role;
+		this.playground = playground;
 	}
 
 	private String createVerificationCode() {

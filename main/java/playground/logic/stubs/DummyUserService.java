@@ -45,7 +45,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void addUser(UserEntity user) {
-		if (this.getUser(user.getEmail()) != null)
+		if (this.getUser(user.getEmail(), user.getPlayground()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
@@ -55,10 +55,10 @@ public class DummyUserService implements UserService{
 	
 	
 	@Override
-	public UserEntity getUser(String email) {
+	public UserEntity getUser(String email, String playground) {
 		for(UserEntity u:users)
 		{
-			if(u.getEmail().equals(email))
+			if(u.getEmail().equals(email) && u.getPlayground().equals(playground))
 				return u;
 		}
 		return null;
@@ -66,7 +66,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void updateUser(UserEntity user) {
-		UserEntity tempUser = this.getUser(user.getEmail());
+		UserEntity tempUser = this.getUser(user.getEmail(), user.getPlayground());
 		users.remove(tempUser);
 		users.add(user);
 	}
@@ -79,7 +79,7 @@ public class DummyUserService implements UserService{
 	@Override
 	public UserEntity login(String playground, String email) {
 		
-		UserEntity u = getUser(email);
+		UserEntity u = getUser(email, playground);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
@@ -100,7 +100,7 @@ public class DummyUserService implements UserService{
 	public void updateUser(UserEntity user, String email,String playground) {
 		
 		login(playground, email);
-		if (getUser(email).getRole().equals(Constants.MODERATOR_ROLE)) {
+		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if(user.getEmail().equals(email)) {
 				updateUser(user);
 			}
@@ -109,22 +109,23 @@ public class DummyUserService implements UserService{
 			} else {
 				throw new ChangeUserException("Moderator cannot change other moderator user");
 			}
-		} else if (getUser(email).getRole().equals(Constants.PLAYER_ROLE)) {
+		} else if (getUser(email, playground).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
 				updateUser(user);
 			} else {
 				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}
 		} else {
-			throw new ChangeUserException("invalid role " + getUser(email).getRole());
+			throw new ChangeUserException("invalid role " + getUser(email, playground).getRole());
 		}
 	}
 	
 	@Override
 	public UserEntity verifyUser(String email, String playground, String code) {
-		UserEntity user = getUser(email);
+		UserEntity user = getUser(email, playground);
 		
 		if(user !=null) {
+			//TODO remove if. added playground check to getUser 
 			if(user.getPlayground().equals(playground))
 			{
 				String VerificationCode = user.getVerificationCode();
