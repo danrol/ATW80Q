@@ -131,7 +131,7 @@ public class DummyElementService implements ElementService {
 	}
 	@Override
 	public boolean isElementInDatabase(ElementEntity element) {
-		if(this.elements.contains(element)){
+		if(elements.contains(element)){
 			return true;
 		}
 		else {

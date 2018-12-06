@@ -160,21 +160,22 @@ public class ElementTest {
 	@Test
 	public void testSuccessfullyUpdateElement() throws Exception{
 		
+		// 6.1
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
-				"PLAYER", "User playgrouNd");
+				"PLAYER", "userPlayground");
 		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
 		userService.addUser(userElementCreator);
 		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity("123", "User playgrouNd", "email@email.com",new Location(0,1));
+				new ElementEntity("123", "userPlayground", "email@email.com",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
-		updatedElementForTestTO.setPlayground("for test");
+		updatedElementForTestTO.setPlayground("forTest");
 		
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "User playgrouNd", 
-				"email@email.com", "User playgrouNd",  "123");
-		
-		ElementEntity actualEntity = elementService.getElement("123", "for test");
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
+				"email@email.com", "userPlayground",  "123");
+	    
+		ElementEntity actualEntity = elementService.getElement("123", "forTest");
 
 		
 		assertThat(actualEntity).isNotNull();
@@ -185,25 +186,27 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void testUpdateNonExistingElement() {
 		
+		// 6.2
 		ElementEntity elementEntityForTest = 
-				new ElementEntity(Constants.ID_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS,new Location(0,1));
+				new ElementEntity("123", "playground", "email@email.com",new Location(0,1));
 		ElementTO elementForTest = new ElementTO(elementEntityForTest);
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, 
-				Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME, Constants.ID_FOR_TESTS);
+		
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, "userPlayground", 
+				"email@email.com", "wrongPlayground",  "123");
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testUpdateElementForNonExistingCreator() throws Exception{
 		
 		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity("123", "User playgrouNd", "randomMail",new Location(0,1));
+				new ElementEntity("123", "userPlayground", "wrong@email",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
-		updatedElementForTestTO.setPlayground("for test");
+		updatedElementForTestTO.setPlayground("forTest");
 		
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "User playgrouNd", 
-				"randomMail", "User playgrouNd",  "123");
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
+				"test@test.com", "playgr",  "123");
 		
 		}
 	
