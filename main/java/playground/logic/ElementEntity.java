@@ -5,13 +5,20 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.Constants;
-
+@Entity
+@Table(name = "ELEMENT")
 public class ElementEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -107,7 +114,7 @@ public class ElementEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-
+	@Transient
 	public Location getLocation() {
 		return location;
 	}
@@ -118,7 +125,8 @@ public class ElementEntity {
 		else
 			throw new RuntimeException("Location is null");
 	}
-
+	
+	@Transient
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -126,7 +134,7 @@ public class ElementEntity {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
+	@Transient
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -162,11 +170,11 @@ public class ElementEntity {
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
 	}
-
+	@Transient
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}
-
+	@Lob
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
@@ -177,3 +185,6 @@ public class ElementEntity {
 		return serialVersionUID;
 	}
 }
+//elia:
+//problems:Dates could not be saved in the database as an object
+//problems:Locations could not be saved in the database as an object

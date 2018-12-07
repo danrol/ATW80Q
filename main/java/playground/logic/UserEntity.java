@@ -2,11 +2,17 @@ package playground.logic;
 
 import java.util.regex.Pattern;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import playground.Constants;
 import playground.exceptions.RegisterNewUserException;
 
+@Entity
+@Table(name = "USER")
 public class UserEntity {
 
 	private String email;
@@ -45,7 +51,7 @@ public class UserEntity {
 		setPoints(0);
 		setPlayground(Constants.PLAYGROUND_NAME);
 	}
-
+	@Transient
 	public static boolean emailIsValid(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
 				+ "A-Z]{2,7}$";
@@ -61,7 +67,7 @@ public class UserEntity {
 		setVerificationCode(code);
 	}
 
-	// @Transactional(readOnly=true)
+	@Transient
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -79,7 +85,7 @@ public class UserEntity {
 		this.email = email;
 	}
 
-	// @Transactional(readOnly=true)
+	
 	public String getAvatar() {
 		return avatar;
 	}
@@ -88,7 +94,7 @@ public class UserEntity {
 		this.avatar = avatar;
 	}
 
-	// @Transactional(readOnly=true)
+	
 	public String getUsername() {
 		return username;
 	}
@@ -97,11 +103,11 @@ public class UserEntity {
 		this.username = username;
 	}
 
-	// @Transactional(readOnly=true)
+	@Transient
 	public String getRole() {
 		return role;
 	}
-
+	@Transient
 	public void setRole(String role) {
 		role = role.toLowerCase();
 		if (role.equals(Constants.MODERATOR_ROLE.toLowerCase())) {
@@ -114,7 +120,7 @@ public class UserEntity {
 		}
 	}
 
-	// @Id
+	
 	public String getPlayground() {
 		return playground;
 	}
@@ -123,7 +129,7 @@ public class UserEntity {
 		this.playground = playground;
 	}
 
-	// @Transactional(readOnly=true)
+	@Lob
 	public long getPoints() {
 		return points;
 	}
@@ -132,7 +138,7 @@ public class UserEntity {
 		this.points = points;
 	}
 
-	// @Transactional(readOnly=true)
+	
 	public int getVerified_user() {
 		return verified_user;
 	}
@@ -140,12 +146,13 @@ public class UserEntity {
 	public void setVerified_user(int verified_user) {
 		this.verified_user = verified_user;
 	}
-
+	@Transient
 	public void verifyUser() {
 		setVerified_user(Constants.USER_VERIFIED);
 		verificationCode = null;
 	}
-
+	
+	@Transient
 	public boolean isVerified() {
 		if (getVerified_user() == Constants.USER_VERIFIED)
 			return true;
@@ -154,6 +161,7 @@ public class UserEntity {
 	}
 
 	@Override
+	@Lob
 	public String toString() {
 		return "UserEntity [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
 				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user="
@@ -161,3 +169,6 @@ public class UserEntity {
 	}
 
 }
+// elia:
+// there is a problem with functions in hibernate :becuse the object is en entity ,in class functions must be ignored
+//another problem is to understend what exactly is the key in the database of USERS
