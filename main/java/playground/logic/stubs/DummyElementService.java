@@ -173,5 +173,16 @@ public class DummyElementService implements ElementService {
 		return serialVersionUID;
 	}
 
+	@Override
+	public ElementEntity[] getAllElements() {
+		ElementEntity[] arr=new ElementEntity[elements.size()];
+		for(int i=0;i<arr.length;i++) {
+			arr[i]=elements.get(i);
+		}
+		
+		return arr;
+		
+	}
+
 
 }

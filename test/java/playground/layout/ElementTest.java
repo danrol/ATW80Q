@@ -154,7 +154,66 @@ public class ElementTest {
 	}
 	// url #5 /playground/elements/{userPlayground }/{email}  finished
 	//******************************************************************************************//
+	@Test
+	public void testPOSTNewElementsAreAddedToDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new elements.
+		 * Then: all elements are saved in the database.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		
+		
+		elementService.addElements(arrElements, playground);
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
+		
+		
+	}
 	
+	@Test
+	public void testGETNewElementsFromDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new elements.
+		 * Then: all elements are saved in the database.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		
+		
+		elementService.addElements(arrElements, playground);
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
+		
+		
+	}
+	@Test
+	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
+		/*
+		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND i post new element.
+		 * Then: a new element is saved in the serviceElement.
+		 */
+		
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		
+		
+		elementService.addElements(arrElements, playground);
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&(!elementService.isElementInDatabase(arrElements[1]))&&elementService.isElementInDatabase(arrElements[2]));
+		
+	}
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with PUT test starts
 	
 	@Test
@@ -293,13 +352,13 @@ public class ElementTest {
 	//******************************************************************************************//
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
 	@Test
-	public void testPOSTNewElementsAreAddedToDatabase() {
+	public void testGETAllFromDatabase() {
 		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND i post new elements.
-		 * Then: all elements are saved in the database.
+		 * Given: Server is up AND I GET /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND database is not empty.
+		 * Then: all elements are returned from the database.
 		 */
-		
+		boolean flag=true;
 		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
 		ElementEntity[] arrElements=new ElementEntity[3];
 		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
@@ -308,50 +367,33 @@ public class ElementTest {
 		
 		
 		elementService.addElements(arrElements, playground);
-		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
-		
+		ArrayList elementsreturned=elementService.getElements();
+		for(int i=0;i<arrElements.length;i++) {
+			if(!elementsreturned.contains(arrElements[i])) {
+				flag=false;
+				break;
+			}
+			
+		}
+		assertThat(flag=true);
 		
 	}
 	
 	@Test
-	public void testGETNewElementsFromDatabase() {
+	public void testGETAllFromEmptyDatabase() {
 		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND i post new elements.
-		 * Then: all elements are saved in the database.
+		 * Given: Server is up AND I GET /playground/elements/{userPlayground }/{email}/all
+		 * When: User is verified AND database is empty.
+		 * Then: i get empty array of elements.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
 		
-		
-		elementService.addElements(arrElements, playground);
-		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1])&&elementService.isElementInDatabase(arrElements[2]));
-		
+		ArrayList elementsreturned=elementService.getElements();
+		assertThat(elementsreturned.isEmpty());
 		
 	}
-	@Test
-	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
-		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND i post new element.
-		 * Then: a new element is saved in the serviceElement.
-		 */
-		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
-		
-		
-		elementService.addElements(arrElements, playground);
-		assertThat(elementService.isElementInDatabase(arrElements[0])&&(!elementService.isElementInDatabase(arrElements[1]))&&elementService.isElementInDatabase(arrElements[2]));
-		
-	}
+	//////
+	
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
 	//******************************************************************************************//
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test started

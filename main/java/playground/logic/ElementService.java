@@ -2,6 +2,8 @@ package playground.logic;
 
 import java.util.ArrayList;
 
+import playground.layout.ElementTO;
+
 public interface ElementService {
 
 	void cleanElementService();
@@ -32,4 +34,6 @@ public interface ElementService {
 	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);
 
 	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground);
+
+	ElementEntity[] getAllElements();
 }
