@@ -6,6 +6,7 @@ import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
+import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -50,6 +51,16 @@ public class DummyUserService implements UserService{
 		else {
 		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
+		}
+	}
+	
+	@Override
+	public void addUser(NewUserForm user) {
+		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
+			throw new RegisterNewUserException("User already registered");
+		else {
+				UserEntity userEnt = new UserEntity(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
+				users.add(userEnt);
 		}
 	}
 	

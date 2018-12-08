@@ -14,7 +14,7 @@ import playground.exceptions.RegisterNewUserException;
 @Entity
 @Table(name = "USER")
 public class UserEntity {
-
+	//KEY IS EMAIL+PLAYGROUND
 	private String email;
 	private String avatar;
 	private String username;
@@ -38,18 +38,6 @@ public class UserEntity {
 		setVerificationCode(Constants.DEFAULT_VERIFICATION_CODE);
 	}
 
-	public UserEntity(NewUserForm newUserForm) {
-		if (emailIsValid(newUserForm.getEmail()) && newUserForm.getUsername() != null
-				&& newUserForm.getRole() != null) {
-			this.email = newUserForm.getEmail();
-			this.username = newUserForm.getUsername();
-			this.avatar = newUserForm.getAvatar();
-			this.role = newUserForm.getRole();
-		} else
-			throw new RegisterNewUserException("Registration data is not correct. Check your input");
-		setPoints(0);
-		setPlayground(Constants.PLAYGROUND_NAME);
-	}
 	@Transient
 	public static boolean emailIsValid(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
@@ -138,22 +126,15 @@ public class UserEntity {
 	}
 
 	
-	public int getVerified_user() {
-		return verified_user;
-	}
-
-	public void setVerified_user(int verified_user) {
-		this.verified_user = verified_user;
-	}
+	
 	@Transient
 	public void verifyUser() {
-		setVerified_user(Constants.USER_VERIFIED);
 		verificationCode = null;
 	}
 	
 	@Transient
 	public boolean isVerified() {
-		if (getVerified_user() == Constants.USER_VERIFIED)
+		if (this.verificationCode == null)
 			return true;
 		else
 			return false;
@@ -163,8 +144,7 @@ public class UserEntity {
 	@Lob
 	public String toString() {
 		return "UserEntity [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
-				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user="
-				+ verified_user + ", points=" + points + "]";
+				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + " points=" + points + "]";
 	}
 
 }
