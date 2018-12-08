@@ -97,7 +97,7 @@ public class ElementEntity {
 	}
 	
 	
-
+	@Id
 	public String getSuperkey() {
 		return Superkey;
 	}
@@ -114,7 +114,7 @@ public class ElementEntity {
 		this.name = name;
 	}
 
-	@Id
+	
 	public String getId() {
 		return id;
 	}
@@ -198,7 +198,6 @@ public class ElementEntity {
 			throw new RuntimeException(e);
 		}
 	}
-	
 	
 	
 	

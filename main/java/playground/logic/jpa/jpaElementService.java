@@ -34,14 +34,29 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly=true)
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
 			int size) {
-		// TODO Auto-generated method stub
-		return null;
+		if(distance<0) {
+			throw new RuntimeException("Negative distance (" + distance + ")");
+		}
+		ArrayList<ElementEntity> lst = new ArrayList<>();
+		for (ElementEntity el : elementsDB.findAll()) {
+			double xin = el.getLocation().getX() - element.getLocation().getX();
+			double yin = el.getLocation().getY() - element.getLocation().getY();
+
+			if (Math.sqrt(xin * xin + yin * yin) <= distance) {
+				lst.add(el);
+			}
+		}
+		if (lst.isEmpty()) {
+			return null;
+		} else {
+			return getElementsBySizeAndPage(lst, page, size);
+		}
 	}
 
 	@Override
 	public boolean isElementInDatabase(ElementEntity element) {
 		
-		return this.elementsDB.existsById(element.getId());
+		return this.elementsDB.existsById(element.getSuperkey());
 	}
 
 	@Override
@@ -57,7 +72,7 @@ public class jpaElementService implements ElementService {
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
 			String playground, String id) {
 		//todo
-		 elementsDB.deleteById(id);
+		 elementsDB.deleteById(id+","+userPlayground);
 		 elementsDB.save(element);
 		
 	}
@@ -68,9 +83,8 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> arr=(ArrayList<ElementEntity>) elementsDB.findAll();
 		ArrayList<ElementEntity> arrReturned=new ArrayList<ElementEntity>();
 		for(ElementEntity el:arr) {
-			if(el.getCreatorEmail().equals(creatorEmail)&&el.getCreatorPlayground().equals(creatorPlayground)) {
-				//todo
-				//understand what is exactly value and attributename
+			if(true) {
+				//tofo
 				arrReturned.add(el);
 			}
 		}
@@ -81,7 +95,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
-		Optional<ElementEntity> el=elementsDB.findById(element.getId());
+		Optional<ElementEntity> el=elementsDB.findById(element.getSuperkey());
 		if(el.isPresent()) {
 			ElementEntity elementI=el.get();
 			if(elementI.getCreatorEmail().equals(creatorEmail)&&elementI.getCreatorPlayground().equals(creatorPlayground)) {
@@ -107,7 +121,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	public ElementEntity getElement(String id, String playground) {
-		Optional<ElementEntity> el=elementsDB.findById(id);
+		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
 		if(el.isPresent()) {
 			ElementEntity elementI=el.get();
 			if(elementI.getCreatorPlayground().equals(playground)) {
