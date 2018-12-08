@@ -1,6 +1,8 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -93,11 +95,13 @@ public class jpaElementService implements ElementService {
 					element.getCreatorEmail().equals(creatorEmail)
 					&& element.getAttributes().containsKey(attributeName)
 					&& element.getAttributes().get(attributeName).equals(value)) {
-				
-				arrReturned.add(element);
+				Optional<ElementEntity> el=elementsDB.findById(element.getSuperkey());
+				if(el.isPresent()) {
+					arrReturned.add(el.get());
+				}
 			}
 		}
-		return (ElementEntity[]) arrReturned.toArray() ;
+		return  arrReturned.toArray(new ElementEntity[arrReturned.size()]);
 		
 	}
 
@@ -126,7 +130,7 @@ public class jpaElementService implements ElementService {
 				arrReturned.add(el);
 			}
 		}
-		return (ElementEntity[]) arrReturned.toArray() ;
+		return  arrReturned.toArray(new ElementEntity[arrReturned.size()]);
 	}
 
 	@Override
@@ -145,7 +149,13 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	public void addElement(ElementEntity element) {
-		elementsDB.save(element);
+		if(elementsDB.existsById(element.getSuperkey())) {
+			System.out.println("allredy exist in database:"+element.toString());
+		}else
+		{
+			elementsDB.save(element);
+		}
+		
 		
 	}
 
@@ -153,7 +163,12 @@ public class jpaElementService implements ElementService {
 	@Transactional
 	public ArrayList<ElementEntity> getElements() {
 		
-		return (ArrayList<ElementEntity>) elementsDB.findAll();
+		Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
+		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
+		while (iter.hasNext())
+		    copy.add(iter.next());
+		
+		return  copy;
 	}
 
 	@Override
@@ -174,6 +189,9 @@ public class jpaElementService implements ElementService {
 			if(elementsDB.existsById(el.getSuperkey())) {
 				elementsDB.deleteById(el.getSuperkey());
 				elementsDB.save(el);
+			}else
+			{
+				elementsDB.save(el);
 			}
 		}
 		
@@ -182,8 +200,8 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional
 	public ElementEntity[] getAllElements() {
-		
-		return (ElementEntity[])this.getElements().toArray();
+		ArrayList<ElementEntity> arr=getElements();
+		return arr.toArray(new ElementEntity[arr.size()]);
 	}
 
 }
