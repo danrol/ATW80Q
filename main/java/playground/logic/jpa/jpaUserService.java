@@ -3,6 +3,7 @@ package playground.logic.jpa;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import playground.dal.UserDao;
 import playground.logic.NewUserForm;
@@ -11,7 +12,7 @@ import playground.logic.UserService;
 
 //elia:
 // to switch the service we need firstly to go to DummyUserService and remove the @Service there
-//@Service
+@Service
 public class jpaUserService implements UserService {
 	
 	//this is the database we need are saving in
@@ -30,7 +31,11 @@ public class jpaUserService implements UserService {
 
 	@Override
 	public void addUser(UserEntity user) {
-		// TODO Auto-generated method stub
+		if(userDB.existsById(user.getSuperkey())) {
+			
+		}else {
+			userDB.save(user);
+		}
 		
 	}
 
@@ -72,8 +77,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	public void addUser(NewUserForm user) {
-		// TODO Auto-generated method stub
-		
+			
 	}
 	
 

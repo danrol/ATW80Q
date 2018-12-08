@@ -10,7 +10,7 @@ import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
-@Service
+//@Service
 public class DummyUserService implements UserService{
 	
 	/**

@@ -21,6 +21,7 @@ public class UserEntity {
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = null;
+	private String Superkey;
 	private long points = 0;
 
 	public UserEntity() {
@@ -36,6 +37,7 @@ public class UserEntity {
 		setPlayground(playground);
 		setPoints(0);
 		setVerificationCode(Constants.DEFAULT_VERIFICATION_CODE);
+		setSuperkey(email+","+playground);
 	}
 
 	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
@@ -43,7 +45,15 @@ public class UserEntity {
 		setVerificationCode(code);
 	}
 
-	
+	@Id
+	public String getSuperkey() {
+		return Superkey;
+	}
+
+	public void setSuperkey(String superkey) {
+		Superkey = superkey;
+	}
+
 	public String getVerificationCode() {
 		return verificationCode;
 	}
@@ -52,7 +62,7 @@ public class UserEntity {
 		this.verificationCode = verificationCode;
 	}
 
-	@Id
+	
 	public String getEmail() {
 		return email;
 	}
@@ -79,11 +89,11 @@ public class UserEntity {
 		this.username = username;
 	}
 
-	@Transient
+	
 	public String getRole() {
 		return role;
 	}
-	@Transient
+	
 	public void setRole(String role) {
 		role = role.toLowerCase();
 		if (role.equals(Constants.MODERATOR_ROLE.toLowerCase())) {
