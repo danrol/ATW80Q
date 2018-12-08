@@ -347,7 +347,7 @@ public class ElementTest {
 		 * Then: all elements are returned from the database.
 		 */
 		boolean flag=true;
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
 		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
 		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
@@ -385,7 +385,7 @@ public class ElementTest {
 		 * When: User is verified AND distance is above 0.
 		 * Then: I get  ElementTO[] back.
 		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity element1=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		ElementEntity element2=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
 		elementService.addElement(element1);
@@ -400,7 +400,7 @@ public class ElementTest {
 		 * When: User is verified AND distance is negative.
 		 * Then: I get NULL ElementTO[].
 		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		double distance=-1;
 		elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
@@ -415,7 +415,7 @@ public class ElementTest {
 		 * Then: I get NULL ElementTO[].
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		double distance=0;
 		assertThat(elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
