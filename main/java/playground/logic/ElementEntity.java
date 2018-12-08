@@ -17,6 +17,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.Constants;
+
+
+//KEY is: id+creatorPlayground
 @Entity
 @Table(name = "ELEMENT")
 public class ElementEntity {
@@ -32,6 +35,7 @@ public class ElementEntity {
 	protected String creatorEmail;
 	protected Location location;
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
+	protected String Superkey;
 
 	public boolean attributeExists(String attributeName, String value) {
 		switch (attributeName) {
@@ -88,6 +92,17 @@ public class ElementEntity {
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setLocation(xy);
+		setSuperkey(id, playground);
+	}
+	
+	
+
+	public String getSuperkey() {
+		return Superkey;
+	}
+
+	public void setSuperkey(String id,String creatorPlayground) {
+		Superkey = id+","+creatorPlayground;
 	}
 
 	public String getName() {
@@ -173,6 +188,14 @@ public class ElementEntity {
 	@Transient
 	public Map<String, Object> getAttributes() {
 		return attributes;
+	}
+	//map translation to json for the database
+	public void setJsonAttributes(String jsonAttributes) {
+		try {
+			this.attributes = new ObjectMapper().readValue(jsonAttributes, Map.class);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	@Lob
 	public String toString() {
