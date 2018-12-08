@@ -485,6 +485,8 @@ public class ElementTest {
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
 		testMap.put("attr3","attr3Val");
+		elementService.addElement(elementForTest[0].toEntity());
+
 		
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
@@ -509,6 +511,8 @@ public class ElementTest {
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
 		testMap.put("randomAttribute","attr3Val");
+		elementService.addElement(elementForTest[0].toEntity());
+
 		
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + 
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
