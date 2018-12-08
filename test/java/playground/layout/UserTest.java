@@ -80,7 +80,7 @@ private RestTemplate restTemplate;
 	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
 		//Test #1.1
 		
-		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, "randomPlayground");
+		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		new UserTO(new UserEntity(postUserForm));		
 	}
 	
@@ -88,7 +88,7 @@ private RestTemplate restTemplate;
 	public void testSuccessfullyRegisterNewUser() throws Exception{
 
 		//Test #1.2
-		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER", "randomPlayground");
+		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO testValue = new UserTO(new UserEntity(postUserForm));
 		
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
@@ -100,7 +100,7 @@ private RestTemplate restTemplate;
 	@Test(expected=RuntimeException.class)
 	public void testRegisterUserThatAlreadyExists() {
 		//Test #1.3
-		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER", "randomPlayground");
+		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm));
 		userService.addUser(userToAdd.toEntity());
 		UserTO actualReturnedValue = this.restTemplate.postForObject(

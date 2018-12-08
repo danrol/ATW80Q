@@ -2,8 +2,12 @@ package playground.logic;
 
 import java.io.Serializable;
 import java.util.Random;
+import java.util.regex.Pattern;
+
+import javax.persistence.Transient;
 
 import playground.Constants;
+import playground.exceptions.RegisterNewUserException;
 
 public class NewUserForm implements Serializable {
 
@@ -17,7 +21,7 @@ public class NewUserForm implements Serializable {
 	private String role;
 	//TODO DELETE playground and verificationCode
 	//TODO in UserEnitity delete logic from constructor 
-	private String playground;
+//	private String playground;
 	private String verificationCode;
 
 	public NewUserForm() {
@@ -25,24 +29,39 @@ public class NewUserForm implements Serializable {
 		this.username = "random";
 		this.avatar = "ava";
 		this.role = "no";
-		this.playground = Constants.PLAYGROUND_NAME;
+//		this.playground = Constants.PLAYGROUND_NAME;
 		this.setVerificationCode(createVerificationCode());
 	}
 
-	public NewUserForm(String email, String username, String avatar, String role, String playground) {
+	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
+		if (emailIsValid(email) && username != null
+				&& role != null) {
 		this.email = email;
 		this.username = username;
 		this.avatar = avatar;
 		this.role = role;
-		this.playground = playground;
+		} else
+			throw new RegisterNewUserException("Registration data is not correct. Check your input");
+//		this.playground = Constants.PLAYGROUND_NAME;
 	}
 
 	private String createVerificationCode() {
 		Random r = new Random();
 		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
 	}
+	
+	
+	public static boolean emailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
 
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -78,7 +97,7 @@ public class NewUserForm implements Serializable {
 	@Override
 	public String toString() {
 		return "NewUserForm [email=" + email + ", username=" + username + ", avatar=" + avatar + ", role=" + role
-				+ ", playground=" + playground + "]";
+				+  "]";
 	}
 
 	public String getVerificationCode() {
