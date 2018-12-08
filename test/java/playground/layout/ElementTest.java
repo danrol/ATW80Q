@@ -370,7 +370,7 @@ public class ElementTest {
 		 * When: User is verified AND database is empty.
 		 * Then: i get empty array of elements.
 		 */
-		assertThat(elementService.getElements().isEmpty());
+		assertThat(elementService.getElements()).isNull();
 		
 	}
 	//////

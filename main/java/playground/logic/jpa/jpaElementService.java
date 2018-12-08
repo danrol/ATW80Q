@@ -42,8 +42,9 @@ public class jpaElementService implements ElementService {
 		if(distance<0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
+		ArrayList<ElementEntity> allElements=getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
-		for (ElementEntity el : elementsDB.findAll()) {
+		for (ElementEntity el : allElements) {
 			double xin = el.getLocation().getX() - element.getLocation().getX();
 			double yin = el.getLocation().getY() - element.getLocation().getY();
 
@@ -181,6 +182,7 @@ public class jpaElementService implements ElementService {
 				.limit(size) 
 				.collect(Collectors.toList()) 
 				.toArray(new ElementEntity[lst.size()]);
+				
 		
 	}
 
