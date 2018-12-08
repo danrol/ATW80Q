@@ -43,7 +43,7 @@ public class UserEntity {
 		setVerificationCode(code);
 	}
 
-	@Transient
+	
 	public String getVerificationCode() {
 		return verificationCode;
 	}

@@ -93,7 +93,7 @@ public class ElementEntity {
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setLocation(xy);
-		setSuperkey(id, playground);
+		setSuperkey(id+","+playground);
 	}
 	
 	
@@ -102,8 +102,8 @@ public class ElementEntity {
 		return Superkey;
 	}
 
-	public void setSuperkey(String id,String creatorPlayground) {
-		Superkey = id+","+creatorPlayground;
+	public void setSuperkey(String Superkey) {
+		Superkey =Superkey ;
 	}
 
 	public String getName() {
