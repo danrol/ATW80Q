@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import playground.dal.UserDao;
+import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -65,6 +66,12 @@ public class jpaUserService implements UserService {
 
 	@Override
 	public void updateUser(UserEntity user, String email, String playground) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addUser(NewUserForm user) {
 		// TODO Auto-generated method stub
 		
 	}
