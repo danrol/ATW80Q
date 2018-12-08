@@ -2,15 +2,17 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.dal.ElementDao;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 //elia:
 //to switch the service we need firstly to go to DummyElementService and remove the @Service there
-//@Service
+@Service
 public class jpaElementService implements ElementService {
 	
 	//this is the database we need are saving in
@@ -26,12 +28,12 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	public void cleanElementService() {
-		// TODO Auto-generated method stub
+		elementsDB.deleteAll();
 		
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
 			int size) {
 		if(distance<0) {
@@ -71,21 +73,28 @@ public class jpaElementService implements ElementService {
 	@Override
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
 			String playground, String id) {
-		//todo
-		 elementsDB.deleteById(id+","+userPlayground);
-		 elementsDB.save(element);
+		
+		if(elementsDB.existsById(id+","+userPlayground)) {
+			elementsDB.deleteById(id+","+userPlayground);
+			elementsDB.save(element);
+		}
+		 
 		
 	}
 
 	@Override
+	@Transactional
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
 			String attributeName, String value, int page, int size) {
 		ArrayList<ElementEntity> arr=(ArrayList<ElementEntity>) elementsDB.findAll();
 		ArrayList<ElementEntity> arrReturned=new ArrayList<ElementEntity>();
-		for(ElementEntity el:arr) {
-			if(true) {
-				//tofo
-				arrReturned.add(el);
+		for(ElementEntity element:arr) {
+			if(element.getCreatorPlayground().equals(creatorPlayground) && 
+					element.getCreatorEmail().equals(creatorEmail)
+					&& element.getAttributes().containsKey(attributeName)
+					&& element.getAttributes().get(attributeName).equals(value)) {
+				
+				arrReturned.add(element);
 			}
 		}
 		return (ElementEntity[]) arrReturned.toArray() ;
@@ -107,6 +116,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
 			int size) {
 		ArrayList<ElementEntity> arr=(ArrayList<ElementEntity>) elementsDB.findAll();
@@ -120,6 +130,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public ElementEntity getElement(String id, String playground) {
 		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
 		if(el.isPresent()) {
@@ -139,22 +150,29 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public ArrayList<ElementEntity> getElements() {
 		
 		return (ArrayList<ElementEntity>) elementsDB.findAll();
 	}
 
 	@Override
+	@Transactional
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
-		// TODO Auto-generated method stub
-		return null;
+		return lst
+				.stream()
+				.skip(size * page) 
+				.limit(size) 
+				.collect(Collectors.toList()) 
+				.toArray(new ElementEntity[lst.size()]);
+		
 	}
 
 	@Override
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		for(ElementEntity el:elements) {
-			if(elementsDB.existsById(el.getId())) {
-				elementsDB.deleteById(el.getId());
+			if(elementsDB.existsById(el.getSuperkey())) {
+				elementsDB.deleteById(el.getSuperkey());
 				elementsDB.save(el);
 			}
 		}
@@ -162,6 +180,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public ElementEntity[] getAllElements() {
 		
 		return (ElementEntity[])this.getElements().toArray();

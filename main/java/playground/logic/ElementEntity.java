@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -103,7 +105,7 @@ public class ElementEntity {
 	}
 
 	public void setSuperkey(String Superkey) {
-		Superkey =Superkey ;
+		this.Superkey =Superkey ;
 	}
 
 	public String getName() {
@@ -142,7 +144,7 @@ public class ElementEntity {
 			throw new RuntimeException("Location is null");
 	}
 	
-	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -150,7 +152,7 @@ public class ElementEntity {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getExpirationDate() {
 		return expirationDate;
 	}

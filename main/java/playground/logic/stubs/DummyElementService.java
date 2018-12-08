@@ -8,7 +8,7 @@ import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 
-@Service
+//@Service
 public class DummyElementService implements ElementService {
 
 	/**
