@@ -21,7 +21,6 @@ public class UserEntity {
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = null;
-	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 
 	public UserEntity() {

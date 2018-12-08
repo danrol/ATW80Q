@@ -15,6 +15,8 @@ public class NewUserForm implements Serializable {
 	private String username;
 	private String avatar;
 	private String role;
+	//TODO DELETE playground and verificationCode
+	//TODO in UserEnitity delete logic from constructor 
 	private String playground;
 	private String verificationCode;
 
