@@ -1,14 +1,9 @@
 package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-
 import javax.annotation.PostConstruct;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,17 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import playground.Constants;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
-import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -222,7 +212,7 @@ public class ElementTest {
 		// 6.1
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
 				"PLAYER", "userPlayground");
-		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity updatedElementForTestEntity = 
 				new ElementEntity("123", "userPlayground", "email@email.com",new Location(0,1));
@@ -337,9 +327,8 @@ public class ElementTest {
 		
 	*/
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		u.setVerified_user(Constants.USER_NOT_VERIFIED);
+		u.verifyUser();
 		this.userService.addUser(u);
-		
 		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));
 		this.elementService.addElement(element);
 		
@@ -365,18 +354,14 @@ public class ElementTest {
 		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
 		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
 		
-		
 		elementService.addElements(arrElements, playground);
-		ArrayList elementsreturned=elementService.getElements();
 		for(int i=0;i<arrElements.length;i++) {
-			if(!elementsreturned.contains(arrElements[i])) {
+			if(!elementService.getElements().contains(arrElements[i])) {
 				flag=false;
 				break;
 			}
-			
 		}
-		assertThat(flag=true);
-		
+		assertThat(flag==true);
 	}
 	
 	@Test
@@ -386,10 +371,7 @@ public class ElementTest {
 		 * When: User is verified AND database is empty.
 		 * Then: i get empty array of elements.
 		 */
-		
-		
-		ArrayList elementsreturned=elementService.getElements();
-		assertThat(elementsreturned.isEmpty());
+		assertThat(elementService.getElements().isEmpty());
 		
 	}
 	//////
@@ -458,7 +440,7 @@ public class ElementTest {
 		
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
-		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
@@ -493,7 +475,7 @@ public class ElementTest {
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		
-		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
@@ -517,7 +499,7 @@ public class ElementTest {
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		
-		userElementCreator.setVerified_user(Constants.USER_VERIFIED);
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
 		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
