@@ -211,7 +211,7 @@ private RestTemplate restTemplate;
 		
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
-//		assertThat(user.getVerified_user()).isEqualTo(Constants.USER_NOT_VERIFIED);
+//		assertThat(user.getVerified_user()).isEqualTo(Constants.USER_NOT_VERIFIED); //TODO remove verified
 	}
 	
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished

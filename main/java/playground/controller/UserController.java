@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import playground.Constants;
 import playground.layout.UserTO;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
@@ -45,8 +46,10 @@ public class UserController {
 		 * OUTPUT: UserTO
 		 */
 
-		userService.addUser(new UserEntity(newUserForm));
-		return new UserTO(new UserEntity(newUserForm));
+		userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), 
+				newUserForm.getRole(), Constants.PLAYGROUND_NAME));
+		return new UserTO(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), 
+				newUserForm.getRole(), Constants.PLAYGROUND_NAME));
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/users/confirm/{playground}/{email}/{code}",produces=MediaType.APPLICATION_JSON_VALUE)
