@@ -78,7 +78,7 @@ private RestTemplate restTemplate;
 
 		//Test #1.2
 		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getUsername(), 
+		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), 
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));	
 		
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
@@ -91,7 +91,7 @@ private RestTemplate restTemplate;
 	public void testRegisterUserThatAlreadyExists() {
 		//Test #1.3
 		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getUsername(), 
+		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), 
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		userService.addUser(userToAdd.toEntity());
 		UserTO actualReturnedValue = this.restTemplate.postForObject(
