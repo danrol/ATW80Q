@@ -14,8 +14,6 @@ public class UserTO implements Serializable {
 	private String username;
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
-	private String verificationCode = "";
-	private int verified_user = Constants.USER_NOT_VERIFIED;
 	private long points = 0;
 
 	public UserTO() {
@@ -29,7 +27,6 @@ public class UserTO implements Serializable {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		setVerificationCode("0");
 		// verification is done separately
 	}
 
@@ -39,9 +36,8 @@ public class UserTO implements Serializable {
 		this.setUsername(u.getUsername());
 		this.setPlayground(u.getPlayground());
 		this.setRole(u.getRole());
-		this.setVerificationCode(u.getVerificationCode());
 		this.setPoints(u.getPoints());
-		this.setVerified_user(u.getVerified_user());
+		u.setVerificationCode("");
 	}
 
 	public static boolean emailIsValid(String email) {
@@ -56,16 +52,8 @@ public class UserTO implements Serializable {
 
 	public UserTO(String username, String email, String avatar, String role, String playground, String code) {
 		this(username, email, avatar, role, playground);
-		setVerificationCode(code);
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
-	}
-
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
 
 	public String getEmail() {
 		return email;
@@ -123,31 +111,11 @@ public class UserTO implements Serializable {
 		this.points = points;
 	}
 
-	public int getVerified_user() {
-		return verified_user;
-	}
-
-	public void setVerified_user(int verified_user) {
-		this.verified_user = verified_user;
-	}
-
-	public void verifyUser() {
-		setVerified_user(Constants.USER_VERIFIED);
-		this.setVerificationCode("");
-	}
-
-	public boolean isVerified() {
-		if (getVerified_user() == Constants.USER_VERIFIED)
-			return true;
-		else
-			return false;
-	}
 
 	@Override
 	public String toString() {
 		return "UserTO [email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground=" + playground
-				+ ", role=" + role + ", verificationCode=" + verificationCode + ", verified_user=" + verified_user
-				+ ", points=" + points + "]";
+				+ ", role=" + role + ", verified_user=" + ", points=" + points + "]";
 	}
 
 	@Override
@@ -162,9 +130,7 @@ public class UserTO implements Serializable {
 		rv.setUsername(username);
 		rv.setPlayground(playground);
 		rv.setRole(role);
-		rv.setVerificationCode(verificationCode);
 		rv.setPoints(points);
-		rv.setVerified_user(this.verified_user);
 		return rv;
 	}
 
