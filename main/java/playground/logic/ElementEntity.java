@@ -34,6 +34,7 @@ public class ElementEntity {
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
+	protected String stringlocation;
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	protected String Superkey;
 
@@ -197,6 +198,18 @@ public class ElementEntity {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	
+	
+	
+	public String getStringlocation() {
+		return stringlocation;
+	}
+
+	public void setStringlocation(Location location) {
+		this.stringlocation = location.toJson();
+	}
+
 	@Lob
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="

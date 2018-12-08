@@ -52,5 +52,9 @@ public class Location {
 	public String toString() {
 		return "Location [x=" + x + ", y=" + y + "]";
 	}
+	
+	public String toJson() {
+		return this.x+","+this.y;
+	}
 
 }
