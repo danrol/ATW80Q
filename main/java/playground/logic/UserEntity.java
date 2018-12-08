@@ -36,7 +36,6 @@ public class UserEntity {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		setVerificationCode(Constants.DEFAULT_VERIFICATION_CODE);
 		setSuperkey(email+","+playground);
 	}
 
