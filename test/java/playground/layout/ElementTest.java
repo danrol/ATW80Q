@@ -78,7 +78,6 @@ public class ElementTest {
 		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
 		ArrayList <ElementEntity> arr= elementService.getElements();
-		
 		assertThat(arr.contains(element)).isTrue();
 	}
 	
