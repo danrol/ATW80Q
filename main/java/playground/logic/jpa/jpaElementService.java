@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.dal.ElementDao;
+import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 //elia:
@@ -66,7 +67,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	public void addElements(ElementEntity[] elements, String userPlayground) {
 		for(int i=0;i<elements.length;i++) {
-			elementsDB.save(elements[i]);
+			addElement(elements[i]);
 		}
 		
 		
@@ -76,10 +77,19 @@ public class jpaElementService implements ElementService {
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
 			String playground, String id) {
 		
-		if(elementsDB.existsById(id+","+userPlayground)) {
-			elementsDB.deleteById(id+","+userPlayground);
+		System.out.println("Perform update");
+		System.out.println("Not updated element" + this.getElement(id, playground));
+		System.out.println("Updated element" + element);
+		ElementEntity tempElement = this.getElement(id, playground);
+		if (tempElement != null) {
+			System.out.println("Elemnt by id and string" + this.getElement(id, playground).toString());
+
+			System.out.println("temp element" + tempElement.toString());
+			System.out.println("element" + element.toString());
+			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
-		}
+		} else
+			throw new ElementDataException("element data for update is incorrect");
 		 
 		
 	}
@@ -88,62 +98,53 @@ public class jpaElementService implements ElementService {
 	@Transactional
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
 			String attributeName, String value, int page, int size) {
-		ArrayList<ElementEntity> arr=(ArrayList<ElementEntity>) elementsDB.findAll();
-		ArrayList<ElementEntity> arrReturned=new ArrayList<ElementEntity>();
-		for(ElementEntity element:arr) {
-			if(element.getCreatorPlayground().equals(creatorPlayground) && 
-					element.getCreatorEmail().equals(creatorEmail)
-					&& element.getAttributes().containsKey(attributeName)
-					&& element.getAttributes().get(attributeName).equals(value)) {
-				Optional<ElementEntity> el=elementsDB.findById(element.getSuperkey());
-				if(el.isPresent()) {
-					arrReturned.add(el.get());
+		// TODO Auto-generated method stub
+				ArrayList<ElementEntity> elements=getElements();
+				ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
+				System.out.println("Entered get elements with value in attr");
+				for (ElementEntity element : elements) {
+					if (element.getCreatorPlayground().equals(creatorPlayground) && 
+							element.getCreatorEmail().equals(creatorEmail)
+							&& element.getAttributes().containsKey(attributeName)
+							&& element.getAttributes().get(attributeName).equals(value))
+						tempElementsList.add(element);
 				}
-			}
-		}
-		return  arrReturned.toArray(new ElementEntity[arrReturned.size()]);
+				if (tempElementsList.isEmpty())return new ElementEntity[0];
+				else return getElementsBySizeAndPage(tempElementsList, page, size);
 		
 	}
 
 	@Override
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
-		Optional<ElementEntity> el=elementsDB.findById(element.getSuperkey());
-		if(el.isPresent()) {
-			ElementEntity elementI=el.get();
-			if(elementI.getCreatorEmail().equals(creatorEmail)&&elementI.getCreatorPlayground().equals(creatorPlayground)) {
+			if (element.getCreatorPlayground() == creatorPlayground && element.getCreatorEmail() == creatorEmail)
 				return true;
-			}
-		}
-		
-		return false;
+			else
+				return false;
 	}
 
 	@Override
 	@Transactional
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
 			int size) {
-		ArrayList<ElementEntity> arr=(ArrayList<ElementEntity>) elementsDB.findAll();
-		ArrayList<ElementEntity> arrReturned=new ArrayList<ElementEntity>();
-		for(ElementEntity el:arr) {
-			if(el.getCreatorEmail().equals(email)&&el.getCreatorPlayground().equals(creatorPlayground)) {
-				arrReturned.add(el);
-			}
+		ArrayList<ElementEntity> elements= getElements();
+		ArrayList<ElementEntity> result = new ArrayList<>();
+		for (ElementEntity element : elements) {
+			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
+				result.add(element);
 		}
-		return  arrReturned.toArray(new ElementEntity[arrReturned.size()]);
+		return getElementsBySizeAndPage(result, page, size);
 	}
+	
 
 	@Override
 	@Transactional
 	public ElementEntity getElement(String id, String playground) {
 		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
 		if(el.isPresent()) {
-			ElementEntity elementI=el.get();
-			if(elementI.getCreatorPlayground().equals(playground)) {
-				return elementI;
-			}
+			return el.get();
+			
 		}
-		
 		return null;
 	}
 
@@ -185,14 +186,13 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
-		for(ElementEntity el:elements) {
-			if(elementsDB.existsById(el.getSuperkey())) {
-				elementsDB.deleteById(el.getSuperkey());
-				elementsDB.save(el);
-			}else
-			{
-				elementsDB.save(el);
+		try {
+			for (ElementEntity el : elements) {
+				updateElementInDatabaseFromExternalElement(el, el.getCreatorPlayground(), playground, el.getId());
 			}
+
+		} catch (ElementDataException e) {
+			throw new ElementDataException("element in collection have fields that are incorrect");
 		}
 		
 	}

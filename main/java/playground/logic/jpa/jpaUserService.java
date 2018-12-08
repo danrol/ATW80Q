@@ -1,11 +1,20 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import playground.Constants;
 import playground.dal.UserDao;
+import playground.exceptions.ChangeUserException;
+import playground.exceptions.ConfirmException;
+import playground.exceptions.LoginException;
+import playground.exceptions.RegisterNewUserException;
+import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -24,59 +33,139 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public ArrayList<UserEntity> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		Iterator<UserEntity> iter = (Iterator<UserEntity>) userDB.findAll();
+		ArrayList<UserEntity> copy = new ArrayList<UserEntity>();
+		while (iter.hasNext())
+		    copy.add(iter.next());
+		
+		return  copy;
 	}
 
 	@Override
+	@Transactional
 	public void addUser(UserEntity user) {
 		if(userDB.existsById(user.getSuperkey())) {
 			
 		}else {
+			userDB.save(user);
+			
+		}
+		
+	}
+
+	@Override
+	@Transactional
+	public UserEntity verifyUser(String email, String playground, String code) {
+		UserEntity user = getUser(email, playground);
+		
+		if(user !=null) {
+			//TODO remove if. added playground check to getUser 
+			if(user.getPlayground().equals(playground))
+			{
+				String VerificationCode = user.getVerificationCode();
+				if (VerificationCode.equals(code))
+					{
+					user.verifyUser();
+					}
+				else
+					{
+						throw new ConfirmException("Invalid verification code");
+					}
+			}
+				else
+			{
+					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
+			}
+		}
+			else
+			{
+				throw new ConfirmException("Email is not registered.");
+			}
+		return user;
+	}
+
+	@Override
+	public void cleanUserService() {
+		userDB.deleteAll();
+		
+	}
+
+	@Override
+	@Transactional
+	public void updateUser(UserEntity user) {
+		if(userDB.existsById(user.getSuperkey())) {
+			userDB.deleteById(user.getSuperkey());
 			userDB.save(user);
 		}
 		
 	}
 
 	@Override
-	public UserEntity verifyUser(String email, String playground, String code) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void cleanUserService() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateUser(UserEntity user) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
+	@Transactional
 	public UserEntity getUser(String email, String playground) {
-		// TODO Auto-generated method stub
+		Optional<UserEntity> el=userDB.findById(email+","+playground);
+		if(el.isPresent()) {
+			return el.get();
+		}
 		return null;
 	}
 
 	@Override
+	@Transactional
 	public UserEntity login(String playground, String email) {
-		// TODO Auto-generated method stub
-		return null;
+		UserEntity u = getUser(email, playground);
+		if (u != null) {
+			if (u.getPlayground().equals(playground)) {
+				if (u.isVerified()) {
+					return u;
+				} else {
+					throw new LoginException("User is not verified.");
+				}
+			} else {
+				throw new LoginException("User does not belong to the specified playground.");
+			}
+
+		} else {
+			throw new LoginException("Email is not registered.");
+		}
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(UserEntity user, String email, String playground) {
-		// TODO Auto-generated method stub
+		login(playground, email);
+		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
+			if(user.getEmail().equals(email)) {
+				updateUser(user);
+			}
+			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
+				updateUser(user);
+			} else {
+				throw new ChangeUserException("Moderator cannot change other moderator user");
+			}
+		} else if (getUser(email, playground).getRole().equals(Constants.PLAYER_ROLE)) {
+			if (email.equals(user.getEmail())) {
+				updateUser(user);
+			} else {
+				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
+			}
+		} else {
+			throw new ChangeUserException("invalid role " + getUser(email, playground).getRole());
+		}
 		
 	}
 
 	@Override
+	@Transactional
 	public void addUser(NewUserForm user) {
+		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
+			throw new RegisterNewUserException("User already registered");
+		else {
+				UserEntity userEnt = new UserEntity(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
+				addUser(userEnt);
+		}
 			
 	}
 	
