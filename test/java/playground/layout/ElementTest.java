@@ -246,6 +246,7 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void testUpdateElementForNonExistingCreator() throws Exception{
 		
+		//6.3
 		ElementEntity updatedElementForTestEntity = 
 				new ElementEntity("123", "userPlayground", "wrong@email",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
@@ -429,14 +430,8 @@ public class ElementTest {
 	
 	@Test
 	public void testSuccessfullyGetElementsByAttributeNameValue(){
-/*		
-		Given: the server is up
-		AND element service contains contains element with attributeName = �attr3�:attributeValue=�attr3Val�
-		With headers:	  Accept:application/json,  content-type: application/json
-		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns  ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = �attr3�:attributeValue=�attr3Val�
-*/
-		
+
+//		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		userElementCreator.verifyUser();
@@ -464,13 +459,8 @@ public class ElementTest {
 	
 	@Test
 	public void testAttributeNotExist() {
-		/*		
-		Given: the server is up
-		AND element service doesn't contains element with attributeName = �noSuchAttribute�
-		With headers:	  Accept:application/json,  content-type: application/json
-		When: I GET /playground/elements/creatorPlayground/nudnik@mail.ru/search/attr3/attr3Val
-		Then: server returns  emtpty ElementTO[] array with element with creatorEmail = "nudnik@mail.ru",  value in attribute attributeName = �attr3�:attributeValue=�attr3Val�
-*/
+
+//		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		
@@ -497,6 +487,7 @@ public class ElementTest {
 	@Test
 	public void testValueInAttributeNotExist() {
 
+		//10.2
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", 
 				"player", "creatorPlayground");
 		

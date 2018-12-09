@@ -99,7 +99,6 @@ private RestTemplate restTemplate;
 		assertThat(actualReturnedValue).isNull();
 	}
 	
-
 	
 	// url #1 playground/users tests finished
 	
@@ -115,8 +114,6 @@ private RestTemplate restTemplate;
 				Then I get a Wrong email message
 		 */
 		 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
-
-			
 	}
 	
 	@Test
