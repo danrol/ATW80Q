@@ -74,11 +74,10 @@ public class ElementTest {
 		 * Then: a new element is saved in the serviceElement.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
-		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
-		ArrayList <ElementEntity> arr= elementService.getElements();
-		assertThat(arr.contains(element)).isTrue();
+		assertThat(elementService.isElementInDatabase(element)).isTrue();
 	}
 	
 	@Test
