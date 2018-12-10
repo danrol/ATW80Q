@@ -35,10 +35,16 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public ArrayList<UserEntity> getUsers() {
-		Iterator<UserEntity> iter = (Iterator<UserEntity>) userDB.findAll();
 		ArrayList<UserEntity> copy = new ArrayList<UserEntity>();
-		while (iter.hasNext())
-		    copy.add(iter.next());
+		try {
+			Iterator<UserEntity> iter = (Iterator<UserEntity>) userDB.findAll();
+			
+			while (iter.hasNext())
+			    copy.add(iter.next());
+		}catch (Exception e) {
+			System.out.println("users convertion unsucessful");
+		}
+		
 		
 		return  copy;
 	}
@@ -49,7 +55,12 @@ public class jpaUserService implements UserService {
 		if(userDB.existsById(user.getSuperkey())) {
 			
 		}else {
-			userDB.save(user);
+			try {
+				userDB.save(user);
+				
+			} catch (Exception e) {
+				System.out.println("user:"+user.toString()+"/n feild to be saves in the database");
+			}
 			
 		}
 		
@@ -96,8 +107,13 @@ public class jpaUserService implements UserService {
 	@Transactional
 	public void updateUser(UserEntity user) {
 		if(userDB.existsById(user.getSuperkey())) {
-			userDB.deleteById(user.getSuperkey());
-			userDB.save(user);
+			try {
+				userDB.deleteById(user.getSuperkey());
+				userDB.save(user);
+			}catch (Exception e) {
+				System.out.println("feild to update user"+user.toString());
+			}
+			
 		}
 		
 	}
@@ -107,7 +123,12 @@ public class jpaUserService implements UserService {
 	public UserEntity getUser(String email, String playground) {
 		Optional<UserEntity> el=userDB.findById(email+","+playground);
 		if(el.isPresent()) {
-			return el.get();
+			try {
+				return el.get();
+			}catch (Exception e) {
+				System.out.println("user:"+el.toString()+"/n feild to load from database");
+			}
+			
 		}
 		return null;
 	}

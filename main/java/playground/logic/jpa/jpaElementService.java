@@ -82,7 +82,6 @@ public class jpaElementService implements ElementService {
 		ElementEntity tempElement = this.getElement(id, playground);
 		if (tempElement != null) {
 			System.out.println("Elemnt by id and string" + this.getElement(id, playground).toString());
-
 			System.out.println("temp element" + tempElement.toString());
 			System.out.println("element" + element.toString());
 			elementsDB.deleteById(tempElement.getSuperkey());
