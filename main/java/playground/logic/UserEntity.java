@@ -21,7 +21,7 @@ public class UserEntity {
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = null;
-	private String Superkey;
+	private String superkey;
 	private long points = 0;
 
 	public UserEntity() {
@@ -36,7 +36,7 @@ public class UserEntity {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		setSuperkey(email+","+playground);
+		setSuperkey();
 	}
 
 	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
@@ -46,11 +46,19 @@ public class UserEntity {
 
 	@Id
 	public String getSuperkey() {
-		return Superkey;
+		return superkey;
 	}
 
 	public void setSuperkey(String superkey) {
-		Superkey = superkey;
+		this.superkey = superkey;
+	}
+	
+	public void setSuperkey() {
+		superkey = setSuperkey(email, playground);
+	}
+	@Transient
+	public static String setSuperkey(String string1, String string2) {
+		return string1.concat(string2);
 	}
 
 	public String getVerificationCode() {

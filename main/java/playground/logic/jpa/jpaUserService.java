@@ -42,7 +42,7 @@ public class jpaUserService implements UserService {
 			while (iter.hasNext())
 			    copy.add(iter.next());
 		}catch (Exception e) {
-			System.out.println("users convertion unsucessful");
+			System.out.println("User conversion failed.");
 		}
 		
 		
@@ -56,10 +56,11 @@ public class jpaUserService implements UserService {
 		if(userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User already registered");
 		}else {
+			
 				userDB.save(user);
 				result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
-				System.out.println("Database in jpa"+userDB.findAll().toString());
-				System.out.println("user:"+user.toString()+"/n failed to be saves in the database");
+				System.err.println("Database in jpa" + userDB.findAll().toString());
+				System.err.println("user:"+user.toString()+"/n failed to be saves in the database");
 		}
 		
 		return result;
@@ -71,18 +72,16 @@ public class jpaUserService implements UserService {
 		UserEntity user = getUser(email, playground);
 		
 		if(user !=null) {
-			//TODO remove if. added playground check to getUser 
-			if(user.getPlayground().equals(playground))
+			//TODO remove if. added playground check to getUser
+			if(user.getVerificationCode().equals(""))
+				return user;	//User already confirmed
+		else if(user.getPlayground().equals(playground))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
-					{
 					user.verifyUser();
-					}
 				else
-					{
 						throw new ConfirmException("Invalid verification code");
-					}
 			}
 				else
 			{
@@ -110,7 +109,7 @@ public class jpaUserService implements UserService {
 				userDB.deleteById(user.getSuperkey());
 				userDB.save(user);
 			}catch (Exception e) {
-				System.out.println("feild to update user"+user.toString());
+				System.out.println("failed to update user" + user.toString());
 			}
 			
 		}
@@ -120,12 +119,12 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public UserEntity getUser(String email, String playground) {
-		Optional<UserEntity> el=userDB.findById(email+","+playground);
+		Optional<UserEntity> el=userDB.findById(UserEntity.setSuperkey(email, playground));
 		if(el.isPresent()) {
 			try {
 				return el.get();
 			}catch (Exception e) {
-				System.out.println("user:"+el.toString()+"/n feild to load from database");
+				System.out.println("user:"+el.toString()+"/n faild to load from database");
 			}
 			
 		}

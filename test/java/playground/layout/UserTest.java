@@ -154,14 +154,15 @@ private RestTemplate restTemplate;
 				
 		 * */
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
+		System.err.println(u.getSuperkey() + " \n\n\n\n\n\n\n");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
-		
+		System.err.println(u.getSuperkey() + " Added\n\n\n\n\n\n\n");
 		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 		//verify that unverified user is now verified
+		
 		assertThat(user).isNotNull();
-//		assertThat(user.isVerified()).isTrue();
 		
 	}
 	
