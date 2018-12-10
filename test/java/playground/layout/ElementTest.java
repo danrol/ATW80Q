@@ -247,7 +247,7 @@ public class ElementTest {
 		
 		//6.3
 		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity("123", "userPlayground", "wrong@email",new Location(0,1));
+				new ElementEntity("123", "userPlayground", "wrong@email.com",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
