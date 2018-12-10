@@ -19,8 +19,9 @@ import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
-//elia:
+//Elia:
 // to switch the service we need firstly to go to DummyUserService and remove the @Service there
+
 @Service
 public class jpaUserService implements UserService {
 	
@@ -44,8 +45,6 @@ public class jpaUserService implements UserService {
 		}catch (Exception e) {
 			System.out.println("User conversion failed.");
 		}
-		
-		
 		return  copy;
 	}
 
