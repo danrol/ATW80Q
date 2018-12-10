@@ -52,14 +52,15 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public void addUser(UserEntity user) {
-		if(userDB.existsById(user.getSuperkey())) {
-			throw new RegisterNewUserException("User already registered");
-		}else {
+		if(!userDB.existsById(user.getSuperkey())==false) {
 			try {
 				userDB.save(user);
 			} catch (Exception e) {
 				System.out.println("user:"+user.toString()+"/n feild to be saves in the database");
 			}
+			
+		}else {
+			throw new RegisterNewUserException("User already registered");
 		}
 		
 	}
