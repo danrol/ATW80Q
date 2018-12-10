@@ -82,6 +82,7 @@ private RestTemplate restTemplate;
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));	
 		
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
+		System.out.println("users after user added"+this.userService.getUsers().toString());
 		assertThat(actualReturnedValue)
 		.isNotNull()
 		.isEqualToComparingFieldByField(testValue);

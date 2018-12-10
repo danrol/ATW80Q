@@ -6,7 +6,7 @@ public interface UserService {
 
 	ArrayList<UserEntity> getUsers();
 
-	void addUser(UserEntity user);
+	UserEntity addUser(UserEntity user);
 
 	UserEntity verifyUser(String email, String playground, String code);
 

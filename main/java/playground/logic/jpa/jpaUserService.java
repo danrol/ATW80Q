@@ -51,18 +51,18 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
-	public void addUser(UserEntity user) {
-		if(!userDB.existsById(user.getSuperkey())==false) {
-			try {
-				userDB.save(user);
-			} catch (Exception e) {
-				System.out.println("user:"+user.toString()+"/n feild to be saves in the database");
-			}
-			
-		}else {
+	public UserEntity addUser(UserEntity user) {
+		UserEntity result = new UserEntity();
+		if(userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User already registered");
+		}else {
+				userDB.save(user);
+				result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
+				System.out.println("Database in jpa"+userDB.findAll().toString());
+				System.out.println("user:"+user.toString()+"/n failed to be saves in the database");
 		}
 		
+		return result;
 	}
 
 	@Override

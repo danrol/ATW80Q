@@ -45,13 +45,16 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public void addUser(UserEntity user) {
+	public UserEntity addUser(UserEntity user) {
+		UserEntity result = new UserEntity();
 		if (this.getUser(user.getEmail(), user.getPlayground()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
+		result = getUser(user.getEmail(), user.getPlayground());
 		}
+		return result;
 	}
 	
 	@Override
