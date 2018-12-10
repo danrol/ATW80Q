@@ -38,7 +38,7 @@ public class ElementEntity {
 	protected Location location;
 	protected String stringlocation;
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
-	protected String Superkey;
+	protected String superkey;
 
 	public boolean attributeExists(String attributeName, String value) {
 		switch (attributeName) {
@@ -95,17 +95,25 @@ public class ElementEntity {
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setLocation(xy);
-		setSuperkey(id+","+playground);
+		setSuperkey();
 	}
-	
 	
 	@Id
 	public String getSuperkey() {
-		return Superkey;
+		return superkey;
 	}
 
 	public void setSuperkey(String Superkey) {
-		this.Superkey =Superkey ;
+		this.superkey =Superkey ;
+	}
+	
+	public void setSuperkey() {
+		superkey = setSuperkey(creatorEmail, playground);
+	}
+	
+	@Transient
+	public static String setSuperkey(String string1, String string2) {
+		return string1.concat(string2);
 	}
 
 	public String getName() {
@@ -211,7 +219,7 @@ public class ElementEntity {
 		this.stringlocation = location.toJson();
 	}
 
-	@Lob
+	@Transient
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="

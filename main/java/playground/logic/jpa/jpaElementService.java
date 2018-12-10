@@ -160,7 +160,7 @@ public class jpaElementService implements ElementService {
 			try {
 				elementsDB.save(element);
 			}catch (Exception e) {
-				System.out.println("element:"+element.toString()+"/n feild to be saves in the database");
+				System.err.println("element:"+element.toString()+"/n feild to be saves in the database");
 			}
 			
 		}
