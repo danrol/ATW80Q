@@ -122,7 +122,7 @@ public class UserEntity {
 		this.playground = playground;
 	}
 
-	@Lob
+	
 	public long getPoints() {
 		return points;
 	}
