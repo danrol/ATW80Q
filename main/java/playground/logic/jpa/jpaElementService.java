@@ -27,7 +27,6 @@ public class jpaElementService implements ElementService {
 		
 	}
 	
-	
 
 	@Override
 	public void cleanElementService() {
@@ -71,7 +70,6 @@ public class jpaElementService implements ElementService {
 			addElement(elements[i]);
 		}
 		
-		
 	}
 
 	@Override
@@ -99,7 +97,7 @@ public class jpaElementService implements ElementService {
 	@Transactional
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
 			String attributeName, String value, int page, int size) {
-		// TODO Auto-generated method stub
+		
 				ArrayList<ElementEntity> elements=getElements();
 				ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 				System.out.println("Entered get elements with value in attr");
@@ -118,7 +116,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
-			if (element.getCreatorPlayground() == creatorPlayground && element.getCreatorEmail() == creatorEmail)
+			if (element.getCreatorPlayground().equals(creatorPlayground) && element.getCreatorEmail().equals(creatorEmail))
 				return true;
 			else
 				return false;
@@ -143,7 +141,12 @@ public class jpaElementService implements ElementService {
 	public ElementEntity getElement(String id, String playground) {
 		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
 		if(el.isPresent()) {
-			return el.get();
+			try {
+				return el.get();	
+			}catch (Exception e) {
+				System.out.println("element:"+el.toString()+"/n feild to load from database");
+			}
+			
 			
 		}
 		return null;
@@ -155,7 +158,12 @@ public class jpaElementService implements ElementService {
 			System.out.println("allredy exist in database:"+element.toString());
 		}else
 		{
-			elementsDB.save(element);
+			try {
+				elementsDB.save(element);
+			}catch (Exception e) {
+				System.out.println("element:"+element.toString()+"/n feild to be saves in the database");
+			}
+			
 		}
 		
 		
@@ -164,13 +172,16 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional
 	public ArrayList<ElementEntity> getElements() {
-		
-		Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
-		while (iter.hasNext())
-		    copy.add(iter.next());
+		try {
+			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
+			while (iter.hasNext())
+			    copy.add(iter.next());
+		}catch (Exception e) {
+			System.out.println("elements convertion unsucessful");
+		}
+		return  copy;	
 		
-		return  copy;
 	}
 
 	@Override
