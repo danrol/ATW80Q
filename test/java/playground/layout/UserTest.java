@@ -255,7 +255,7 @@ private RestTemplate restTemplate;
 
 	/**
 	@Test(expected = RuntimeException.class)
-	public void testLoginUserWhenUserNotVerification() { //TODO -- Error
+	public void testLoginUserWhenUserNotVerification() {
 		
 		 	Given: User in database with email: test@test.com AND playground is playground.rolnik AND User is not verified 
 			When: I GET /playground/users/login/playground.rolnik/test@test.com
