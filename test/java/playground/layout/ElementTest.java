@@ -68,11 +68,7 @@ public class ElementTest {
 	// url #5 /playground/elements/{userPlayground }/{email}  starts 
 	@Test
 	public void testPOSTNewElementIsAddedToDatabase() {
-		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
-		 * When: User is verified AND i post new element.
-		 * Then: a new element is saved in the serviceElement.
-		 */
+		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
@@ -82,65 +78,32 @@ public class ElementTest {
 	
 	@Test
 	public void testPOSTNewElementWithNoCreatorIsAdded() {
-		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground }/{email}
-		 * When: User is verified AND i post new element with empty creatorPlayground.
-		 * Then: a new element is saved in the serviceElement.
-		 */
-		String playground="playground",creatorPlayground=" ",name="nameOfElement:(english hei 7)";
-		ElementEntity element =new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		
+		String playground="playground",creatorPlayground="creator",id="";
+		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element)).isTrue();
+		assertThat(elementService.getElements().contains(element)).isFalse();
 	}
 	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am moderator AND want to update my user
-		 * Then: changes are accepted
-		 */
-		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
-
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am moderator AND want to update other user AND other user is moderator
-		 * Then: I get changeUser exception
-		 */
-		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
-
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
+	public void testPOSTElementsThatAllRedyInDatabase() {
 		
-
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
-	}
-	
-	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am moderator AND want to update other user AND other user is player
-		 * Then: changes are accepted
-		 */
-		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
-
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		
-
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		
+		
+		elementService.addElements(arrElements, playground);
+		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1]));
+		
+		
 	}
 	// url #5 /playground/elements/{userPlayground }/{email}  finished
+	
+	
 	//******************************************************************************************//
 	@Test
 	public void testPOSTNewElementsAreAddedToDatabase() {
@@ -341,17 +304,12 @@ public class ElementTest {
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
 	@Test
 	public void testGETAllFromDatabase() {
-		/*
-		 * Given: Server is up AND I GET /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND database is not empty.
-		 * Then: all elements are returned from the database.
-		 */
+		
 		boolean flag=true;
 		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
 		
 		elementService.addElements(arrElements, playground);
 		for(int i=0;i<arrElements.length;i++) {
@@ -365,43 +323,58 @@ public class ElementTest {
 	
 	@Test
 	public void testGETAllFromEmptyDatabase() {
-		/*
-		 * Given: Server is up AND I GET /playground/elements/{userPlayground }/{email}/all
-		 * When: User is verified AND database is empty.
-		 * Then: i get empty array of elements.
-		 */
-		assertThat(elementService.getElements()).isNull();
+		
+		assertThat(elementService.getElements()).isEmpty();
 		
 	}
-	//////
+	
+	@Test(expected=RuntimeException.class)
+	public void testGETAllFromDatabaseWithNoUserVerified() {
+		
+		boolean flag=true;
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
+		ElementEntity[] arrElements=new ElementEntity[3];
+		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
+		
+		elementService.addElements(arrElements, playground);
+		elementService.getAllElements();
+	}
+	
 	
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
 	//******************************************************************************************//
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test started
 	@Test
 	public void testIfWeGETElementsFromDatabaseWithRightRadius() {
-		/*
-		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
-		 * When: User is verified AND distance is above 0.
-		 * Then: I get  ElementTO[] back.
-		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement";
-		ElementEntity element1=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
-		ElementEntity element2=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
+		
+		boolean flag=false;
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		ElementEntity element1=new ElementEntity(id,playground,creatorPlayground,new Location("0,2"));
+		ElementEntity element2=new ElementEntity(id,playground,creatorPlayground,new Location("0,1"));
+		ElementEntity element3=new ElementEntity(id,playground,creatorPlayground,new Location("3,7"));
+		ElementEntity element4=new ElementEntity(id,playground,creatorPlayground,new Location("5,7"));
+		ElementEntity element5=new ElementEntity(id,playground,creatorPlayground,new Location("0,7"));
+		ElementEntity element6=new ElementEntity(id,playground,creatorPlayground,new Location("7,7"));
 		elementService.addElement(element1);
+		elementService.addElement(element2);
+		elementService.addElement(element3);
+		elementService.addElement(element4);
+		elementService.addElement(element5);
+		elementService.addElement(element6);
 		double distance=7;
-		assertThat(elementService.getAllElementsInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10)).isNotNull();
+		ElementEntity[] arr= elementService.getAllElementsInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10);
+		if(arr.length==3) {
+			flag=true;
+		}
+		assertThat(flag);
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
-		/*
-		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
-		 * When: User is verified AND distance is negative.
-		 * Then: I get NULL ElementTO[].
-		 */
-		String playground="playground",creatorPlayground="creator",name="nameOfElement";
-		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		ElementEntity element=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		double distance=-1;
 		elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
 	}
@@ -409,16 +382,11 @@ public class ElementTest {
 	@Test
 	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
 		
-		/*
-		 * Given: Server is up AND I GET /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
-		 * When: User is verified AND distance is 0.
-		 * Then: I get NULL ElementTO[].
-		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement";
-		ElementEntity element=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		ElementEntity element=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		double distance=0;
-		assertThat(elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).isNull();
+		assertThat(elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).contains(element);
 	}
 	
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance} test finished
