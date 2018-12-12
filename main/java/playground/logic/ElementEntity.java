@@ -33,7 +33,7 @@ public class ElementEntity {
 	protected String id;
 	protected String playground;
 	protected Date creationDate;
-	protected Date expirationDate = null;
+	protected Date expirationDate = new Date(2200,1,1);
 	protected String type = Constants.ELEMENT_DEFAULT_TYPE;
 	protected String creatorPlayground;
 	protected String creatorEmail;
@@ -82,7 +82,6 @@ public class ElementEntity {
 		this.creatorPlayground = elEntity.creatorPlayground;
 		this.creatorEmail = elEntity.creatorEmail;
 		setLocation(elEntity.location);
-		this.setExpirationDate(new Date(2200,1,1));
 		setSuperkey();
 
 
@@ -170,8 +169,8 @@ public class ElementEntity {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date exirationDate) {
-		this.expirationDate = exirationDate;
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public String getType() {
@@ -242,7 +241,7 @@ public class ElementEntity {
 	@Transient
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
-				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
+				+ creationDate + ", expirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
 				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
 	}
 

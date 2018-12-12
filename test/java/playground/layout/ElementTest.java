@@ -73,8 +73,12 @@ public class ElementTest {
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity element = new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
-		elementService.addElement(element);
-		elementService.DBToString();
+		element.setName("name");
+		element.setExpirationDate(new Date(2200,1,1));
+		UserEntity user = new UserEntity("user","mail@mail.com","ava",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
+		userService.addUser(user);
+		ElementTO elemTO = this.restTemplate.postForObject(this.url+"/playground/elements/{playground}/{email}", new ElementTO(element),ElementTO.class,Constants.PLAYGROUND_NAME, "mail@mail.com");
+		element = elemTO.toEntity();
 		assertThat(elementService.isElementInDatabase(element));
 		assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
 	}
