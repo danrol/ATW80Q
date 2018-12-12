@@ -189,7 +189,7 @@ public class ElementTest {
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
 				"email@email.com", "playground",  "123");
 	    
-		ElementEntity actualEntity = elementService.getElement("123", "forTest");
+		ElementEntity actualEntity = elementService.getElement("123", "playground");
 
 		
 		assertThat(actualEntity).isNotNull();

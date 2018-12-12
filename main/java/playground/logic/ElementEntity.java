@@ -1,5 +1,7 @@
 package playground.logic;
 
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Date;
@@ -36,7 +38,7 @@ public class ElementEntity {
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
-	protected String stringlocation;
+//	protected String stringlocation;
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	protected String superkey;
 
@@ -74,12 +76,14 @@ public class ElementEntity {
 	public ElementEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
+		this.name = Constants.ELEMENT_NAME;
 		this.id = elEntity.id;
 		this.playground = elEntity.playground;
 		this.creationDate = elEntity.creationDate;
 		this.creatorPlayground = elEntity.creatorPlayground;
 		this.creatorEmail = elEntity.creatorEmail;
 		setLocation(elEntity.location);
+		this.setExpirationDate(new Date(2200,1,1));
 		setSuperkey();
 
 
@@ -202,6 +206,16 @@ public class ElementEntity {
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}
+	
+	@Lob
+	public String getJsonAttributes() {
+		try {
+			return new ObjectMapper().writeValueAsString(attributes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	//map translation to json for the database
 	public void setJsonAttributes(String jsonAttributes) {
 		try {
@@ -213,13 +227,13 @@ public class ElementEntity {
 	
 	
 	
-	public String getStringlocation() {
-		return stringlocation;
-	}
-
-	public void setStringlocation(Location location) {
-		this.stringlocation = location.toJson();
-	}
+//	public String getStringlocation() {
+//		return stringlocation;
+//	}
+//
+//	public void setStringlocation(Location location) {
+//		this.stringlocation = location.toJson();
+//	}
 
 	@Transient
 	public String toString() {

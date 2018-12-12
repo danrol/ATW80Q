@@ -9,6 +9,8 @@ public class Constants {
 	public static String MODERATOR_ROLE = "MODERATOR";
 	public static String PLAYER_ROLE = "PLAYER";
 	public static String UNDEFINED_ROLE = "NO_ROLE";
+	public static String ELEMENT_NAME = "DEFAULT_ELEMENT_NAME";
+
 
 	public static String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
 	public static String MESSAGEBOARD = "MESSAGE_BOARD";
