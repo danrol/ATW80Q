@@ -38,7 +38,6 @@ public class ElementEntity {
 	protected String creatorPlayground;
 	protected String creatorEmail;
 	protected Location location;
-//	protected String stringlocation;
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	protected String superkey;
 
@@ -68,7 +67,7 @@ public class ElementEntity {
 	}
 
 	public ElementEntity() {
-
+		this.location = new Location();
 	}
 
 //	create constructors that receive just a JSon 
@@ -225,38 +224,21 @@ public class ElementEntity {
 		}
 	}
 	
-	public double getXLocation() {
+	public double getX() {
 		return location.getX();
 	}
 
-	public void setXLocation(double x) {
-		if (this.location == null)
-			this.location = new Location();
+	public void setX(double x) {
 		this.location.setX(x);
 	}
 	
-	public double getYLocation() {
-		return location.getX();
+	public double getY() {
+		return location.getY();
 	}
 
-	public void setYLocation(double y) {
-		if (this.location == null)
-			this.location = new Location();
+	public void setY(double y) {
 		this.location.setY(y);
 	}
-		
-		
-	
-	
-	
-//	public String getStringlocation() {
-//		return stringlocation;
-//	}
-//
-//	public void setStringlocation(Location location) {
-//		this.stringlocation = location.toJson();
-//	}
-
 	@Transient
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="

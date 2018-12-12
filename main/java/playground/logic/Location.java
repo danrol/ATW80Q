@@ -9,12 +9,14 @@ public class Location {
 		this.x = 0;
 		this.y = 0;
 	}
-	public Location(String location) {	//format "x,y"
+
+	public Location(String location) { // format "x,y"
 		super();
 		String[] s = location.split(",");
 		this.x = new Double(s[0]);
 		this.y = new Double(s[1]);
 	}
+
 	public Location(double x, double y) {
 		super();
 		this.x = x;
@@ -40,21 +42,22 @@ public class Location {
 	public void setY(double y) {
 		this.y = y;
 	}
-	
-	@Override 
+
+	@Override
 	public boolean equals(Object other) {
-		if (other == null) return false;
-		if (!(other instanceof Location))return false;
-	    if (((Location)other).x != this.x || ((Location) other).y != this.y) return false;
-	    else return true;
+		if (other == null)
+			return false;
+		if (!(other instanceof Location))
+			return false;
+		if (((Location) other).x != this.x || ((Location) other).y != this.y)
+			return false;
+		else
+			return true;
 	}
+
 	@Override
 	public String toString() {
 		return "Location [x=" + x + ", y=" + y + "]";
-	}
-	
-	public String toJson() {
-		return this.x+","+this.y;
 	}
 
 }

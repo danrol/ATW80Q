@@ -2,6 +2,7 @@ package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import org.junit.After;
@@ -71,11 +72,11 @@ public class ElementTest {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element = new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
 		elementService.DBToString();
-		//assertThat(elementService.isElementInDatabase(element));
-		//assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
+		assertThat(elementService.isElementInDatabase(element));
+		assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
 	}
 	
 	@Test
