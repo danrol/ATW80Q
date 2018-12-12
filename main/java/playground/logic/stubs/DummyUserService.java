@@ -167,6 +167,12 @@ public class DummyUserService implements UserService{
 		return serialVersionUID;
 	}
 
+	@Override
+	public void DBToString() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

@@ -36,4 +36,5 @@ public interface ElementService {
 	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground);
 
 	ElementEntity[] getAllElements();
+	public void DBToString() ;
 }

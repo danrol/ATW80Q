@@ -73,7 +73,8 @@ public class ElementTest {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
-		assertThat(elementService.isElementInDatabase(element)).isTrue();
+		elementService.DBToString();
+		assertThat(elementService.isElementInDatabase(element));
 	}
 	
 	@Test
@@ -83,7 +84,7 @@ public class ElementTest {
 		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		
 		elementService.addElement(element);
-		assertThat(elementService.getElements().contains(element)).isFalse();
+		assertThat(!elementService.getElements().contains(element));
 	}
 	@Test
 	public void testPOSTElementsThatAllRedyInDatabase() {
@@ -97,8 +98,8 @@ public class ElementTest {
 		
 		
 		elementService.addElements(arrElements, playground);
-		assertThat(elementService.isElementInDatabase(arrElements[0])&&elementService.isElementInDatabase(arrElements[1]));
-		
+		assertThat(elementService.isElementInDatabase(arrElements[0]));
+		assertThat(elementService.isElementInDatabase(arrElements[1]));
 		
 	}
 	// url #5 /playground/elements/{userPlayground }/{email}  finished

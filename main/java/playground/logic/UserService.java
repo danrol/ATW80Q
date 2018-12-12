@@ -21,5 +21,7 @@ public interface UserService {
 	void updateUser(UserEntity user, String email, String playground);
 
 	void addUser(NewUserForm user);
+	
+	public void DBToString();
 
 }

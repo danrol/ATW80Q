@@ -215,5 +215,20 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> arr=getElements();
 		return arr.toArray(new ElementEntity[arr.size()]);
 	}
+	@Override
+	public void DBToString() {
+		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
+		try {
+			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
+			while (iter.hasNext())
+			    copy.add(iter.next());
+		}catch (Exception e) {
+			
+		}
+		System.err.println("DB-TEST:all elements in database");
+		for(ElementEntity e:copy) {
+			System.out.println(e.toString());
+		}
+	}
 
 }
