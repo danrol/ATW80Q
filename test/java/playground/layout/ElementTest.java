@@ -75,6 +75,7 @@ public class ElementTest {
 		elementService.addElement(element);
 		elementService.DBToString();
 		assertThat(elementService.isElementInDatabase(element));
+		assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
 	}
 	
 	@Test
