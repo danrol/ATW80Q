@@ -175,15 +175,15 @@ public class ElementTest {
 				"PLAYER", "userPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity("123", "userPlayground", "email@email.com",new Location(0,1));
-		elementService.addElement(updatedElementForTestEntity);
+		ElementEntity elementForTestEntity = 
+				new ElementEntity("123", "playground", "email@email.com",new Location(0,1));
+		elementService.addElement(elementForTestEntity);
 		
-		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
-		updatedElementForTestTO.setPlayground("forTest");
+		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
+		updatedElementForTestTO.setName("changed name");;
 		
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
-				"email@email.com", "userPlayground",  "123");
+				"email@email.com", "playground",  "123");
 	    
 		ElementEntity actualEntity = elementService.getElement("123", "forTest");
 
@@ -306,10 +306,10 @@ public class ElementTest {
 	public void testGETAllFromDatabase() {
 		
 		boolean flag=true;
-		String playground="playground",creatorPlayground="creator",name="nameOfElement";
+		String playground="playground",creatorPlayground="creator",id="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
+		arrElements[0]=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(id,playground,creatorPlayground,new Location("2,1"));
 		
 		elementService.addElements(arrElements, playground);
 		for(int i=0;i<arrElements.length;i++) {
@@ -332,10 +332,10 @@ public class ElementTest {
 	public void testGETAllFromDatabaseWithNoUserVerified() {
 		
 		boolean flag=true;
-		String playground="playground",creatorPlayground="creator",name="nameOfElement";
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("1,2"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("2,1"));
+		arrElements[0]=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(id,playground,creatorPlayground,new Location("2,1"));
 		
 		elementService.addElements(arrElements, playground);
 		elementService.getAllElements();
@@ -350,7 +350,7 @@ public class ElementTest {
 		
 		boolean flag=false;
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element1=new ElementEntity(id,playground,creatorPlayground,new Location("0,2"));
+		ElementEntity element1=new ElementEntity(id,playground,creatorPlayground,new Location("0,0"));
 		ElementEntity element2=new ElementEntity(id,playground,creatorPlayground,new Location("0,1"));
 		ElementEntity element3=new ElementEntity(id,playground,creatorPlayground,new Location("3,7"));
 		ElementEntity element4=new ElementEntity(id,playground,creatorPlayground,new Location("5,7"));
@@ -363,8 +363,9 @@ public class ElementTest {
 		elementService.addElement(element5);
 		elementService.addElement(element6);
 		double distance=7;
-		ElementEntity[] arr= elementService.getAllElementsInRadius(element2,element2.getLocation().getX(),element2.getLocation().getY(),distance, 0, 10);
-		if(arr.length==3) {
+		ElementEntity[] arr= elementService.getAllElementsInRadius(element1,element1.getLocation().getX(),element1.getLocation().getY(),distance, 0, 10);
+		System.err.println("elia test 9 :"+arr.length);
+		if(arr.length == 3) {
 			flag=true;
 		}
 		assertThat(flag);
