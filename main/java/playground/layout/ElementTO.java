@@ -172,6 +172,7 @@ public class ElementTO implements Serializable {
 		rv.setCreatorEmail(creatorEmail);
 		rv.setLocation(location);
 		rv.setAttributes(attributes);
+		rv.setSuperkey();
 		return rv;
 	}
 

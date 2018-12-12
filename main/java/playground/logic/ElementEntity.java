@@ -80,6 +80,8 @@ public class ElementEntity {
 		this.creatorPlayground = elEntity.creatorPlayground;
 		this.creatorEmail = elEntity.creatorEmail;
 		setLocation(elEntity.location);
+		setSuperkey();
+
 
 	}
 
