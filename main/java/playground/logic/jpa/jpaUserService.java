@@ -213,6 +213,21 @@ public class jpaUserService implements UserService {
 		}
 			
 	}
+	@Override
+	public void DBToString() {
+		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
+		try {
+			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) userDB.findAll();
+			while (iter.hasNext())
+			    copy.add(iter.next());
+		}catch (Exception e) {
+			
+		}
+		System.err.println("DB-TEST:all users in database");
+		for(ElementEntity e:copy) {
+			System.out.println(e.toString());
+		}
+	}
 	
 
 }

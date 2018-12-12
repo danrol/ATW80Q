@@ -73,6 +73,7 @@ public class ElementTest {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
 		elementService.addElement(element);
+		elementService.DBToString();
 		assertThat(elementService.isElementInDatabase(element)).isTrue();
 	}
 	
