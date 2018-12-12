@@ -67,7 +67,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void addElements(ElementEntity[] elements, String userPlayground) {
 		for(int i=0;i<elements.length;i++) {
 			addElement(elements[i]);
@@ -76,7 +76,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
 			String playground, String id) {
 		
@@ -143,12 +143,12 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly=true)
 	public ElementEntity getElement(String id, String playground) {
-		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
+		Optional<ElementEntity> el=elementsDB.findById(ElementEntity.setSuperkey(id, playground));
 		if(el.isPresent()) {
 			try {
 				return el.get();	
 			}catch (Exception e) {
-				System.out.println("element:"+el.toString()+"/n feild to load from database");
+				System.out.println("element:"+el.toString()+"/n failed to load from database");
 			}
 			
 			
@@ -157,7 +157,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=false)
 	public void addElement(ElementEntity element) {
 		if(elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("allredy exist in database:"+element.toString());

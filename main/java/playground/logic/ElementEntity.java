@@ -119,7 +119,7 @@ public class ElementEntity {
 	
 	@Transient
 	public static String setSuperkey(String string1, String string2) {
-		return string1.concat(string2);
+		return string1.concat(" " + string2);
 	}
 
 	public String getName() {
