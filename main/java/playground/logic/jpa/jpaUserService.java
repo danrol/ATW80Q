@@ -133,8 +133,11 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public UserEntity login(String playground, String email) {
+		System.err.println("HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! ");
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
+			System.err.println(u);
+			//System.err.println(u.isVerified());
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
 					return u;
@@ -149,6 +152,30 @@ public class jpaUserService implements UserService {
 			throw new LoginException("Email is not registered.");
 		}
 	}
+	/**
+	 * if(user !=null) {
+			//TODO remove if. added playground check to getUser
+			if(user.getVerificationCode().equals(""))
+				return user;	//User already confirmed
+		else if(user.getPlayground().equals(playground))
+			{
+				String VerificationCode = user.getVerificationCode();
+				if (VerificationCode.equals(code))
+					user.verifyUser();
+				else
+						throw new ConfirmException("Invalid verification code");
+			}
+				else
+			{
+					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
+			}
+		}
+			else
+			{
+				throw new ConfirmException("Email is not registered.");
+			}
+		return user;
+	 */
 
 	@Override
 	@Transactional

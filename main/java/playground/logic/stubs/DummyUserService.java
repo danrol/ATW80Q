@@ -92,7 +92,6 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public UserEntity login(String playground, String email) {
-		
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
