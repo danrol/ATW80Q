@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.dal.ElementDao;
@@ -35,7 +36,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
 			int size) {
 		if(distance<0) {
@@ -59,12 +60,14 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transient
 	public boolean isElementInDatabase(ElementEntity element) {
 		
 		return this.elementsDB.existsById(element.getSuperkey());
 	}
 
 	@Override
+	@Transactional
 	public void addElements(ElementEntity[] elements, String userPlayground) {
 		for(int i=0;i<elements.length;i++) {
 			addElement(elements[i]);
@@ -73,6 +76,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
 			String playground, String id) {
 		
@@ -93,7 +97,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
 			String attributeName, String value, int page, int size) {
 		
@@ -113,6 +117,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transient
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
 			if (element.getCreatorPlayground().equals(creatorPlayground) && element.getCreatorEmail().equals(creatorEmail))
@@ -122,7 +127,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
 			int size) {
 		ArrayList<ElementEntity> elements= getElements();
@@ -136,7 +141,7 @@ public class jpaElementService implements ElementService {
 	
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity getElement(String id, String playground) {
 		Optional<ElementEntity> el=elementsDB.findById(id+","+playground);
 		if(el.isPresent()) {
@@ -152,6 +157,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public void addElement(ElementEntity element) {
 		if(elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("allredy exist in database:"+element.toString());
@@ -169,7 +175,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ArrayList<ElementEntity> getElements() {
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
 		try {
@@ -184,7 +190,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
 		return lst
 				.stream()
@@ -197,6 +203,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@Transactional
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		try {
 			for (ElementEntity el : elements) {
@@ -210,12 +217,14 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public ElementEntity[] getAllElements() {
 		ArrayList<ElementEntity> arr=getElements();
 		return arr.toArray(new ElementEntity[arr.size()]);
 	}
+	
 	@Override
+	@Transient
 	public void DBToString() {
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
 		try {

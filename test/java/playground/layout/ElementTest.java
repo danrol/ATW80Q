@@ -179,9 +179,12 @@ public class ElementTest {
 		ElementEntity elementForTestEntity = 
 				new ElementEntity("123", "playground", "email@email.com",new Location(0,1));
 		elementService.addElement(elementForTestEntity);
+		elementService.DBToString();
+
 		
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
-		updatedElementForTestTO.setName("changed name");;
+		updatedElementForTestTO.setName("changed name");
+		
 		
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
 				"email@email.com", "playground",  "123");
