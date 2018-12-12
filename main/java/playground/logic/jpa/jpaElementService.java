@@ -145,9 +145,11 @@ public class jpaElementService implements ElementService {
 	public ElementEntity getElement(String id, String playground) {
 		Optional<ElementEntity> el = elementsDB.findById(ElementEntity.setSuperkey(id, playground));
 		if (el.isPresent()) {
+			try {
 				return el.get();
-				
-
+			} catch (Exception e) {
+				System.out.println("element:" + el.toString() + "/n failed to load from database");
+			}
 		}
 		return null;
 	}
@@ -156,13 +158,14 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	public void addElement(ElementEntity element) {
 		if (elementsDB.existsById(element.getSuperkey())) {
-			System.out.println("Already exists in database:" + element.toString());
+			System.out.println("already exist in database:" + element.toString());
 		} else {
 			try {
 				elementsDB.save(element);
 			} catch (Exception e) {
 				System.err.println("element:" + element.toString() + "/n failed to be saved in the database");
 			}
+
 		}
 
 	}
@@ -171,11 +174,13 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	public ArrayList<ElementEntity> getElements() {
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
+		try {
 			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
 			while (iter.hasNext())
 				copy.add(iter.next());
-			System.out.println("Element conversion not successful");
-		
+		} catch (Exception e) {
+			System.out.println("Elements conversion failed.");
+		}
 		return copy;
 
 	}
@@ -191,10 +196,14 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
-
+		try {
 			for (ElementEntity el : elements) {
 				updateElementInDatabaseFromExternalElement(el, el.getCreatorPlayground(), playground, el.getId());
 			}
+
+		} catch (ElementDataException e) {
+			throw new ElementDataException("Elements in collection have incorrect fields.");
+		}
 
 	}
 
