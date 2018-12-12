@@ -133,7 +133,6 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public UserEntity login(String playground, String email) {
-		System.err.println("HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! HELLO WOLD! ");
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
 			System.err.println(u);
