@@ -225,6 +225,28 @@ public class ElementEntity {
 		}
 	}
 	
+	public double getXLocation() {
+		return location.getX();
+	}
+
+	public void setXLocation(double x) {
+		if (this.location == null)
+			this.location = new Location();
+		this.location.setX(x);
+	}
+	
+	public double getYLocation() {
+		return location.getX();
+	}
+
+	public void setYLocation(double y) {
+		if (this.location == null)
+			this.location = new Location();
+		this.location.setY(y);
+	}
+		
+		
+	
 	
 	
 //	public String getStringlocation() {
