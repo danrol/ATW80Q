@@ -107,31 +107,15 @@ private RestTemplate restTemplate;
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test starts
 	@Test(expected=RuntimeException.class)
 	public void testConfirmUserEmailNotInDatabase() {
-		/*
-		 * 				Given Server is up 
-				AND  
-				I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is not on the database
-				Then I get a Wrong email message
-		 */
 		 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 	}
 	
 	@Test
 	public void testConfirmUserWithNullCode() {
-		/*
-		 * 
-		Given Server is up 
-		AND 
-		 I GET /playground/users/confirm/{playground}/{email}/
-		When email is on the database AND code is ""
-		Then I get a 404 exception
-		 * */
 		String[] s = {"0","0"};
 		
 		try {
 			 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
-
 		}
 		catch(RuntimeException e)
 		{
@@ -144,15 +128,6 @@ private RestTemplate restTemplate;
 	
 	@Test
 	public void testConfirmUserWithCorrectCode() {
-		/*
-		 * 
-				Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database and code is correct and user belongs to playground
-				Then I get a verified user message
-				
-		 * */
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
@@ -165,13 +140,6 @@ private RestTemplate restTemplate;
 	
 	@Test(expected=RuntimeException.class)
 	public void ConfirmUserNotInPlayground() {
-		/*
-		 * 		Given Server is up 
-				AND  
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database and code is correct and user does not belong to playground
-				Then I get a user is not on playground message
-		 * */
 		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
@@ -182,14 +150,7 @@ private RestTemplate restTemplate;
 	
 	@Test (expected=RuntimeException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
-		/*		Given Server is up 
-				AND 
-				 I GET /playground/users/confirm/{playground}/{email}/{code}
-				When email is on the database AND code is wrong
-				Then I get a Wrong verification code error message
-				*/
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
 		
@@ -203,27 +164,18 @@ private RestTemplate restTemplate;
 	//******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
 	
-	@Test(expected = RuntimeException.class)
+	//DETELED FROM GERKIN
+	/**@Test(expected = RuntimeException.class)
 	public void testLoginUserWithNullEmail() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/
-		 * When: User is verified AND is in database AND email is empty
-		 * Then: I get login exception.
-		 */
 		UserEntity user = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(user);
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
-	}
+	}**/
 
 	@Test
 	public void testLoginUserWithCorrectEmail() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: user is in playground database and is verified
-		 * Then: User gets Logged in
-		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		// given database contains user { "user": "userTest"}
@@ -238,22 +190,12 @@ private RestTemplate restTemplate;
 
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserEmailNotInDatabase() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is not on the database
-		 * Then: I get login exception.
-		 */
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void LoginUserNotInPlayground() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database and verified and user does not belong to playground
-		 * Then: I get a user is not on playground message
-		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
 		// given database contains user { "user": "userTest"}
 		u.verifyUser();
@@ -263,11 +205,6 @@ private RestTemplate restTemplate;
 
 	@Test(expected = RuntimeException.class)
 	public void testLoginUserWhenUserNotVerification() {
-		/*
-		 * Given: Server is up AND I GET /playground/users/login/{playground}/{email}
-		 * When: email is on the database AND not verified
-		 * Then: I get login exception.
-		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
@@ -279,13 +216,38 @@ private RestTemplate restTemplate;
 	// url #3/playground/users/login/{playground}/{email} test finished
 	//******************************************************************************************//
 	// url #4 /playground/users/{playground}/{email} test starts
+	
+	@Test
+	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		userService.addUser(moderatorUser);
+		moderatorUser.verifyUser();
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		userService.addUser(moderatorUser);
+		moderatorUser.verifyUser();
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+	}
+	
+	@Test
+	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
+		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		userService.addUser(moderatorUser);
+		moderatorUser.verifyUser();
+
+		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		
+
+		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+	}
+	
 	@Test
 	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update my user
-		 * Then: changes are accepted
-		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
@@ -294,11 +256,6 @@ private RestTemplate restTemplate;
 
 	@Test(expected = RuntimeException.class)
 	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update other user AND other user is player
-		 * Then: I get changesUser exception
-		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
@@ -310,11 +267,6 @@ private RestTemplate restTemplate;
 	
 	@Test(expected = RuntimeException.class)
 	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
-		/*
-		 * Given: Server is up AND I PUT /playground/users/{playground}/{email}
-		 * When: I am Player AND want to update other user AND other user is moderator
-		 * Then: I get changesUser exception
-		 */
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
