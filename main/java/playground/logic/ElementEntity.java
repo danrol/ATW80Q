@@ -37,7 +37,7 @@ public class ElementEntity {
 	protected String type = Constants.ELEMENT_DEFAULT_TYPE;
 	protected String creatorPlayground;
 	protected String creatorEmail;
-	protected Location location;
+	protected Location location = new Location();
 	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	protected String superkey;
 

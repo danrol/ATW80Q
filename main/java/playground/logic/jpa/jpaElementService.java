@@ -1,6 +1,7 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 
 //elia:
 //to switch the service we need firstly to go to DummyElementService and remove the @Service there
@@ -33,6 +35,26 @@ public class jpaElementService implements ElementService {
 	public void cleanElementService() {
 		elementsDB.deleteAll();
 
+	}
+
+	public jpaElementService()
+	{
+		addDummyValues();
+	}
+	
+	
+	private void addDummyValues() {
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+
+		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("1,2")));
+
+		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("2,2")));
+
+		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("4,2")));
+
+		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("5,2")));
+		
+		
 	}
 
 	@Override
