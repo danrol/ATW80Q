@@ -160,12 +160,7 @@ public class jpaElementService implements ElementService {
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database:" + element.toString());
 		} else {
-			try {
 				elementsDB.save(element);
-			} catch (Exception e) {
-				System.err.println("element:" + element.toString() + "/n failed to be saved in the database");
-			}
-
 		}
 
 	}
