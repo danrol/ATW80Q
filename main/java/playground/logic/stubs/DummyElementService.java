@@ -149,8 +149,8 @@ public class DummyElementService implements ElementService {
 		}
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 		for (ElementEntity el : elements) {
-			double xin = el.getLocation().getX() - element.getLocation().getX();
-			double yin = el.getLocation().getY() - element.getLocation().getY();
+			double xin = el.getX() - element.getX();
+			double yin = el.getY() - element.getY();
 
 			if (Math.sqrt(xin * xin + yin * yin) <= distance) {
 				lst.add(el);

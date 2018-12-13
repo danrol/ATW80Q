@@ -46,13 +46,13 @@ public class jpaElementService implements ElementService {
 	private void addDummyValues() {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,1,2 ));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("2,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,2,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("4,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,4,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("5,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,5,2));
 		
 		
 	}
@@ -67,8 +67,8 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> allElements = getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 		for (ElementEntity el : allElements) {
-			double xin = el.getLocation().getX() - element.getLocation().getX();
-			double yin = el.getLocation().getY() - element.getLocation().getY();
+			double xin = el.getX() - element.getX();
+			double yin = el.getY() - element.getY();
 
 			if (Math.sqrt(xin * xin + yin * yin) <= distance) {
 				lst.add(el);

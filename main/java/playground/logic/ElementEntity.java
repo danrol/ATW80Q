@@ -27,6 +27,8 @@ import playground.Constants;
 @Table(name = "ELEMENT")
 public class ElementEntity {
 
+	private static int ID = 0;
+
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String id;
@@ -36,7 +38,9 @@ public class ElementEntity {
 	private String type = Constants.ELEMENT_DEFAULT_TYPE;
 	private String creatorPlayground;
 	private String creatorEmail;
-	private Location location = new Location();
+	private double x;
+	private double y;
+//	private Location location = new Location();
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	private String superkey;
 
@@ -59,14 +63,15 @@ public class ElementEntity {
 			return (new Date(value)).equals(creationDate);
 		case "expirationDate":
 			return (new Date(value)).equals(expirationDate);
-		case "location":
-			return (new Location(value)).equals(location);
+//		case "location":
+//			return (new Location(value)).equals(location);
 		}
 		return false;
 	}
 
 	public ElementEntity() {
-		this.location = new Location();
+//		this.location = new Location();
+//		id = ID++;
 		this.expirationDate = new Date(2200,1,1);
 		this.creationDate = new Date();
 	}
@@ -82,13 +87,14 @@ public class ElementEntity {
 		this.creationDate = elEntity.creationDate;
 		this.creatorPlayground = elEntity.creatorPlayground;
 		this.creatorEmail = elEntity.creatorEmail;
-		setLocation(elEntity.location);
+		setX(elEntity.getX());
+		setY(elEntity.getY());
 		setSuperkey();
 
 
 	}
 
-	public ElementEntity(String id,String name, String playground, String email, Location xy) {
+	public ElementEntity(String id,String name, String playground, String email, double x, double y) {
 		// this constructor is used for
 		// /playground/elements/{userPlayground}/{email}/{playground}/{id}
 		// which won't pass expirationDate, name, type and location
@@ -99,7 +105,8 @@ public class ElementEntity {
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
-		setLocation(xy);
+		setX(x);
+		setY(y);
 		setSuperkey();
 	}
 	
@@ -145,17 +152,17 @@ public class ElementEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-	@Transient
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		if (location != null)
-			this.location = location;
-		else
-			throw new RuntimeException("Location is null");
-	}
+//	@Transient
+//	public Location getLocation() {
+//		return location;
+//	}
+//
+//	public void setLocation(Location location) {
+//		if (location != null)
+//			this.location = location;
+//		else
+//			throw new RuntimeException("Location is null");
+//	}
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreationDate() {
@@ -225,25 +232,25 @@ public class ElementEntity {
 	}
 	
 	public double getX() {
-		return location.getX();
+		return x;
 	}
 
 	public void setX(double x) {
-		this.location.setX(x);
+		this.x =x;
 	}
 	
 	public double getY() {
-		return location.getY();
-	}
+		return y;
+}
 
 	public void setY(double y) {
-		this.location.setY(y);
+		this.y = y;
 	}
 	@Transient
 	public String toString() {
 		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", expirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
-				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
+				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", x= " + x + " y="+y+"]";
 	}
 
 	public static long getSerialversionuid() {

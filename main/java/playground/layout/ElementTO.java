@@ -59,7 +59,7 @@ public class ElementTO implements Serializable {
 		this.setType(e.getType());
 		this.setCreatorPlayground(e.getCreatorPlayground());
 		this.setCreatorEmail(e.getCreatorEmail());
-		this.setLocation(e.getLocation());
+		this.setLocation(new Location(e.getX(), e.getY()));
 		this.setAttributes(e.getAttributes());
 	}
 
@@ -170,7 +170,8 @@ public class ElementTO implements Serializable {
 		rv.setType(type);
 		rv.setCreatorPlayground(creatorPlayground);
 		rv.setCreatorEmail(creatorEmail);
-		rv.setLocation(location);
+		rv.setX(location.getX());
+		rv.setY(location.getY());
 		rv.setAttributes(attributes);
 		rv.setSuperkey();
 		return rv;
