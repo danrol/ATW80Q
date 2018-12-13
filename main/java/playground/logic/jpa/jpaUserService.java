@@ -33,16 +33,11 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	public ArrayList<UserEntity> getUsers() {
-		ArrayList<UserEntity> copy = new ArrayList<UserEntity>();
-		try {
-			Iterator<UserEntity> iter = (Iterator<UserEntity>) userDB.findAll();
+		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
+			for(UserEntity u: userDB.findAll())
+				lst.add(u);
 
-			while (iter.hasNext())
-				copy.add(iter.next());
-		} catch (Exception e) {
-			System.out.println("User conversion failed.");
-		}
-		return copy;
+		return lst;
 	}
 
 	@Override
@@ -55,8 +50,6 @@ public class jpaUserService implements UserService {
 
 			userDB.save(user);
 			result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
-			System.err.println("Database in jpa" + userDB.findAll().toString());
-			System.err.println("User:" + user.toString() + "/n could not be saved to database.\n");
 		}
 
 		return result;
@@ -183,18 +176,19 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly=true)
 	public void printUserDB() {
-		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
+		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
 		try {
-			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) userDB.findAll();
-			while (iter.hasNext())
-				copy.add(iter.next());
+			
+			for(UserEntity e: userDB.findAll())
+				lst.add(e);
 		} catch (Exception e) {
 
 		}
 		System.err.println("DB-TEST:all users in database");
-		for (ElementEntity e : copy) {
+		for (UserEntity e : lst) {
 			System.out.println(e.toString());
 		}
+		System.out.println("\n");
 	}
 
 }

@@ -240,7 +240,7 @@ public class jpaElementService implements ElementService {
 		for(ElementEntity e: elementsDB.findAll())
 				lst.add(e);
 
-		System.err.println("DB-TEST:all elements in database");
+		System.err.println("\nDB-TEST:all elements in database");
 		for (ElementEntity e : lst) {
 			System.out.println(e.toString());
 		}

@@ -90,6 +90,7 @@ private RestTemplate restTemplate;
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), 
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));	
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url+"/playground/users", postUserForm, UserTO.class);
+		userService.printUserDB();
 		System.out.println("users after user added"+this.userService.getUsers().toString());
 		assertThat(actualReturnedValue)
 		.isNotNull()
