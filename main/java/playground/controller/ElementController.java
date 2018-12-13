@@ -56,8 +56,7 @@ public class ElementController {
 
 		System.out.println("Entered update");
 		userService.login(userPlayground, email);
-		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), userPlayground, 
-				playground, id);
+		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), email, playground);
 		System.out.println("updatePerformed");
 	}
 

@@ -43,12 +43,12 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity getElement(String id, String playground) {
+	public ElementEntity getElement(String creatorEmail, String playground) {
 		for (ElementEntity e : elements) {
-			if (e.getId().equals(id) && e.getPlayground().equals(playground))
+			if (e.getCreatorEmail().equals(creatorEmail) && e.getPlayground().equals(playground))
 				return e;
 		}
-		throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
+		throw new RuntimeException("Could not find specified element (creatorEmail=" + creatorEmail +") in " + playground);
 	}
 
 	
@@ -102,7 +102,7 @@ public class DummyElementService implements ElementService {
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(el, el.getCreatorPlayground(), playground, el.getId());
+				updateElementInDatabaseFromExternalElement(el, el.getCreatorEmail(), playground);
 			}
 
 		} catch (ElementDataException e) {
@@ -112,15 +112,15 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, 
-			String playground, String id) {
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail, 
+			String playground) {
 
 		System.out.println("Perform update");
-		System.out.println("Not updated element" + this.getElement(id, playground));
+		System.out.println("Not updated element" + this.getElement(creatorEmail, playground));
 		System.out.println("Updated element" + element);
-		ElementEntity tempElement = this.getElement(id, playground);
+		ElementEntity tempElement = this.getElement(creatorEmail, playground);
 		if (tempElement != null) {
-			System.out.println("Elemnt by id and string" + this.getElement(id, playground).toString());
+			System.out.println("Elemnt by id and string" + this.getElement(creatorEmail, playground).toString());
 
 			System.out.println("temp element" + tempElement.toString());
 			System.out.println("element" + element.toString());

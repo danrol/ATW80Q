@@ -1,9 +1,6 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -17,8 +14,7 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.Location;
-import playground.logic.UserEntity;
+
 
 @Service
 public class jpaElementService implements ElementService {
@@ -47,13 +43,13 @@ public class jpaElementService implements ElementService {
 	private void addDummyValues() {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,1,2 ));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,1,2 ));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,2,2));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,2,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,4,2));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS, 4,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,5,2));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,5,2));
 		
 		
 	}
@@ -100,19 +96,21 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground,
-			String playground, String id) {
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail,
+			String playground) {
 
 		System.out.println("Perform update");
-		System.out.println("Not updated element" + this.getElement(id, playground));
+		System.out.println("Not updated element" + this.getElement(creatorEmail, playground));
 		System.out.println("Updated element" + element);
-		ElementEntity tempElement = this.getElement(id, playground);
+		ElementEntity tempElement = this.getElement(creatorEmail, playground);
+		printElementDB();
 		if (tempElement != null) {
-			System.out.println("Elemnt by id and string" + this.getElement(id, playground).toString());
+			System.out.println("Elemnt by id and string" + this.getElement(creatorEmail, playground).toString());
 			System.out.println("temp element" + tempElement.toString());
 			System.out.println("element" + element.toString());
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
+			printElementDB();
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 
@@ -126,12 +124,12 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");
-		for (ElementEntity element : elements) {
-			if (element.getCreatorPlayground().equals(creatorPlayground)
-					&& element.getCreatorEmail().equals(creatorEmail)
-					&& element.getAttributes().containsKey(attributeName)
-					&& element.getAttributes().get(attributeName).equals(value))
-				tempElementsList.add(element);
+		for (ElementEntity e : elements) {
+			if (e.getCreatorPlayground().equals(creatorPlayground)
+					&& e.getCreatorEmail().equals(creatorEmail)
+					&& e.getAttributes().containsKey(attributeName)
+					&& e.getAttributes().get(attributeName).equals(value))
+				tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty())
 			return new ElementEntity[0];
@@ -165,8 +163,9 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElement(String id, String playground) {
-		Optional<ElementEntity> el = elementsDB.findById(ElementEntity.setSuperkey(id, playground));
+	public ElementEntity getElement(String email, String playground) {
+		printElementDB();
+		Optional<ElementEntity> el = elementsDB.findById(ElementEntity.setSuperkey(email, playground));
 		if (el.isPresent()) {
 			try {
 				return el.get();
@@ -176,6 +175,20 @@ public class jpaElementService implements ElementService {
 		}
 		return null;
 	}
+	
+	public ElementEntity getElement(String superkey) {
+		printElementDB();
+		Optional<ElementEntity> el = elementsDB.findById(superkey);
+		if (el.isPresent()) {
+			try {
+				return el.get();
+			} catch (Exception e) {
+				System.out.println("element:" + el.toString() + "/n failed to load from database");
+			}
+		}
+		return null;
+	}
+	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -191,15 +204,11 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	public ArrayList<ElementEntity> getElements() {
-		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
-		try {
-			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
-			while (iter.hasNext())
-				copy.add(iter.next());
-		} catch (Exception e) {
-			System.out.println("Elements conversion failed.");
-		}
-		return copy;
+		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
+			for(ElementEntity e : elementsDB.findAll())
+				lst.add(e);
+
+		return lst;
 
 	}
 
@@ -216,7 +225,7 @@ public class jpaElementService implements ElementService {
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(el, el.getCreatorPlayground(), playground, el.getId());
+				updateElementInDatabaseFromExternalElement(el, el.getCreatorEmail(), playground);
 			}
 
 		} catch (ElementDataException e) {
@@ -240,7 +249,7 @@ public class jpaElementService implements ElementService {
 		for(ElementEntity e: elementsDB.findAll())
 				lst.add(e);
 
-		System.err.println("\nDB-TEST:all elements in database");
+		System.err.println("\nDB-TEST:all elements in database:\n");
 		for (ElementEntity e : lst) {
 			System.out.println(e.toString());
 		}

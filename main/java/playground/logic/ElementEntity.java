@@ -106,6 +106,7 @@ public class ElementEntity {
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
+		
 		setX(x);
 		setY(y);
 		setSuperkey();
@@ -171,7 +172,8 @@ public class ElementEntity {
 	}
 
 	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
+//		this.creationDate = creationDate;
+		this.creationDate = new Date(creationDate.getTime());
 	}
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getExpirationDate() {
@@ -179,7 +181,8 @@ public class ElementEntity {
 	}
 
 	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
+//		this.expirationDate = expirationDate;
+		this.expirationDate = new Date(expirationDate.getTime());
 	}
 
 	public String getType() {
@@ -249,9 +252,9 @@ public class ElementEntity {
 	}
 	@Transient
 	public String toString() {
-		return "ElementEntity [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
+		return "ElementEntity [superkey="+superkey+", name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
 				+ creationDate + ", expirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
-				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", x= " + x + " y="+y+"]";
+				+ creatorPlayground + ", attributes="+attributes.toString()+", creatorEmail=" + creatorEmail + ", x= " + x + " y="+y+"]";
 	}
 
 	public static long getSerialversionuid() {

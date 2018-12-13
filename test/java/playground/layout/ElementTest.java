@@ -180,21 +180,22 @@ public class ElementTest {
 				"PLAYER", "playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
+		
 		ElementEntity elementForTestEntity = 
 				new ElementEntity("123", "name","playground", "email@email.com",0,1);
+		
 		userService.printUserDB();
 		elementService.addElement(elementForTestEntity);
 		elementService.printElementDB();
-
 		
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setName("changedName");
 		
 		
-		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 
+		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "playground", 
 				"email@email.com", "playground",  "123");
 	    
-		ElementEntity actualEntity = elementService.getElement("123", "playground");
+		ElementEntity actualEntity = elementService.getElement("email@email.com", "playground");
 
 		
 		assertThat(actualEntity).isNotNull();
@@ -413,10 +414,11 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123",Constants.ELEMENT_NAME, 
-				"userPlayground", "nudnik@mail.ru", 1,0))};
+		ElementTO elementTO = new ElementTO(new ElementEntity("123",Constants.ELEMENT_NAME, 
+				"playground", "nudnik@mail.ru", 1,0));
+		elementTO.setCreatorPlayground("creatorPlayground");
+		ElementTO[] elementForTest = {elementTO};
 		
-		elementForTest[0].setCreatorPlayground("creatorPlayground");
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1","attr1Value");
 		testMap.put("attribute2","attr2Value");
@@ -429,6 +431,7 @@ public class ElementTest {
 				"/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class, 
 				"creatorPlayground", "nudnik@mail.ru", "attr3", "attr3Val");
 		
+		elementService.printElementDB();
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
 	}

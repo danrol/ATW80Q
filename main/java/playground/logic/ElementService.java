@@ -15,8 +15,7 @@ public interface ElementService {
 
 	public void addElements(ElementEntity[] elements, String userPlayground);
 
-	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String playground,
-			String id);
+	void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail, String playground);
 
 	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
 			String value, int page, int size);

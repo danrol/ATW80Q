@@ -140,7 +140,7 @@ public class UserEntity {
 		this.points = points;
 	}
 
-	
+	//TODO order in every class should be getter, setter, getter, setter. Eyal told to fix it
 	
 	@Transient
 	public void verifyUser() {
