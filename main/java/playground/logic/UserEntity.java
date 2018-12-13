@@ -45,11 +45,11 @@ public class UserEntity {
 	}
 
 	public UserEntity(NewUserForm user) {
-		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME,createCode());
+		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME,generateCode());
 	}
 
-	
-	private String generateCode() {
+	@Transient
+	private static String generateCode() {
 		return Constants.DEFAULT_VERIFICATION_CODE;
 	}
 
