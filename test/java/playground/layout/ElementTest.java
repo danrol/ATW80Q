@@ -72,9 +72,7 @@ public class ElementTest {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element = new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
-		element.setName("name");
-		element.setExpirationDate(new Date(2200,1,1));
+		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
 		UserEntity user = new UserEntity("user","mail@mail.com","ava",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		userService.addUser(user);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url+"/playground/elements/{playground}/{email}", new ElementTO(element),ElementTO.class,Constants.PLAYGROUND_NAME, "mail@mail.com");
@@ -87,7 +85,7 @@ public class ElementTest {
 	public void testPOSTNewElementWithNoCreatorIsAdded() {
 		
 		String playground="playground",creatorPlayground="creator",id="";
-		ElementEntity element =new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element =new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
 		
 		elementService.addElement(element);
 		assertThat(!elementService.getElements().contains(element));
@@ -96,11 +94,11 @@ public class ElementTest {
 	public void testPOSTElementsThatAllRedyInDatabase() {
 		
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[0]=new ElementEntity("1",name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity("2",name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[2]=new ElementEntity("3",name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
@@ -120,11 +118,11 @@ public class ElementTest {
 		 * Then: all elements are saved in the database.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[0]=new ElementEntity("1",name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity("2",name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity("3",name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
@@ -141,11 +139,11 @@ public class ElementTest {
 		 * Then: all elements are saved in the database.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,2"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[0]=new ElementEntity("1",name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity("2",name,playground,creatorPlayground,new Location("3,2"));
+		arrElements[2]=new ElementEntity("3",name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
@@ -161,11 +159,11 @@ public class ElementTest {
 		 * Then: a new element is saved in the serviceElement.
 		 */
 		
-		String playground="playground",creatorPlayground="creator",name="nameOfElement:(english hei 7)";
+		String playground="playground",creatorPlayground="creator",name="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[1]=new ElementEntity(name,playground,creatorPlayground,new Location("3,1"));
-		arrElements[2]=new ElementEntity(name,playground,creatorPlayground,new Location("3,3"));
+		arrElements[0]=new ElementEntity("1",name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[1]=new ElementEntity("2",name,playground,creatorPlayground,new Location("3,1"));
+		arrElements[2]=new ElementEntity("3",name,playground,creatorPlayground,new Location("3,3"));
 		
 		
 		elementService.addElements(arrElements, playground);
@@ -183,9 +181,9 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity elementForTestEntity = 
-				new ElementEntity("123", "playground", "email@email.com",new Location(0,1));
+				new ElementEntity("123", "name","playground", "email@email.com",new Location(0,1));
 		elementService.addElement(elementForTestEntity);
-		elementService.DBToString();
+		elementService.printElementDB();
 
 		
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -208,7 +206,7 @@ public class ElementTest {
 		
 		// 6.2
 		ElementEntity elementEntityForTest = 
-				new ElementEntity("123", "playground", "email@email.com",new Location(0,1));
+				new ElementEntity("123", "name","playground", "email@email.com",new Location(0,1));
 		ElementTO elementForTest = new ElementTO(elementEntityForTest);
 		
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  elementForTest, "userPlayground", 
@@ -220,7 +218,7 @@ public class ElementTest {
 		
 		//6.3
 		ElementEntity updatedElementForTestEntity = 
-				new ElementEntity("123", "userPlayground", "wrong@email.com",new Location(0,1));
+				new ElementEntity("123", "name", "userPlayground", "wrong@email.com",new Location(0,1));
 		elementService.addElement(updatedElementForTestEntity);
 		
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
@@ -261,7 +259,7 @@ public class ElementTest {
 		*/
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(1,7));
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.ELEMENT_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(1,7));
 		this.userService.addUser(u);
 		this.elementService.addElement(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.PLAYGROUND_NAME,"elementIdTest");
@@ -281,7 +279,7 @@ public class ElementTest {
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(5,7));
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.ELEMENT_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(5,7));
 		this.elementService.addElement(element);
 		
 		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
@@ -301,7 +299,7 @@ public class ElementTest {
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity("elementIdTest",Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));
+		ElementEntity element = new ElementEntity("elementIdTest",Constants.ELEMENT_NAME,Constants.PLAYGROUND_NAME,"elementTest@gmail.com", new Location(4,3));
 		this.elementService.addElement(element);
 		
 		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}", ElementTO.class, Constants.PLAYGROUND_NAME,"userTestWrong@gmail.com",Constants.PLAYGROUND_NAME,"elementIdTest");
@@ -318,8 +316,8 @@ public class ElementTest {
 		boolean flag=true;
 		String playground="playground",creatorPlayground="creator",id="nameOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
-		arrElements[1]=new ElementEntity(id,playground,creatorPlayground,new Location("2,1"));
+		arrElements[0]=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("2,1"));
 		
 		elementService.addElements(arrElements, playground);
 		for(int i=0;i<arrElements.length;i++) {
@@ -344,8 +342,8 @@ public class ElementTest {
 		boolean flag=true;
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity[] arrElements=new ElementEntity[3];
-		arrElements[0]=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
-		arrElements[1]=new ElementEntity(id,playground,creatorPlayground,new Location("2,1"));
+		arrElements[0]=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
+		arrElements[1]=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("2,1"));
 		
 		elementService.addElements(arrElements, playground);
 		elementService.getAllElements();
@@ -360,12 +358,12 @@ public class ElementTest {
 		
 		boolean flag=false;
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element1=new ElementEntity(id,playground,creatorPlayground,new Location("0,0"));
-		ElementEntity element2=new ElementEntity(id,playground,creatorPlayground,new Location("0,1"));
-		ElementEntity element3=new ElementEntity(id,playground,creatorPlayground,new Location("3,7"));
-		ElementEntity element4=new ElementEntity(id,playground,creatorPlayground,new Location("5,7"));
-		ElementEntity element5=new ElementEntity(id,playground,creatorPlayground,new Location("0,7"));
-		ElementEntity element6=new ElementEntity(id,playground,creatorPlayground,new Location("7,7"));
+		ElementEntity element1=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("0,0"));
+		ElementEntity element2=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("0,1"));
+		ElementEntity element3=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("3,7"));
+		ElementEntity element4=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("5,7"));
+		ElementEntity element5=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("0,7"));
+		ElementEntity element6=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("7,7"));
 		elementService.addElement(element1);
 		elementService.addElement(element2);
 		elementService.addElement(element3);
@@ -374,7 +372,6 @@ public class ElementTest {
 		elementService.addElement(element6);
 		double distance=7;
 		ElementEntity[] arr= elementService.getAllElementsInRadius(element1,element1.getLocation().getX(),element1.getLocation().getY(),distance, 0, 10);
-		System.err.println("elia test 9 :"+arr.length);
 		if(arr.length == 3) {
 			flag=true;
 		}
@@ -385,7 +382,7 @@ public class ElementTest {
 	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
 		double distance=-1;
 		elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10);
 	}
@@ -395,7 +392,7 @@ public class ElementTest {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element=new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element=new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2"));
 		double distance=0;
 		assertThat(elementService.getAllElementsInRadius(element,element.getLocation().getX(),element.getLocation().getY(),distance, 0, 10)).contains(element);
 	}
@@ -415,7 +412,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123",Constants.ELEMENT_NAME, 
 				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
 		
 		elementForTest[0].setCreatorPlayground("creatorPlayground");
@@ -445,7 +442,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123",Constants.ELEMENT_NAME, 
 				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
 		
 		elementForTest[0].setCreatorPlayground("creatorPlayground");
@@ -472,7 +469,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123", 
+		ElementTO[] elementForTest = {new ElementTO(new ElementEntity("123",Constants.ELEMENT_NAME, 
 				"userPlayground", "nudnik@mail.ru", new Location(1,0)))};
 		
 		elementForTest[0].setCreatorPlayground("creatorPlayground");

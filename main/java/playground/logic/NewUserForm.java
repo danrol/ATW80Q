@@ -19,18 +19,12 @@ public class NewUserForm implements Serializable {
 	private String username;
 	private String avatar;
 	private String role;
-	//TODO DELETE playground and verificationCode
-	//TODO in UserEnitity delete logic from constructor 
-//	private String playground;
-	private String verificationCode;
 
 	public NewUserForm() {
 		this.email = "default";
 		this.username = "random";
 		this.avatar = "ava";
 		this.role = "no";
-//		this.playground = Constants.PLAYGROUND_NAME;
-		this.setVerificationCode(createVerificationCode());
 	}
 
 	public NewUserForm(String email, String username, String avatar, String role) {
@@ -100,12 +94,6 @@ public class NewUserForm implements Serializable {
 				+  "]";
 	}
 
-	public String getVerificationCode() {
-		return verificationCode;
-	}
 
-	public void setVerificationCode(String verificationCode) {
-		this.verificationCode = verificationCode;
-	}
 
 }

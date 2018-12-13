@@ -22,6 +22,7 @@ public interface UserService {
 
 	void addUser(NewUserForm user);
 	
-	public void DBToString();
+	void printUserDB();
+	
 
 }

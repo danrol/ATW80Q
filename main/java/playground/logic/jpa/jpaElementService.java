@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import playground.Constants;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
 
-//elia:
-//to switch the service we need firstly to go to DummyElementService and remove the @Service there
 @Service
 public class jpaElementService implements ElementService {
 
@@ -46,13 +46,13 @@ public class jpaElementService implements ElementService {
 	private void addDummyValues() {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 
-		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("1,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("1,2")));
 
-		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("2,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("2,2")));
 
-		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("4,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("4,2")));
 
-		this.addElement(new ElementEntity(id,playground,creatorPlayground,new Location("5,2")));
+		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,new Location("5,2")));
 		
 		
 	}
@@ -233,7 +233,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transient
-	public void DBToString() {
+	public void printElementDB() {
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
 		try {
 			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();

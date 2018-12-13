@@ -62,8 +62,7 @@ public class DummyUserService implements UserService{
 		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
-				UserEntity userEnt = new UserEntity(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
-				users.add(userEnt);
+				users.add(new UserEntity(user));
 		}
 	}
 	
@@ -168,7 +167,7 @@ public class DummyUserService implements UserService{
 	}
 
 	@Override
-	public void DBToString() {
+	public void printUserDB() {
 		// TODO Auto-generated method stub
 		
 	}

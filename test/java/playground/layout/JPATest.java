@@ -68,7 +68,7 @@ public class JPATest {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element = new ElementEntity(id,playground,creatorPlayground,new Location("1,2"));
+		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME, playground,creatorPlayground,new Location("1,2"));
 		element.setName("name");
 		element.setExpirationDate(new Date(2200,1,1));
 		elementService.addElement(element);

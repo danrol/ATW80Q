@@ -10,7 +10,7 @@ public class Constants {
 	public static String PLAYER_ROLE = "PLAYER";
 	public static String UNDEFINED_ROLE = "NO_ROLE";
 	public static String ELEMENT_NAME = "DEFAULT_ELEMENT_NAME";
-
+	
 
 	public static String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
 	public static String MESSAGEBOARD = "MESSAGE_BOARD";
@@ -26,7 +26,11 @@ public class Constants {
 	public static String ID_FOR_TESTS = "308748323";
 	public static String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	public static String AVATAR_FOR_TESTS = "MyAvatar.jpg";
-
+	public static int DEFAULT_EXPIRATION_YEAR;
+	public static int DEFAULT_EXPIRATION_MONTH;
+	public static int DEFAULT_EXPIRATION_DAY;
+	
+	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Constants.PLAYGROUND_NAME = defaultPlaygroundName;
@@ -35,6 +39,21 @@ public class Constants {
 	@Value("${playground.default.username:noname}")
 	public void setDefaultUsername(String defaultUsername) {
 		Constants.DEFAULT_USERNAME = defaultUsername;
+	}
+	
+	@Value("${playground.default.exp.month:1}")
+	public void setDefaultExpMonth(int DEFAULT_EXPIRATION_MONTH) {
+		Constants.DEFAULT_EXPIRATION_MONTH = DEFAULT_EXPIRATION_MONTH;
+	}
+	
+	@Value("${playground.default.exp.year:3000}")
+	public void setDefaultExpYear(int DEFAULT_EXPIRATION_YEAR) {
+		Constants.DEFAULT_EXPIRATION_YEAR = DEFAULT_EXPIRATION_YEAR;
+	}
+	
+	@Value("${playground.default.exp.day:1}")
+	public void setDefaultExpDay(int DEFAULT_EXPIRATION_DAY) {
+		Constants.DEFAULT_EXPIRATION_DAY = DEFAULT_EXPIRATION_DAY;
 	}
 
 	public Constants() {

@@ -44,6 +44,15 @@ public class UserEntity {
 		setVerificationCode(code);
 	}
 
+	public UserEntity(NewUserForm user) {
+		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME,createCode());
+	}
+
+	
+	private String generateCode() {
+		return Constants.DEFAULT_VERIFICATION_CODE;
+	}
+
 	@Id
 	public String getSuperkey() {
 		return superkey;
@@ -58,7 +67,7 @@ public class UserEntity {
 	}
 	@Transient
 	public static String setSuperkey(String string1, String string2) {
-		return string1.concat(string2);
+		return string1.concat(" " + string2);
 	}
 
 	public String getVerificationCode() {

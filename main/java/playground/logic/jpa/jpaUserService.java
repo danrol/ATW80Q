@@ -19,18 +19,15 @@ import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
-//Elia:
-// to switch the service we need firstly to go to DummyUserService and remove the @Service there
-
 @Service
 public class jpaUserService implements UserService {
-	
-	//this is the database we need are saving in
+
+	// this is the database we need are saving in
 	private UserDao userDB;
-	
+
 	@Autowired
-	public jpaUserService(UserDao userDB){
-		this.userDB=userDB;
+	public jpaUserService(UserDao userDB) {
+		this.userDB = userDB;
 	}
 
 	@Override
@@ -39,29 +36,29 @@ public class jpaUserService implements UserService {
 		ArrayList<UserEntity> copy = new ArrayList<UserEntity>();
 		try {
 			Iterator<UserEntity> iter = (Iterator<UserEntity>) userDB.findAll();
-			
+
 			while (iter.hasNext())
-			    copy.add(iter.next());
-		}catch (Exception e) {
+				copy.add(iter.next());
+		} catch (Exception e) {
 			System.out.println("User conversion failed.");
 		}
-		return  copy;
+		return copy;
 	}
 
 	@Override
 	@Transactional
 	public UserEntity addUser(UserEntity user) {
 		UserEntity result = new UserEntity();
-		if(userDB.existsById(user.getSuperkey())) {
+		if (userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User already registered");
-		}else {
-			
-				userDB.save(user);
-				result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
-				System.err.println("Database in jpa" + userDB.findAll().toString());
-				System.err.println("user:"+user.toString()+"/n failed to be saves in the database");
+		} else {
+
+			userDB.save(user);
+			result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
+			System.err.println("Database in jpa" + userDB.findAll().toString());
+			System.err.println("User:" + user.toString() + "/n could not be saved to database.\n");
 		}
-		
+
 		return result;
 	}
 
@@ -69,74 +66,67 @@ public class jpaUserService implements UserService {
 	@Transactional
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(email, playground);
-		
-		if(user !=null) {
-			//TODO remove if. added playground check to getUser
-			if(user.getVerificationCode().equals(""))
-				return user;	//User already confirmed
-		else if(user.getPlayground().equals(playground))
-			{
+
+		if (user != null) {
+			if (user.getVerificationCode().equals(""))
+				return user; // User already confirmed
+			else if (user.getPlayground().equals(playground)) {
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
 					user.verifyUser();
 				else
-						throw new ConfirmException("Invalid verification code");
+					throw new ConfirmException("Invalid verification code");
+			} else {
+				throw new ConfirmException("User: " + user.getEmail() + " does not belong to the specified playground ("
+						+ playground + ")");
 			}
-				else
-			{
-					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
-			}
+		} else {
+			throw new ConfirmException("Email is not registered.");
 		}
-			else
-			{
-				throw new ConfirmException("Email is not registered.");
-			}
 		return user;
 	}
 
 	@Override
 	public void cleanUserService() {
 		userDB.deleteAll();
-		
+
 	}
 
 	@Override
 	@Transactional
 	public void updateUser(UserEntity user) {
-		if(userDB.existsById(user.getSuperkey())) {
+		if (userDB.existsById(user.getSuperkey())) {
 			try {
 				userDB.deleteById(user.getSuperkey());
 				userDB.save(user);
-			}catch (Exception e) {
+			} catch (Exception e) {
 				System.out.println("failed to update user" + user.toString());
 			}
-			
+
 		}
-		
+
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public UserEntity getUser(String email, String playground) {
-		Optional<UserEntity> el=userDB.findById(UserEntity.setSuperkey(email, playground));
-		if(el.isPresent()) {
+		Optional<UserEntity> el = userDB.findById(UserEntity.setSuperkey(email, playground));
+		if (el.isPresent()) {
 			try {
 				return el.get();
-			}catch (Exception e) {
-				System.out.println("user:"+el.toString()+"/n faild to load from database");
+			} catch (Exception e) {
+				System.out.println("user:" + el.toString() + "/n failed to load from database");
 			}
-			
+
 		}
 		return null;
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public UserEntity login(String playground, String email) {
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
-			System.err.println(u);
-			//System.err.println(u.isVerified());
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
 					return u;
@@ -151,40 +141,16 @@ public class jpaUserService implements UserService {
 			throw new LoginException("Email is not registered.");
 		}
 	}
-	/**
-	 * if(user !=null) {
-			//TODO remove if. added playground check to getUser
-			if(user.getVerificationCode().equals(""))
-				return user;	//User already confirmed
-		else if(user.getPlayground().equals(playground))
-			{
-				String VerificationCode = user.getVerificationCode();
-				if (VerificationCode.equals(code))
-					user.verifyUser();
-				else
-						throw new ConfirmException("Invalid verification code");
-			}
-				else
-			{
-					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
-			}
-		}
-			else
-			{
-				throw new ConfirmException("Email is not registered.");
-			}
-		return user;
-	 */
+
 
 	@Override
 	@Transactional
 	public void updateUser(UserEntity user, String email, String playground) {
 		login(playground, email);
 		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
-			if(user.getEmail().equals(email)) {
+			if (user.getEmail().equals(email)) {
 				updateUser(user);
-			}
-			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
+			} else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
 				updateUser(user);
 			} else {
 				throw new ChangeUserException("Moderator cannot change other moderator user");
@@ -196,9 +162,9 @@ public class jpaUserService implements UserService {
 				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
 			}
 		} else {
-			throw new ChangeUserException("invalid role " + getUser(email, playground).getRole());
+			throw new ChangeUserException("Invalid role " + getUser(email, playground).getRole());
 		}
-		
+
 	}
 
 	@Override
@@ -207,26 +173,28 @@ public class jpaUserService implements UserService {
 		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
-				UserEntity userEnt = new UserEntity(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
-				addUser(userEnt);
+			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),
+					Constants.PLAYGROUND_NAME);
+			addUser(userEnt);
 		}
-			
+
 	}
+
 	@Override
-	public void DBToString() {
+	@Transactional(readOnly=true)
+	public void printUserDB() {
 		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
 		try {
 			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) userDB.findAll();
 			while (iter.hasNext())
-			    copy.add(iter.next());
-		}catch (Exception e) {
-			
+				copy.add(iter.next());
+		} catch (Exception e) {
+
 		}
 		System.err.println("DB-TEST:all users in database");
-		for(ElementEntity e:copy) {
+		for (ElementEntity e : copy) {
 			System.out.println(e.toString());
 		}
 	}
-	
 
 }

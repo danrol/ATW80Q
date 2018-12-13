@@ -4,10 +4,9 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -29,17 +28,17 @@ import playground.Constants;
 public class ElementEntity {
 
 	private static final long serialVersionUID = 1L;
-	protected String name;
-	protected String id;
-	protected String playground;
-	protected Date creationDate;
-	protected Date expirationDate = new Date(2200,1,1);
-	protected String type = Constants.ELEMENT_DEFAULT_TYPE;
-	protected String creatorPlayground;
-	protected String creatorEmail;
-	protected Location location = new Location();
-	protected Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
-	protected String superkey;
+	private String name;
+	private String id;
+	private String playground;
+	private Date creationDate;
+	private Date expirationDate;
+	private String type = Constants.ELEMENT_DEFAULT_TYPE;
+	private String creatorPlayground;
+	private String creatorEmail;
+	private Location location = new Location();
+	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
+	private String superkey;
 
 	public boolean attributeExists(String attributeName, String value) {
 		switch (attributeName) {
@@ -68,6 +67,8 @@ public class ElementEntity {
 
 	public ElementEntity() {
 		this.location = new Location();
+		this.expirationDate = new Date(2200,1,1);
+		this.creationDate = new Date();
 	}
 
 //	create constructors that receive just a JSon 
@@ -75,7 +76,7 @@ public class ElementEntity {
 	public ElementEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
-		this.name = Constants.ELEMENT_NAME;
+		this.name = elEntity.name;
 		this.id = elEntity.id;
 		this.playground = elEntity.playground;
 		this.creationDate = elEntity.creationDate;
@@ -87,15 +88,15 @@ public class ElementEntity {
 
 	}
 
-	public ElementEntity(String id, String playground, String email, Location xy) {
+	public ElementEntity(String id,String name, String playground, String email, Location xy) {
 		// this constructor is used for
 		// /playground/elements/{userPlayground}/{email}/{playground}/{id}
 		// which won't pass expirationDate, name, type and location
 		// TODO add expirationDate, location implementation
-		super();
+		
+		this();
 		this.id = id;
 		this.playground = playground;
-		this.creationDate = new Date();
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setLocation(xy);

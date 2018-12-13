@@ -185,7 +185,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void DBToString() {
+	public void printElementDB() {
 		// TODO Auto-generated method stub
 		
 	}
