@@ -177,17 +177,18 @@ public class ElementTest {
 		
 		// 6.1
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", 
-				"PLAYER", "userPlayground");
+				"PLAYER", "playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity elementForTestEntity = 
 				new ElementEntity("123", "name","playground", "email@email.com",0,1);
+		userService.printUserDB();
 		elementService.addElement(elementForTestEntity);
 		elementService.printElementDB();
 
 		
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
-		updatedElementForTestTO.setName("changed name");
+		updatedElementForTestTO.setName("changedName");
 		
 		
 		this.restTemplate.put(this.url+"/playground/elements/{userPlayground}/{email}/{playground}/{id}",  updatedElementForTestTO, "userPlayground", 

@@ -18,6 +18,7 @@ import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.Location;
+import playground.logic.UserEntity;
 
 @Service
 public class jpaElementService implements ElementService {
@@ -234,18 +235,15 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transient
 	public void printElementDB() {
-		ArrayList<ElementEntity> copy = new ArrayList<ElementEntity>();
-		try {
-			Iterator<ElementEntity> iter = (Iterator<ElementEntity>) elementsDB.findAll();
-			while (iter.hasNext())
-				copy.add(iter.next());
-		} catch (Exception e) {
+		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 
-		}
+		for(ElementEntity e: elementsDB.findAll())
+				lst.add(e);
+
 		System.err.println("DB-TEST:all elements in database");
-		for (ElementEntity e : copy) {
+		for (ElementEntity e : lst) {
 			System.out.println(e.toString());
 		}
+		System.out.println("\n");
 	}
-
 }

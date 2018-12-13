@@ -102,6 +102,7 @@ public class ElementEntity {
 		
 		this();
 		this.id = id;
+		this.name = name;
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
