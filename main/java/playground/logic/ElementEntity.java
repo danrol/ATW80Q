@@ -44,30 +44,7 @@ public class ElementEntity {
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	private String superkey;
 
-	public boolean attributeExists(String attributeName, String value) {
-		switch (attributeName) {
-		case "name":
-			return name.equals(value);
-		case "id":
-			return id.equals(value);
-		case "playground":
-			return playground.equals(value);
-		case "type":
-			return type.equals(value);
-		case "creatorPlayground":
-			return creatorPlayground.equals(value);
-		case "creatorEmail":
-			return creatorEmail.equals(value);
 
-		case "creationDate":
-			return (new Date(value)).equals(creationDate);
-		case "expirationDate":
-			return (new Date(value)).equals(expirationDate);
-//		case "location":
-//			return (new Location(value)).equals(location);
-		}
-		return false;
-	}
 
 	public ElementEntity() {
 //		this.location = new Location();
@@ -112,6 +89,33 @@ public class ElementEntity {
 		setSuperkey();
 	}
 	
+	
+	public boolean attributeExists(String attributeName, String value) {
+		switch (attributeName) {
+		case "name":
+			return name.equals(value);
+		case "id":
+			return id.equals(value);
+		case "playground":
+			return playground.equals(value);
+		case "type":
+			return type.equals(value);
+		case "creatorPlayground":
+			return creatorPlayground.equals(value);
+		case "creatorEmail":
+			return creatorEmail.equals(value);
+
+		case "creationDate":
+			return (new Date(value)).equals(creationDate);
+		case "expirationDate":
+			return (new Date(value)).equals(expirationDate);
+//		case "location":
+//			return (new Location(value)).equals(location);
+		}
+		return false;
+	}
+	
+	
 	@Id
 	public String getSuperkey() {
 		return superkey;
@@ -122,7 +126,7 @@ public class ElementEntity {
 	}
 	
 	public void setSuperkey() {
-		superkey = setSuperkey(creatorEmail, playground);
+		superkey = setSuperkey(id, playground);
 	}
 	
 	@Transient
@@ -154,17 +158,6 @@ public class ElementEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-//	@Transient
-//	public Location getLocation() {
-//		return location;
-//	}
-//
-//	public void setLocation(Location location) {
-//		if (location != null)
-//			this.location = location;
-//		else
-//			throw new RuntimeException("Location is null");
-//	}
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreationDate() {
@@ -261,6 +254,3 @@ public class ElementEntity {
 		return serialVersionUID;
 	}
 }
-//elia:
-//problems:Dates could not be saved in the database as an object
-//problems:Locations could not be saved in the database as an object

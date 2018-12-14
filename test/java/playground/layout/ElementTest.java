@@ -75,7 +75,7 @@ public class ElementTest {
 	public void TestSaveElementInDatabase() {
 		
 		
-		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		String playground="playground",creatorPlayground="creatorPlayground",id="idOfElement";
 		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,1,2);
 		UserEntity user = new UserEntity("user","mail@mail.com","ava",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		userService.addUser(user);

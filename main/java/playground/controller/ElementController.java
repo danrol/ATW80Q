@@ -40,7 +40,6 @@ public class ElementController {
 	public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		// function 5
 
-		
 		elementService.addElement(element.toEntity(), userPlayground, email);
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
@@ -54,10 +53,8 @@ public class ElementController {
 		 * OUTPUT: NONE
 		 */
 
-		System.out.println("Entered update");
 		userService.login(userPlayground, email);
 		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), email, playground);
-		System.out.println("updatePerformed");
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
