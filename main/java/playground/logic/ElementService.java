@@ -13,7 +13,7 @@ public interface ElementService {
 	
 	public boolean isElementInDatabase(ElementEntity element);
 
-	public void addElements(ElementEntity[] elements, String userPlayground);
+	public void addElements(ElementEntity[] elements, String userPlayground, String email);
 
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail, String playground);
 
@@ -26,7 +26,7 @@ public interface ElementService {
 
 	ElementEntity getElement(String id, String playground);
 
-	void addElement(ElementEntity element);
+	void addElement(ElementEntity element, String userPlayground, String email);
 
 	ArrayList<ElementEntity> getElements();
 

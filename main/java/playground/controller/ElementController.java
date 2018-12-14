@@ -40,8 +40,8 @@ public class ElementController {
 	public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		// function 5
 
-		userService.login(userPlayground,email);
-		elementService.addElement(element.toEntity());
+		
+		elementService.addElement(element.toEntity(), userPlayground, email);
 		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
 	}
 
@@ -90,8 +90,7 @@ public class ElementController {
 			@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 
 		//function 8
-		userService.login(userPlayground,email);
-		elementService.addElements(getElementTOArray(element), userPlayground);
+		elementService.addElements(getElementTOArray(element), userPlayground, email);
 		return getElementTOArray(elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email, page, size));	
 	}
 

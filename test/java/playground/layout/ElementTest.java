@@ -28,13 +28,15 @@ public class ElementTest {
 	private RestTemplate restTemplate;
 
 	private ElementService elementService;
-	private UserService userService;
+
 
 	@Autowired
 	public void setElementService(ElementService elementService) {
 		this.elementService = elementService;
 	}
 
+	private UserService userService;
+	
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -66,9 +68,11 @@ public class ElementTest {
 	}
 	
 	//******************************************************************************************//
-	// url #5 /playground/elements/{userPlayground }/{email}  starts 
+	// url #5 /playground/elements/{userPlayground }/{email} 
+	
+	//5.1 Scenario: Test Save element in database
 	@Test
-	public void testPOSTNewElementIsAddedToDatabase() {
+	public void TestSaveElementInDatabase() {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";

@@ -2,11 +2,12 @@ package playground.logic.stubs;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import playground.exceptions.ElementDataException;
-import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserService;
 
 //@Service
 public class DummyElementService implements ElementService {
@@ -16,6 +17,14 @@ public class DummyElementService implements ElementService {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static ArrayList<ElementEntity> elements = new ArrayList<ElementEntity>();
+	
+	private UserService userService;
+	
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
 
 	@Override
 	public ArrayList<ElementEntity> getElements() {
@@ -27,16 +36,17 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void addElement(ElementEntity element) {
+	public void addElement(ElementEntity element, String userPlayground, String email) {
+		userService.login(userPlayground,email);
 		elements.add(element);
 	}
 
 	@Override
-	public void addElements(ElementEntity[] elements,String  Playground) {
+	public void addElements(ElementEntity[] elements,String playground, String email) {
 
 		for (int i=0;i<elements.length;i++)
 		{
-			addElement(elements[i]);
+			addElement(elements[i], playground, email);
 		}
 
 

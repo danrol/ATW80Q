@@ -14,6 +14,7 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserService;
 
 
 @Service
@@ -22,11 +23,20 @@ public class jpaElementService implements ElementService {
 	// this is the database we need are saving in
 	private ElementDao elementsDB;
 
+	private UserService userService;
+	
 	@Autowired
 	public jpaElementService(ElementDao elementsDB) {
 		this.elementsDB = elementsDB;
 
 	}
+	
+	
+	@Autowired
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	
 
 	@Override
 	public void cleanElementService() {
@@ -43,13 +53,13 @@ public class jpaElementService implements ElementService {
 	private void addDummyValues() {
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,1,2 ));
+		this.addElement(new ElementEntity(id + "1",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,1,2 ));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,2,2));
+		this.addElement(new ElementEntity(id + "2",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,2,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS, 4,2));
+		this.addElement(new ElementEntity(id + "3",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS, 4,2));
 
-		this.addElement(new ElementEntity(id,Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,5,2));
+		this.addElement(new ElementEntity(id + "4",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,5,2));
 		
 		
 	}
@@ -87,9 +97,9 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void addElements(ElementEntity[] elements, String userPlayground) {
+	public void addElements(ElementEntity[] elements, String userPlayground, String email) {
 		for (int i = 0; i < elements.length; i++) {
-			addElement(elements[i]);
+			addElement(elements[i],userPlayground, email );
 		}
 
 	}
@@ -192,7 +202,8 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void addElement(ElementEntity element) {
+	public void addElement(ElementEntity element, String userPlayground, String email) {
+		userService.login(userPlayground, email);
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database:" + element.toString());
 		} else {
