@@ -27,6 +27,8 @@ public interface ElementService {
 
 	void addElement(ElementEntity element, String userPlayground, String email);
 
+	void addElementNoLogin(ElementEntity element);
+
 	ArrayList<ElementEntity> getElements();
 
 	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);

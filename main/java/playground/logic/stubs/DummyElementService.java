@@ -37,7 +37,7 @@ public class DummyElementService implements ElementService {
 	@Override
 	public void addElement(ElementEntity element, String userPlayground, String email) {
 		userService.login(userPlayground, email);
-		elements.add(element);
+		addElementNoLogin(element);
 	}
 
 	@Override
@@ -190,6 +190,11 @@ public class DummyElementService implements ElementService {
 	public void printElementDB() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void addElementNoLogin(ElementEntity element) {
+		elements.add(element);
 	}
 
 }

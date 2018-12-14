@@ -170,11 +170,9 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	public void addElement(ElementEntity element, String userPlayground, String email) {
 		userService.login(userPlayground, email);
-		if (elementsDB.existsById(element.getSuperkey())) {
-			System.out.println("already exist in database:" + element.toString());
-		} else {
-			elementsDB.save(element);
-		}
+		
+		addElementNoLogin(element);
+
 
 	}
 
@@ -231,5 +229,14 @@ public class jpaElementService implements ElementService {
 			System.out.println(e.toString());
 		}
 		System.out.println("\n");
+	}
+
+	@Override
+	public void addElementNoLogin(ElementEntity element) {
+		if (elementsDB.existsById(element.getSuperkey())) {
+			System.out.println("already exist in database:" + element.toString());
+		} else {
+			elementsDB.save(element);
+		}
 	}
 }
