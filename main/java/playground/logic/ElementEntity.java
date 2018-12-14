@@ -72,11 +72,6 @@ public class ElementEntity {
 	}
 
 	public ElementEntity(String id,String name, String playground, String email, double x, double y) {
-		// this constructor is used for
-		// /playground/elements/{userPlayground}/{email}/{playground}/{id}
-		// which won't pass expirationDate, name, type and location
-		// TODO add expirationDate, location implementation
-		
 		this();
 		this.id = id;
 		this.name = name;

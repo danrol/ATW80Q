@@ -15,7 +15,6 @@ public interface ElementService {
 
 	public void addElements(ElementEntity[] elements, String userPlayground, String email);
 
-	void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail, String playground);
 
 	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
 			String value, int page, int size);
@@ -24,7 +23,7 @@ public interface ElementService {
 
 	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size);
 
-	ElementEntity getElement(String id, String playground);
+	ElementEntity getElement(String id, String playground, String userPlayground, String email);
 
 	void addElement(ElementEntity element, String userPlayground, String email);
 
@@ -32,10 +31,15 @@ public interface ElementService {
 
 	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);
 
-	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground);
-
 	ElementEntity[] getAllElements();
 	public void printElementDB() ;
 
-	ElementEntity getElement(String superkey);
+	ElementEntity getElement(String superkeyd, String userPlayground, String email);
+
+
+
+	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground, String userPlayground,
+			String email);
+
+	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email);
 }

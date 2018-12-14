@@ -37,39 +37,36 @@ public class ElementController {
 	
 
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO setUser (@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
+	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
 		// function 5
 
 		elementService.addElement(element.toEntity(), userPlayground, email);
-		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getCreatorPlayground()));
+		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getCreatorPlayground(),userPlayground,email));
 		return elementT;
 	}
 
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void updateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String playground,
+			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String creatorPlayground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
 
-		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(),email,userPlayground);
+		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(),id,creatorPlayground,userPlayground,email);
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String playground,@PathVariable("id") String id) 
+	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String creatorPlayground,@PathVariable("id") String id) 
 	{
 		/* function 7
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-		userService.login(userPlayground,email);
-		//if login succeeded, get element
-		element = elementService.getElement(id, playground);
-		if(element == null)
-			throw new RuntimeException("Could not find specified element (id=" + id +") in " + playground);
+
+		element = elementService.getElement(id, creatorPlayground, userPlayground, email);
 
 		return new ElementTO(element);
 	}

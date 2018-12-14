@@ -25,30 +25,6 @@ public class ElementTO implements Serializable {
 	protected Map<String, Object> attributes;
 
 	
-	//TODO MOVE THIS
-	public boolean attributeExists(String attributeName, String value) {
-		switch (attributeName) {
-		case "name":
-			return name.equals(value);
-		case "id":
-			return id.equals(value);
-		case "playground":
-			return playground.equals(value);
-		case "type":
-			return type.equals(value);
-		case "creatorPlayground":
-			return creatorPlayground.equals(value);
-		case "creatorEmail":
-			return creatorEmail.equals(value);
-		case "creationDate":
-			return (new Date(value)).equals(creationDate);
-		case "expirationDate":
-			return (new Date(value)).equals(expirationDate);
-		case "location":
-			return (new Location(value)).equals(location);
-		}
-		return false;
-	}
 
 	public ElementTO(ElementEntity e) {
 		this.setName(e.getName());

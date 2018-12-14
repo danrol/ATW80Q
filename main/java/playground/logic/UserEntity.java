@@ -163,6 +163,3 @@ public class UserEntity {
 	}
 
 }
-// elia:
-// there is a problem with functions in hibernate :becuse the object is en entity ,in class functions must be ignored
-//another problem is to understend what exactly is the key in the database of USERS

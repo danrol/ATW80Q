@@ -17,14 +17,13 @@ public class DummyElementService implements ElementService {
 	 */
 	private static final long serialVersionUID = 1L;
 	private static ArrayList<ElementEntity> elements = new ArrayList<ElementEntity>();
-	
+
 	private UserService userService;
-	
+
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
 
 	@Override
 	public ArrayList<ElementEntity> getElements() {
@@ -37,37 +36,38 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public void addElement(ElementEntity element, String userPlayground, String email) {
-		userService.login(userPlayground,email);
+		userService.login(userPlayground, email);
 		elements.add(element);
 	}
 
 	@Override
-	public void addElements(ElementEntity[] elements,String playground, String email) {
+	public void addElements(ElementEntity[] elements, String playground, String email) {
 
-		for (int i=0;i<elements.length;i++)
-		{
+		for (int i = 0; i < elements.length; i++) {
 			addElement(elements[i], playground, email);
 		}
 
-
 	}
 
 	@Override
-	public ElementEntity getElement(String id, String CreatorPlayground) {
-		return getElement(ElementEntity.setSuperkey(id, CreatorPlayground));
+	public ElementEntity getElement(String id, String CreatorPlayground, String userPlayground, String email) {
+
+		return getElement(ElementEntity.setSuperkey(id, CreatorPlayground), userPlayground, email);
 	}
 
 	@Override
-	public ElementEntity getElement(String superkey) {
+	public ElementEntity getElement(String superkey, String userPlayground, String email) {
+		userService.login(userPlayground, email);
 		for (ElementEntity e : elements) {
 			if (e.getSuperkey().equals(superkey))
 				return e;
 		}
 		throw new RuntimeException("Could not find specified element (superkey=" + superkey);
 	}
-	
+
 	@Override
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size) {
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
+			int size) {
 		ArrayList<ElementEntity> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
@@ -77,8 +77,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public boolean checkEmailAndPlaygroundInElement(ElementEntity element,
-			String creatorPlayground, String creatorEmail) {
+	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
+			String creatorEmail) {
 		if (element.getCreatorPlayground() == creatorPlayground && element.getCreatorEmail() == creatorEmail)
 			return true;
 		else
@@ -88,35 +88,30 @@ public class DummyElementService implements ElementService {
 	@Override
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
 			String attributeName, String value, int page, int size) {
-		// TODO Auto-generated method stub
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-		System.out.println("Entered get elements with value in attr");
 		for (ElementEntity element : elements) {
-			if (element.getCreatorPlayground().equals(creatorPlayground) && 
-					element.getCreatorEmail().equals(creatorEmail)
-					&& element.getAttributes().containsKey(attributeName)
+			if (element.getAttributes().containsKey(attributeName)
 					&& element.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(element);
 		}
-		if (tempElementsList.isEmpty())return new ElementEntity[0];
-		else return getElementsBySizeAndPage(tempElementsList, page, size);
+		if (tempElementsList.isEmpty())
+			return new ElementEntity[0];
+		else
+			return getElementsBySizeAndPage(tempElementsList, page, size);
 	}
 
-	//return arrays values depending on page and size
+	// return arrays values depending on page and size
 	@Override
-	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {  
-		return lst
-				.stream()
-				.skip(size * page) 
-				.limit(size) 
-				.collect(Collectors.toList()) 
+	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
+		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
 				.toArray(new ElementEntity[lst.size()]);
 	}
 
-	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
+	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground,
+			String userPlayground, String email) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(el, el.getCreatorEmail(), playground);
+				updateElementInDatabaseFromExternalElement(el, userPlayground, email);
 			}
 
 		} catch (ElementDataException e) {
@@ -126,39 +121,32 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail, 
-			String playground) {
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
 
-		System.out.println("Perform update");
-		System.out.println("Not updated element" + this.getElement(creatorEmail, playground));
-		System.out.println("Updated element" + element);
-		ElementEntity tempElement = this.getElement(creatorEmail, playground);
+		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
 		if (tempElement != null) {
-			System.out.println("Elemnt by id and string" + this.getElement(creatorEmail, playground).toString());
 
-			System.out.println("temp element" + tempElement.toString());
-			System.out.println("element" + element.toString());
 			elements.remove(tempElement);
 			elements.add(element);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 	}
+
 	@Override
 	public boolean isElementInDatabase(ElementEntity element) {
-		if(elements.contains(element)){
+		if (elements.contains(element)) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
-		
+
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 
-			double x, double y, double distance, int page, int size) {
+	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
+			int size) {
 
-		if(distance<0) {
+		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
 		ArrayList<ElementEntity> lst = new ArrayList<>();
@@ -189,23 +177,19 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public ElementEntity[] getAllElements() {
-		ElementEntity[] arr=new ElementEntity[elements.size()];
-		for(int i=0;i<arr.length;i++) {
-			arr[i]=elements.get(i);
+		ElementEntity[] arr = new ElementEntity[elements.size()];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = elements.get(i);
 		}
-		
+
 		return arr;
-		
+
 	}
 
 	@Override
 	public void printElementDB() {
 		// TODO Auto-generated method stub
-		
+
 	}
-
-
-
-
 
 }

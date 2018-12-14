@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import playground.Constants;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
@@ -42,25 +41,8 @@ public class jpaElementService implements ElementService {
 	}
 
 	public jpaElementService() {
-		addDummyValues();
 	}
 
-	private void addDummyValues() {
-		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
-
-		this.addElement(
-				new ElementEntity(id + "1", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 1, 2));
-
-		this.addElement(
-				new ElementEntity(id + "2", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 2, 2));
-
-		this.addElement(
-				new ElementEntity(id + "3", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 4, 2));
-
-		this.addElement(
-				new ElementEntity(id + "4", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 5, 2));
-
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -104,21 +86,13 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String creatorEmail,
-			String playground) {
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
 
-		System.out.println("Perform update");
-		System.out.println("Not updated element" + this.getElement(creatorEmail, playground));
-		System.out.println("Updated element" + element);
-		ElementEntity tempElement = this.getElement(creatorEmail, playground);
-		printElementDB();
+		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
 		if (tempElement != null) {
-			System.out.println("Elemnt by id and string" + this.getElement(creatorEmail, playground).toString());
-			System.out.println("temp element" + tempElement.toString());
-			System.out.println("element" + element.toString());
+			//Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
-			printElementDB();
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 
@@ -133,8 +107,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");
 		for (ElementEntity e : elements) {
-			if (e.getCreatorPlayground().equals(creatorPlayground) && e.getCreatorEmail().equals(creatorEmail)
-					&& e.getAttributes().containsKey(attributeName)
+			if (e.getAttributes().containsKey(attributeName)
 					&& e.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(e);
 		}
@@ -170,22 +143,20 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElement(String id, String creatorPlayground) {
-		return getElement(ElementEntity.setSuperkey(id, creatorPlayground));
+	public ElementEntity getElement(String id, String creatorPlayground,String userPlayground,String email) {
+		return getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,email);
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElement(String superkey) {
-		printElementDB();
+	public ElementEntity getElement(String superkey, String userPlayground, String email) {
+		
+		userService.login(userPlayground,email);
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
 			System.err.println("\n\n\n");
 			try {
 				ElementEntity t = el.get();
-				System.err.println(t);
-				if(t==null)
-					throw new Exception();
 				return t;
 			} catch (Exception e) {
 				System.err.println("element:" + el.toString() + "/n failed to load from database");
@@ -228,10 +199,10 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional
-	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String playground) {
+	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground, String userPlayground, String email) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(el, el.getCreatorEmail(), playground);
+				updateElementInDatabaseFromExternalElement(el, userPlayground, email);
 			}
 
 		} catch (ElementDataException e) {
