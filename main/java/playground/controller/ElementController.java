@@ -41,7 +41,7 @@ public class ElementController {
 		// function 5
 
 		elementService.addElement(element.toEntity(), userPlayground, email);
-		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
+		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getCreatorPlayground()));
 		return elementT;
 	}
 
@@ -54,8 +54,7 @@ public class ElementController {
 		 * OUTPUT: NONE
 		 */
 
-		userService.login(userPlayground, email);
-		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(), email, playground);
+		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(),email,userPlayground);
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
@@ -122,8 +121,7 @@ public class ElementController {
 			)throws ConfirmException{
 		//function 9
 
-		userService.login(userPlayground,email);
-		elementService.addElements(this.getElementTOArray(elements), userPlayground);
+		elementService.addElements(this.getElementTOArray(elements),userPlayground,email);
 		return elements;
 		
 	}

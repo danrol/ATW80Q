@@ -81,11 +81,11 @@ public class ElementTest {
 		ElementTO elemTO = this.restTemplate.postForObject(this.url+"/playground/elements/{playground}/{email}", new ElementTO(element),ElementTO.class,Constants.PLAYGROUND_NAME, "mail@mail.com");
 		
 		System.err.println(elemTO + "\nPrinted returned ElementTO\n\n");
-		element = elemTO.toEntity();
+		ElementEntity element2 = elemTO.toEntity();
 		System.err.println(element + "\nPrinted returned converted\n\n");
 		
 		
-		assertThat(elementService.getElement("id1", element.getCreatorPlayground())).isEqualTo(element);
+		assertThat(element2).isEqualTo(element);
 	}
 	
 	@Test

@@ -180,15 +180,18 @@ public class jpaElementService implements ElementService {
 		printElementDB();
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
+			System.err.println("\n\n\n");
 			try {
 				ElementEntity t = el.get();
+				System.err.println(t);
 				if(t==null)
 					throw new Exception();
-				return el.get();
+				return t;
 			} catch (Exception e) {
 				System.err.println("element:" + el.toString() + "/n failed to load from database");
 			}
 		}
+		System.err.println("Could not find element " + superkey);
 		return null;
 	}
 
