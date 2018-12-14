@@ -75,14 +75,17 @@ public class ElementTest {
 	public void TestSaveElementInDatabase() {
 		
 		
-		String playground="playground",creatorPlayground="creatorPlayground",id="idOfElement";
-		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME,playground,creatorPlayground,1,2);
 		UserEntity user = new UserEntity("user","mail@mail.com","ava",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		userService.addUser(user);
+		ElementEntity element = new ElementEntity("id1","elementName","thisPlayground","mail@mail.com",5,6);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url+"/playground/elements/{playground}/{email}", new ElementTO(element),ElementTO.class,Constants.PLAYGROUND_NAME, "mail@mail.com");
+		
+		System.err.println(elemTO + "\nPrinted returned ElementTO\n\n");
 		element = elemTO.toEntity();
-		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
+		System.err.println(element + "\nPrinted returned converted\n\n");
+		
+		
+		assertThat(elementService.getElement("id1", element.getCreatorPlayground())).isEqualTo(element);
 	}
 	
 	@Test

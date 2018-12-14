@@ -16,7 +16,6 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
-
 @Service
 public class jpaElementService implements ElementService {
 
@@ -24,19 +23,17 @@ public class jpaElementService implements ElementService {
 	private ElementDao elementsDB;
 
 	private UserService userService;
-	
+
 	@Autowired
 	public jpaElementService(ElementDao elementsDB) {
 		this.elementsDB = elementsDB;
 
 	}
-	
-	
+
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-	
 
 	@Override
 	public void cleanElementService() {
@@ -44,24 +41,25 @@ public class jpaElementService implements ElementService {
 
 	}
 
-	public jpaElementService()
-	{
+	public jpaElementService() {
 		addDummyValues();
 	}
-	
-	
+
 	private void addDummyValues() {
-		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
 
-		this.addElement(new ElementEntity(id + "1",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,1,2 ));
+		this.addElement(
+				new ElementEntity(id + "1", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 1, 2));
 
-		this.addElement(new ElementEntity(id + "2",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,2,2));
+		this.addElement(
+				new ElementEntity(id + "2", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 2, 2));
 
-		this.addElement(new ElementEntity(id + "3",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS, 4,2));
+		this.addElement(
+				new ElementEntity(id + "3", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 4, 2));
 
-		this.addElement(new ElementEntity(id + "4",Constants.ELEMENT_NAME,playground, Constants.EMAIL_FOR_TESTS,5,2));
-		
-		
+		this.addElement(
+				new ElementEntity(id + "4", Constants.ELEMENT_NAME, playground, Constants.EMAIL_FOR_TESTS, 5, 2));
+
 	}
 
 	@Override
@@ -99,7 +97,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	public void addElements(ElementEntity[] elements, String userPlayground, String email) {
 		for (int i = 0; i < elements.length; i++) {
-			addElement(elements[i],userPlayground, email );
+			addElement(elements[i], userPlayground, email);
 		}
 
 	}
@@ -135,8 +133,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");
 		for (ElementEntity e : elements) {
-			if (e.getCreatorPlayground().equals(creatorPlayground)
-					&& e.getCreatorEmail().equals(creatorEmail)
+			if (e.getCreatorPlayground().equals(creatorPlayground) && e.getCreatorEmail().equals(creatorEmail)
 					&& e.getAttributes().containsKey(attributeName)
 					&& e.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(e);
@@ -173,32 +170,27 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElement(String email, String playground) {
-		printElementDB();
-		Optional<ElementEntity> el = elementsDB.findById(ElementEntity.setSuperkey(email, playground));
-		if (el.isPresent()) {
-			try {
-				return el.get();
-			} catch (Exception e) {
-				System.out.println("element:" + el.toString() + "/n failed to load from database");
-			}
-		}
-		return null;
+	public ElementEntity getElement(String id, String creatorPlayground) {
+		return getElement(ElementEntity.setSuperkey(id, creatorPlayground));
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
 	public ElementEntity getElement(String superkey) {
 		printElementDB();
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
 			try {
+				ElementEntity t = el.get();
+				if(t==null)
+					throw new Exception();
 				return el.get();
 			} catch (Exception e) {
-				System.out.println("element:" + el.toString() + "/n failed to load from database");
+				System.err.println("element:" + el.toString() + "/n failed to load from database");
 			}
 		}
 		return null;
 	}
-	
 
 	@Override
 	@Transactional(readOnly = false)
@@ -207,7 +199,7 @@ public class jpaElementService implements ElementService {
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database:" + element.toString());
 		} else {
-				elementsDB.save(element);
+			elementsDB.save(element);
 		}
 
 	}
@@ -216,8 +208,8 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	public ArrayList<ElementEntity> getElements() {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
-			for(ElementEntity e : elementsDB.findAll())
-				lst.add(e);
+		for (ElementEntity e : elementsDB.findAll())
+			lst.add(e);
 
 		return lst;
 
@@ -257,8 +249,8 @@ public class jpaElementService implements ElementService {
 	public void printElementDB() {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 
-		for(ElementEntity e: elementsDB.findAll())
-				lst.add(e);
+		for (ElementEntity e : elementsDB.findAll())
+			lst.add(e);
 
 		System.err.println("\nDB-TEST:all elements in database:\n");
 		for (ElementEntity e : lst) {

@@ -41,7 +41,8 @@ public class ElementController {
 		// function 5
 
 		elementService.addElement(element.toEntity(), userPlayground, email);
-		return new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
+		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getPlayground()));
+		return elementT;
 	}
 
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)

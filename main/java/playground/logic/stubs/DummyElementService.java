@@ -53,14 +53,18 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity getElement(String creatorEmail, String playground) {
-		for (ElementEntity e : elements) {
-			if (e.getCreatorEmail().equals(creatorEmail) && e.getPlayground().equals(playground))
-				return e;
-		}
-		throw new RuntimeException("Could not find specified element (creatorEmail=" + creatorEmail +") in " + playground);
+	public ElementEntity getElement(String id, String CreatorPlayground) {
+		return getElement(ElementEntity.setSuperkey(id, CreatorPlayground));
 	}
 
+	@Override
+	public ElementEntity getElement(String superkey) {
+		for (ElementEntity e : elements) {
+			if (e.getSuperkey().equals(superkey))
+				return e;
+		}
+		throw new RuntimeException("Could not find specified element (superkey=" + superkey);
+	}
 	
 	@Override
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size) {
@@ -199,6 +203,9 @@ public class DummyElementService implements ElementService {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 
 
 }

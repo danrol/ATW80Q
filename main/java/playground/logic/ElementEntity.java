@@ -49,7 +49,7 @@ public class ElementEntity {
 	public ElementEntity() {
 //		this.location = new Location();
 //		id = ID++;
-		this.expirationDate = new Date(2200,1,1);
+		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR,Constants.DEFAULT_EXPIRATION_MONTH, Constants.DEFAULT_EXPIRATION_DAY);
 		this.creationDate = new Date();
 	}
 
@@ -83,7 +83,6 @@ public class ElementEntity {
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
-		
 		setX(x);
 		setY(y);
 		setSuperkey();
@@ -126,7 +125,7 @@ public class ElementEntity {
 	}
 	
 	public void setSuperkey() {
-		superkey = setSuperkey(id, playground);
+		superkey = setSuperkey(id, creatorPlayground);
 	}
 	
 	@Transient

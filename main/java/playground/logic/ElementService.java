@@ -36,4 +36,6 @@ public interface ElementService {
 
 	ElementEntity[] getAllElements();
 	public void printElementDB() ;
+
+	ElementEntity getElement(String superkey);
 }
