@@ -83,6 +83,15 @@ public class jpaElementService implements ElementService {
 		}
 
 	}
+	
+	@Override
+	@Transactional(readOnly = false)
+	public void addElementsNoLogin(ElementEntity[] elements) {
+		for (int i = 0; i < elements.length; i++) {
+			addElementNoLogin(elements[i]);
+		}
+
+	}
 
 	@Override
 	@Transactional(readOnly = false)
@@ -152,6 +161,12 @@ public class jpaElementService implements ElementService {
 	public ElementEntity getElement(String superkey, String userPlayground, String email) {
 		
 		userService.login(userPlayground,email);
+		return getElementNoLogin(superkey);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public ElementEntity getElementNoLogin(String superkey)
+	{
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
 			System.err.println("\n\n\n");

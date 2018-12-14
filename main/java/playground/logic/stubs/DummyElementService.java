@@ -48,6 +48,14 @@ public class DummyElementService implements ElementService {
 		}
 
 	}
+	
+	@Override
+	public void addElementsNoLogin(ElementEntity[] elements) {
+		for (int i = 0; i < elements.length; i++) {
+			addElementNoLogin(elements[i]);
+		}
+		
+	}
 
 	@Override
 	public ElementEntity getElement(String id, String CreatorPlayground, String userPlayground, String email) {
@@ -56,13 +64,18 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity getElement(String superkey, String userPlayground, String email) {
-		userService.login(userPlayground, email);
+	public ElementEntity getElementNoLogin(String superkey) {
 		for (ElementEntity e : elements) {
 			if (e.getSuperkey().equals(superkey))
 				return e;
 		}
 		throw new RuntimeException("Could not find specified element (superkey=" + superkey);
+	}
+	
+	@Override
+	public ElementEntity getElement(String superkey, String userPlayground, String email) {
+		userService.login(userPlayground, email);
+		return getElementNoLogin(superkey);
 	}
 
 	@Override
@@ -196,5 +209,9 @@ public class DummyElementService implements ElementService {
 	public void addElementNoLogin(ElementEntity element) {
 		elements.add(element);
 	}
+
+
+
+
 
 }

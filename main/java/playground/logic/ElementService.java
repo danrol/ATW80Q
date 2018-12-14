@@ -34,6 +34,7 @@ public interface ElementService {
 	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);
 
 	ElementEntity[] getAllElements();
+	
 	public void printElementDB() ;
 
 	ElementEntity getElement(String superkeyd, String userPlayground, String email);
@@ -44,4 +45,8 @@ public interface ElementService {
 			String email);
 
 	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email);
+
+	void addElementsNoLogin(ElementEntity[] elements);
+
+	ElementEntity getElementNoLogin(String superkey);
 }
