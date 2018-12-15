@@ -3,10 +3,6 @@ package playground.logic;
 import java.io.Serializable;
 import java.util.Random;
 import java.util.regex.Pattern;
-
-import javax.persistence.Transient;
-
-import playground.Constants;
 import playground.exceptions.RegisterNewUserException;
 
 public class NewUserForm implements Serializable {

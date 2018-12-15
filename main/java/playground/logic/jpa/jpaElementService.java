@@ -43,7 +43,6 @@ public class jpaElementService implements ElementService {
 	public jpaElementService() {
 	}
 
-
 	@Override
 	@Transactional(readOnly = true)
 	public ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,

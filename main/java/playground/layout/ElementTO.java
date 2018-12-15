@@ -91,8 +91,8 @@ public class ElementTO implements Serializable {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(Date exirationDate) {
-		this.expirationDate = exirationDate;
+	public void setExpirationDate(Date expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	public String getType() {
@@ -122,7 +122,7 @@ public class ElementTO implements Serializable {
 	@Override
 	public String toString() {
 		return "ElementTO [name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
-				+ creationDate + ", exirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
+				+ creationDate + ", expirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
 				+ creatorPlayground + ", creatorEmail=" + creatorEmail + ", location=" + location + "]";
 	}
 

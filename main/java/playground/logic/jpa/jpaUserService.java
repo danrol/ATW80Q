@@ -1,8 +1,6 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
-import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;

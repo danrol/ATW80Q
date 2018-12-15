@@ -48,13 +48,13 @@ public class DummyElementService implements ElementService {
 		}
 
 	}
-	
+
 	@Override
 	public void addElementsNoLogin(ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElementNoLogin(elements[i]);
 		}
-		
+
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class DummyElementService implements ElementService {
 		}
 		throw new RuntimeException("Could not find specified element (superkey=" + superkey);
 	}
-	
+
 	@Override
 	public ElementEntity getElement(String superkey, String userPlayground, String email) {
 		userService.login(userPlayground, email);
@@ -120,15 +120,14 @@ public class DummyElementService implements ElementService {
 				.toArray(new ElementEntity[lst.size()]);
 	}
 
-	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground,
-			String userPlayground, String email) {
+	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {
 		try {
 			for (ElementEntity el : elements) {
 				updateElementInDatabaseFromExternalElement(el, userPlayground, email);
 			}
 
 		} catch (ElementDataException e) {
-			throw new ElementDataException("element in collection have fields that are incorrect");
+			throw new ElementDataException("element in collection has fields that are incorrect.");
 		}
 
 	}
@@ -143,21 +142,20 @@ public class DummyElementService implements ElementService {
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 	}
-	
+
 	@Override
 	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
 			String email) {
 		userService.login(userPlayground, email);
-		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground, email);
+		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,
+				email);
 		if (tempElement != null) {
 			elements.remove(tempElement);
 			elements.add(entity);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
-		
+
 	}
-	
-	
 
 	@Override
 	public boolean isElementInDatabase(ElementEntity element) {
@@ -170,18 +168,16 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
-			int size) {
+	public ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,
+			String userPlayground, String email) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 		for (ElementEntity el : elements) {
-			double xin = el.getX() - element.getX();
-			double yin = el.getY() - element.getY();
-
-			if (Math.sqrt(xin * xin + yin * yin) <= distance) {
+			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
+			if (actualDistance <= distance) {
 				lst.add(el);
 			}
 		}
@@ -215,7 +211,7 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public void printElementDB() {
-		// TODO Auto-generated method stub
+		System.err.println(elements);
 
 	}
 
@@ -224,16 +220,14 @@ public class DummyElementService implements ElementService {
 		elements.add(element);
 	}
 
+
+
 	@Override
-	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {
-		// TODO Auto-generated method stub
-		
+	public double distanceBetween(double x1, double y1, double x2, double y2) {
+		double xin = x1 - x2;
+		double yin = y1 - y2;
+		return Math.sqrt(xin * xin + yin * yin);
+
 	}
-
-
-
-
-
-
 
 }

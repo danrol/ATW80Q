@@ -1,8 +1,6 @@
 package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import org.junit.After;
@@ -18,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import playground.Constants;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.Location;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
