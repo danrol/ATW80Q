@@ -418,36 +418,17 @@ public class ElementTest {
 	// ******************************************************************************************//
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 	// test started
+	
 	@Test
 	public void DistanceIsGreaterThanZero() {
-
-//		boolean flag = false;
-
-//		ElementEntity element1 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 0, 0);
-//		ElementEntity element2 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 0, 1);
-//		ElementEntity element3 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 3, 7);
-//		ElementEntity element4 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 5, 7);
-//		ElementEntity element5 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 0, 7);
-//		ElementEntity element6 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 7, 7);
-//		elementService.addElementNoLogin(element1);
-//		elementService.addElementNoLogin(element2);
-//		elementService.addElementNoLogin(element3);
-//		elementService.addElementNoLogin(element4);
-//		elementService.addElementNoLogin(element5);
-//		elementService.addElementNoLogin(element6);
-//		double distance = 7;
-//		ElementEntity[] arr = elementService.getAllElementsInRadius(element1, element1.getX(), element1.getY(),
-//				distance, 0, 10);
-//		if (arr.length == 3) {
-//			flag = true;
-//		}
-//		assertThat(flag);
 		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
 		userService.addUser(user);
 		
 		for(int i=0;i<10;i++)
 		{
-			ElementEntity element = new ElementEntity(String.valueOf(i+1),"id" + i,"TestPlayground", "email@email.com",2*i,3*i);
+			ElementEntity element = new ElementEntity(String.valueOf(i+1),"id" + i,"TestPlayground", "email@email.com",i,i);
+			elementService.addElementNoLogin(element);
+			element = new ElementEntity(String.valueOf(i+1),"name" + i,"TestPlayground", "email@email.com",0,i);
 			elementService.addElementNoLogin(element);
 		}
 		
@@ -461,34 +442,51 @@ public class ElementTest {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
 			double actualDistance = this.distanceBetween(x1, y1, x, y);
-					
-					
 			assertThat(actualDistance).isLessThan(distance);
 		}
 		
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testIfWeGETNoElementsFromDatabaseWithNegativeRadius() {
+	public void GetElementsWithNegativeDistance() {
 
-//		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
-//		ElementEntity element = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
-//		double distance = -1;
-//		elementService.getAllElementsInRadius(element, element.getX(), element.getY(), distance, 0, 10);
-//TODO
-	}
+
+		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		userService.addUser(user);
+		
+		ElementEntity element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,1);
+		elementService.addElementNoLogin(element);
+		
+
+		int distance = -1, x=5, y=5;
+		
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
+		
+	
+		}
+		
 
 	@Test
-	public void testIfWeGETNoElementsFromDatabaseWithRadius_0_() {
+	public void GetElementsWithZeroDistance() {
 
-//		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
-//		ElementEntity element = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
-//		double distance = 0;
-//		assertThat(elementService.getAllElementsInRadius(element, element.getX(), element.getY(), distance, 0, 10))
-//				.contains(element);
+		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		userService.addUser(user);
 		
+		ElementEntity element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,2);
+		elementService.addElementNoLogin(element);
+		element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,3);
+		elementService.addElementNoLogin(element);
+
+		int distance = 0, x=1, y=2;
 		
-		//TODO
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
+		
+	assertThat(elements.length).isEqualTo(1);
+	
+	double actualDistance = distanceBetween(elements[0].getLocation().getX(),elements[0].getLocation().getY(),x,y);
+	assertThat(actualDistance).isEqualTo(0);
 	}
 
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
