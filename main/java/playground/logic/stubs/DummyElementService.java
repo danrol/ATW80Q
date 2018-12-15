@@ -62,7 +62,7 @@ public class DummyElementService implements ElementService {
 	@Override
 	public ElementEntity getElement(String id, String CreatorPlayground, String userPlayground, String email) {
 
-		return getElement(ElementEntity.setSuperkey(id, CreatorPlayground), userPlayground, email);
+		return getElement(ElementEntity.createKey(id, CreatorPlayground), userPlayground, email);
 	}
 
 	@Override
@@ -153,7 +153,7 @@ public class DummyElementService implements ElementService {
 	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
 			String email) {
 		userService.login(userPlayground, email);
-		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,
+		ElementEntity tempElement = this.getElement(ElementEntity.createKey(id, creatorPlayground), userPlayground,
 				email);
 		if (tempElement != null) {
 			elements.remove(tempElement);

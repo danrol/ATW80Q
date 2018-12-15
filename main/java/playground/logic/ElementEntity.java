@@ -120,11 +120,11 @@ public class ElementEntity {
 	}
 	
 	public void setSuperkey() {
-		superkey = setSuperkey(id, creatorPlayground);
+		superkey = createKey(id, creatorPlayground);
 	}
 	
 	@Transient
-	public static String setSuperkey(String string1, String string2) {
+	public static String createKey(String string1, String string2) {
 		return string1.concat(" " + string2);
 	}
 

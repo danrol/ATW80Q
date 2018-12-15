@@ -146,7 +146,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	public ElementEntity getElement(String id, String creatorPlayground, String userPlayground, String email) {
-		return getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground, email);
+		return getElement(ElementEntity.createKey(id, creatorPlayground), userPlayground, email);
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class jpaElementService implements ElementService {
 	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
 			String email) {
 		userService.login(userPlayground, email);
-		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,
+		ElementEntity tempElement = this.getElement(ElementEntity.createKey(id, creatorPlayground), userPlayground,
 				email);
 		if (tempElement != null) {
 			// Deletes old and replaces with new

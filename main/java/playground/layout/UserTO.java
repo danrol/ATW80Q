@@ -27,7 +27,6 @@ public class UserTO implements Serializable {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		// verification is done separately
 	}
 
 	public UserTO(UserEntity u) {
@@ -37,7 +36,6 @@ public class UserTO implements Serializable {
 		this.setPlayground(u.getPlayground());
 		this.setRole(u.getRole());
 		this.setPoints(u.getPoints());
-		u.setVerificationCode("");
 	}
 
 	public static boolean emailIsValid(String email) {

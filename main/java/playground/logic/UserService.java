@@ -23,6 +23,8 @@ public interface UserService {
 	void addUser(NewUserForm user);
 	
 	void printUserDB();
+
+	boolean isUserInDatabase(UserEntity user);
 	
 
 }

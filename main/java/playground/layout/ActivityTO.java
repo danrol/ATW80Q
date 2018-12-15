@@ -11,9 +11,7 @@ import playground.logic.ElementService;
 import playground.logic.UserService;
 
 public class ActivityTO implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
 	private String id;

@@ -61,10 +61,10 @@ public class UserEntity {
 	}
 	
 	public void setSuperkey() {
-		superkey = setSuperkey(email, playground);
+		superkey = createKey(email, playground);
 	}
 	@Transient
-	public static String setSuperkey(String string1, String string2) {
+	public static String createKey(String string1, String string2) {
 		return string1.concat(" " + string2);
 	}
 
@@ -138,8 +138,6 @@ public class UserEntity {
 		this.points = points;
 	}
 
-	//TODO order in every class should be getter, setter, getter, setter. Eyal told to fix it
-	
 	@Transient
 	public void verifyUser() {
 		verificationCode = null;
@@ -158,6 +156,55 @@ public class UserEntity {
 	public String toString() {
 		return "UserEntity [superkey="+superkey+", email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
 				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", points=" + points + "]";
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserEntity other = (UserEntity) obj;
+		if (avatar == null) {
+			if (other.avatar != null)
+				return false;
+		} else if (!avatar.equals(other.avatar))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (playground == null) {
+			if (other.playground != null)
+				return false;
+		} else if (!playground.equals(other.playground))
+			return false;
+		if (points != other.points)
+			return false;
+		if (role == null) {
+			if (other.role != null)
+				return false;
+		} else if (!role.equals(other.role))
+			return false;
+		if (superkey == null) {
+			if (other.superkey != null)
+				return false;
+		} else if (!superkey.equals(other.superkey))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		if (verificationCode == null) {
+			if (other.verificationCode != null)
+				return false;
+		} else if (!verificationCode.equals(other.verificationCode))
+			return false;
+		return true;
 	}
 
 }

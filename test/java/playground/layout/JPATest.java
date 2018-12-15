@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import playground.Constants;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RunWith(SpringRunner.class)
@@ -58,8 +59,10 @@ public class JPATest {
 
 	}
 
+	
+	//1.1 Scenario: Adding non existing element
 	@Test
-	public void addElementToJPA() {
+	public void addNonExistingElementToJPA() {
 		
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
@@ -67,6 +70,42 @@ public class JPATest {
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElementNoLogin(ElementEntity.setSuperkey(element.getId(), element.getCreatorPlayground()))).isEqualTo(element);
+		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground()))).isEqualTo(element);
 	}
+	
+	//1.2 Scenario:  Adding an existing element to jpa
+	@Test
+	public void addExistingElementToJPA() {
+		
+		String playground="playground",creatorPlayground="creator",id="idOfElement";
+		ElementEntity element = new ElementEntity(id,"name1", playground,creatorPlayground,1,2);
+		elementService.addElementNoLogin(element);
+		ElementEntity element2 = new ElementEntity(id,"name2", playground,creatorPlayground,1,2);
+		elementService.addElementNoLogin(element2);
+		assertThat(elementService.isElementInDatabase(element));
+		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground()))).isEqualTo(element);
+	}
+	
+	//2.1 Scenario:  Adding non existing user
+	@Test
+	public void addNonExistingUserToJPA() {
+		
+		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
+		userService.addUser(user);
+		assertThat(userService.isUserInDatabase(user));
+		assertThat(userService.getUser(user.getEmail(), user.getPlayground())).isEqualTo(user);
+	}
+	
+	//2.2 Scenario:  Adding an existing user to jpa
+	@Test(expected = RuntimeException.class)
+	public void addExistingUserToJPA() {
+		
+		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
+		UserEntity user2 = new UserEntity("username2", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
+		
+		userService.addUser(user);
+		userService.addUser(user2);
+		
+	}
+	
 }

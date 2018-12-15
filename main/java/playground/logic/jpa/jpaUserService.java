@@ -3,6 +3,7 @@ package playground.logic.jpa;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
+import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -100,7 +102,7 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly=true)
 	public UserEntity getUser(String email, String playground) {
-		String idToSearchBy = UserEntity.setSuperkey(email, playground);
+		String idToSearchBy = UserEntity.createKey(email, playground);
 		UserEntity user = userDB.findById(idToSearchBy).orElse(null);
 		return user;
 	}
@@ -182,6 +184,13 @@ public class jpaUserService implements UserService {
 			System.out.println(u.toString());
 		}
 		System.out.println("\n");
+	}
+	
+	@Override
+	@Transient
+	public boolean isUserInDatabase(UserEntity user) {
+
+		return this.userDB.existsById(user.getSuperkey());
 	}
 
 }

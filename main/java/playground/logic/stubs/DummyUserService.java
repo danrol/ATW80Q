@@ -13,9 +13,6 @@ import playground.logic.UserService;
 //@Service
 public class DummyUserService implements UserService{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static ArrayList<UserEntity> users;
 
@@ -170,6 +167,12 @@ public class DummyUserService implements UserService{
 	public void printUserDB() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isUserInDatabase(UserEntity user) {
+		
+		return users.contains(user);
 	}
 
 
