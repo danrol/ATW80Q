@@ -157,41 +157,22 @@ private RestTemplate restTemplate;
 
 	@Test
 	public void LoginUserWithCorrectEmail() {
-		/**
-		 	Given: database contains a User with mail test@test.com in playground.rolnik AND User is verified
-			When: I GET /playground/users/login/playground.rolnik/test@test.com
-			Then: The retrieved UserTO email matches test@test.com and playground matches playground.rolnik.
-		 **/
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
-		// When I invoke GET this.url +"/playground/users/login/{playground}/{email}"
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
-		// verify that unverified user is now verified
 		assertThat(user).isNotNull();
-//		assertThat(user.isVerified()).isTrue();
 	}
 	
 
 	@Test(expected = RuntimeException.class)
 	public void LoginUserEmailNotInDatabase() {
-		/**
-		 	Given: Database does not contain User with email test@test.com
-			When: I GET /playground/users/login/playground.rolnik/test@test.com
-			Then: The response status is <> 2xx
-		 **/
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void LoginUserNotInPlayground() {
-		/**
-		 	Given: User is verified in database with email: test@test.com AND playground is playground.other AND User is verified.
-			When: I GET /playground/users/login/playground.other/test@test.com
-			Then: The response status is <> 2xx 
-		 **/
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE, "OtherPlayground");
 		// given database contains user { "user": "userTest"}
 		u.verifyUser();
@@ -217,7 +198,6 @@ private RestTemplate restTemplate;
 
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
 
@@ -226,8 +206,10 @@ private RestTemplate restTemplate;
 
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
+		
 		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
+		userService.addUser(OtherUser);
+		
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
 	
@@ -236,11 +218,10 @@ private RestTemplate restTemplate;
 
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
-		moderatorUser.verifyUser();
 
 		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		userService.addUser(OtherUser);
 		
-
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
 	
@@ -249,7 +230,6 @@ private RestTemplate restTemplate;
 
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
 
@@ -258,9 +238,9 @@ private RestTemplate restTemplate;
 
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
 		
 		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		userService.addUser(OtherUser);
 		
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
@@ -270,10 +250,9 @@ private RestTemplate restTemplate;
 
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
-		PlayerUser.verifyUser();
 		
 		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,	Constants.PLAYGROUND_NAME);
-		
+		userService.addUser(OtherUser);
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
 	
