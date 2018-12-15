@@ -68,10 +68,11 @@ public class ElementTest {
 
 	// 5.1 Scenario: Test Save element in database
 	@Test
-	public void testSaveElementInDatabase() {
+	public void saveElementInDatabase() {
 
 		UserEntity user = new UserEntity("user", "mail@mail.com", "ava", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
+		user.verifyUser();
 		userService.addUser(user);
 		ElementEntity element = new ElementEntity("id1", "elementName", "thisPlayground", "mail@mail.com", 5, 6);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
@@ -86,7 +87,7 @@ public class ElementTest {
 
 	// 5.3 Scenario: Saving an existing element
 	@Test(expected = RuntimeException.class)
-	public void testSaveAlreadyExistElement() {
+	public void saveAlreadyExistElement() {
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
@@ -106,7 +107,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testPOSTNewElementWithNoCreatorIsAdded() {
+	public void POSTNewElementWithNoCreatorIsAdded() {
 //
 //		String playground = "playground", creatorPlayground = "creator", id = "";
 //		ElementEntity element = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
@@ -117,7 +118,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testPOSTElementsThatAllRedyInDatabase() {
+	public void POSTElementsThatAllRedyInDatabase() {
 
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -134,7 +135,7 @@ public class ElementTest {
 
 	// ******************************************************************************************//
 	@Test
-	public void testPOSTNewElementsAreAddedToDatabase() {
+	public void POSTNewElementsAreAddedToDatabase() {
 
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground
@@ -156,7 +157,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testGETNewElementsFromDatabase() {
+	public void GETNewElementsFromDatabase() {
 
 //
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
@@ -173,7 +174,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
+	public void POSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
 
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -193,7 +194,7 @@ public class ElementTest {
 	// PUT test starts
 
 	@Test
-	public void testSuccessfullyUpdateElement() throws Exception {
+	public void successfullyUpdateElement() throws Exception {
 
 		// 6.1
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
@@ -220,7 +221,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testUpdateNonExistingElement() {
+	public void updateNonExistingElement() {
 
 		// 6.2
 		ElementEntity elementEntityForTest = new ElementEntity("123", "name", "playground", "email@email.com", 0, 1);
@@ -231,7 +232,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testUpdateElementForNonExistingCreator() throws Exception {
+	public void updateElementForNonExistingCreator() throws Exception {
 
 		// 6.3
 		ElementEntity updatedElementForTestEntity = new ElementEntity("123", "name", "userPlayground",
@@ -254,7 +255,7 @@ public class ElementTest {
 	// started
 
 	@Test(expected = RuntimeException.class)
-	public void testGetElementCorrectLoginElementNotInDatabase() {
+	public void GETElementCorrectLoginElementNotInDatabase() {
 		/*
 		 * 
 		 * Given the server is up and I GET
@@ -274,7 +275,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testGetElementCorrectLoginElementExists() {
+	public void GETElementCorrectLoginElementExists() {
 		/*
 		 * Given the server is up and I GET
 		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
@@ -296,7 +297,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testGetElementIncorrectLoginElementExists() {
+	public void GETElementIncorrectLoginElementExists() {
 		/*
 		 * Given the server is up and I GET
 		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
@@ -318,7 +319,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testGetElementIncorrectLoginElementNotInDatabase() {
+	public void GETElementIncorrectLoginElementNotInDatabase() {
 		/*
 		 * 
 		 * Given the server is up and I GET
@@ -349,7 +350,7 @@ public class ElementTest {
 
 	// 8.1
 	@Test
-	public void testGETAllFromDatabase() {
+	public void GETAllFromDatabase() {
 
 		userService.printUserDB();
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
@@ -376,7 +377,7 @@ public class ElementTest {
 
 	// 8.2
 	@Test
-	public void testGETAllFromEmptyDatabase() {
+	public void GETAllFromEmptyDatabase() {
 
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
@@ -389,7 +390,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testGETAllFromDatabaseWithNoUserVerified() {
+	public void GETAllFromDatabaseWithNoUserVerified() {
 
 		// 8.3
 
@@ -412,9 +413,10 @@ public class ElementTest {
 	// test started
 
 	@Test
-	public void DistanceIsGreaterThanZero() {
+	public void distanceIsGreaterThanZero() {
 		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
+		user.verifyUser();
 		userService.addUser(user);
 
 		for (int i = 0; i < 10; i++) {
@@ -441,7 +443,7 @@ public class ElementTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void GetElementsWithNegativeDistance() {
+	public void GETElementsWithNegativeDistance() {
 
 		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
@@ -459,10 +461,11 @@ public class ElementTest {
 	}
 
 	@Test
-	public void GetElementsWithZeroDistance() {
+	public void GETElementsWithZeroDistance() {
 
 		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
+		user.verifyUser();
 		userService.addUser(user);
 
 		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", 1, 2);
@@ -493,7 +496,7 @@ public class ElementTest {
 	// test starts
 
 	@Test
-	public void testSuccessfullyGetElementsByAttributeNameValue() {
+	public void successfullyGetElementsByAttributeNameValue() {
 
 //		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
@@ -523,7 +526,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testAttributeNotExist() {
+	public void attributeNotExist() {
 
 //		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
@@ -548,7 +551,7 @@ public class ElementTest {
 	}
 
 	@Test
-	public void testValueInAttributeNotExist() {
+	public void valueInAttributeNotExist() {
 
 		// 10.2
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
