@@ -71,24 +71,25 @@ public class ElementController {
 		return new ElementTO(element);
 	}
 
-	@RequestMapping(
-			method=RequestMethod.POST,
-			path="/playground/elements/{userPlayground }/{email}/all",
-			consumes=MediaType.APPLICATION_JSON_VALUE,
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] setAllUsers (
+	public ElementTO[] getAllElements(
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
-			@RequestBody ElementTO[] element,
 			@PathVariable("email") String email,
-			@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
-
+			@PathVariable("userPlayground") String userPlayground
+			) {
 		//function 8
-		elementService.addElements(getElementTOArray(element), userPlayground, email);
-		return getElementTOArray(elementService.getElementsByCreatorPlaygroundAndEmail(userPlayground, email, page, size));	
+
+
+		ElementEntity[] allElements = elementService.getAllElements();
+		if (allElements.length != 0  ) 
+			return getElementTOArray(allElements);
+		else return new ElementTO[0];
+		
 	}
-
-
+	
+	
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAtLocation(
@@ -107,21 +108,7 @@ public class ElementController {
 		return getElementTOArray(elementService.getAllElementsInRadius(element.toEntity(),x,y,distance, page, size));
 	}
 	
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getAllElements(
-			@RequestParam(name="page", required=false, defaultValue="0") int page,
-			@RequestParam(name="size", required=false, defaultValue="10") int size,
-			@RequestBody ElementTO[] elements,
-			@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground
-			)throws ConfirmException{
-		//function 9
 
-		elementService.addElements(this.getElementTOArray(elements),userPlayground,email);
-		return elements;
-		
-	}
 
 
 	@RequestMapping(

@@ -375,7 +375,14 @@ public class ElementTest {
 	@Test
 	public void testGETAllFromEmptyDatabase() {
 
-		assertThat(elementService.getElements()).isEmpty();
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		
+		ElementTO[] elemArr = restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/all",
+				ElementTO[].class, "playground", "email@email.com");
+		assertThat(elemArr).isEqualTo(new ElementTO[0]);
 
 	}
 
