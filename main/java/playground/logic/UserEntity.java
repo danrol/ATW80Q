@@ -20,7 +20,7 @@ public class UserEntity {
 	private String username;
 	private String playground;
 	private String role = Constants.UNDEFINED_ROLE;
-	private String verificationCode = null;
+	private String verificationCode = Constants.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
 	private long points = 0;
 
@@ -39,10 +39,6 @@ public class UserEntity {
 		setSuperkey();
 	}
 
-	public UserEntity(String username, String email, String avatar, String role, String playground, String code) {
-		this(username, email, avatar, role, playground);
-		setVerificationCode(code);
-	}
 
 	public UserEntity(NewUserForm user) {
 		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME,generateCode());

@@ -248,27 +248,7 @@ public class ElementEntity {
 		return serialVersionUID;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((creatorEmail == null) ? 0 : creatorEmail.hashCode());
-		result = prime * result + ((creatorPlayground == null) ? 0 : creatorPlayground.hashCode());
-		result = prime * result + ((expirationDate == null) ? 0 : expirationDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((playground == null) ? 0 : playground.hashCode());
-		result = prime * result + ((superkey == null) ? 0 : superkey.hashCode());
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(x);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(y);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+	
 
 	@Override
 	public boolean equals(Object obj) {
