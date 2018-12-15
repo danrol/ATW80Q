@@ -354,6 +354,7 @@ public class ElementTest {
 	public void testGETAllFromDatabase() {
 
 		
+		
 //		boolean flag = true;
 //		String playground = "playground", creatorPlayground = "creator", id = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -389,6 +390,18 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void testGETAllFromDatabaseWithNoUserVerified() {
 
+		//8.3
+		
+		elementService.addElement(new ElementEntity("1","nameOfElement", "playground", "email@email.com",1,2), "creator", "email@email");
+		elementService.addElement(new ElementEntity("2","nameOfElement", "playground", "email@email.com",2,1), "creator", "email@email");
+		
+//		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground"));
+		
+		restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/all",
+				ElementTO[].class, "playground", "email@email.com");
+		
+		
 //		boolean flag = true;
 //		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
