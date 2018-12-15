@@ -42,9 +42,6 @@ public class ElementTest {
 	private int port;
 	private String url;
 
-//	@Autowired
-//	private Database database;
-
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
@@ -194,7 +191,7 @@ public class ElementTest {
 	// PUT test starts
 
 	@Test
-	public void successfullyUpdateElement() throws Exception {
+	public void successfullyUpdateElement() {
 
 		// 6.1
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
@@ -256,16 +253,8 @@ public class ElementTest {
 
 	@Test(expected = RuntimeException.class)
 	public void GETElementCorrectLoginElementNotInDatabase() {
-		/*
-		 * 
-		 * Given the server is up and I GET
-		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
-		 * login details are correct and element is not in database Then I get an
-		 * exception
-		 * 
-		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME, "1234");
+				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
@@ -276,11 +265,6 @@ public class ElementTest {
 
 	@Test
 	public void GETElementCorrectLoginElementExists() {
-		/*
-		 * Given the server is up and I GET
-		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
-		 * login details are correct and element exists Then I get the element
-		 */
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
@@ -298,14 +282,9 @@ public class ElementTest {
 
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementExists() {
-		/*
-		 * Given the server is up and I GET
-		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
-		 * login details are incorrect and element exists Then I get an exception
-		 */
 
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME, "1234");
+				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity("elementIdTest", Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
@@ -320,16 +299,8 @@ public class ElementTest {
 
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
-		/*
-		 * 
-		 * Given the server is up and I GET
-		 * /playground/elements/{userPlayground}/{email}/{playground}/{id} When user
-		 * login details are incorrect and element is not in database Then I get an
-		 * exception
-		 * 
-		 */
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME, "1234");
+				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity("elementIdTest", Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
@@ -355,6 +326,7 @@ public class ElementTest {
 		userService.printUserDB();
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		userService.printUserDB();
 
@@ -381,6 +353,7 @@ public class ElementTest {
 
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
+		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
@@ -399,7 +372,7 @@ public class ElementTest {
 		elementService.addElement(new ElementEntity("2", "nameOfElement", "playground", "email@email.com", 2, 1),
 				"creator", "email@email");
 
-		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground", "code"));
+		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground"));
 
 		restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all", ElementTO[].class,
 				"userPlayground", "email@email.com");
@@ -447,12 +420,13 @@ public class ElementTest {
 
 		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
+		user.verifyUser();
 		userService.addUser(user);
-
-		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", 1, 1);
+		int distance = -1, x = 5, y = 5;
+		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", x, y);
 		elementService.addElementNoLogin(element);
 
-		int distance = -1, x = 5, y = 5;
+		
 
 		ElementTO[] elements = this.restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
@@ -530,7 +504,6 @@ public class ElementTest {
 
 //		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
-
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
@@ -555,7 +528,6 @@ public class ElementTest {
 
 		// 10.2
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
-
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
