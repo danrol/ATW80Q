@@ -41,9 +41,6 @@ private RestTemplate restTemplate;
 	private int port;
 	private String url;
 	
-//	@Autowired
-//	private Database database;
-
 
 	@PostConstruct
 	public void init() {
@@ -65,7 +62,7 @@ private RestTemplate restTemplate;
 //******************************************************************************************//
 	// url #1 /playground/users tests start
 	@Test(expected=RuntimeException.class)
-	public void testRegisterNewUserWithWrongEmail() throws JsonProcessingException{
+	public void RegisterNewUserWithWrongEmail() throws JsonProcessingException{
 		/**
 		    When: I POST /playground/users
 				With headers: Accept:application/json, content-type: application/json
@@ -78,7 +75,7 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test
-	public void testSuccessfullyRegisterNewUser() throws Exception{
+	public void SuccessfullyRegisterNewUser() throws Exception{
 		/**
 	    	When: I POST /playground/users
 				With headers:Accept:application/json,  content-type: application/json
@@ -98,14 +95,8 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test(expected=RuntimeException.class)
-	public void testRegisterUserThatAlreadyExists() {
-		/**
-	    	Given: user with email “nudnik@mail.ru” and with playground=”randomPlayground” exists in userService
-			When: I POST /playground/users
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : "nudnik@mail.ru", "username":"Curiosity", "avatar":"ava", "role":"PLAYER",}
-			Then: a null user is returned in JSON
-	    **/
+	public void RegisterUserThatAlreadyExists() {
+
 		NewUserForm postUserForm =  new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), 
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
@@ -121,40 +112,15 @@ private RestTemplate restTemplate;
 	//******************************************************************************************//
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test starts
 	@Test(expected=RuntimeException.class)
-	public void testConfirmUserEmailNotInDatabase() {
-		/**
-		 	Given: Email is not on the database
-			When:   I GET /playground/users/confirm/playground.rolnik/mail@test.com/1234
-					With headers: Accept:application/json Content-Type: application/json
-			Then: the response status is <> 2xx
-		 **/
+	public void ConfirmUserEmailNotInDatabase() {
+
 		 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1234");
 	}
 	
-	//DELETED FROM GERKIN
-	/**@Test
-	public void testConfirmUserWithNullCode() {
-		String[] s = {"0","0"};
-		
-		try {
-			 this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","");
-		}
-		catch(RuntimeException e)
-		{
-			s=e.toString().split(" ", 3);
-		}
-		System.err.println(s[1]);
-		assertThat(s[1]).isEqualTo("404");
-		
-	}**/
 	
 	@Test
-	public void testConfirmUserWithCorrectCode() {
-		/**
-		 	Given: database contains a User with mail test@test.com in playground.rolnik with a generated verificationCode
-			When: 	I GET /playground/users/confirm/playground.rolnik/test@test.com/{code}AND {code} is verificationCode
-			Then: the retrieved UserTO email and playground matches test@test.com and playground.rolnik with a null verificationCode
-		 **/
+	public void ConfirmUserWithCorrectCode() {
+
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
@@ -167,13 +133,8 @@ private RestTemplate restTemplate;
 	
 	@Test(expected=RuntimeException.class)
 	public void ConfirmUserNotInPlayground() {
-		/**
-		 	Given: database contains a User with mail test@test.com in playground.rolnik with a generated verificationCode
-			When: 	I GET /playground/users/confirm/playground.other/test@test.com/{code} AND {code} is verificationCode
-			Then: the response status is <> 2xx
-		 **/
+
 		UserEntity u = new UserEntity("userTest","userTestPlayground@gmail.com","Test.jpg", Constants.MODERATOR_ROLE ,"OtherPlayground", "1234");
-		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTestPlayground@gmail.com","1234");	
 	}
@@ -182,17 +143,10 @@ private RestTemplate restTemplate;
 	
 	@Test (expected=RuntimeException.class)
 	public void testConfirmUserWithIncorrectVerificationCode() {
-		/**
-			Given: database contains a User with mail test@test.com in playground.rolnik with a generated verificationCode
-			When: 	I GET /playground/users/confirm/playground.other/test@test.com/{code} AND {code} is retrieved from the  verificationCode+”X”
-			Then: the response status is <> 2xx
-		 **/
+
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
-		// given database contains user { "user": "userTest"}
 		this.userService.addUser(u);
-		// When I invoke GET this.url + "/playground/users/confirm/{playground}/{email}/{code}"
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class, Constants.PLAYGROUND_NAME,"userTest@gmail.com","1");
-//		assertThat(user.getVerified_user()).isEqualTo(Constants.USER_NOT_VERIFIED); //TODO remove verified
 	}
 	
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished
@@ -200,18 +154,9 @@ private RestTemplate restTemplate;
 	//******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
 	
-	//DELETED FROM GERKIN
-	/**@Test(expected = RuntimeException.class)
-	public void testLoginUserWithNullEmail() {
-		UserEntity user = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		user.verifyUser();
-		// given database contains user { "user": "userTest"}
-		this.userService.addUser(user);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, " ");
-	}**/
 
 	@Test
-	public void testLoginUserWithCorrectEmail() {
+	public void LoginUserWithCorrectEmail() {
 		/**
 		 	Given: database contains a User with mail test@test.com in playground.rolnik AND User is verified
 			When: I GET /playground/users/login/playground.rolnik/test@test.com
@@ -230,7 +175,7 @@ private RestTemplate restTemplate;
 	
 
 	@Test(expected = RuntimeException.class)
-	public void testLoginUserEmailNotInDatabase() {
+	public void LoginUserEmailNotInDatabase() {
 		/**
 		 	Given: Database does not contain User with email test@test.com
 			When: I GET /playground/users/login/playground.rolnik/test@test.com
@@ -254,36 +199,22 @@ private RestTemplate restTemplate;
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 
-	/**
+	
 	@Test(expected = RuntimeException.class)
-	public void testLoginUserWhenUserNotVerification() {
+	public void LoginUserWhenUserNotverified() {
 		
-		 	Given: User in database with email: test@test.com AND playground is playground.rolnik AND User is not verified 
-			When: I GET /playground/users/login/playground.rolnik/test@test.com
-			Then: The response status is <> 2xx
-		 
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		System.err.println(u.isVerified());
-		// given database contains user { "user": "userTest"}
+		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME, "1234");
 		this.userService.addUser(u);
-		// When I invoke GET this.url +
-		// "/playground/users/login/{playground}/{email}"
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,	Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
-	**/
+	
 	// url #3/playground/users/login/{playground}/{email} test finished
 	//******************************************************************************************//
 	// url #4 /playground/users/{playground}/{email} test starts
 	
 	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeHisUser() {
-		/**
-		 	Given: USER is moderator AND is verified in the database with email moderatorTest@test.com in playground.rolnik AND USER update his own information
-			When: I PUT /playground/users/playground.rolnik/moderatorTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : moderatorTest@test.com", "username":ModeratorName, "avatar":MyAvatar.jpg, "role":MODERATOR, “playground”:playground.rolnik}
-			Then: The response body contains moderatorTest@test.com USER with updates.
-		 **/
+	public void ChangeUserWhenRoleIsModeratorAndChangeHisUser() {
+
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
@@ -291,16 +222,8 @@ private RestTemplate restTemplate;
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
-		/**
-		 	Given: USER is moderator AND is verified in the database with email 	
-				moderatorTest@test.com in playground.rolnik AND USER update other moderator 
-				USER that is verified in the database with email otherModeratorTest@test.com in playground.rolnik
-			When: I PUT /playground/otherModeratorUsers/playground.rolnik/moderatorTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : otherModeratorTest@test.com", "username":OtherModeratorName, "avatar":MyAvatar.jpg, "role":MODERATOR, “playground”:playground.rolnik}
-			Then: the response status is <> 2xx
-		 **/
+	public void ChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
+
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
@@ -309,15 +232,8 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test
-	public void testChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
-		/**
-		 	Given: USER is moderator AND is verified in the database with email moderatorTest@test.com in playground.rolnik AND USER update other player
-				USER that is verified in the database with email otherPlayerTest@test.com in playground.rolnik
-			When: I PUT /playground/otherPlayerUsers/playground.rolnik/moderatorTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : otherPlayerTest@test.com", "username":OtherPlayerName, "avatar":MyAvatar.jpg, "role":PLAYER, “playground”:playground.rolnik}
-			Then: The response body contains otherPlayerTest@test.com USER with updates.
-		 **/
+	public void ChangeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
+
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(moderatorUser);
 		moderatorUser.verifyUser();
@@ -329,14 +245,8 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test
-	public void testChangeUserWhenRoleIsPlayerAndChangeHisUser() {
-		/**
-		  	Given: USER is player AND is verified in the database with email playerTest@test.com in playground.rolnik AND USER update his own information
-			When: I PUT /playground/users/playground.rolnik/playerTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : playerTest@test.com", "username":PlayerName, "avatar":MyAvatar.jpg,"role":PLAYER, “playground”:playground.rolnik}
-			Then: The response body contains playerTest@test.com USER with updates.
-		 **/
+	public void ChangeUserWhenRoleIsPlayerAndChangeHisUser() {
+
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
@@ -344,15 +254,8 @@ private RestTemplate restTemplate;
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
-		/**
-		  	Given: USER role is player AND is verified in the database with email playerTest@test.com in playground.rolnik AND USER update other player
-				USER that is verified in the database with email otherPlayerTest@test.com in playground.rolnik
-			When: I PUT /playground/otherPlayerUsers/playground.rolnik/playerTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : otherPlayerTest@test.com", "username":OtherPlayerName, "avatar":MyAvatar.jpg, "role":PLAYER, “playground”:playground.rolnik}
-			Then: the response status is <> 2xx
-		 **/
+	public void ChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
+
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();
@@ -363,15 +266,8 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test(expected = RuntimeException.class)
-	public void testChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
-		/**
-		 	Given: USER is player AND is verified in the database with email playerTest@test.com in playground.rolnik AND USER update other player
-				USER that is verified in the database with email otherModeratorTest@test.com in playground.rolnik
-			When: I PUT /playground/otherPlayerModeratorUsers/playground.rolnik/otherModeratorTest@test.com
-				With headers:	  Accept:application/json,  content-type: application/json
-				With Body:{"email" : otherModeratorTest@test.com", "username":OtherModeratorName, "avatar":MyAvatar.jpg, "role":MODERATOR, “playground”:playground.rolnik}
-			Then: the response status is <> 2xx
-		 **/
+	public void ChangeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
+
 		UserEntity PlayerUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userService.addUser(PlayerUser);
 		PlayerUser.verifyUser();

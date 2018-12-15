@@ -111,11 +111,14 @@ public class jpaUserService implements UserService {
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
+				
 				if (u.isVerified()) {
 					return u;
 				} else {
 					throw new LoginException("User is not verified.");
 				}
+				
+				
 			} else {
 				throw new LoginException("User does not belong to the specified playground.");
 			}
