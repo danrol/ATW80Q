@@ -83,29 +83,31 @@ public class ElementTest {
 		System.err.println(elemTO + "\nPrinted returned ElementTO\n\n");
 		ElementEntity element2 = elemTO.toEntity();
 		System.err.println(element + "\nPrinted returned converted\n\n");
-		
+
 		assertThat(element2).isEqualTo(element);
 	}
-	
+
 	// 5.3 Scenario: Saving an existing element
 	@Test(expected = RuntimeException.class)
 	public void testSaveAlreadyExistElement() {
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		
+
 		userService.printUserDB();
 		ElementEntity element = new ElementEntity("id", "elementName", "playground", "email@mail.com", 5, 6);
-		
+
 		elementService.addElement(element, "playground", "email@email.com");
 		elementService.printElementDB();
 
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
-		
-		System.err.println("elem is "+elem);
-		
+
+		System.err.println("elem is " + elem);
+
 	}
+
 	@Test
 	public void testPOSTNewElementWithNoCreatorIsAdded() {
 //
@@ -114,7 +116,7 @@ public class ElementTest {
 //
 //		elementService.addElementNoLogin(element);
 //		assertThat(!elementService.getElements().contains(element));
-	//TODO
+		// TODO
 	}
 
 	@Test
@@ -136,10 +138,7 @@ public class ElementTest {
 	// ******************************************************************************************//
 	@Test
 	public void testPOSTNewElementsAreAddedToDatabase() {
-		
-		
-		
-		
+
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground
 		 * }/{email}/all When: User is verified AND i post new elements. Then: all
@@ -162,7 +161,6 @@ public class ElementTest {
 	@Test
 	public void testGETNewElementsFromDatabase() {
 
-		
 //
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -180,7 +178,6 @@ public class ElementTest {
 	@Test
 	public void testPOSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
 
-
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
 //		arrElements[0] = new ElementEntity("1", name, playground, creatorPlayground, 3, 1);
@@ -193,6 +190,7 @@ public class ElementTest {
 //				&& elementService.isElementInDatabase(arrElements[2]));
 //TODO
 	}
+
 	/*******************************************************************************************************************************/
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with
 	// PUT test starts
@@ -201,9 +199,10 @@ public class ElementTest {
 	public void testSuccessfullyUpdateElement() throws Exception {
 
 		// 6.1
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+				"playground");
 		userElementCreator.verifyUser();
-		
+
 		userService.addUser(userElementCreator);
 		ElementEntity elementForTestEntity = new ElementEntity("123", "name", "playground", "email@email.com", 0, 1);
 
@@ -213,7 +212,8 @@ public class ElementTest {
 		updatedElementForTestTO.setName("changedName");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, "playground", "email@email.com", elementForTestEntity.getCreatorPlayground(), "123");
+				updatedElementForTestTO, "playground", "email@email.com", elementForTestEntity.getCreatorPlayground(),
+				"123");
 
 		ElementEntity actualEntity = elementService.getElementNoLogin(elementForTestEntity.getSuperkey());
 
@@ -237,8 +237,9 @@ public class ElementTest {
 	public void testUpdateElementForNonExistingCreator() throws Exception {
 
 		// 6.3
-		ElementEntity updatedElementForTestEntity = new ElementEntity("123","name","userPlayground", "wrong@email.com",0,1);
-		
+		ElementEntity updatedElementForTestEntity = new ElementEntity("123", "name", "userPlayground",
+				"wrong@email.com", 0, 1);
+
 		elementService.addElementNoLogin(updatedElementForTestEntity);
 
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
@@ -348,62 +349,42 @@ public class ElementTest {
 
 	// ******************************************************************************************//
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
-	
-	//8.1
+
+	// 8.1
 	@Test
 	public void testGETAllFromDatabase() {
 
 		userService.printUserDB();
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		userService.printUserDB();
 
-		ElementEntity elem1 = new ElementEntity("1","nameOfElement", "playground", "email@email.com",1,2);
-		ElementEntity elem2 = new ElementEntity("2","nameOfElement", "playground", "email@email.com",2,1);
-		elementService.addElement(elem1, "playground", "email@email");
-		elementService.addElement(elem2, "playground", "email@email");
-		
-		ElementTO[] arrForTest= new ElementTO[]{new ElementTO(elem1), new ElementTO(elem2)};
+		ElementEntity elem1 = new ElementEntity("1", "nameOfElement", "playground", "email@email.com", 1, 2);
+		ElementEntity elem2 = new ElementEntity("2", "nameOfElement", "playground", "email@email.com", 2, 1);
+		elementService.addElementNoLogin(elem1);
+		elementService.addElementNoLogin(elem2);
 
-		
-		
-		ElementTO[] result = restTemplate.getForObject(
-				this.url + "/playground/elements/{userPlayground}/{email}/all",
+		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
+
+		ElementTO[] result = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
 				ElementTO[].class, "playground", "email@email.com");
-		
+
 		assertThat(result).isEqualTo(arrForTest);
-		
-		
-		
-		
-//		boolean flag = true;
-//		String playground = "playground", creatorPlayground = "creator", id = "nameOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
-//		arrElements[1] = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 2, 3);
-//
-//		elementService.addElementNoLogins(arrElements, playground);
-//		for (int i = 0; i < arrElements.length; i++) {
-//			if (!elementService.getElements().contains(arrElements[i])) {
-//				flag = false;
-//				break;
-//			}
-//		}
-//		assertThat(flag == true);
-		//TODO
+
 	}
 
-	//8.2
+	// 8.2
 	@Test
 	public void testGETAllFromEmptyDatabase() {
 
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		
-		ElementTO[] elemArr = restTemplate.getForObject(
-				this.url + "/playground/elements/{userPlayground}/{email}/all",
+
+		ElementTO[] elemArr = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
 				ElementTO[].class, "playground", "email@email.com");
 		assertThat(elemArr).isEqualTo(new ElementTO[0]);
 
@@ -412,18 +393,18 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void testGETAllFromDatabaseWithNoUserVerified() {
 
-		//8.3
-		
-		elementService.addElement(new ElementEntity("1","nameOfElement", "playground", "email@email.com",1,2), "creator", "email@email");
-		elementService.addElement(new ElementEntity("2","nameOfElement", "playground", "email@email.com",2,1), "creator", "email@email");
-		
+		// 8.3
+
+		elementService.addElement(new ElementEntity("1", "nameOfElement", "playground", "email@email.com", 1, 2),
+				"creator", "email@email");
+		elementService.addElement(new ElementEntity("2", "nameOfElement", "playground", "email@email.com", 2, 1),
+				"creator", "email@email");
+
 //		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground"));
-		
-		restTemplate.getForObject(
-				this.url + "/playground/elements/{userPlayground}/{email}/all",
-				ElementTO[].class, "playground", "email@email.com");
-		
-		
+
+		restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all", ElementTO[].class,
+				"playground", "email@email.com");
+
 //		boolean flag = true;
 //		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -432,83 +413,85 @@ public class ElementTest {
 //
 //		elementService.addElementsNoLogin(arrElements);
 //		elementService.getAllElements();
-		//TODO
-	
+		// TODO
+
 	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
 	// ******************************************************************************************//
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 	// test started
-	
+
 	@Test
 	public void DistanceIsGreaterThanZero() {
-		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+				"TestPlayground");
 		userService.addUser(user);
-		
-		for(int i=0;i<10;i++)
-		{
-			ElementEntity element = new ElementEntity(String.valueOf(i+1),"id" + i,"TestPlayground", "email@email.com",i,i);
+
+		for (int i = 0; i < 10; i++) {
+			ElementEntity element = new ElementEntity(String.valueOf(i + 1), "id" + i, "TestPlayground",
+					"email@email.com", i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity(String.valueOf(i+1),"name" + i,"TestPlayground", "email@email.com",0,i);
+			element = new ElementEntity(String.valueOf(i + 1), "name" + i, "TestPlayground", "email@email.com", 0, i);
 			elementService.addElementNoLogin(element);
 		}
-		
-		int distance = 10, x=5, y=5;
-		
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
-				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
-		
-		for(ElementTO element : elements)
-		{
+
+		int distance = 10, x = 5, y = 5;
+
+		ElementTO[] elements = this.restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
+				"TestPlayground", "email@email.com", x, y, distance);
+
+		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
 			double actualDistance = this.distanceBetween(x1, y1, x, y);
 			assertThat(actualDistance).isLessThan(distance);
 		}
-		
+
 	}
 
 	@Test(expected = RuntimeException.class)
 	public void GetElementsWithNegativeDistance() {
 
-
-		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+				"TestPlayground");
 		userService.addUser(user);
-		
-		ElementEntity element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,1);
-		elementService.addElementNoLogin(element);
-		
 
-		int distance = -1, x=5, y=5;
-		
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
-				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
-		
-	
-		}
-		
+		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", 1, 1);
+		elementService.addElementNoLogin(element);
+
+		int distance = -1, x = 5, y = 5;
+
+		ElementTO[] elements = this.restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
+				"TestPlayground", "email@email.com", x, y, distance);
+
+	}
 
 	@Test
 	public void GetElementsWithZeroDistance() {
 
-		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+				"TestPlayground");
 		userService.addUser(user);
-		
-		ElementEntity element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,2);
+
+		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", 1, 2);
 		elementService.addElementNoLogin(element);
-		element = new ElementEntity("2","name","TestPlayground", "email@email.com",1,3);
+		element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", 1, 3);
 		elementService.addElementNoLogin(element);
 
-		int distance = 0, x=1, y=2;
-		
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
-				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
-		
-	assertThat(elements.length).isEqualTo(1);
-	
-	double actualDistance = distanceBetween(elements[0].getLocation().getX(),elements[0].getLocation().getY(),x,y);
-	assertThat(actualDistance).isEqualTo(0);
+		int distance = 0, x = 1, y = 2;
+
+		ElementTO[] elements = this.restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
+				"TestPlayground", "email@email.com", x, y, distance);
+
+		assertThat(elements.length).isEqualTo(1);
+
+		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), x,
+				y);
+		assertThat(actualDistance).isEqualTo(0);
 	}
 
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
