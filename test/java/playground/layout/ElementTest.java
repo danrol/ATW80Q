@@ -419,10 +419,10 @@ public class ElementTest {
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 	// test started
 	@Test
-	public void testIfWeGETElementsFromDatabaseWithRightRadius() {
+	public void DistanceIsGreaterThanZero() {
 
 //		boolean flag = false;
-//		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
+
 //		ElementEntity element1 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 0, 0);
 //		ElementEntity element2 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 0, 1);
 //		ElementEntity element3 = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 3, 7);
@@ -442,8 +442,30 @@ public class ElementTest {
 //			flag = true;
 //		}
 //		assertThat(flag);
+		UserEntity user = new UserEntity("TestUser", "email@email.com","avatar.jpg",Constants.PLAYER_ROLE,"TestPlayground");
+		userService.addUser(user);
 		
-		//TODO
+		for(int i=0;i<10;i++)
+		{
+			ElementEntity element = new ElementEntity(String.valueOf(i+1),"id" + i,"TestPlayground", "email@email.com",2*i,3*i);
+			elementService.addElementNoLogin(element);
+		}
+		
+		int distance = 10, x=5, y=5;
+		
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+				ElementTO[].class, "TestPlayground","email@email.com",x,y,distance);
+		
+		for(ElementTO element : elements)
+		{
+			double x1 = element.getLocation().getX();
+			double y1 = element.getLocation().getY();
+			double actualDistance = this.distanceBetween(x1, y1, x, y);
+					
+					
+			assertThat(actualDistance).isLessThan(distance);
+		}
+		
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -563,5 +585,10 @@ public class ElementTest {
 	// test finished
 
 	// ******************************************************************************************//
+	public double distanceBetween(double x1, double y1, double x2, double y2) {
+		double xin = x1 - x2;
+		double yin = y1 - y2;
+		return Math.sqrt(xin * xin + yin * yin);
 
+	}
 }

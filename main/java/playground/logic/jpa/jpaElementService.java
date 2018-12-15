@@ -43,20 +43,22 @@ public class jpaElementService implements ElementService {
 	public jpaElementService() {
 	}
 
+
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
-			int size) {
+	public ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,
+			String userPlayground, String email) {
+		userService.login(userPlayground, email);
+
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
 		ArrayList<ElementEntity> allElements = getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
-		for (ElementEntity el : allElements) {
-			double xin = el.getX() - element.getX();
-			double yin = el.getY() - element.getY();
 
-			if (Math.sqrt(xin * xin + yin * yin) <= distance) {
+		for (ElementEntity el : allElements) {
+			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
+			if (actualDistance <= distance) {
 				lst.add(el);
 			}
 		}
@@ -65,6 +67,14 @@ public class jpaElementService implements ElementService {
 		} else {
 			return getElementsBySizeAndPage(lst, page, size);
 		}
+	}
+
+	@Override
+	public double distanceBetween(double x1, double y1, double x2, double y2) {
+		double xin = x1 - x2;
+		double yin = y1 - y2;
+		return Math.sqrt(xin * xin + yin * yin);
+
 	}
 
 	@Override

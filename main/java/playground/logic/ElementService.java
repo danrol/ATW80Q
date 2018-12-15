@@ -8,9 +8,6 @@ public interface ElementService {
 
 	void cleanElementService();
 
-	ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
-			int size);
-
 	boolean isElementInDatabase(ElementEntity element);
 
 	void addElements(ElementEntity[] elements, String userPlayground, String email);
@@ -48,6 +45,11 @@ public interface ElementService {
 
 	void replaceElementWith(ElementEntity entity, String id, String creatorPlayground,
 			String userPlayground, String email);
+
+	ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,
+			String userPlayground, String email);
+
+	double distanceBetween(double x1, double y1, double x2, double y2);
 	
 	
 }

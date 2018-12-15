@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import playground.exceptions.ConfirmException;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -37,7 +35,7 @@ public class ElementController {
 	
 
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)throws ConfirmException  {
+	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
 		// function 5
 
 		elementService.addElement(element.toEntity(), userPlayground, email);
@@ -89,27 +87,23 @@ public class ElementController {
 		
 	}
 	
-	
+
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsAtLocation(
+	public ElementTO[] getElementsAroundLocation(
 			@RequestParam(name="page", required=false, defaultValue="0") int page,
 			@RequestParam(name="size", required=false, defaultValue="10") int size,
-			@RequestBody ElementTO element,
 			@PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground,
 			@PathVariable("distance") double distance, 
 			@PathVariable("x") int x, 
-			@PathVariable("y") int y)throws ConfirmException{
+			@PathVariable("y") int y){
 		//function 9
 
-		userService.login(userPlayground,email);
-
-		return getElementTOArray(elementService.getAllElementsInRadius(element.toEntity(),x,y,distance, page, size));
+		ElementEntity[] elements = elementService.getAllElementsInRadius(x,y,distance, page, size, userPlayground, email);
+		return getElementTOArray(elements);
 	}
 	
-
-
 
 	@RequestMapping(
 			method=RequestMethod.GET,
