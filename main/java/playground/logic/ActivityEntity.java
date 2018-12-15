@@ -17,9 +17,6 @@ import playground.Constants;
 @Entity
 @Table(name = "ACTIVITY")
 public class ActivityEntity {
-	/**
-	 * 
-	 */
 
 	// Primary key - playground+id
 	// TODO

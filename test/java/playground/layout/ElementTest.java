@@ -354,7 +354,6 @@ public class ElementTest {
 		userService.printUserDB();
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
-		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		userService.printUserDB();
 
@@ -381,7 +380,6 @@ public class ElementTest {
 
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
-		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
@@ -400,20 +398,11 @@ public class ElementTest {
 		elementService.addElement(new ElementEntity("2", "nameOfElement", "playground", "email@email.com", 2, 1),
 				"creator", "email@email");
 
-//		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground"));
+		userService.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground", "code"));
 
 		restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all", ElementTO[].class,
-				"playground", "email@email.com");
+				"userPlayground", "email@email.com");
 
-//		boolean flag = true;
-//		String playground = "playground", creatorPlayground = "creator", id = "idOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
-//		arrElements[1] = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 2, 1);
-//
-//		elementService.addElementsNoLogin(arrElements);
-//		elementService.getAllElements();
-		// TODO
 
 	}
 

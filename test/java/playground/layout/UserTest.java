@@ -142,7 +142,7 @@ private RestTemplate restTemplate;
 	
 	
 	@Test (expected=RuntimeException.class)
-	public void testConfirmUserWithIncorrectVerificationCode() {
+	public void ConfirmUserWithIncorrectVerificationCode() {
 
 		UserEntity u = new UserEntity("userTest","userTest@gmail.com","Test.jpg,", Constants.MODERATOR_ROLE ,Constants.PLAYGROUND_NAME, "1234");
 		this.userService.addUser(u);
