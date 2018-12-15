@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -116,8 +118,10 @@ public class DummyElementService implements ElementService {
 	// return arrays values depending on page and size
 	@Override
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
-		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
-				.toArray(new ElementEntity[lst.size()]);
+		ElementEntity[] result = lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
+				.toArray(new ElementEntity[page]);
+		
+		return result;
 	}
 
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {

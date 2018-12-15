@@ -198,7 +198,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
 		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
-				.toArray(new ElementEntity[lst.size()]);
+				.toArray(new ElementEntity[page]);
 
 	}
 
