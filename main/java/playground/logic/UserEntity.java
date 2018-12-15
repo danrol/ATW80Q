@@ -37,11 +37,13 @@ public class UserEntity {
 		setPlayground(playground);
 		setPoints(0);
 		setSuperkey();
+		this.verificationCode = generateCode();
 	}
 
 
 	public UserEntity(NewUserForm user) {
-		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME,generateCode());
+		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
+		
 	}
 
 	@Transient
