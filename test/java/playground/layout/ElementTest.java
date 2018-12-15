@@ -177,21 +177,19 @@ public class ElementTest {
 	public void testSuccessfullyUpdateElement() throws Exception {
 
 		// 6.1
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", "PLAYER", "playground");
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
 		userElementCreator.verifyUser();
+		
 		userService.addUser(userElementCreator);
-
 		ElementEntity elementForTestEntity = new ElementEntity("123", "name", "playground", "email@email.com", 0, 1);
 
-		userService.printUserDB();
 		elementService.addElementNoLogin(elementForTestEntity);
-		elementService.printElementDB();
 
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setName("changedName");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, "playground", "email@email.com", "playground", "123");
+				updatedElementForTestTO, "playground", "email@email.com", elementForTestEntity.getCreatorPlayground(), "123");
 
 		ElementEntity actualEntity = elementService.getElementNoLogin(elementForTestEntity.getSuperkey());
 

@@ -8,13 +8,12 @@ public interface ElementService {
 
 	void cleanElementService();
 
-	public ElementEntity[] getAllElementsInRadius(ElementEntity element, 
-			double x, double y, double distance, int page, int size);
-	
-	public boolean isElementInDatabase(ElementEntity element);
+	ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
+			int size);
 
-	public void addElements(ElementEntity[] elements, String userPlayground, String email);
+	boolean isElementInDatabase(ElementEntity element);
 
+	void addElements(ElementEntity[] elements, String userPlayground, String email);
 
 	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
 			String value, int page, int size);
@@ -34,19 +33,21 @@ public interface ElementService {
 	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);
 
 	ElementEntity[] getAllElements();
-	
-	public void printElementDB() ;
+
+	void printElementDB();
 
 	ElementEntity getElement(String superkeyd, String userPlayground, String email);
-
-
-
-	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground, String userPlayground,
-			String email);
-
-	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email);
 
 	void addElementsNoLogin(ElementEntity[] elements);
 
 	ElementEntity getElementNoLogin(String superkey);
+
+	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email);
+
+	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email);
+
+	void replaceElementWith(ElementEntity entity, String id, String creatorPlayground,
+			String userPlayground, String email);
+	
+	
 }

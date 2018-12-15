@@ -69,10 +69,9 @@ public class JPATest {
 		
 		String playground="playground",creatorPlayground="creator",id="idOfElement";
 		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME, playground,creatorPlayground,1,2);
-		element.setName("name");
-		element.setExpirationDate(new Date(2200,1,1));
-		elementService.addElement(element);
+		
+		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElement(id, creatorPlayground)).isEqualTo(element);
+		assertThat(elementService.getElementNoLogin(ElementEntity.setSuperkey(element.getId(), element.getCreatorPlayground()))).isEqualTo(element);
 	}
 }

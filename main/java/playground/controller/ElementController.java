@@ -54,7 +54,7 @@ public class ElementController {
 		 * OUTPUT: NONE
 		 */
 
-		elementService.updateElementInDatabaseFromExternalElement(element.toEntity(),id,creatorPlayground,userPlayground,email);
+		elementService.replaceElementWith(element.toEntity(),id,creatorPlayground,userPlayground,email);
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)

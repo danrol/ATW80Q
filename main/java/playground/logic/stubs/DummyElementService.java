@@ -135,15 +135,29 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
-
+		userService.login(userPlayground, email);
 		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
 		if (tempElement != null) {
-
 			elements.remove(tempElement);
 			elements.add(element);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 	}
+	
+	@Override
+	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
+			String email) {
+		userService.login(userPlayground, email);
+		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground, email);
+		if (tempElement != null) {
+			elements.remove(tempElement);
+			elements.add(entity);
+		} else
+			throw new ElementDataException("element data for update is incorrect");
+		
+	}
+	
+	
 
 	@Override
 	public boolean isElementInDatabase(ElementEntity element) {
@@ -209,6 +223,14 @@ public class DummyElementService implements ElementService {
 	public void addElementNoLogin(ElementEntity element) {
 		elements.add(element);
 	}
+
+	@Override
+	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 

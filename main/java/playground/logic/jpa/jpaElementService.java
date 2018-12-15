@@ -43,7 +43,6 @@ public class jpaElementService implements ElementService {
 	public jpaElementService() {
 	}
 
-
 	@Override
 	@Transactional(readOnly = true)
 	public ElementEntity[] getAllElementsInRadius(ElementEntity element, double x, double y, double distance, int page,
@@ -83,27 +82,13 @@ public class jpaElementService implements ElementService {
 		}
 
 	}
-	
+
 	@Override
 	@Transactional(readOnly = false)
 	public void addElementsNoLogin(ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElementNoLogin(elements[i]);
 		}
-
-	}
-
-	@Override
-	@Transactional(readOnly = false)
-	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
-
-		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
-		if (tempElement != null) {
-			//Deletes old and replaces with new
-			elementsDB.deleteById(tempElement.getSuperkey());
-			elementsDB.save(element);
-		} else
-			throw new ElementDataException("element data for update is incorrect");
 
 	}
 
@@ -116,8 +101,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");
 		for (ElementEntity e : elements) {
-			if (e.getAttributes().containsKey(attributeName)
-					&& e.getAttributes().get(attributeName).equals(value))
+			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty())
@@ -152,21 +136,21 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElement(String id, String creatorPlayground,String userPlayground,String email) {
-		return getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,email);
+	public ElementEntity getElement(String id, String creatorPlayground, String userPlayground, String email) {
+		return getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground, email);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public ElementEntity getElement(String superkey, String userPlayground, String email) {
-		
-		userService.login(userPlayground,email);
+
+		userService.login(userPlayground, email);
 		return getElementNoLogin(superkey);
 	}
+
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity getElementNoLogin(String superkey)
-	{
+	public ElementEntity getElementNoLogin(String superkey) {
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
 			System.err.println("\n\n\n");
@@ -185,9 +169,8 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	public void addElement(ElementEntity element, String userPlayground, String email) {
 		userService.login(userPlayground, email);
-		
-		addElementNoLogin(element);
 
+		addElementNoLogin(element);
 
 	}
 
@@ -212,7 +195,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional
-	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String creatorPlayground, String userPlayground, String email) {
+	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {
 		try {
 			for (ElementEntity el : elements) {
 				updateElementInDatabaseFromExternalElement(el, userPlayground, email);
@@ -254,4 +237,34 @@ public class jpaElementService implements ElementService {
 			elementsDB.save(element);
 		}
 	}
+
+	@Override
+	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
+			String email) {
+		userService.login(userPlayground, email);
+		ElementEntity tempElement = this.getElement(ElementEntity.setSuperkey(id, creatorPlayground), userPlayground,
+				email);
+		if (tempElement != null) {
+			// Deletes old and replaces with new
+			elementsDB.deleteById(tempElement.getSuperkey());
+			elementsDB.save(entity);
+		} else
+			throw new ElementDataException("element data for update is incorrect");
+
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
+		userService.login(userPlayground, email);
+		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
+		if (tempElement != null) {
+			// Deletes old and replaces with new
+			elementsDB.deleteById(tempElement.getSuperkey());
+			elementsDB.save(element);
+		} else
+			throw new ElementDataException("element data for update is incorrect");
+
+	}
+
 }
