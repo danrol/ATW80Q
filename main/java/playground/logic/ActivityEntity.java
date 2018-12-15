@@ -19,7 +19,6 @@ import playground.Constants;
 public class ActivityEntity {
 
 	// Primary key - playground+id
-	// TODO
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
 	private String id;

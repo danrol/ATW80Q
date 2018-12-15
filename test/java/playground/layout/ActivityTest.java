@@ -1,5 +1,5 @@
 package playground.layout;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import javax.annotation.PostConstruct;
 import org.junit.After;
 import org.junit.Before;
@@ -12,6 +12,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.Constants;
+import playground.logic.ActivityEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
@@ -60,19 +61,15 @@ private RestTemplate restTemplate;
 	}
 	//******************************************************************************************//
 	// url #11 /playground/activities/{userPlayground}/{email} started
+	
+	//11.1 Scenario: Server receives activity
 	@Test
-	public void testSendValidActivityToServer() {
-	/*
-	 * 
-		Given the server is up and I POST /playground/activities/{userPlayground}/{email}
-		When user login details are correct and activity is valid
-		Then an Object is returned
-	*/
-		
-		ActivityTO act = new ActivityTO();
+	public void testSendValidActivityToServer() {		
+		ActivityTO act = new ActivityTO(new ActivityEntity());
 		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
-		System.err.println(ob);
+		assertThat(act).isEqualToComparingFieldByField(ob);
 	}
+	
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//
 

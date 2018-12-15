@@ -82,118 +82,37 @@ public class ElementTest {
 		assertThat(element2).isEqualTo(element);
 	}
 
-	// 5.3 Scenario: Saving an existing element
+	// 5.2 Scenario: Saving an existing element
 	@Test(expected = RuntimeException.class)
 	public void saveAlreadyExistElement() {
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
+		
 		userService.addUser(userElementCreator);
-
-		userService.printUserDB();
+		
 		ElementEntity element = new ElementEntity("id", "elementName", "playground", "email@mail.com", 5, 6);
-
-		elementService.addElement(element, "playground", "email@email.com");
-		elementService.printElementDB();
-
+		
+		elementService.addElementNoLogin(element);
+		int dbSize = elementService.getAllElements().length;
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
 
-		System.err.println("elem is " + elem);
+		assertThat(element).isEqualTo(elem.toEntity());
+		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
 
 	}
 
-	@Test
-	public void POSTNewElementWithNoCreatorIsAdded() {
-//
-//		String playground = "playground", creatorPlayground = "creator", id = "";
-//		ElementEntity element = new ElementEntity(id, Constants.ELEMENT_NAME, playground, creatorPlayground, 1, 2);
-//
-//		elementService.addElementNoLogin(element);
-//		assertThat(!elementService.getElements().contains(element));
-		// TODO
-	}
-
-	@Test
-	public void POSTElementsThatAllRedyInDatabase() {
-
-//		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity("1", name, playground, creatorPlayground, 3, 1);
-//		arrElements[1] = new ElementEntity("2", name, playground, creatorPlayground, 3, 3);
-//		arrElements[2] = new ElementEntity("3", name, playground, creatorPlayground, 3, 3);
-//
-//		elementService.addElementNoLogins(arrElements, playground);
-//		assertThat(elementService.isElementInDatabase(arrElements[0]));
-//		assertThat(elementService.isElementInDatabase(arrElements[1]));
-//TODO
-	}
-	// url #5 /playground/elements/{userPlayground }/{email} finished
-
-	// ******************************************************************************************//
-	@Test
-	public void POSTNewElementsAreAddedToDatabase() {
-
-		/*
-		 * Given: Server is up AND I POST /playground/elements/{userPlayground
-		 * }/{email}/all When: User is verified AND i post new elements. Then: all
-		 * elements are saved in the database.
-		 */
-//
-//		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity("1", name, playground, creatorPlayground, 3, 1);
-//		arrElements[1] = new ElementEntity("2", name, playground, creatorPlayground, 3, 2);
-//		arrElements[2] = new ElementEntity("3", name, playground, creatorPlayground, 3, 3);
-//
-//		elementService.addElementNoLogins(arrElements, playground);
-//		assertThat(
-//				elementService.isElementInDatabase(arrElements[0]) && elementService.isElementInDatabase(arrElements[1])
-//						&& elementService.isElementInDatabase(arrElements[2]));
-//TODO
-	}
-
-	@Test
-	public void GETNewElementsFromDatabase() {
-
-//
-//		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity("1", name, playground, creatorPlayground, 3, 1);
-//		arrElements[1] = new ElementEntity("2", name, playground, creatorPlayground, 3, 2);
-//		arrElements[2] = new ElementEntity("3", name, playground, creatorPlayground, 3, 3);
-//
-//		elementService.addElementNoLogins(arrElements, playground);
-//		assertThat(
-//				elementService.isElementInDatabase(arrElements[0]) && elementService.isElementInDatabase(arrElements[1])
-//						&& elementService.isElementInDatabase(arrElements[2]));
-//TODO
-	}
-
-	@Test
-	public void POSTNewElementsWithSameFieldsAreNotAddedDuplicatedToDatabase() {
-
-//		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
-//		ElementEntity[] arrElements = new ElementEntity[3];
-//		arrElements[0] = new ElementEntity("1", name, playground, creatorPlayground, 3, 1);
-//		arrElements[1] = new ElementEntity("2", name, playground, creatorPlayground, 3, 1);
-//		arrElements[2] = new ElementEntity("3", name, playground, creatorPlayground, 3, 3);
-//
-//		elementService.addElementNoLogins(arrElements, playground);
-//		assertThat(elementService.isElementInDatabase(arrElements[0])
-//				&& (!elementService.isElementInDatabase(arrElements[1]))
-//				&& elementService.isElementInDatabase(arrElements[2]));
-//TODO
-	}
 
 	/*******************************************************************************************************************************/
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with
 	// PUT test starts
 
+	// 6.1 Scenario: Test successfully update element in database 
 	@Test
 	public void successfullyUpdateElement() {
 
-		// 6.1
+		
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
@@ -217,10 +136,12 @@ public class ElementTest {
 		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
 	}
 
+	
+	//6.2 Scenario: Test update non-existent element
 	@Test(expected = RuntimeException.class)
 	public void updateNonExistingElement() {
 
-		// 6.2
+		
 		ElementEntity elementEntityForTest = new ElementEntity("123", "name", "playground", "email@email.com", 0, 1);
 		ElementTO elementForTest = new ElementTO(elementEntityForTest);
 
@@ -228,10 +149,12 @@ public class ElementTest {
 				elementForTest, "userPlayground", "email@email.com", "wrongPlayground", "123");
 	}
 
+	
+	//6.3 Scenario : Test update existing element with non existent Creator email in playground
 	@Test(expected = RuntimeException.class)
-	public void updateElementForNonExistingCreator() throws Exception {
+	public void updateElementForNonExistingCreator() {
 
-		// 6.3
+		
 		ElementEntity updatedElementForTestEntity = new ElementEntity("123", "name", "userPlayground",
 				"wrong@email.com", 0, 1);
 
@@ -249,8 +172,27 @@ public class ElementTest {
 	// PUT test finished
 	// ******************************************************************************************//
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test
-	// started
 
+
+	//7.1 Scenario: Get element with incorrect login details
+	@Test(expected = RuntimeException.class)
+	public void GETElementIncorrectLoginElementExists() {
+
+		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
+				Constants.PLAYGROUND_NAME);
+		u.verifyUser();
+		this.userService.addUser(u);
+		ElementEntity element = new ElementEntity("elementIdTest", Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
+				"elementTest@gmail.com", 5, 7);
+		this.elementService.addElementNoLogin(element);
+
+		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+				ElementTO.class, Constants.PLAYGROUND_NAME, "userTestWrong@gmail.com", Constants.PLAYGROUND_NAME,
+				"elementIdTest");
+
+	}
+	
+	//7.2 Scenario: Get element with incorrect login details, and element not in database
 	@Test(expected = RuntimeException.class)
 	public void GETElementCorrectLoginElementNotInDatabase() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -262,6 +204,7 @@ public class ElementTest {
 				"elementIdTest");
 
 	}
+	//7.3 Scenario: Get Element with correct login details and element exists
 
 	@Test
 	public void GETElementCorrectLoginElementExists() {
@@ -280,23 +223,7 @@ public class ElementTest {
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void GETElementIncorrectLoginElementExists() {
-
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME);
-		u.verifyUser();
-		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity("elementIdTest", Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
-				"elementTest@gmail.com", 5, 7);
-		this.elementService.addElementNoLogin(element);
-
-		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				ElementTO.class, Constants.PLAYGROUND_NAME, "userTestWrong@gmail.com", Constants.PLAYGROUND_NAME,
-				"elementIdTest");
-
-	}
-
+	//7.4 Scenario: Get element with correct login details and element doesn’t exist
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -319,7 +246,7 @@ public class ElementTest {
 	// ******************************************************************************************//
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
 
-	// 8.1
+	// 8.1 Scenario: Test get all elements from database
 	@Test
 	public void GETAllFromDatabase() {
 
@@ -347,7 +274,7 @@ public class ElementTest {
 
 	}
 
-	// 8.2
+	// 8.2 Scenario: Test get all elements from empty database
 	@Test
 	public void GETAllFromEmptyDatabase() {
 
@@ -362,10 +289,10 @@ public class ElementTest {
 
 	}
 
+	//8.3 Scenario: Not registered user fails to get all elements in the database 
 	@Test(expected = RuntimeException.class)
 	public void GETAllFromDatabaseWithNoUserVerified() {
 
-		// 8.3
 
 		elementService.addElement(new ElementEntity("1", "nameOfElement", "playground", "email@email.com", 1, 2),
 				"creator", "email@email");
@@ -376,8 +303,6 @@ public class ElementTest {
 
 		restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all", ElementTO[].class,
 				"userPlayground", "email@email.com");
-
-
 	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
@@ -385,6 +310,27 @@ public class ElementTest {
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 	// test started
 
+	
+
+	//9.1 Scenario: Negative Distance
+	@Test(expected = RuntimeException.class)
+	public void GETElementsWithNegativeDistance() {
+
+		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+				"TestPlayground");
+		user.verifyUser();
+		userService.addUser(user);
+		int distance = -1, x = 5, y = 5;
+		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", x, y);
+		elementService.addElementNoLogin(element);
+
+		
+
+		ElementTO[] elements = this.restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
+				"TestPlayground", "email@email.com", x, y, distance);
+	}
+	//9.2 Scenario: Distance is Zero
 	@Test
 	public void distanceIsGreaterThanZero() {
 		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
@@ -414,26 +360,7 @@ public class ElementTest {
 		}
 
 	}
-
-	@Test(expected = RuntimeException.class)
-	public void GETElementsWithNegativeDistance() {
-
-		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
-				"TestPlayground");
-		user.verifyUser();
-		userService.addUser(user);
-		int distance = -1, x = 5, y = 5;
-		ElementEntity element = new ElementEntity("2", "name", "TestPlayground", "email@email.com", x, y);
-		elementService.addElementNoLogin(element);
-
-		
-
-		ElementTO[] elements = this.restTemplate.getForObject(
-				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
-				"TestPlayground", "email@email.com", x, y, distance);
-
-	}
-
+	//9.3 Scenario: Distance is greater than Zero
 	@Test
 	public void GETElementsWithZeroDistance() {
 
@@ -469,10 +396,10 @@ public class ElementTest {
 	// "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}"
 	// test starts
 
+	//10.1 Scenario: Successfully Get Elements By Attribute Name Value
 	@Test
 	public void successfullyGetElementsByAttributeNameValue() {
 
-//		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
@@ -499,10 +426,11 @@ public class ElementTest {
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
 	}
 
+
+	//10.2 Scenario: Test no Elements in ElementService with searched {attributeName}  returns empty array of ElementTO 
 	@Test
 	public void attributeNotExist() {
 
-//		10.1
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
@@ -522,11 +450,11 @@ public class ElementTest {
 				ElementTO[].class, "creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
-
+	
+	//10.3 Scenario: Test no Elements in ElementService with searched {attributeValue}  returns empty array of ElementTO
 	@Test
 	public void valueInAttributeNotExist() {
 
-		// 10.2
 		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);

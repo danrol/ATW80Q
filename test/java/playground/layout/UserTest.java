@@ -12,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import playground.Constants;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
@@ -61,18 +60,22 @@ public class UserTest {
 
 //******************************************************************************************//
 	// url #1 /playground/users tests start
+	
+	//1.1 Scenario: Test register with wrong email (no “@” and web address afterwards) 
+
 	@Test(expected = RuntimeException.class)
 	public void registerNewUserWithWrongEmail() {
-		//1.1
+
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS,
 				Constants.PLAYER_ROLE);
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
 				UserTO.class);
 	}
 
+	//1.2 Scenario: Test successful register 
 	@Test
 	public void successfullyRegisterNewUser() {
-		//1.2
+
 		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
@@ -81,11 +84,10 @@ public class UserTest {
 				UserTO.class);
 		assertThat(actualReturnedValue).isNotNull().isEqualToComparingFieldByField(testValue);
 	}
-
+	//1.3 Scenario: Test register user with the same email as the one that another user already have in the database
 	@Test(expected = RuntimeException.class)
 	public void registerUserThatAlreadyExists() {
 
-		//1.3
 		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
@@ -99,13 +101,15 @@ public class UserTest {
 
 	// ******************************************************************************************//
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test starts
+	
+	//2.1 Scenario: Email not registered.
 	@Test(expected = RuntimeException.class)
 	public void confirmUserEmailNotInDatabase() {
 
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com", "1234");
 	}
-
+	//2.2 Scenario : Successful confirmation
 	@Test
 	public void confirmUserWithCorrectCode() {
 
@@ -118,7 +122,7 @@ public class UserTest {
 		assertThat(user).isNotNull();
 
 	}
-
+	//2.3 Scenario: Playground doesn’t match user 
 	@Test(expected = RuntimeException.class)
 	public void confirmUserNotInPlayground() {
 
@@ -128,7 +132,7 @@ public class UserTest {
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTestPlayground@gmail.com", u.getVerificationCode());
 	}
-
+	//2.4 Scenario: Email is registered but verification code is wrong
 	@Test(expected = RuntimeException.class)
 	public void confirmUserWithIncorrectVerificationCode() {
 
@@ -144,7 +148,7 @@ public class UserTest {
 
 	// ******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
-
+	//3.1 Scenario: Successful Login
 	@Test
 	public void loginUserWithCorrectEmail() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -155,7 +159,7 @@ public class UserTest {
 				UserTO.class, Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 		assertThat(user).isNotNull();
 	}
-
+	//3.2 Scenario: Email not in Database
 	@Test(expected = RuntimeException.class)
 	public void loginUserEmailNotInDatabase() {
 		UserEntity u = new UserEntity("userTest", "userTest2@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
@@ -166,7 +170,7 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 
 	}
-
+	//3.3 Scenario: User doesn’t belong in playground
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
@@ -176,7 +180,7 @@ public class UserTest {
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
-
+	//3.4 Scenario: User not verified
 	@Test(expected = RuntimeException.class)
 	public void loginUserWhenUserNotverified() {
 
@@ -190,7 +194,8 @@ public class UserTest {
 	// url #3/playground/users/login/{playground}/{email} test finished
 	// ******************************************************************************************//
 	// url #4 /playground/users/{playground}/{email} test starts
-
+	
+	//4.1 Scenario: Moderator changes his user
 	@Test
 	public void changeUserWhenRoleIsModeratorAndChangeHisUser() {
 
@@ -201,7 +206,8 @@ public class UserTest {
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser,
 				Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
-
+	
+	//4.2 Scenario: Moderator changes other moderator user
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
 
@@ -218,7 +224,8 @@ public class UserTest {
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
 				moderatorUser.getEmail());
 	}
-
+	
+	//4.3 Scenario: Moderator changes other player user
 	@Test
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
 
@@ -236,6 +243,7 @@ public class UserTest {
 				moderatorUser.getEmail());
 	}
 
+	//4.4 Scenario: Player changes his user
 	@Test
 	public void changeUserWhenRoleIsPlayerAndChangeHisUser() {
 
@@ -246,7 +254,8 @@ public class UserTest {
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser,
 				Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
-
+	
+	//4.5 Scenario: Player changes other player user
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
 
@@ -263,7 +272,8 @@ public class UserTest {
 		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
 				PlayerUser.getEmail());
 	}
-
+	
+	//4.6 Scenario: Player changes other moderator user
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
 
