@@ -353,6 +353,28 @@ public class ElementTest {
 	@Test
 	public void testGETAllFromDatabase() {
 
+		userService.printUserDB();
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		userService.printUserDB();
+
+		ElementEntity elem1 = new ElementEntity("1","nameOfElement", "playground", "email@email.com",1,2);
+		ElementEntity elem2 = new ElementEntity("2","nameOfElement", "playground", "email@email.com",2,1);
+		elementService.addElement(elem1, "playground", "email@email");
+		elementService.addElement(elem2, "playground", "email@email");
+		
+		ElementTO[] arrForTest= new ElementTO[]{new ElementTO(elem1), new ElementTO(elem2)};
+
+		
+		
+		ElementTO[] result = restTemplate.getForObject(
+				this.url + "/playground/elements/{userPlayground}/{email}/all",
+				ElementTO[].class, "playground", "email@email.com");
+		
+		assertThat(result).isEqualTo(arrForTest);
+		
+		
 		
 		
 //		boolean flag = true;
