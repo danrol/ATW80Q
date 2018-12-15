@@ -101,8 +101,10 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
+	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
 			String attributeName, String value, int page, int size) {
+		
+		userService.login(creatorPlayground, email);
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if (element.getAttributes().containsKey(attributeName)

@@ -103,9 +103,9 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
+	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
 			String attributeName, String value, int page, int size) {
-
+		userService.login(creatorPlayground,email);
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");
