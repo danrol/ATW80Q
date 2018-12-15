@@ -371,7 +371,10 @@ public class ElementTest {
 		ElementTO[] result = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
 				ElementTO[].class, "playground", "email@email.com");
 
-		assertThat(result).isEqualTo(arrForTest);
+		assertThat(result).isNotNull();
+		assertThat(result[0]).isEqualToComparingFieldByField(arrForTest[0]);
+		assertThat(result[1]).isEqualToComparingFieldByField(arrForTest[1]);
+
 
 	}
 
