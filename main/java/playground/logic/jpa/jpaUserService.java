@@ -103,16 +103,9 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly=true)
 	public UserEntity getUser(String email, String playground) {
-		Optional<UserEntity> el = userDB.findById(UserEntity.setSuperkey(email, playground));
-		if (el.isPresent()) {
-			try {
-				return el.get();
-			} catch (Exception e) {
-				System.out.println("user:" + el.toString() + "/n failed to load from database");
-			}
-
-		}
-		return null;
+		String idToSearchBy = UserEntity.setSuperkey(email, playground);
+		UserEntity user = userDB.findById(idToSearchBy).orElse(null);
+		return user;
 	}
 
 	@Override
@@ -179,14 +172,14 @@ public class jpaUserService implements UserService {
 		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
 		try {
 			
-			for(UserEntity e: userDB.findAll())
-				lst.add(e);
+			for(UserEntity u: userDB.findAll())
+				lst.add(u);
 		} catch (Exception e) {
 
 		}
-		System.err.println("DB-TEST:all users in database");
-		for (UserEntity e : lst) {
-			System.out.println(e.toString());
+		System.err.println("DB-TEST:all users in database:\n");
+		for (UserEntity u : lst) {
+			System.out.println(u.toString());
 		}
 		System.out.println("\n");
 	}

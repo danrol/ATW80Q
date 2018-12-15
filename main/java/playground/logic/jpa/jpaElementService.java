@@ -231,6 +231,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	public void addElementNoLogin(ElementEntity element) {
+		printElementDB();
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database:" + element.toString());
 		} else {

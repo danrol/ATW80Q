@@ -71,7 +71,7 @@ public class ElementTest {
 
 	// 5.1 Scenario: Test Save element in database
 	@Test
-	public void TestSaveElementInDatabase() {
+	public void testSaveElementInDatabase() {
 
 		UserEntity user = new UserEntity("user", "mail@mail.com", "ava", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
@@ -83,10 +83,29 @@ public class ElementTest {
 		System.err.println(elemTO + "\nPrinted returned ElementTO\n\n");
 		ElementEntity element2 = elemTO.toEntity();
 		System.err.println(element + "\nPrinted returned converted\n\n");
-
+		
 		assertThat(element2).isEqualTo(element);
 	}
+	
+	// 5.3 Scenario: Saving an existing element
+	@Test(expected = RuntimeException.class)
+	public void testSaveAlreadyExistElement() {
+		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,"playground");
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		
+		userService.printUserDB();
+		ElementEntity element = new ElementEntity("id", "elementName", "playground", "email@mail.com", 5, 6);
+		
+		elementService.addElement(element, "playground", "email@email.com");
+		elementService.printElementDB();
 
+		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
+				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
+		
+		System.err.println("elem is "+elem);
+		
+	}
 	@Test
 	public void testPOSTNewElementWithNoCreatorIsAdded() {
 //
@@ -117,6 +136,10 @@ public class ElementTest {
 	// ******************************************************************************************//
 	@Test
 	public void testPOSTNewElementsAreAddedToDatabase() {
+		
+		
+		
+		
 		/*
 		 * Given: Server is up AND I POST /playground/elements/{userPlayground
 		 * }/{email}/all When: User is verified AND i post new elements. Then: all
@@ -139,6 +162,7 @@ public class ElementTest {
 	@Test
 	public void testGETNewElementsFromDatabase() {
 
+		
 //
 //		String playground = "playground", creatorPlayground = "creator", name = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -324,9 +348,12 @@ public class ElementTest {
 
 	// ******************************************************************************************//
 	// url #8 /playground/elements/{userPlayground }/{email}/all test started
+	
+	//8.1
 	@Test
 	public void testGETAllFromDatabase() {
 
+		
 //		boolean flag = true;
 //		String playground = "playground", creatorPlayground = "creator", id = "nameOfElement";
 //		ElementEntity[] arrElements = new ElementEntity[3];
@@ -344,6 +371,7 @@ public class ElementTest {
 		//TODO
 	}
 
+	//8.2
 	@Test
 	public void testGETAllFromEmptyDatabase() {
 
