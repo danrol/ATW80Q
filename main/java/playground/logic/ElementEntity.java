@@ -37,21 +37,18 @@ public class ElementEntity {
 	private String creatorEmail;
 	private double x;
 	private double y;
-//	private Location location = new Location();
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	private String superkey;
 
 
 
 	public ElementEntity() {
-//		this.location = new Location();
-//		id = ID++;
+		id = String.valueOf(ID++);
 		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR,Constants.DEFAULT_EXPIRATION_MONTH, Constants.DEFAULT_EXPIRATION_DAY);
 		this.creationDate = new Date();
 	}
 
-//	create constructors that receive just a JSon 
-//	string and create the class in ElementEntity
+//	 Constructor that receives just a JSon string and creates the class in ElementEntity
 	public ElementEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
 		ObjectMapper objectMapper = new ObjectMapper();
 		ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
@@ -121,8 +118,8 @@ public class ElementEntity {
 	}
 	
 	@Transient
-	public static String createKey(String string1, String string2) {
-		return string1.concat(" " + string2);
+	public static String createKey(String id, String creatorPlayground) {
+		return id.concat(" " + creatorPlayground);
 	}
 
 	public String getName() {
@@ -156,7 +153,6 @@ public class ElementEntity {
 	}
 
 	public void setCreationDate(Date creationDate) {
-//		this.creationDate = creationDate;
 		this.creationDate = new Date(creationDate.getTime());
 	}
 	@Temporal(TemporalType.TIMESTAMP)
@@ -165,7 +161,6 @@ public class ElementEntity {
 	}
 
 	public void setExpirationDate(Date expirationDate) {
-//		this.expirationDate = expirationDate;
 		this.expirationDate = new Date(expirationDate.getTime());
 	}
 
@@ -229,11 +224,12 @@ public class ElementEntity {
 	
 	public double getY() {
 		return y;
-}
+	}
 
 	public void setY(double y) {
 		this.y = y;
 	}
+	
 	@Transient
 	public String toString() {
 		return "ElementEntity [superkey="+superkey+", name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
@@ -312,6 +308,4 @@ public class ElementEntity {
 			return false;
 		return true;
 	}
-	
-	
 }

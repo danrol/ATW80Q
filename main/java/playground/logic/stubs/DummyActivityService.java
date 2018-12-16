@@ -10,7 +10,7 @@ import playground.logic.ActivityService;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
-@Service
+//@Service
 public class DummyActivityService implements ActivityService {
 
 	private ArrayList<ActivityEntity> activities = new ArrayList<ActivityEntity>();

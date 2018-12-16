@@ -204,8 +204,8 @@ public class ElementTest {
 				"elementIdTest");
 
 	}
+	
 	//7.3 Scenario: Get Element with correct login details and element exists
-
 	@Test
 	public void GETElementCorrectLoginElementExists() {
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,

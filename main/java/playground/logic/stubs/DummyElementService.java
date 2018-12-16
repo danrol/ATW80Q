@@ -3,6 +3,8 @@ package playground.logic.stubs;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;

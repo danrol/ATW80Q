@@ -68,7 +68,7 @@ public class UserTest {
 
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS,
 				Constants.PLAYER_ROLE);
-		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
+		this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
 				UserTO.class);
 	}
 

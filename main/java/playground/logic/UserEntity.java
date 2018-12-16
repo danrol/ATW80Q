@@ -6,10 +6,13 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import playground.Constants;
 
+//KEY IS EMAIL+PLAYGROUND
 @Entity
 @Table(name = "USER")
 public class UserEntity {
-	//KEY IS EMAIL+PLAYGROUND
+	
+	private static int ID = 0;
+
 	private String email;
 	private String avatar;
 	private String username;
@@ -17,10 +20,12 @@ public class UserEntity {
 	private String role = Constants.UNDEFINED_ROLE;
 	private String verificationCode = Constants.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
+	private String id;
+
 	private long points = 0;
 
 	public UserEntity() {
-
+		id = String.valueOf(ID++);
 	}
 
 	public UserEntity(String username, String email, String avatar, String role, String playground) {
@@ -59,8 +64,8 @@ public class UserEntity {
 		superkey = createKey(email, playground);
 	}
 	@Transient
-	public static String createKey(String string1, String string2) {
-		return string1.concat(" " + string2);
+	public static String createKey(String email, String playground) {
+		return email.concat(" " + playground);
 	}
 
 	public String getVerificationCode() {
@@ -71,6 +76,13 @@ public class UserEntity {
 		this.verificationCode = verificationCode;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 	public String getEmail() {
 		return email;
@@ -149,7 +161,7 @@ public class UserEntity {
 	@Override
 	@Transient
 	public String toString() {
-		return "UserEntity [superkey="+superkey+", email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
+		return "UserEntity [superkey="+superkey+",id="+id+" email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
 				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", points=" + points + "]";
 	}
 

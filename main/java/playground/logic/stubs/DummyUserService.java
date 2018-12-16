@@ -1,5 +1,8 @@
 package playground.logic.stubs;
 import java.util.ArrayList;
+
+import org.springframework.stereotype.Service;
+
 import playground.Constants;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
