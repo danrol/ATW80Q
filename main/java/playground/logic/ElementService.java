@@ -2,8 +2,6 @@ package playground.logic;
 
 import java.util.ArrayList;
 
-import playground.layout.ElementTO;
-
 public interface ElementService {
 
 	void cleanElementService();

@@ -1,15 +1,10 @@
 package playground.logic;
 
-import java.util.regex.Pattern;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import playground.Constants;
-import playground.exceptions.RegisterNewUserException;
 
 @Entity
 @Table(name = "USER")

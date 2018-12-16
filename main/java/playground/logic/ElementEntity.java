@@ -1,7 +1,4 @@
 package playground.logic;
-
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;

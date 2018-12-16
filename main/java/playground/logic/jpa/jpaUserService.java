@@ -1,19 +1,16 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import playground.Constants;
 import playground.dal.UserDao;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
-import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
