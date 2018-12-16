@@ -24,7 +24,6 @@ import playground.Constants;
 @Table(name = "ELEMENT")
 public class ElementEntity {
 
-	private static int ID = 0;
 
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -43,7 +42,6 @@ public class ElementEntity {
 
 
 	public ElementEntity() {
-		id = String.valueOf(ID++);
 		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR,Constants.DEFAULT_EXPIRATION_MONTH, Constants.DEFAULT_EXPIRATION_DAY);
 		this.creationDate = new Date();
 	}

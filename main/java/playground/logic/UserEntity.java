@@ -11,7 +11,6 @@ import playground.Constants;
 @Table(name = "USER")
 public class UserEntity {
 	
-	private static int ID = 0;
 
 	private String email;
 	private String avatar;
@@ -25,7 +24,6 @@ public class UserEntity {
 	private long points = 0;
 
 	public UserEntity() {
-		id = String.valueOf(ID++);
 	}
 
 	public UserEntity(String username, String email, String avatar, String role, String playground) {
