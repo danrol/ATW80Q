@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.Constants;
+import playground.aop.MyLog;
 import playground.dal.UserDao;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
@@ -53,6 +54,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(email, playground);
 
@@ -83,6 +85,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
 			try {
@@ -106,6 +109,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional(readOnly=true)
+	@MyLog
 	public UserEntity login(String playground, String email) {
 		UserEntity u = getUser(email, playground);
 		if (u != null) {
@@ -130,6 +134,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public void updateUser(UserEntity user, String email, String playground) {
 		login(playground, email);
 		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {

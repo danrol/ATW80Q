@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
@@ -35,6 +36,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@MyLog
 	public void cleanElementService() {
 		elementsDB.deleteAll();
 
@@ -45,6 +47,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MyLog
 	public ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,
 			String userPlayground, String email) {
 		userService.login(userPlayground, email);
@@ -69,6 +72,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@MyLog
 	public double distanceBetween(double x1, double y1, double x2, double y2) {
 		double xin = x1 - x2;
 		double yin = y1 - y2;
@@ -78,6 +82,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transient
+	@MyLog
 	public boolean isElementInDatabase(ElementEntity element) {
 
 		return this.elementsDB.existsById(element.getSuperkey());
@@ -94,6 +99,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
+	@MyLog
 	public void addElementsNoLogin(ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElementNoLogin(elements[i]);
@@ -103,6 +109,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MyLog
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
 			String attributeName, String value, int page, int size) {
 		userService.login(creatorPlayground,email);
@@ -122,6 +129,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transient
+	@MyLog
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
 		if (element.getCreatorPlayground().equals(creatorPlayground) && element.getCreatorEmail().equals(creatorEmail))
@@ -132,6 +140,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MyLog
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
 			int size) {
 		ArrayList<ElementEntity> elements = getElements();
@@ -159,6 +168,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MyLog
 	public ElementEntity getElementNoLogin(String superkey) {
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
@@ -196,6 +206,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = true)
+	@MyLog
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
 		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
 				.toArray(new ElementEntity[page]);
@@ -204,6 +215,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email) {
 		try {
 			for (ElementEntity el : elements) {
@@ -239,6 +251,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@MyLog
 	public void addElementNoLogin(ElementEntity element) {
 		printElementDB();
 		if (elementsDB.existsById(element.getSuperkey())) {
@@ -249,6 +262,7 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
+	@MyLog
 	public void replaceElementWith(ElementEntity entity, String id, String creatorPlayground, String userPlayground,
 			String email) {
 		userService.login(userPlayground, email);
@@ -265,6 +279,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
+	@MyLog
 	public void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email) {
 		userService.login(userPlayground, email);
 		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
