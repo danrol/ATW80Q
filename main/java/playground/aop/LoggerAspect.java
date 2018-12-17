@@ -1,4 +1,5 @@
 package playground.aop;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -13,41 +14,26 @@ import com.sun.org.apache.bcel.internal.generic.LNEG;
 @Component
 @Aspect
 public class LoggerAspect {
-	
-//	@Before("@annotation(playground.aop.MyLog)")
-	public void log (JoinPoint joinPoint) {
-		String className = joinPoint.getTarget().getClass().getSimpleName();
-		String methodName = joinPoint.getSignature().getName();
-		System.err.println("*****************" + className + "." + methodName + "()");
-	}
-	
+	private Log log = LogFactory.getLog(LoggerAspect.class);
+
 	@Around("@annotation(playground.aop.MyLog)")
-	public Object log (ProceedingJoinPoint joinPoint) throws Throwable {
+	public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		String methodName = joinPoint.getSignature().getName();
 		String methodSignature = className + "." + methodName + "()";
-		
-     	System.err.println(methodSignature + " - start");
-		
-		
+		log.debug(methodSignature + " - start");
+
 		try {
 			Object rv = joinPoint.proceed();
-			System.err.println(methodSignature + " - ended successfully");
-			
+			log.debug(methodSignature + " - ended successfully");
+
 			return rv;
 		} catch (Throwable e) {
-			System.err.println(methodSignature + " - end with error" + e.getClass().getName());
-			
+			log.error(methodSignature + " - end with error" + e.getClass().getName());
+
 			throw e;
 		}
 	}
-	
-//	@Around("@annotation(playground.aop.MyLog) && args(name,..)")
-	public Object log (ProceedingJoinPoint joinPoint, String name) throws Throwable {
-		System.err.println("name: " + name);
-		if (name == null || name.length() < 5) {
-			throw new RuntimeException("Invalid name: " + name + " - it is too short");
-		}
-		return joinPoint.proceed();
-	}
+
+
 }
