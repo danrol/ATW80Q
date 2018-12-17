@@ -26,24 +26,18 @@ public class LoggerAspect {
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		String methodName = joinPoint.getSignature().getName();
 		String methodSignature = className + "." + methodName + "()";
-		System.err.println("*");
-		System.err.println("**");
-		System.err.println("***");
+		
      	System.err.println(methodSignature + " - start");
 		
 		
 		try {
 			Object rv = joinPoint.proceed();
 			System.err.println(methodSignature + " - ended successfully");
-			System.err.println("***");
-			System.err.println("**");
-			System.err.println("*");
+			
 			return rv;
 		} catch (Throwable e) {
 			System.err.println(methodSignature + " - end with error" + e.getClass().getName());
-			System.err.println("***");
-			System.err.println("**");
-			System.err.println("*");
+			
 			throw e;
 		}
 	}
