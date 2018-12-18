@@ -121,6 +121,7 @@ public class ElementController {
 		 * OUTPUT: ElementTO[]
 		 */
 		ElementEntity[] elementsWithValueInAttr= elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size);
+		
 		if (elementsWithValueInAttr.length != 0  ) 
 			return getElementTOArray(elementsWithValueInAttr);
 		else return new ElementTO[0];

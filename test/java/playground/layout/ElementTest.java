@@ -405,15 +405,15 @@ public class ElementTest {
 		ElementTO elementTO = new ElementTO(
 				new ElementEntity("123", Constants.ELEMENT_NAME, "playground", "nudnik@mail.ru", 1, 0));
 		elementTO.setCreatorPlayground("creatorPlayground");
-		ElementTO[] elementForTest = { elementTO };
+		ElementTO elementForTest =  elementTO ;
 
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put("attribute1", "attr1Value");
 		testMap.put("attribute2", "attr2Value");
 		testMap.put("attr3", "attr3Val");
 
-		elementForTest[0].setAttributes(testMap);
-		elementService.addElementNoLogin(elementForTest[0].toEntity());
+		elementForTest.setAttributes(testMap);
+		elementService.addElementNoLogin(elementForTest.toEntity());
 
 		ElementTO[] forNow = this.restTemplate.getForObject(
 				url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
@@ -421,7 +421,7 @@ public class ElementTest {
 
 		elementService.printElementDB();
 		assertThat(forNow).isNotNull();
-		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest[0]);
+		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest);
 	}
 
 

@@ -23,13 +23,22 @@ public class LoginRequiredAspect {
 	}
 
 	@Around("@annotation(playground.aop.LoginRequired) && args(userPlayground,email,..)")
-	public UserEntity Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
+	public void Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		System.err.println(u);
 		if (u != null) {
 			if (u.isVerified()) {
-				joinPoint.proceed();
+		//		Object[] args = joinPoint.getArgs();
+//				Object[] args = new Object[joinPoint.getArgs().length+1];
+//				for(int i=0;i<joinPoint.getArgs().length;i++)
+//				{
+//					args[i] = joinPoint.getArgs()[i];
+//				}
+//				args[joinPoint.getArgs().length] = u;
+				
+				//joinPoint.proceed(args);
+				joinPoint.proceed(joinPoint.getArgs());
 			} else {
 				throw new LoginException("User is not verified.");
 			}
@@ -40,7 +49,7 @@ public class LoginRequiredAspect {
 		
 		
 
-		return u;
+		//return u;
 	}
 
 }

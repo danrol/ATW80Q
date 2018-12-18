@@ -1,5 +1,7 @@
 package playground.aop;
 
+import java.util.Arrays;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -27,7 +29,7 @@ public class LoggerAspect {
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		String methodName = joinPoint.getSignature().getName();
 		String methodSignature = className + "." + methodName + "()";
-		log.debug(methodSignature + " - start");
+		log.debug(methodSignature + " - start with args " + Arrays.toString(joinPoint.getArgs()));
 
 		try {
 			Object rv = joinPoint.proceed();

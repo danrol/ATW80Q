@@ -1,6 +1,7 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -114,15 +115,17 @@ public class jpaElementService implements ElementService {
 	//@LoginRequired
 	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
 			String attributeName, String value, int page, int size) {
+		System.err.println("here \n" + userPlayground + " " + email+" "+attributeName+" "+size);
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-		System.out.println("Entered get elements with value in attr");
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty())
+		{
 			return new ElementEntity[0];
+		}
 		else
 			return getElementsBySizeAndPage(tempElementsList, page, size);
 
