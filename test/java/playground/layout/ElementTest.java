@@ -74,10 +74,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity("id1", "elementName", "thisPlayground", "mail@mail.com", 5, 6);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, Constants.PLAYGROUND_NAME, "mail@mail.com");
-
-		System.err.println(elemTO + "\nPrinted returned ElementTO\n\n");
 		ElementEntity element2 = elemTO.toEntity();
-		System.err.println(element + "\nPrinted returned converted\n\n");
 
 		assertThat(element2).isEqualTo(element);
 	}
