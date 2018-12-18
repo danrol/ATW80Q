@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="main/java"/>
-	<classpathentry kind="src" path="test/java"/>
 	<classpathentry kind="src" path="main/resources"/>
+	<classpathentry kind="src" path="test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/integrationcourseenv/libs/web.db.lib/accessors-smart-1.2.jar"/>
 	<classpathentry kind="lib" path="C:/integrationcourseenv/libs/web.db.lib/activemq-broker-5.15.6.jar"/>
