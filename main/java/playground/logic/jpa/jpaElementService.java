@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
@@ -110,9 +111,9 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
+	@LoginRequired
+	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
 			String attributeName, String value, int page, int size) {
-		userService.login(creatorPlayground,email);
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		System.out.println("Entered get elements with value in attr");

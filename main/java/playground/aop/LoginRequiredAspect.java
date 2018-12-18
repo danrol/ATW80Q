@@ -12,14 +12,13 @@ public class LoginRequiredAspect {
 	
 
 	@Before("@annotation(playground.aop.LoginRequired) && args(userPlayground,email,..)")
-	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
+	public void Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		//TODO
 		
-		System.err.println("Login here stub");
+		System.err.println("Login here UserPlayground: " + userPlayground + "and email: " + email);
 		if (userPlayground == null || email.length() < 5) {
 			throw new RuntimeException("Invalid name: " + email + " - it is too short");
 		}
-		return joinPoint.proceed();
 	}
 	 
 
