@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import playground.dal.UserDao;
+import playground.exceptions.LoginException;
 import playground.logic.UserEntity;
 
 @Component
@@ -22,17 +23,24 @@ public class LoginRequiredAspect {
 	}
 
 	@Around("@annotation(playground.aop.LoginRequired) && args(userPlayground,email,..)")
-	public void Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
-		if (userPlayground == null) {
-			throw new RuntimeException("Invalid name: " + " - it is too short");
+	public UserEntity Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
+
+		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
+		System.err.println(u);
+		if (u != null) {
+			if (u.isVerified()) {
+				joinPoint.proceed();
+			} else {
+				throw new LoginException("User is not verified.");
+			}
+
+		} else {
+			throw new LoginException("Email is not registered.");
 		}
+		
+		
 
-		// UserEntity u = userDB.findById(UserEntity.createKey(email,
-		// userPlayground)).orElse(null);
-
-		System.err.println("Login here UserPlayground: " + userPlayground + "and email: " + email);
-		// System.err.println("User is " + u);
-		joinPoint.proceed();
+		return u;
 	}
 
 }
