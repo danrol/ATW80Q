@@ -111,7 +111,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	@LoginRequired
+	//@LoginRequired
 	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
 			String attributeName, String value, int page, int size) {
 		ArrayList<ElementEntity> elements = getElements();
