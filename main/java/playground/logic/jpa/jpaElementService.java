@@ -239,25 +239,12 @@ public class jpaElementService implements ElementService {
 		return arr.toArray(new ElementEntity[arr.size()]);
 	}
 
-	@Override
-	@Transient
-	public void printElementDB() {
-		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
-
-		for (ElementEntity e : elementsDB.findAll())
-			lst.add(e);
-
-		System.err.println("\nDB-TEST:all elements in database:\n");
-		for (ElementEntity e : lst) {
-			System.out.println(e.toString());
-		}
-		System.out.println("\n");
-	}
+	
 
 	@Override
 	@MyLog
 	public void addElementNoLogin(ElementEntity element) {
-		printElementDB();
+		
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database:" + element.toString());
 		} else {

@@ -214,11 +214,7 @@ public class DummyElementService implements ElementService {
 
 	}
 
-	@Override
-	public void printElementDB() {
-		System.err.println(elements);
-
-	}
+	
 
 	@Override
 	public void addElementNoLogin(ElementEntity element) {

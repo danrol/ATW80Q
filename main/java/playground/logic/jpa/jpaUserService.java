@@ -170,23 +170,7 @@ public class jpaUserService implements UserService {
 
 	}
 
-	@Override
-	@Transactional(readOnly=true)
-	public void printUserDB() {
-		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
-		try {
-			
-			for(UserEntity u: userDB.findAll())
-				lst.add(u);
-		} catch (Exception e) {
-
-		}
-		System.err.println("DB-TEST:all users in database:\n");
-		for (UserEntity u : lst) {
-			System.out.println(u.toString());
-		}
-		System.out.println("\n");
-	}
+	
 	
 	@Override
 	@Transient

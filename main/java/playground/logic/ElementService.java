@@ -29,8 +29,6 @@ public interface ElementService {
 
 	ElementEntity[] getAllElements();
 
-	void printElementDB();
-
 	ElementEntity getElement(String superkeyd, String userPlayground, String email);
 
 	void addElementsNoLogin(ElementEntity[] elements);

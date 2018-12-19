@@ -165,11 +165,7 @@ public class DummyUserService implements UserService{
 		return serialVersionUID;
 	}
 
-	@Override
-	public void printUserDB() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public boolean isUserInDatabase(UserEntity user) {

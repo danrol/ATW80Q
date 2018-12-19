@@ -220,7 +220,7 @@ public class ElementTest {
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
 	}
 
-	//7.4 Scenario: Get element with correct login details and element doesn’t exist
+	//7.4 Scenario: Get element with correct login details and element doesnï¿½t exist
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -247,12 +247,12 @@ public class ElementTest {
 	@Test
 	public void GETAllFromDatabase() {
 
-		userService.printUserDB();
+		
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		userService.printUserDB();
+		
 
 		ElementEntity elem1 = new ElementEntity("1", "nameOfElement", "playground", "email@email.com", 1, 2);
 		ElementEntity elem2 = new ElementEntity("2", "nameOfElement", "playground", "email@email.com", 2, 1);
@@ -419,7 +419,7 @@ public class ElementTest {
 				url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
 				"creatorPlayground", "nudnik@mail.ru", "attr3", "attr3Val");
 
-		elementService.printElementDB();
+		
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest);
 	}
