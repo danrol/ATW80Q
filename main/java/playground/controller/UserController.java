@@ -1,6 +1,9 @@
 package playground.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
+import playground.layout.ElementTO;
 import playground.layout.UserTO;
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-
 
 
 @RestController
@@ -78,5 +82,20 @@ public class UserController {
 		 */
 		this.userService.updateUser(user, email, playground);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE)
+	public UserTO[] getAllUsers(Pageable pageable) {
+		userService.addDummyUsers();
+		return getElementTOArray(userService.getUsers(pageable));
+		
+	}
 
+	public UserTO[] getElementTOArray(UserEntity[] lst){
+		ArrayList<UserTO> result = new ArrayList<>();
+		for (UserEntity e : lst) {
+			result.add(new UserTO(e));
+		}
+		return result.toArray(new UserTO[lst.length]);
+	}
+	
 }

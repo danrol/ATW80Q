@@ -2,9 +2,13 @@ package playground.logic;
 
 import java.util.ArrayList;
 
+import org.springframework.data.domain.Pageable;
+
 public interface UserService {
 
 	ArrayList<UserEntity> getUsers();
+	UserEntity[] getUsers(Pageable pageable);
+	 void addDummyUsers();
 
 	UserEntity addUser(UserEntity user);
 

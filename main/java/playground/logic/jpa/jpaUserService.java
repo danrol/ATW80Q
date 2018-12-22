@@ -1,8 +1,11 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.Constants;
@@ -26,6 +29,14 @@ public class jpaUserService implements UserService {
 	public jpaUserService(UserDao userDB) {
 		this.userDB = userDB;
 	}
+	
+	@Override
+	@Transactional
+	public void addDummyUsers() {
+		for(int i=0; i<=25;i++) {
+		userDB.save(new UserEntity("dan " +i, "dan"+i+"@mail.ru", "ava", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
+		}
+	}
 
 	@Override
 	@Transactional
@@ -36,7 +47,18 @@ public class jpaUserService implements UserService {
 
 		return lst;
 	}
+	
+	@Override
+	@Transactional
+	public UserEntity[] getUsers(Pageable pageable) {
+		List<UserEntity> allUsers =  userDB.findAll(pageable).getContent();
+		return turnListIntoArray(allUsers);
+	}
 
+	
+	public UserEntity[] turnListIntoArray(List<UserEntity> lst) {
+		return lst.toArray(new UserEntity[lst.size()]);
+	}
 	@Override
 	@Transactional
 	public UserEntity addUser(UserEntity user) {
