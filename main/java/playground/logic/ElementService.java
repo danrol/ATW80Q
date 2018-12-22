@@ -29,25 +29,22 @@ public interface ElementService {
 
 	double distanceBetween(double x1, double y1, double x2, double y2);
 
-	void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element,
-			ElementEntity stub);
+	void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element);
 
 	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
-			String creatorPlayground, ElementEntity stub);
+			String creatorPlayground);
 
-	void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements,
-			ElementEntity stub);
+	void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements);
 
-	ElementEntity getElement(String userPlayground, String email, String superkey, ElementEntity stub);
+	ElementEntity getElement(String userPlayground, String email, String superkey);
 
-	ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground,
-			ElementEntity stub);
+	ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground);
 
-	void addElements(String userPlayground, String email, ElementEntity[] elements, ElementEntity stub);
+	void addElements(String userPlayground, String email, ElementEntity[] elements);
 
 	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
-			int page, int size, ElementEntity stub);
+			int page, int size);
 
-	void addElement(String userPlayground, String email, ElementEntity element, ElementEntity stub);
+	void addElement(String userPlayground, String email, ElementEntity element);
 
 }

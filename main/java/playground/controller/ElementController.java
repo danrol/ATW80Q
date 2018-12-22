@@ -38,7 +38,7 @@ public class ElementController {
 	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
 		// function 5
 
-		elementService.addElement(element.toEntity(), userPlayground, email);
+		elementService.addElement(userPlayground, email,element.toEntity());
 		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getCreatorPlayground(),userPlayground,email));
 		return elementT;
 	}
@@ -52,7 +52,7 @@ public class ElementController {
 		 * OUTPUT: NONE
 		 */
 
-		elementService.replaceElementWith(element.toEntity(),id,creatorPlayground,userPlayground,email);
+		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
@@ -64,7 +64,7 @@ public class ElementController {
 		 */
 		ElementEntity element = null;
 
-		element = elementService.getElement(id, creatorPlayground, userPlayground, email);
+		element = elementService.getElement(userPlayground, email,id, creatorPlayground);
 
 		return new ElementTO(element);
 	}
@@ -100,7 +100,7 @@ public class ElementController {
 			@PathVariable("y") int y){
 		//function 9
 
-		ElementEntity[] elements = elementService.getAllElementsInRadius(x,y,distance, page, size, userPlayground, email);
+		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, page, size);
 		return getElementTOArray(elements);
 	}
 	

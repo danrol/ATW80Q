@@ -48,7 +48,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, int page, int size, ElementEntity stub) {
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, int page, int size) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
@@ -89,7 +89,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = false)
 	@LoginRequired
-	public void addElements(String userPlayground, String email, ElementEntity[] elements, ElementEntity stub) {
+	public void addElements(String userPlayground, String email, ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElement(userPlayground, email, elements[i]);
 		}
@@ -155,14 +155,14 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@LoginRequired
-	public ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground, ElementEntity stub) {
+	public ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground) {
 		return getElement(userPlayground, email,ElementEntity.createKey(id, creatorPlayground));
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	@LoginRequired
-	public ElementEntity getElement(String userPlayground, String email, String superkey, ElementEntity stub) {
+	public ElementEntity getElement(String userPlayground, String email, String superkey) {
 		return getElementNoLogin(superkey);
 	}
 
@@ -187,7 +187,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = false)
 	@LoginRequired
-	public void addElement(String userPlayground, String email, ElementEntity element, ElementEntity stub) {
+	public void addElement(String userPlayground, String email, ElementEntity element) {
 		addElementNoLogin(element);
 
 	}
@@ -216,7 +216,7 @@ public class jpaElementService implements ElementService {
 	@Transactional
 	@MyLog
 	@LoginRequired
-	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements, ElementEntity stub) {
+	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
 			for (ElementEntity el : elements) {
 				updateElementInDatabaseFromExternalElement(userPlayground, email,el);
@@ -252,7 +252,7 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@LoginRequired
 	public void replaceElementWith(String userPlayground,
-			String email, ElementEntity entity, String id, String creatorPlayground, ElementEntity stub) {
+			String email, ElementEntity entity, String id, String creatorPlayground) {
 		ElementEntity tempElement = this.getElement(ElementEntity.createKey(id, creatorPlayground), userPlayground,
 				email);
 		if (tempElement != null) {
@@ -268,7 +268,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@MyLog
 	@LoginRequired
-	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element, ElementEntity Stub) {
+	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element) {
 		
 		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
 		if (tempElement != null) {
