@@ -40,6 +40,7 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object executeActivity(ActivityEntity activity) {
+		
 		String activityType=activity.getType();
 		
 		switch (activityType) {
