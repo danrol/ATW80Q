@@ -11,4 +11,6 @@ public interface ActivityService {
 	
 	ActivityEntity getActivity(String superkey);
 
+	Object getMessage(ActivityEntity activity);
+
 }

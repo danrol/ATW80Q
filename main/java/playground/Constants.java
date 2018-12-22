@@ -26,6 +26,7 @@ public class Constants {
 	public static String ID_FOR_TESTS = "308748323";
 	public static String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	public static String AVATAR_FOR_TESTS = "MyAvatar.jpg";
+	
 	public static int DEFAULT_EXPIRATION_YEAR;
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;
@@ -35,6 +36,7 @@ public class Constants {
 	public static String MESSAGE_WRITE = "MESSAGE_WRITE";
 	public static String MESSAGE_DELETE = "MESSAGE_DELETE";
 	
+	public static String MESSAGE_ID_ATTR = "MessageID";
 	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
