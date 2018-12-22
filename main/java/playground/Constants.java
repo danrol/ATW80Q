@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Constants {
+	public static String PLAYGROUND_MAIL;
 	public static String PLAYGROUND_NAME;
 	public static String MODERATOR_ROLE = "MODERATOR";
 	public static String PLAYER_ROLE = "PLAYER";
@@ -41,6 +42,11 @@ public class Constants {
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Constants.PLAYGROUND_NAME = defaultPlaygroundName;
+	}
+	
+	@Value("${playground.mail:playgroundrolnik@gmail.com}")
+	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
+		Constants.PLAYGROUND_MAIL = defaultPlaygroundMail;
 	}
 
 	@Value("${playground.default.username:noname}")

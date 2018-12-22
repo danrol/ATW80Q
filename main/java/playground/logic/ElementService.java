@@ -53,5 +53,9 @@ public interface ElementService {
 	
 	ElementEntity getElementByType(String type);
 
+	boolean elementWithTypeExists(String type);
+
+	void addMessageBoard();
+
 
 }

@@ -38,9 +38,6 @@ private RestTemplate restTemplate;
 	private int port;
 	private String url;
 	
-//	@Autowired
-//	private Database database;
-
 
 	@PostConstruct
 	public void init() {

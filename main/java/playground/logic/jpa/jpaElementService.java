@@ -11,7 +11,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
@@ -44,6 +44,21 @@ public class jpaElementService implements ElementService {
 	public void cleanElementService() {
 		elementsDB.deleteAll();
 
+	}
+	
+	public jpaElementService() {
+
+		addMessageBoard();
+	}
+	@Override
+	public void addMessageBoard() {
+		if(this.elementWithTypeExists(Constants.MESSAGEBOARD))
+		{
+			ElementEntity element = new ElementEntity("MessageBoardId","Message Board", Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_MAIL,0,0);
+			this.addElementNoLogin(element);
+			//Adding message board
+		}
+		
 	}
 
 	@Override
@@ -291,16 +306,28 @@ public class jpaElementService implements ElementService {
 	}
 
 	@Override
-	@LoginRequired
 	@Transactional(readOnly = true)
 	public ElementEntity getElementByType(String type) {
 		ArrayList<ElementEntity> arr=getElements();
 		for(ElementEntity el:arr) {
 			if(el.getType().equals(type)) {
+				
 				return el;
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean elementWithTypeExists(String type) {
+		ArrayList<ElementEntity> arr=getElements();
+		for(ElementEntity el:arr) {
+			if(el.getType().equals(type)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
