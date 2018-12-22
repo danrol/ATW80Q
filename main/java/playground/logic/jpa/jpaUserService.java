@@ -9,11 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.Constants;
+import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.UserDao;
 import playground.exceptions.ChangeUserException;
 import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
@@ -32,6 +32,7 @@ public class jpaUserService implements UserService {
 	
 	@Override
 	@Transactional
+	@MyLog
 	public void addDummyUsers() {
 		for(int i=0; i<=25;i++) {
 		userDB.save(new UserEntity("dan " +i, "dan"+i+"@mail.ru", "ava", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
@@ -40,6 +41,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public ArrayList<UserEntity> getUsers() {
 		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
 			for(UserEntity u: userDB.findAll())
@@ -50,6 +52,7 @@ public class jpaUserService implements UserService {
 	
 	@Override
 	@Transactional
+	@MyLog
 	public UserEntity[] getUsers(Pageable pageable) {
 		List<UserEntity> allUsers =  userDB.findAll(pageable).getContent();
 		return turnListIntoArray(allUsers);
@@ -61,6 +64,7 @@ public class jpaUserService implements UserService {
 	}
 	@Override
 	@Transactional
+	@MyLog
 	public UserEntity addUser(UserEntity user) {
 		UserEntity result = new UserEntity();
 		if (userDB.existsById(user.getSuperkey())) {
@@ -100,6 +104,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
+	@MyLog
 	public void cleanUserService() {
 		userDB.deleteAll();
 
@@ -123,6 +128,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional(readOnly=true)
+	@MyLog
 	public UserEntity getUser(String email, String playground) {
 		String idToSearchBy = UserEntity.createKey(email, playground);
 		UserEntity user = userDB.findById(idToSearchBy).orElse(null);
@@ -141,8 +147,8 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional
 	@MyLog
-	public void updateUser(UserEntity user, String email, String playground) {
-		login(playground, email);
+	@LoginRequired
+	public void updateUser(String playground, String email, UserEntity user) {
 		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
 			if (user.getEmail().equals(email)) {
 				updateUser(user);
@@ -165,6 +171,7 @@ public class jpaUserService implements UserService {
 
 	@Override
 	@Transactional
+	@MyLog
 	public void addUser(NewUserForm user) {
 		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
 			throw new RegisterNewUserException("User already registered");
@@ -180,6 +187,7 @@ public class jpaUserService implements UserService {
 	
 	@Override
 	@Transient
+	@MyLog
 	public boolean isUserInDatabase(UserEntity user) {
 
 		return this.userDB.existsById(user.getSuperkey());

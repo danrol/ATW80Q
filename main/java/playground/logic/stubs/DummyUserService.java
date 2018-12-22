@@ -108,7 +108,7 @@ public class DummyUserService implements UserService{
 	}
 	
 	@Override
-	public void updateUser(UserEntity user, String email,String playground) {
+	public void updateUser(String playground,String email,UserEntity user) {
 		
 		login(playground, email);
 		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {

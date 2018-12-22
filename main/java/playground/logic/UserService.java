@@ -22,11 +22,12 @@ public interface UserService {
 
 	UserEntity login(String playground, String email);
 
-	void updateUser(UserEntity user, String email, String playground);
-
 	void addUser(NewUserForm user);
 
 	boolean isUserInDatabase(UserEntity user);
+	
+	
+	void updateUser(String playground, String email, UserEntity user);
 	
 
 }

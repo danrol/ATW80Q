@@ -1,10 +1,8 @@
 package playground.aop;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,27 +27,18 @@ public class LoginRequiredAspect {
 		System.err.println(u);
 		if (u != null) {
 			if (u.isVerified()) {
-		//		Object[] args = joinPoint.getArgs();
-//				Object[] args = new Object[joinPoint.getArgs().length+1];
-//				for(int i=0;i<joinPoint.getArgs().length;i++)
-//				{
-//					args[i] = joinPoint.getArgs()[i];
-//				}
-//				args[joinPoint.getArgs().length] = u;
+				Object t = joinPoint.proceed(joinPoint.getArgs());
+				System.err.println("USER IS VERIFIED");
+				return t;
 				
-				//joinPoint.proceed(args);
-				return joinPoint.proceed(joinPoint.getArgs());
 			} else {
+				System.err.println("USER IS NOT VERIFIED");
 				throw new LoginException("User is not verified.");
 			}
 
 		} else {
 			throw new LoginException("Email is not registered.");
 		}
-		
-		
-
-		//return u;
 	}
 
 }

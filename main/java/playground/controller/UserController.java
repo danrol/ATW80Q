@@ -81,7 +81,7 @@ public class UserController {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
-		this.userService.updateUser(user, email, playground);
+		this.userService.updateUser(playground,email, user);
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE)

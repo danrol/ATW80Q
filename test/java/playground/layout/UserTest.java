@@ -186,6 +186,8 @@ public class UserTest {
 
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
+		assertThat(u.isVerified()).isFalse();
+		
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
