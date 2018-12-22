@@ -8,18 +8,12 @@ public interface ElementService {
 
 	boolean isElementInDatabase(ElementEntity element);
 
-	void addElements(ElementEntity[] elements, String userPlayground, String email);
-
 	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
 			String value, int page, int size);
 
 	boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground, String creatorEmail);
 
 	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size);
-
-	ElementEntity getElement(String id, String playground, String userPlayground, String email);
-
-	void addElement(ElementEntity element, String userPlayground, String email);
 
 	void addElementNoLogin(ElementEntity element);
 
@@ -29,23 +23,31 @@ public interface ElementService {
 
 	ElementEntity[] getAllElements();
 
-	ElementEntity getElement(String superkeyd, String userPlayground, String email);
-
 	void addElementsNoLogin(ElementEntity[] elements);
 
 	ElementEntity getElementNoLogin(String superkey);
 
-	void updateElementsInDatabase(ArrayList<ElementEntity> elements, String userPlayground, String email);
-
-	void updateElementInDatabaseFromExternalElement(ElementEntity element, String userPlayground, String email);
-
-	void replaceElementWith(ElementEntity entity, String id, String creatorPlayground,
-			String userPlayground, String email);
-
-	ElementEntity[] getAllElementsInRadius(double x, double y, double distance, int page, int size,
-			String userPlayground, String email);
-
 	double distanceBetween(double x1, double y1, double x2, double y2);
-	
-	
+
+	void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element,
+			ElementEntity stub);
+
+	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
+			String creatorPlayground, ElementEntity stub);
+
+	void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements,
+			ElementEntity stub);
+
+	ElementEntity getElement(String userPlayground, String email, String superkey, ElementEntity stub);
+
+	ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground,
+			ElementEntity stub);
+
+	void addElements(String userPlayground, String email, ElementEntity[] elements, ElementEntity stub);
+
+	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
+			int page, int size, ElementEntity stub);
+
+	void addElement(String userPlayground, String email, ElementEntity element, ElementEntity stub);
+
 }
