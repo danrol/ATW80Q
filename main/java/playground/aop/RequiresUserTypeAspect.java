@@ -21,6 +21,7 @@ public class RequiresUserTypeAspect {
 	@Around("@annotation(playground.aop.RequiresUserType) && args(userPlayground,email,..)")
 	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email, 
 			String requiredRole) throws Throwable {
+		//TODO change needed
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		System.err.println(u);
 		if(u.getRole().equals(requiredRole)){
