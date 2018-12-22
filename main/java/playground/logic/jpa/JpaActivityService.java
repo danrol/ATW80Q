@@ -40,21 +40,21 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object executeActivity(ActivityEntity activity) {
-
-		if (activity.getType().equals(Constants.MESSAGE_WRITE)) {
-	
-		}
-		if (activity.getType().equals(Constants.MESSAGE_READ)) {
-
+		String activityType=activity.getType();
+		
+		switch (activityType) {
+		case Constants.MESSAGE_READ:{
 			return getMessage(activity);
 		}
-		if (activity.getType().equals(Constants.MESSAGE_DELETE)) {
-//			ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
-//			if (el.attributeExists(Constants.MESSAGE_NAME, activity.getJsonAttributes())) {
-//				el.getAttributes().remove(Constants.MESSAGE_NAME, activity.getJsonAttributes());
-//				return activity.getJsonAttributes();
-//			}
+		case Constants.MESSAGE_WRITE:{
+			return setMessage(activity);
 		}
+		case Constants.MESSAGE_DELETE:{
+			return deleteMessage(activity);
+		}
+			
+		}
+	
 		return null;
 	}
 
@@ -63,6 +63,18 @@ public class JpaActivityService implements ActivityService {
 		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
 		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
 		return el.getAttributes().get(messageId);
+	}
+	@Override
+	public Object deleteMessage(ActivityEntity activity) {
+		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
+		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
+		return el.getAttributes().remove(messageId);
+	}
+	@Override
+	public Object setMessage(ActivityEntity activity) {
+		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
+		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
+		return el.getAttributes().put(messageId, activity.getAttribute());
 	}
 
 	@Override

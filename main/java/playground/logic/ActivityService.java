@@ -13,4 +13,8 @@ public interface ActivityService {
 
 	Object getMessage(ActivityEntity activity);
 
+	Object deleteMessage(ActivityEntity activity);
+
+	Object setMessage(ActivityEntity activity);
+
 }
