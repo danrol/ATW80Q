@@ -1,15 +1,18 @@
 package playground.logic.stubs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import playground.exceptions.ElementDataException;
+import playground.logic.ActivityEntity;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
+import org.springframework.data.domain.Pageable;
+
 
 //@Service
 public class DummyElementService implements ElementService {
@@ -47,7 +50,6 @@ public class DummyElementService implements ElementService {
 		for (int i = 0; i < elements.length; i++) {
 			addElement(playground, email,elements[i]);
 		}
-
 	}
 
 	@Override
@@ -78,16 +80,6 @@ public class DummyElementService implements ElementService {
 		return getElementNoLogin(superkey);
 	}
 
-	@Override
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
-			int size) {
-		ArrayList<ElementEntity> result = new ArrayList<>();
-		for (ElementEntity element : elements) {
-			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
-				result.add(element);
-		}
-		return getElementsBySizeAndPage(result, page, size);
-	}
 
 	@Override
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
@@ -98,30 +90,20 @@ public class DummyElementService implements ElementService {
 			return false;
 	}
 
-	@Override
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
-			String attributeName, String value, int page, int size) {
-		
-		userService.login(creatorPlayground, email);
-		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-		for (ElementEntity element : elements) {
-			if (element.getAttributes().containsKey(attributeName)
-					&& element.getAttributes().get(attributeName).equals(value))
-				tempElementsList.add(element);
-		}
-		if (tempElementsList.isEmpty())
-			return new ElementEntity[0];
-		else
-			return getElementsBySizeAndPage(tempElementsList, page, size);
-	}
 
-	// return arrays values depending on page and size
+
 	@Override
-	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
-		ElementEntity[] result = lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
-				.toArray(new ElementEntity[page]);
-		
-		return result;
+	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
+		return lst.toArray(new ElementEntity[lst.size()]);
+	}
+	
+	private ElementEntity[] paginateList(ArrayList<ElementEntity> lst, int page, int size) {
+		return lst
+				.stream()
+				.skip(size * page) 
+				.limit(size) 
+				.collect(Collectors.toList())
+				.toArray(new ElementEntity[lst.size()]); 
 	}
 
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
@@ -171,7 +153,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email,double x, double y, double distance, int page, int size) {
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email,double x, double y, double distance, Pageable pageable) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
@@ -186,10 +168,12 @@ public class DummyElementService implements ElementService {
 		if (lst.isEmpty()) {
 			return null;
 		} else {
-			return getElementsBySizeAndPage(lst, page, size);
+			return paginateList(lst, pageable.getPageNumber(), pageable.getPageSize());
 		}
 
 	}
+
+
 
 	@Override
 	public void cleanElementService() {
@@ -206,7 +190,6 @@ public class DummyElementService implements ElementService {
 		for (int i = 0; i < arr.length; i++) {
 			arr[i] = elements.get(i);
 		}
-
 		return arr;
 
 	}
@@ -228,37 +211,38 @@ public class DummyElementService implements ElementService {
 
 	}
 
+
 	@Override
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
+	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
 			String attributeName, String value, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		userService.login(creatorPlayground, email);
+		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
+		for (ElementEntity element : elements) {
+			if (element.getAttributes().containsKey(attributeName)
+					&& element.getAttributes().get(attributeName).equals(value))
+				tempElementsList.add(element);
+		}
+		if (tempElementsList.isEmpty())
+			return new ElementEntity[0];
+		else
+			return paginateList(tempElementsList, pageable.getPageNumber(), pageable.getPageSize());
 	}
 
 	@Override
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
-			Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable) {
+		ArrayList<ElementEntity> result = new ArrayList<>();
+		for (ElementEntity element : elements) {
+			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
+				result.add(element);
+		}
+		return paginateList(result, pageable.getPageNumber(), pageable.getPageSize());
 	}
 
 	@Override
 	public ArrayList<ElementEntity> getElements(Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
-			double distance, Pageable pageable) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<ElementEntity>(
+				Arrays.asList(paginateList(getElements(), pageable.getPageNumber(), pageable.getPageSize())));
 	}
 
 	@Override
