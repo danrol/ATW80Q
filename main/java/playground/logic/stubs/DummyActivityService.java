@@ -13,7 +13,7 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
-@Service
+//@Service
 public class DummyActivityService implements ActivityService {
 
 	private ArrayList<ActivityEntity> activities = new ArrayList<ActivityEntity>();
@@ -57,8 +57,22 @@ public class DummyActivityService implements ActivityService {
 		.toArray(new ActivityEntity[lst.size()]); 
 	}
 
+	
+
 	@Override
-	public Object ExternalActivity(String activityType) {
+	public Object executeActivity(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActivityEntity addActivity(ActivityEntity e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ActivityEntity getActivity(String superkey) {
 		// TODO Auto-generated method stub
 		return null;
 	}

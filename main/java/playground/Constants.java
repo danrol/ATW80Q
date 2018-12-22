@@ -30,6 +30,7 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
+	public static String MESSAGE_NAME = "MESSAGE";
 	public static String MESSAGE_READ = "MESSAGE_READ";
 	public static String MESSAGE_WRITE = "MESSAGE_WRITE";
 	public static String MESSAGE_DELETE = "MESSAGE_DELETE";
