@@ -12,7 +12,7 @@ import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.UserDao;
-import playground.exceptions.ChangeUserException;
+import playground.exceptions.PermissionUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.RegisterNewUserException;
 import playground.logic.NewUserForm;
@@ -155,16 +155,16 @@ public class jpaUserService implements UserService {
 			} else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
 				updateUser(user);
 			} else {
-				throw new ChangeUserException("Moderator cannot change other moderator user");
+				throw new PermissionUserException("Moderator cannot change other moderator user");
 			}
 		} else if (getUser(email, playground).getRole().equals(Constants.PLAYER_ROLE)) {
 			if (email.equals(user.getEmail())) {
 				updateUser(user);
 			} else {
-				throw new ChangeUserException("PLAYER_ROLE cannot change other users information");
+				throw new PermissionUserException("PLAYER_ROLE cannot change other users information");
 			}
 		} else {
-			throw new ChangeUserException("Invalid role " + getUser(email, playground).getRole());
+			throw new PermissionUserException("Invalid role " + getUser(email, playground).getRole());
 		}
 
 	}
