@@ -1,6 +1,8 @@
 package playground.logic;
 
 import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
+
 
 public interface ElementService {
 
@@ -9,17 +11,19 @@ public interface ElementService {
 	boolean isElementInDatabase(ElementEntity element);
 
 	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
-			String value, int page, int size);
+			String value, Pageable pageable);
 
 	boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground, String creatorEmail);
 
-	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page, int size);
+	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable);
 
 	void addElementNoLogin(ElementEntity element);
 
 	ArrayList<ElementEntity> getElements();
+	
+	ArrayList<ElementEntity> getElements(Pageable pageable);
 
-	ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size);
+	ElementEntity[] lstToArray(ArrayList<ElementEntity> lst);
 
 	ElementEntity[] getAllElements();
 
@@ -43,8 +47,9 @@ public interface ElementService {
 	void addElements(String userPlayground, String email, ElementEntity[] elements);
 
 	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
-			int page, int size);
+			Pageable pageable);
 
 	void addElement(String userPlayground, String email, ElementEntity element);
+
 
 }

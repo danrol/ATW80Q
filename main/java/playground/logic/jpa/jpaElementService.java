@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
@@ -48,12 +50,12 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, int page, int size) {
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
-		ArrayList<ElementEntity> allElements = getElements();
+		ArrayList<ElementEntity> allElements = getElements(pageable);
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 
 		for (ElementEntity el : allElements) {
@@ -65,7 +67,7 @@ public class jpaElementService implements ElementService {
 		if (lst.isEmpty()) {
 			return null;
 		} else {
-			return getElementsBySizeAndPage(lst, page, size);
+			return lstToArray(lst);
 		}
 	}
 
@@ -111,7 +113,7 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@LoginRequired
 	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
-			String attributeName, String value, int page, int size) {
+			String attributeName, String value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
@@ -123,7 +125,7 @@ public class jpaElementService implements ElementService {
 			return new ElementEntity[0];
 		}
 		else
-			return getElementsBySizeAndPage(tempElementsList, page, size);
+			return lstToArray(tempElementsList);
 
 	}
 
@@ -141,15 +143,14 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, int page,
-			int size) {
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
 				result.add(element);
 		}
-		return getElementsBySizeAndPage(result, page, size);
+		return lstToArray(result);
 	}
 
 	@Override
@@ -200,15 +201,24 @@ public class jpaElementService implements ElementService {
 			lst.add(e);
 
 		return lst;
-
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public ArrayList<ElementEntity> getElements(Pageable pageable) {
+		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
+		for (ElementEntity e : elementsDB.findAll(pageable))
+			lst.add(e);
+
+		return lst;
+	}
+	
 
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, int page, int size) {
-		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
-				.toArray(new ElementEntity[page]);
+	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
+		return lst.toArray(new ElementEntity[lst.size()]);
 
 	}
 

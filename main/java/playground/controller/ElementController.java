@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,17 +74,16 @@ public class ElementController {
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getAllElements(
-			@RequestParam(name="page", required=false, defaultValue="0") int page,
-			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			Pageable pageable,
 			@PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground
 			) {
 		//function 8
 
 
-		ElementEntity[] allElements = elementService.getAllElements();
-		if (allElements.length != 0  ) 
-			return getElementTOArray(allElements);
+		ArrayList<ElementEntity> allElements = elementService.getElements(pageable);
+		if (allElements.size() != 0  ) 
+			return getElementTOArray(elementService.lstToArray(allElements));
 		else return new ElementTO[0];
 		
 	}
@@ -92,8 +92,7 @@ public class ElementController {
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAroundLocation(
-			@RequestParam(name="page", required=false, defaultValue="0") int page,
-			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			Pageable pageable,
 			@PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground,
 			@PathVariable("distance") double distance, 
@@ -101,7 +100,7 @@ public class ElementController {
 			@PathVariable("y") int y){
 		//function 9
 
-		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, page, size);
+		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, pageable);
 		return getElementTOArray(elements);
 	}
 	
@@ -111,8 +110,7 @@ public class ElementController {
 			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsByAttributeNameValue(
-			@RequestParam(name="page", required=false, defaultValue="0") int page,
-			@RequestParam(name="size", required=false, defaultValue="10") int size,
+			Pageable pageable,
 			@PathVariable("userPlayground") String userPlayground, 
 			@PathVariable ("email") String email, 
 			@PathVariable("attributeName") String attributeName,
@@ -121,7 +119,7 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		ElementEntity[] elementsWithValueInAttr= elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, page, size);
+		ElementEntity[] elementsWithValueInAttr= elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, pageable);
 		
 		if (elementsWithValueInAttr.length != 0  ) 
 			return getElementTOArray(elementsWithValueInAttr);
