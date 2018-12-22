@@ -6,5 +6,7 @@ public interface ActivityService {
 	public void setUserService(UserService userService);
 
 	public String toString();
+	
+	public Object ExternalActivity(String activityType);
 
 }

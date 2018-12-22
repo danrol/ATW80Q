@@ -133,24 +133,8 @@ public class jpaUserService implements UserService {
 	@Transactional(readOnly=true)
 	@MyLog
 	public UserEntity login(String playground, String email) {
-		UserEntity u = getUser(email, playground);
-		if (u != null) {
-			if (u.getPlayground().equals(playground)) {
-				
-				if (u.isVerified()) {
-					return u;
-				} else {
-					throw new LoginException("User is not verified.");
-				}
-				
-				
-			} else {
-				throw new LoginException("User does not belong to the specified playground.");
-			}
-
-		} else {
-			throw new LoginException("Email is not registered.");
-		}
+	//TODO stub	
+		return null;
 	}
 
 

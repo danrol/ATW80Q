@@ -8,7 +8,7 @@ import playground.dal.ActivityDao;
 import playground.logic.ActivityService;
 import playground.logic.ElementService;
 import playground.logic.UserService;
-
+import playground.*;
 @Service
 public class JpaActivityService implements ActivityService {
 	private ActivityDao activityDao;
@@ -34,6 +34,24 @@ public class JpaActivityService implements ActivityService {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 		
+	}
+
+	@Override
+	public Object ExternalActivity(String activityType) {
+		
+		if(activityType.equals(Constants.MESSAGE_WRITE)) {
+			//
+			return "";
+		}
+		if(activityType.equals(Constants.MESSAGE_READ)) {
+			return "";
+		}
+		if(activityType.equals(Constants.MESSAGE_DELETE)) {
+			return "";
+	
+		}
+
+		return null;
 	}
 
 }
