@@ -67,6 +67,7 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@LoginRequired
 	public UserTO login(@PathVariable("playground") String userPlayground, @PathVariable("email") String email) {
 		/*
 		 * function 3

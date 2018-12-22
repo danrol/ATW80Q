@@ -27,12 +27,10 @@ public class LoginRequiredAspect {
 		System.err.println(u);
 		if (u != null) {
 			if (u.isVerified()) {
-				Object t = joinPoint.proceed(joinPoint.getArgs());
-				System.err.println("USER IS VERIFIED");
-				return t;
+				Object o = joinPoint.proceed(joinPoint.getArgs());
+				return o;
 				
 			} else {
-				System.err.println("USER IS NOT VERIFIED");
 				throw new LoginException("User is not verified.");
 			}
 
