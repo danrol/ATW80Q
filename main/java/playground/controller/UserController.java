@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
+import playground.aop.LoginRequired;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ElementEntity;
@@ -71,7 +72,7 @@ public class UserController {
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
 		 */
-		return new UserTO(this.userService.login(userPlayground, email));
+		return new UserTO(this.userService.getUser(email, userPlayground));
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
