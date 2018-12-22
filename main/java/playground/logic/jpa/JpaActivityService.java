@@ -15,14 +15,14 @@ import playground.logic.UserService;
 
 @Service
 public class JpaActivityService implements ActivityService {
-	private ActivityDao activityDao;
+	private ActivityDao activityDB;
 	private IdGeneratorDao idGenerator;
 	private ElementService elementService;
 	private UserService userService;
 
 	@Autowired
 	public JpaActivityService(ActivityDao activity, IdGeneratorDao idGenerator) {
-		this.activityDao = activity;
+		this.activityDB = activity;
 		this.idGenerator = idGenerator;
 	}
 
@@ -47,7 +47,7 @@ public class JpaActivityService implements ActivityService {
 			return getMessage(activity);
 		}
 		case Constants.MESSAGE_WRITE:{
-			return setMessage(activity);
+			return addMessage(activity);
 		}
 		case Constants.MESSAGE_DELETE:{
 			return deleteMessage(activity);
@@ -71,7 +71,7 @@ public class JpaActivityService implements ActivityService {
 		return el.getAttributes().remove(messageId);
 	}
 	@Override
-	public Object setMessage(ActivityEntity activity) {
+	public Object addMessage(ActivityEntity activity) {
 		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
 		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
 		return el.getAttributes().put(messageId, activity.getAttribute());
@@ -79,14 +79,14 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public ActivityEntity addActivity(ActivityEntity e) {
-		activityDao.save(e);
+		activityDB.save(e);
 		executeActivity(e);
 		return getActivity(e.getSuperkey());
 	}
 
 	@Override
 	public ActivityEntity getActivity(String superkey) {
-		Optional<ActivityEntity> e = activityDao.findById(superkey);
+		Optional<ActivityEntity> e = activityDB.findById(superkey);
 		if (e.isPresent()) {
 			return e.get();
 		}
