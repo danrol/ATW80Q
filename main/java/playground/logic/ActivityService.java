@@ -1,12 +1,14 @@
 package playground.logic;
 
 public interface ActivityService {
-	public void setElementService(ElementService elementService);
-
-	public void setUserService(UserService userService);
+	
 
 	public String toString();
 	
-	public Object ExternalActivity(String activityType);
+	public Object executeActivity(ActivityEntity activity);
+
+	ActivityEntity addActivity(ActivityEntity e);
+	
+	ActivityEntity getActivity(String superkey);
 
 }

@@ -1,6 +1,7 @@
 package playground.logic;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import playground.Constants;
 
 @Entity
 @Table(name = "ACTIVITY")
-public class ActivityEntity {
+public class ActivityEntity implements Serializable {
 
 	// Primary key - playground+id
 	private static final long serialVersionUID = 514354009958930154L;
@@ -27,6 +28,7 @@ public class ActivityEntity {
 	private String type;
 	private String playerPlayground;
 	private String playerEmail;
+	private String superkey;
 	private Map<String, Object> attribute;
 
 	private ElementService elementService;
@@ -60,6 +62,7 @@ public class ActivityEntity {
 		this.playerPlayground = acEntity.playerPlayground;
 		this.playerEmail = acEntity.playerEmail;
 		this.attribute = acEntity.attribute;
+		setSuperkey();
 
 	}
 
@@ -76,7 +79,7 @@ public class ActivityEntity {
 		this.playground = playground;
 	}
 
-	@Id
+	
 	public String getId() {
 		return id;
 	}
@@ -156,4 +159,20 @@ public class ActivityEntity {
 		return serialVersionUID;
 	}
 
+	@Id
+	public String getSuperkey() {
+		return superkey;
+	}
+
+	public void setSuperkey(String Superkey) {
+		this.superkey =Superkey ;
+	}
+	
+	public void setSuperkey() {
+		superkey = createKey(id, playground);
+	}
+	@Transient
+	public static String createKey(String id, String playground) {
+		return id.concat(" " + playground);
+	}
 }
