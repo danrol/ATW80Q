@@ -253,8 +253,8 @@ public class jpaElementService implements ElementService {
 	@LoginRequired
 	public void replaceElementWith(String userPlayground,
 			String email, ElementEntity entity, String id, String creatorPlayground) {
-		ElementEntity tempElement = this.getElement(ElementEntity.createKey(id, creatorPlayground), userPlayground,
-				email);
+		ElementEntity tempElement = this.getElement(userPlayground,
+				email,ElementEntity.createKey(id, creatorPlayground));
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
