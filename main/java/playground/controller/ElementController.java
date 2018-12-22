@@ -42,7 +42,6 @@ public class ElementController {
 		ElementTO elementT = new ElementTO(this.elementService.getElement(element.getId(),element.getCreatorPlayground(),userPlayground,email));
 		return elementT;
 	}
-
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void updateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
 			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String creatorPlayground,

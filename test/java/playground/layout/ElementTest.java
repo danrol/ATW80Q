@@ -108,12 +108,12 @@ public class ElementTest {
 	@Test
 	public void successfullyUpdateElement() {
 
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+		UserEntity userElementCreator = new UserEntity("username", "userMail@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
 
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity("123", "name", "playground", "email@email.com", 0, 1);
+		ElementEntity elementForTestEntity = new ElementEntity("123", "name", "playground", "elementMail@email.com", 0, 1);
 
 		elementService.addElementNoLogin(elementForTestEntity);
 
@@ -121,7 +121,7 @@ public class ElementTest {
 		updatedElementForTestTO.setName("changedName");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, "playground", "email@email.com", elementForTestEntity.getCreatorPlayground(),
+				updatedElementForTestTO, "playground", "userMail@email.com", elementForTestEntity.getCreatorPlayground(),
 				"123");
 
 		ElementEntity actualEntity = elementService.getElementNoLogin(elementForTestEntity.getSuperkey());

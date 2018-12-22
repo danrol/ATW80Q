@@ -270,7 +270,7 @@ public class jpaElementService implements ElementService {
 	@LoginRequired
 	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element) {
 		
-		ElementEntity tempElement = this.getElement(element.getSuperkey(), userPlayground, email);
+		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
