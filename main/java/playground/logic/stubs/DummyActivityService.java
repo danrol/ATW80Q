@@ -56,5 +56,11 @@ public class DummyActivityService implements ActivityService {
 		.collect(Collectors.toList())
 		.toArray(new ActivityEntity[lst.size()]); 
 	}
+
+	@Override
+	public Object ExternalActivity(String activityType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

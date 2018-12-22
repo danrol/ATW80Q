@@ -50,6 +50,8 @@ public interface ElementService {
 			Pageable pageable);
 
 	void addElement(String userPlayground, String email, ElementEntity element);
+	
+	ElementEntity getElementByType(String type);
 
 
 }

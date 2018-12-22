@@ -3,6 +3,7 @@ package playground.logic.stubs;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import playground.exceptions.ElementDataException;
@@ -225,6 +226,45 @@ public class DummyElementService implements ElementService {
 		double yin = y1 - y2;
 		return Math.sqrt(xin * xin + yin * yin);
 
+	}
+
+	@Override
+	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail,
+			String attributeName, String value, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
+			Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<ElementEntity> getElements(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
+			double distance, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ElementEntity getElementByType(String type) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

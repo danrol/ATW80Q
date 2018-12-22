@@ -290,4 +290,17 @@ public class jpaElementService implements ElementService {
 
 	}
 
+	@Override
+	@LoginRequired
+	@Transactional(readOnly = true)
+	public ElementEntity getElementByType(String type) {
+		ArrayList<ElementEntity> arr=getElements();
+		for(ElementEntity el:arr) {
+			if(el.getType().equals(type)) {
+				return el;
+			}
+		}
+		return null;
+	}
+
 }
