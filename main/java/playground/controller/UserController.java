@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.Constants;
-import playground.aop.LoginRequired;
+import playground.aop.PlayerLogin;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ElementEntity;
