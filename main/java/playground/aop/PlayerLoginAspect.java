@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import playground.Constants;
 import playground.dal.UserDao;
 import playground.exceptions.LoginException;
+import playground.exceptions.PermissionUserException;
 import playground.logic.UserEntity;
 
 @Component
@@ -30,7 +31,7 @@ public class PlayerLoginAspect {
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
 			else if(u.getRole() != Constants.PLAYER_ROLE)
-				throw new LoginException("User" + u.getRole() + "has no access rights.");
+				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
 				
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;

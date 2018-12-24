@@ -28,7 +28,7 @@ public class ModeratorLoginAspect {
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
 			else if(u.getRole() != Constants.MODERATOR_ROLE)
-				throw new LoginException("User" + u.getRole() + "has no access rights.");
+				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
 				
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
