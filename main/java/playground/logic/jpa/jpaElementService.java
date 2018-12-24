@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import playground.Constants;
+import playground.aop.PlayerLogin;
 import playground.aop.LoginRequired;
+import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
@@ -46,25 +48,10 @@ public class jpaElementService implements ElementService {
 
 	}
 	
-	public jpaElementService() {
-
-		addMessageBoard();
-	}
-	@Override
-	public void addMessageBoard() {
-		if(this.elementWithTypeExists(Constants.MESSAGEBOARD))
-		{
-			ElementEntity element = new ElementEntity("MessageBoardId","Message Board", Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_MAIL,0,0);
-			this.addElementNoLogin(element);
-			//Adding message board
-		}
-		
-	}
-
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	@LoginRequired
+	@PlayerLogin
 	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
 
 		if (distance < 0) {
@@ -105,7 +92,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	@LoginRequired
+	@ModeratorLogin
 	public void addElements(String userPlayground, String email, ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElement(userPlayground, email, elements[i]);
@@ -126,7 +113,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	@LoginRequired
+	@PlayerLogin
 	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
 			String attributeName, String value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
@@ -240,7 +227,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional
 	@MyLog
-	@LoginRequired
+	@ModeratorLogin
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
 			for (ElementEntity el : elements) {
@@ -275,7 +262,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@MyLog
-	@LoginRequired
+	@ModeratorLogin
 	public void replaceElementWith(String userPlayground,
 			String email, ElementEntity entity, String id, String creatorPlayground) {
 		ElementEntity tempElement = this.getElement(userPlayground,
@@ -286,13 +273,12 @@ public class jpaElementService implements ElementService {
 			elementsDB.save(entity);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
-
 	}
 
 	@Override
 	@Transactional(readOnly = false)
 	@MyLog
-	@LoginRequired
+	@ModeratorLogin
 	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element) {
 		
 		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
@@ -305,29 +291,5 @@ public class jpaElementService implements ElementService {
 
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public ElementEntity getElementByType(String type) {
-		ArrayList<ElementEntity> arr=getElements();
-		for(ElementEntity el:arr) {
-			if(el.getType().equals(type)) {
-				
-				return el;
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public boolean elementWithTypeExists(String type) {
-		ArrayList<ElementEntity> arr=getElements();
-		for(ElementEntity el:arr) {
-			if(el.getType().equals(type)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 }

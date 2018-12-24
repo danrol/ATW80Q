@@ -245,10 +245,8 @@ public class DummyElementService implements ElementService {
 				Arrays.asList(paginateList(getElements(), pageable.getPageNumber(), pageable.getPageSize())));
 	}
 
-	@Override
-	public ElementEntity getElementByType(String type) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+
+
 
 }
