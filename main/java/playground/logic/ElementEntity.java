@@ -12,11 +12,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.Constants;
+import playground.dal.ElementDao;
+import playground.logic.jpa.IdGeneratorElement;
+import playground.logic.jpa.IdGeneratorElementDao;
 
 
 //KEY is: id+creatorPlayground
@@ -38,8 +43,12 @@ public class ElementEntity {
 	private double y;
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	private String superkey;
+	private IdGeneratorElementDao idGeneratorElement;
 
-
+	@Autowired
+	public ElementEntity(IdGeneratorElementDao idGeneratorElement) {
+		this.idGeneratorElement = idGeneratorElement;
+	}
 
 	public ElementEntity() {
 		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR,Constants.DEFAULT_EXPIRATION_MONTH, Constants.DEFAULT_EXPIRATION_DAY);
@@ -63,15 +72,24 @@ public class ElementEntity {
 
 	}
 
-	public ElementEntity(String id,String name, String playground, String email, double x, double y) {
+	public ElementEntity(String name, String playground, String email, double x, double y) {
 		this();
-		this.id = id;
+		
 		this.name = name;
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setX(x);
 		setY(y);
+		
+		IdGeneratorElement gn = new IdGeneratorElement();
+		System.err.println(gn);
+		System.err.println(gn.getId());
+		IdGeneratorElement tmp = this.idGeneratorElement.save(gn);
+		System.err.println("Element ID: " + tmp.getId());
+		Long dummyId = tmp.getId();
+		this.idGeneratorElement.delete(tmp);		
+		this.id = dummyId+"";
 		setSuperkey();
 	}
 	

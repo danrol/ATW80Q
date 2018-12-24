@@ -19,7 +19,7 @@ import playground.logic.UserService;
 
 
 @Component
-@Profile("demo")
+@Profile("demo1")
 public class DummyInitializer {
 	private ElementService elementService;
 	private ActivityService activityService;
@@ -36,7 +36,7 @@ public class DummyInitializer {
 	
 	@PostConstruct
 	public void init() {
-		ElementEntity msgBoard = new ElementEntity("0","DummyMessageBoard", Constants.PLAYGROUND_NAME, Constants.PLAYGROUND_MAIL, 0, 0);
+		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard", Constants.PLAYGROUND_NAME, Constants.PLAYGROUND_MAIL, 0, 0);
 		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL, "avatar", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		userService.addUser(mod);
