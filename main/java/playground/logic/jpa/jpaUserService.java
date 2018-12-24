@@ -189,7 +189,6 @@ public class jpaUserService implements UserService {
 	}
 
 	
-	
 	@Override
 	@Transient
 	@MyLog
