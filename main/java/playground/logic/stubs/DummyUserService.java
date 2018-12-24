@@ -1,6 +1,7 @@
 package playground.logic.stubs;
 import java.util.ArrayList;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import playground.Constants;
@@ -21,18 +22,8 @@ public class DummyUserService implements UserService{
 	public DummyUserService()
 	{
 		users = new ArrayList<UserEntity>();
-		addDummyDatabase();
 	}
 
-	public void addDummyDatabase()
-	{
-		UserEntity user1 = new UserEntity("username1", "username1@gmail.com", "avatar1", "moderator", Constants.PLAYGROUND_NAME);
-		UserEntity user2 = new UserEntity("username2", "username2@gmail.com", "avatar2", "player", Constants.PLAYGROUND_NAME);
-		UserEntity user3 = new UserEntity("username2", "username3@gmail.com", "avatar3", "player", Constants.PLAYGROUND_NAME);
-		this.addUser(user1);
-		this.addUser(user2);
-		this.addUser(user3);
-	}
 
 	@Override
 	public ArrayList<UserEntity> getUsers() {
@@ -171,6 +162,13 @@ public class DummyUserService implements UserService{
 	public boolean isUserInDatabase(UserEntity user) {
 		
 		return users.contains(user);
+	}
+
+
+	@Override
+	public UserEntity[] getUsers(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

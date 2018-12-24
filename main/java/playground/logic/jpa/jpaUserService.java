@@ -32,14 +32,7 @@ public class jpaUserService implements UserService {
 		this.idGenerator = idGenerator;
 	}
 	
-	@Override
-	@Transactional
-	@MyLog
-	public void addDummyUsers() {
-		for(int i=0; i<=25;i++) {
-		userDB.save(new UserEntity("dan " +i, "dan"+i+"@mail.ru", "ava", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
-		}
-	}
+
 
 	@Override
 	@Transactional

@@ -8,7 +8,6 @@ public interface UserService {
 
 	ArrayList<UserEntity> getUsers();
 	UserEntity[] getUsers(Pageable pageable);
-	 void addDummyUsers();
 
 	UserEntity addUser(UserEntity user);
 
