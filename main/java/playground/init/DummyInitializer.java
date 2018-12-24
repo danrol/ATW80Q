@@ -40,6 +40,7 @@ public class DummyInitializer {
 			entity.setType(Constants.MESSAGE_WRITE);
 			entity.getAttribute().put(Constants.MESSAGE_ID_ATTR, msg + i);
 			entity.getAttribute().put(Constants.MESSAGEBOARD_KEY, msgBoard.getSuperkey());
+			activityService.executeActivity(entity);
 		}
 	}
 	
