@@ -72,7 +72,7 @@ public class ElementTest {
 		user.verifyUser();
 		userService.addUser(user);
 		ElementEntity element = new ElementEntity("elementName", "thisPlayground", "mail@mail.com", 5, 6);
-		ElementTO elemTO = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
+		ElementTO elemTO = this.restTemplate.postForObject(this.url + "/playground/elements/{userPlayground}/{email}",
 				new ElementTO(element), ElementTO.class, Constants.PLAYGROUND_NAME, "mail@mail.com");
 		ElementEntity element2 = elemTO.toEntity();
 

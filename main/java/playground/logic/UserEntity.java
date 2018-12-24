@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import playground.Constants;
 
 //KEY IS EMAIL+PLAYGROUND
@@ -20,12 +23,12 @@ public class UserEntity {
 	private String verificationCode = Constants.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
 	private String id;
-
 	private long points = 0;
 
 	public UserEntity() {
 	}
-
+	
+	
 	public UserEntity(String username, String email, String avatar, String role, String playground) {
 		super();
 		setUsername(username);

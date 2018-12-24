@@ -1,27 +1,21 @@
 package playground.logic.jpa;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import playground.Constants;
 import playground.aop.PlayerLogin;
 import playground.aop.LoginRequired;
 import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
-import playground.exceptions.RegisterNewUserException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @Service
@@ -30,15 +24,21 @@ public class jpaElementService implements ElementService {
 	// this is the database we need are saving in
 	private ElementDao elementsDB;
 	private UserService userService;
+	private IdGeneratorElementDao IdGeneratorElement;
 
 	@Autowired
 	public jpaElementService(ElementDao elementsDB, IdGeneratorElementDao idGeneratorElement) {
 		this.elementsDB = elementsDB;
+		this.IdGeneratorElement = idGeneratorElement;
 	}
 
 	@Autowired
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public UserService getUserService() {
+		return userService;
 	}
 
 	@Override
@@ -47,12 +47,13 @@ public class jpaElementService implements ElementService {
 		elementsDB.deleteAll();
 
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
 	@PlayerLogin
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
+			double distance, Pageable pageable) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
@@ -114,19 +115,17 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@PlayerLogin
-	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email,
-			String attributeName, String value, Pageable pageable) {
+	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName,
+			String value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
 				tempElementsList.add(e);
 		}
-		if (tempElementsList.isEmpty())
-		{
+		if (tempElementsList.isEmpty()) {
 			return new ElementEntity[0];
-		}
-		else
+		} else
 			return lstToArray(tempElementsList);
 
 	}
@@ -145,7 +144,8 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable) {
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
+			Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
@@ -159,7 +159,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@LoginRequired
 	public ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground) {
-		return getElement(userPlayground, email,ElementEntity.createKey(id, creatorPlayground));
+		return getElement(userPlayground, email, ElementEntity.createKey(id, creatorPlayground));
 	}
 
 	@Override
@@ -204,7 +204,7 @@ public class jpaElementService implements ElementService {
 
 		return lst;
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public ArrayList<ElementEntity> getElements(Pageable pageable) {
@@ -214,7 +214,6 @@ public class jpaElementService implements ElementService {
 
 		return lst;
 	}
-	
 
 	@Override
 	@Transactional(readOnly = true)
@@ -231,7 +230,7 @@ public class jpaElementService implements ElementService {
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(userPlayground, email,el);
+				updateElementInDatabaseFromExternalElement(userPlayground, email, el);
 			}
 
 		} catch (ElementDataException e) {
@@ -247,27 +246,32 @@ public class jpaElementService implements ElementService {
 		return arr.toArray(new ElementEntity[arr.size()]);
 	}
 
-	
-
 	@Override
 	@MyLog
-	public void addElementNoLogin(ElementEntity element) {
+	public ElementEntity addElementNoLogin(ElementEntity element) {
 		
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database: " + element.toString());
+			return elementsDB.findById(element.getSuperkey()).orElse(null);
 		} else {
+			IdGeneratorElement gn = new IdGeneratorElement();
+			IdGeneratorElement tmp = IdGeneratorElement.save(gn);
+			System.err.println("creating Element ID: " + tmp.getId());
+			Long id = tmp.getId();
+			IdGeneratorElement.delete(tmp);
+			element.setId(id +"");
 			elementsDB.save(element);
+			return element;
 		}
 	}
-	
-	
+
 	@Override
 	@MyLog
 	@ModeratorLogin
-	public void replaceElementWith(String userPlayground,
-			String email, ElementEntity entity, String id, String creatorPlayground) {
-		ElementEntity tempElement = this.getElement(userPlayground,
-				email,ElementEntity.createKey(id, creatorPlayground));
+	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
+			String creatorPlayground) {
+		ElementEntity tempElement = this.getElement(userPlayground, email,
+				ElementEntity.createKey(id, creatorPlayground));
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
@@ -280,8 +284,8 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@MyLog
 	@ModeratorLogin
-	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element) {
-		
+	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element) {
+
 		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
 		if (tempElement != null) {
 			// Deletes old and replaces with new
@@ -291,6 +295,5 @@ public class jpaElementService implements ElementService {
 			throw new ElementDataException("element data for update is incorrect");
 
 	}
-
 
 }

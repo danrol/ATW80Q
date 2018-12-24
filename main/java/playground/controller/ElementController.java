@@ -39,7 +39,7 @@ public class ElementController {
 	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
 		// function 5
 		ElementEntity t = element.toEntity();
-		elementService.addElement(userPlayground, email,t);
+		t = elementService.addElement(userPlayground, email,t);
 		ElementTO elementT = new ElementTO(this.elementService.getElement(userPlayground,email,t.getSuperkey()));
 		return elementT;
 	}

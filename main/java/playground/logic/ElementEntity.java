@@ -1,4 +1,5 @@
 package playground.logic;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,17 +23,16 @@ import playground.Constants;
 import playground.dal.ElementDao;
 import playground.logic.jpa.IdGeneratorElement;
 import playground.logic.jpa.IdGeneratorElementDao;
-
+import playground.logic.jpa.JpaGeneratorService;
 
 //KEY is: id+creatorPlayground
 @Entity
 @Table(name = "ELEMENT")
 public class ElementEntity {
 
-
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private String id;
+	private String id="";
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;
@@ -43,15 +43,11 @@ public class ElementEntity {
 	private double y;
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
 	private String superkey;
-	private IdGeneratorElementDao idGeneratorElement;
 
 	@Autowired
-	public ElementEntity(IdGeneratorElementDao idGeneratorElement) {
-		this.idGeneratorElement = idGeneratorElement;
-	}
-
 	public ElementEntity() {
-		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR,Constants.DEFAULT_EXPIRATION_MONTH, Constants.DEFAULT_EXPIRATION_DAY);
+		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
+				Constants.DEFAULT_EXPIRATION_DAY);
 		this.creationDate = new Date();
 	}
 
@@ -69,31 +65,21 @@ public class ElementEntity {
 		setY(elEntity.getY());
 		setSuperkey();
 
-
 	}
 
 	public ElementEntity(String name, String playground, String email, double x, double y) {
 		this();
-		
+
 		this.name = name;
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
 		this.creatorEmail = email;
 		setX(x);
 		setY(y);
-		
-		IdGeneratorElement gn = new IdGeneratorElement();
-		System.err.println(gn);
-		System.err.println(gn.getId());
-		IdGeneratorElement tmp = this.idGeneratorElement.save(gn);
-		System.err.println("Element ID: " + tmp.getId());
-		Long dummyId = tmp.getId();
-		this.idGeneratorElement.delete(tmp);		
-		this.id = dummyId+"";
+		this.id = "";
 		setSuperkey();
 	}
-	
-	
+
 	public boolean attributeExists(String attributeName, String value) {
 		switch (attributeName) {
 		case "name":
@@ -118,21 +104,20 @@ public class ElementEntity {
 		}
 		return false;
 	}
-	
-	
+
 	@Id
 	public String getSuperkey() {
 		return superkey;
 	}
 
 	public void setSuperkey(String Superkey) {
-		this.superkey =Superkey ;
+		this.superkey = Superkey;
 	}
-	
+
 	public void setSuperkey() {
 		superkey = createKey(id, creatorPlayground);
 	}
-	
+
 	@Transient
 	public static String createKey(String id, String creatorPlayground) {
 		return id.concat(" " + creatorPlayground);
@@ -146,12 +131,12 @@ public class ElementEntity {
 		this.name = name;
 	}
 
-	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
+		this.setSuperkey();
 		this.id = id;
 	}
 
@@ -162,7 +147,7 @@ public class ElementEntity {
 	public void setPlayground(String playground) {
 		this.playground = playground;
 	}
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreationDate() {
 		return creationDate;
@@ -171,6 +156,7 @@ public class ElementEntity {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = new Date(creationDate.getTime());
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getExpirationDate() {
 		return expirationDate;
@@ -207,11 +193,12 @@ public class ElementEntity {
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = attributes;
 	}
+
 	@Transient
 	public Map<String, Object> getAttributes() {
 		return attributes;
 	}
-	
+
 	@Lob
 	public String getJsonAttributes() {
 		try {
@@ -220,8 +207,8 @@ public class ElementEntity {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	//map translation to json for the database
+
+	// map translation to json for the database
 	public void setJsonAttributes(String jsonAttributes) {
 		try {
 			this.attributes = new ObjectMapper().readValue(jsonAttributes, Map.class);
@@ -229,15 +216,15 @@ public class ElementEntity {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public double getX() {
 		return x;
 	}
 
 	public void setX(double x) {
-		this.x =x;
+		this.x = x;
 	}
-	
+
 	public double getY() {
 		return y;
 	}
@@ -245,19 +232,18 @@ public class ElementEntity {
 	public void setY(double y) {
 		this.y = y;
 	}
-	
+
 	@Transient
 	public String toString() {
-		return "ElementEntity [superkey="+superkey+", name=" + name + ", id=" + id + ", playground=" + playground + ", creationDate="
-				+ creationDate + ", expirationDate=" + expirationDate + ", type=" + type + ", creatorPlayground="
-				+ creatorPlayground + ", attributes="+attributes.toString()+", creatorEmail=" + creatorEmail + ", x= " + x + " y="+y+"]";
+		return "ElementEntity [superkey=" + superkey + ", name=" + name + ", id=" + id + ", playground=" + playground
+				+ ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", type=" + type
+				+ ", creatorPlayground=" + creatorPlayground + ", attributes=" + attributes.toString()
+				+ ", creatorEmail=" + creatorEmail + ", x= " + x + " y=" + y + "]";
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
 
 	@Override
 	public boolean equals(Object obj) {

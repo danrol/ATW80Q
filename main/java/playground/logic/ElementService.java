@@ -17,7 +17,7 @@ public interface ElementService {
 
 	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable);
 
-	void addElementNoLogin(ElementEntity element);
+	ElementEntity addElementNoLogin(ElementEntity element);
 
 	ArrayList<ElementEntity> getElements();
 	
@@ -49,6 +49,6 @@ public interface ElementService {
 	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
 			Pageable pageable);
 
-	void addElement(String userPlayground, String email, ElementEntity element);
+	ElementEntity addElement(String userPlayground, String email, ElementEntity element);
 
 }
