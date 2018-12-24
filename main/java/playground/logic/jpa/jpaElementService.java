@@ -18,8 +18,10 @@ import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
+import playground.exceptions.RegisterNewUserException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @Service
@@ -27,13 +29,13 @@ public class jpaElementService implements ElementService {
 
 	// this is the database we need are saving in
 	private ElementDao elementsDB;
-
+	private IdGeneratorDao idGenerator;
 	private UserService userService;
 
 	@Autowired
-	public jpaElementService(ElementDao elementsDB) {
+	public jpaElementService(ElementDao elementsDB, IdGeneratorDao idGenerator) {
 		this.elementsDB = elementsDB;
-
+		this.idGenerator = idGenerator;
 	}
 
 	@Autowired
@@ -254,12 +256,18 @@ public class jpaElementService implements ElementService {
 	public void addElementNoLogin(ElementEntity element) {
 		
 		if (elementsDB.existsById(element.getSuperkey())) {
-			System.out.println("already exist in database:" + element.toString());
+			System.out.println("already exist in database: " + element.toString());
 		} else {
+			IdGenerator tmp = this.idGenerator.save(new IdGenerator());
+			System.err.println("Element ID: " + tmp.getId());
+			Long dummyId = tmp.getId();
+			this.idGenerator.delete(tmp);
+			element.setId("" + dummyId);
 			elementsDB.save(element);
 		}
 	}
-
+	
+	
 	@Override
 	@MyLog
 	@ModeratorLogin
