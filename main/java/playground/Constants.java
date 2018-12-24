@@ -14,7 +14,7 @@ public class Constants {
 	
 
 	public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
-	public static final String MESSAGEBOARD = "MESSAGE_BOARD";
+	public static final String MESSAGEBOARD_KEY = "MESSAGE_BOARD_KEY";
 	public static final String QUESTION = "QUESTION";
 	public static final String DEFAULT_VERIFICATION_CODE = "1234";
 

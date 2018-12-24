@@ -215,7 +215,7 @@ public class ElementTest {
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
 	}
 
-	// 7.4 Scenario: Get element with correct login details and element doesn�t
+	// 7.4 Scenario: Get element with correct login details and element doesnt
 	// exist
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
