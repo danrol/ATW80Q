@@ -77,6 +77,7 @@ public class ElementTest {
 		ElementEntity element2 = elemTO.toEntity();
 
 		assertThat(element2).isEqualToIgnoringGivenFields(element, "id" , "superkey");
+		
 	}
 
 	// 5.2 Scenario: Saving an existing element
@@ -90,7 +91,8 @@ public class ElementTest {
 
 		ElementEntity element = new ElementEntity("elementName", "playground", "email@mail.com", 5, 6);
 
-		elementService.addElementNoLogin(element);
+		element = elementService.addElementNoLogin(element);
+		System.err.println("ELEMENT: " + element.toString());
 		int dbSize = elementService.getAllElements().length;
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
