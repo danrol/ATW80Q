@@ -49,7 +49,7 @@ public class ActivityController {
 		 */
 		
 		
-		ActivityEntity t = activityService.addActivity(activity.toEntity());
+		ActivityEntity t = activityService.addActivity(userPlayground, email,activity.toEntity());
 		return new ActivityTO(t); 
 	}
 	
