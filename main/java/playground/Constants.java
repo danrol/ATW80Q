@@ -37,7 +37,7 @@ public class Constants {
 	public static final String MESSAGE_WRITE = "MESSAGE_WRITE";
 	public static final String MESSAGE_DELETE = "MESSAGE_DELETE";
 	
-	public static String MESSAGE_ID_ATTR = "MessageID";
+	public static String MESSAGE_ATTR = "Message";
 	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {

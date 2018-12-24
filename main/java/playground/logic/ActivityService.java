@@ -1,5 +1,8 @@
 package playground.logic;
 
+
+import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
 public interface ActivityService {
 	
 
@@ -16,5 +19,7 @@ public interface ActivityService {
 	Object deleteMessage(ActivityEntity activity);
 
 	Object addMessage(ActivityEntity activity);
+
+	ArrayList<ActivityEntity> getAllByElementAttributeSuperkey(String Superkey,Pageable pageable);
 
 }

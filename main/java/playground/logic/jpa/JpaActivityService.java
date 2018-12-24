@@ -1,8 +1,11 @@
 package playground.logic.jpa;
 
+import org.springframework.data.domain.Pageable;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import playground.Constants;
@@ -58,14 +61,14 @@ public class JpaActivityService implements ActivityService {
 	
 		return null;
 	}
-	//atributes: key:Constants.MESSAGEBOARD_KEY,val:message board id
+	//attributes: key:Constants.MESSAGEBOARD_KEY,val:message board id
 	//key:Constants.MESSAGE_ID_ATTR,val:the message to put in
 
 	@Override
 	public Object getMessage(ActivityEntity activity) {
 		String id =(String)activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
 		if(elementService.getElementNoLogin(id) !=null) {
-			return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+			return activity.getAttribute().get(Constants.MESSAGE_ATTR);
 		}
 		return null;
 	}
@@ -75,7 +78,7 @@ public class JpaActivityService implements ActivityService {
 		if(elementService.getElementNoLogin(id) !=null) {
 			if(activityDB.existsById(activity.getId())) {
 				activityDB.deleteById(activity.getId());
-				return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+				return activity.getAttribute().get(Constants.MESSAGE_ATTR);
 			}
 			
 		}
@@ -85,11 +88,14 @@ public class JpaActivityService implements ActivityService {
 	public Object addMessage(ActivityEntity activity) {
 		String id =(String)activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
 		if(elementService.getElementNoLogin(id) !=null) {
-			if(!activityDB.existsById(activity.getId())) {
-				activityDB.deleteById(activity.getId());
-				activityDB.save(activity);
-				return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
+			ArrayList<ActivityEntity> lst2= new ArrayList<ActivityEntity>();
+			for(ActivityEntity a:lst) {
+				if(a.getAttribute().get(Constants.MESSAGE_ATTR).equals(activity.getAttribute().get(Constants.MESSAGE_ATTR))) {
+					return a.getAttribute().get(Constants.MESSAGE_ATTR);
+				}
 			}
+			activityDB.save(activity);
 		}
 		return null;
 	}
@@ -107,5 +113,19 @@ public class JpaActivityService implements ActivityService {
 			return e.get();
 		}
 		return null;
+	}
+	
+	@Override
+	public ArrayList<ActivityEntity> getAllByElementAttributeSuperkey(String superkey,Pageable pageable){
+		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
+		ArrayList<ActivityEntity> lst2= new ArrayList<ActivityEntity>();
+		for (ActivityEntity a : activityDB.findAll( pageable))
+			lst.add(a);
+		for(ActivityEntity a :lst) {
+			if(a.getAttribute().get(Constants.MESSAGEBOARD_KEY).equals(superkey)) {
+				lst2.add(a);
+			}
+		}
+		return lst2;
 	}
 }
