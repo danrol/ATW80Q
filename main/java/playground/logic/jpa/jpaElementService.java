@@ -254,14 +254,12 @@ public class jpaElementService implements ElementService {
 			System.out.println("already exist in database: " + element.toString());
 			return elementsDB.findById(element.getSuperkey()).orElse(null);
 		} else {
-			IdGeneratorElement gn = new IdGeneratorElement();
-			IdGeneratorElement tmp = IdGeneratorElement.save(gn);
+			IdGeneratorElement tmp = IdGeneratorElement.save(new IdGeneratorElement());
 			System.err.println("creating Element ID: " + tmp.getId());
 			Long id = tmp.getId();
 			IdGeneratorElement.delete(tmp);
 			element.setId(id +"");
-			elementsDB.save(element);
-			return element;
+			return elementsDB.save(element);
 		}
 	}
 
