@@ -64,7 +64,7 @@ public class JpaActivityService implements ActivityService {
 		String activityType = activity.getType();
 
 		switch (activityType) {
-		case Constants.MESSAGE_READ: {
+		case Constants.MESSAGE: {
 			return getMessage(activity);
 		}
 		case Constants.MESSAGE_WRITE: {
@@ -87,7 +87,7 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object getMessage(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
+		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
 		if (elementService.getElementNoLogin(id) != null) {
 			return activity.getAttribute().get(Constants.MESSAGE_ATTR);
 		}
@@ -96,16 +96,19 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
-		if (elementService.getElementNoLogin(id) != null) {
-			ArrayList<ActivityEntity> lst = getAllByElementAttributeSuperkey(id,PageRequest.of(0,8,Direction.ASC,id));
-			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
-			for (ActivityEntity a : lst) {
-				if (a.getAttribute().get(Constants.MESSAGE_ATTR)
+		int PAGE_NUM = 0, PAGE_SIZE=8;
+		String messageBoard_ID = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		if (elementService.getElementNoLogin(messageBoard_ID) != null) {
+			ArrayList<ActivityEntity> activities = getAllActivitiesInMessageBoard(messageBoard_ID,PageRequest.of(PAGE_NUM,PAGE_SIZE,Direction.ASC,messageBoard_ID));
+
+			//checking if message already exists, returns if yes
+			for (ActivityEntity message_activity : activities) {
+				if (message_activity.getAttribute().get(Constants.MESSAGE_ATTR)
 						.equals(activity.getAttribute().get(Constants.MESSAGE_ATTR))) {
-					return a.getAttribute().get(Constants.MESSAGE_ATTR);
+					return message_activity.getAttribute().get(Constants.MESSAGE_ATTR);
 				}
 			}
+			
 			activityDB.save(activity);
 		}
 		return null;
@@ -127,13 +130,13 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	@Override
-	public ArrayList<ActivityEntity> getAllByElementAttributeSuperkey(String superkey, Pageable pageable) {
+	public ArrayList<ActivityEntity> getAllActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 		ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
 		for (ActivityEntity a : activityDB.findAll(pageable))
 			lst.add(a);
 		for (ActivityEntity a : lst) {
-			if (a.getAttribute().get(Constants.MESSAGEBOARD_KEY).equals(superkey)) {
+			if (a.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY).equals(superkey)) {
 				lst2.add(a);
 			}
 		}

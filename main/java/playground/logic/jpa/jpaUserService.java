@@ -65,7 +65,8 @@ public class jpaUserService implements UserService {
 		UserEntity result = new UserEntity();
 		if (userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
-		} else {
+		} else 
+		{
 			IdGeneratorUser gn = new IdGeneratorUser();
 			IdGeneratorUser tmp = IdGeneratorUser.save(gn);
 			System.err.println("creating User ID: " + tmp.getId());

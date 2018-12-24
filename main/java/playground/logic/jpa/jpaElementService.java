@@ -45,7 +45,6 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	public void cleanElementService() {
 		elementsDB.deleteAll();
-
 	}
 
 	@Override

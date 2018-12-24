@@ -58,6 +58,7 @@ public class ElementTest {
 	public void teardown() {
 		userService.cleanUserService();
 		elementService.cleanElementService();
+		
 	}
 
 	// ******************************************************************************************//
@@ -252,8 +253,8 @@ public class ElementTest {
 
 		ElementEntity elem1 = new ElementEntity("nameOfElement", "playground", "email@email.com", 1, 2);
 		ElementEntity elem2 = new ElementEntity("nameOfElement", "playground", "email@email.com", 2, 1);
-		elementService.addElementNoLogin(elem1);
-		elementService.addElementNoLogin(elem2);
+		elem1 = elementService.addElementNoLogin(elem1);
+		elem2 = elementService.addElementNoLogin(elem2);
 
 		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
 

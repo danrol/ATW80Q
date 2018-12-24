@@ -46,8 +46,7 @@ public class ElementEntity {
 
 	@Autowired
 	public ElementEntity() {
-		this.expirationDate = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
-				Constants.DEFAULT_EXPIRATION_DAY);
+		this.expirationDate = Constants.EXP_DATE;
 		this.creationDate = new Date();
 	}
 
@@ -63,7 +62,6 @@ public class ElementEntity {
 		this.creatorEmail = elEntity.creatorEmail;
 		setX(elEntity.getX());
 		setY(elEntity.getY());
-		//setSuperkey();
 
 	}
 
@@ -76,7 +74,6 @@ public class ElementEntity {
 		this.creatorEmail = email;
 		setX(x);
 		setY(y);
-		//setSuperkey();
 	}
 
 	public boolean attributeExists(String attributeName, String value) {
@@ -95,11 +92,9 @@ public class ElementEntity {
 			return creatorEmail.equals(value);
 
 		case "creationDate":
-			return (new Date(value)).equals(creationDate);
+			return creationDate.equals(new Date(value));
 		case "expirationDate":
-			return (new Date(value)).equals(expirationDate);
-//		case "location":
-//			return (new Location(value)).equals(location);
+			return expirationDate.equals(new Date(value));
 		}
 		return false;
 	}
@@ -109,19 +104,9 @@ public class ElementEntity {
 		return createKey(id, creatorPlayground);
 	}
 	public void setSuperkey(String Superkey) {
-		//this.superkey = Superkey;
+		//empty
 	}
 	
-	
-/*
-	public void setSuperkey(String Superkey) {
-		this.superkey = Superkey;
-	}
-
-	public void setSuperkey() {
-		//superkey = createKey(id, creatorPlayground);
-	}
-*/
 	@Transient
 	public static String createKey(String id, String creatorPlayground) {
 		return id.concat(" " + creatorPlayground);
@@ -238,7 +223,7 @@ public class ElementEntity {
 
 	@Transient
 	public String toString() {
-		return "ElementEntity [superkey=" + superkey + ", name=" + name + ", id=" + id + ", playground=" + playground
+		return "ElementEntity [superkey=" + this.getSuperkey() + ", name=" + name + ", id=" + id + ", playground=" + playground
 				+ ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", type=" + type
 				+ ", creatorPlayground=" + creatorPlayground + ", attributes=" + attributes.toString()
 				+ ", creatorEmail=" + creatorEmail + ", x= " + x + " y=" + y + "]";

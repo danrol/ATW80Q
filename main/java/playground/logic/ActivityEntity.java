@@ -47,6 +47,8 @@ public class ActivityEntity implements Serializable {
 	public ActivityEntity() {
 		attribute = new HashMap<String, Object>();
 		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
+		this.playground = Constants.PLAYGROUND_NAME;
+		this.id = "";
 	}
 
 //	create constructors that receive just a JSon 
@@ -62,7 +64,6 @@ public class ActivityEntity implements Serializable {
 		this.playerPlayground = acEntity.playerPlayground;
 		this.playerEmail = acEntity.playerEmail;
 		this.attribute = acEntity.attribute;
-		setSuperkey();
 
 	}
 
@@ -161,16 +162,16 @@ public class ActivityEntity implements Serializable {
 
 	@Id
 	public String getSuperkey() {
-		return superkey;
+		return createKey(id, playground);
 	}
 
 	public void setSuperkey(String Superkey) {
-		this.superkey =Superkey ;
+		//empty
 	}
 	
 	public void setSuperkey() {
-		superkey = createKey(id, playground);
-	}
+		//empty
+		}
 	@Transient
 	public static String createKey(String id, String playground) {
 		return id.concat(" " + playground);

@@ -1,5 +1,7 @@
 package playground;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +16,7 @@ public class Constants {
 	
 
 	public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
-	public static final String MESSAGEBOARD_KEY = "MESSAGE_BOARD_KEY";
+	public static final String MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";
 	public static final String QUESTION = "QUESTION";
 	public static final String DEFAULT_VERIFICATION_CODE = "1234";
 
@@ -33,7 +35,7 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
 	public static final String MESSAGE_NAME = "MESSAGE";
-	public static final String MESSAGE_READ = "MESSAGE_READ";
+	public static final String MESSAGE = "MESSAGE_READ";
 	public static final String MESSAGE_WRITE = "MESSAGE_WRITE";
 	public static final String MESSAGE_DELETE = "MESSAGE_DELETE";
 	//
@@ -43,6 +45,10 @@ public class Constants {
 	public static final String QUESTION_KEY = "QUESTION_KEY";
 	public static  String ANSWER_ATTR = "answer";
 	public static String MESSAGE_ATTR = "Message";
+	
+	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
+			Constants.DEFAULT_EXPIRATION_DAY);
+	
 	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
