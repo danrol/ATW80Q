@@ -70,7 +70,16 @@ public class JpaActivityService implements ActivityService {
 		case Constants.MESSAGE_WRITE: {
 			return addMessage(activity);
 		}
-
+		case Constants.QUESTION_READ:{
+			return getQuestion(activity);
+		}
+		case Constants.QUESTION_WRITE:{
+			return setQuestion(activity);
+		}
+		case Constants.QUESTION_ANSWER:{
+			return answerQuestion(activity);
+		}
+			
 		}
 
 		return null;
