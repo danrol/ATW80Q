@@ -147,23 +147,11 @@ public class jpaUserService implements UserService {
 	@MyLog
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {
-		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
-			if (user.getEmail().equals(email)) {
-				updateUser(user);
-			} else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				updateUser(user);
-			} else {
-				throw new PermissionUserException("Moderator cannot change other moderator user");
-			}
-		} else if (getUser(email, playground).getRole().equals(Constants.PLAYER_ROLE)) {
-			if (email.equals(user.getEmail())) {
-				updateUser(user);
-			} else {
-				throw new PermissionUserException("PLAYER_ROLE cannot change other users information");
-			}
-		} else {
-			throw new PermissionUserException("Invalid role " + getUser(email, playground).getRole());
+		UserEntity u =  getUser(email, playground);
+		if (u.equals(user)) {
+			updateUser(user);
 		}
+		else throw new PermissionUserException("User " + u + " can't access another user");
 
 	}
 

@@ -88,7 +88,6 @@ public class UserController {
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO[] getAllUsers(Pageable pageable) {
-		userService.addDummyUsers();
 		return getElementTOArray(userService.getUsers(pageable));
 		
 	}

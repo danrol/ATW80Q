@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import playground.Constants;
@@ -92,6 +93,27 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ArrayList<ActivityEntity> getAllByElementAttributeSuperkey(String Superkey, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object executeActivity(String userPlayground, String email, ActivityEntity activity) {
 		// TODO Auto-generated method stub
 		return null;
 	}
