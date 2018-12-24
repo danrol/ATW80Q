@@ -76,7 +76,7 @@ public class ElementTest {
 				new ElementTO(element), ElementTO.class, Constants.PLAYGROUND_NAME, "mail@mail.com");
 		ElementEntity element2 = elemTO.toEntity();
 
-		assertThat(element2).isEqualTo(element);
+		assertThat(element2).isEqualToIgnoringGivenFields(element, "id" , "superkey");
 	}
 
 	// 5.2 Scenario: Saving an existing element

@@ -76,7 +76,6 @@ public class ElementEntity {
 		this.creatorEmail = email;
 		setX(x);
 		setY(y);
-		this.id = "";
 		//setSuperkey();
 	}
 
@@ -314,6 +313,6 @@ public class ElementEntity {
 			return false;
 		return true;
 	}
-	
+		
 	
 }
