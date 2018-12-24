@@ -50,12 +50,5 @@ public interface ElementService {
 			Pageable pageable);
 
 	void addElement(String userPlayground, String email, ElementEntity element);
-	
-	ElementEntity getElementByType(String type);
-
-	boolean elementWithTypeExists(String type);
-
-	void addMessageBoard();
-
 
 }

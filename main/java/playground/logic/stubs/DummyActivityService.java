@@ -19,20 +19,18 @@ public class DummyActivityService implements ActivityService {
 	private ArrayList<ActivityEntity> activities = new ArrayList<ActivityEntity>();
 	private UserService userService;
 	private ElementService elementService;
-
-
 	
-	@Override
+	
 	@Autowired
 	public void setElementService(ElementService elementService) {
-		// TODO Auto-generated method stub
+		this.elementService = elementService;
 		
 	}
 
-	@Override
+	
 	@Autowired
 	public void setUserService(UserService userService) {
-		// TODO Auto-generated method stub
+		this.userService = userService;
 		
 	}
 	
@@ -73,6 +71,27 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public ActivityEntity getActivity(String superkey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object getMessage(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object deleteMessage(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object addMessage(ActivityEntity activity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

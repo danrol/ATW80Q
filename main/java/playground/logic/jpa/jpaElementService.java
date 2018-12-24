@@ -46,21 +46,6 @@ public class jpaElementService implements ElementService {
 
 	}
 	
-	public jpaElementService() {
-
-		addMessageBoard();
-	}
-	@Override
-	public void addMessageBoard() {
-		if(this.elementWithTypeExists(Constants.MESSAGEBOARD))
-		{
-			ElementEntity element = new ElementEntity("MessageBoardId","Message Board", Constants.PLAYGROUND_NAME,Constants.PLAYGROUND_MAIL,0,0);
-			this.addElementNoLogin(element);
-			//Adding message board
-		}
-		
-	}
-
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
@@ -286,7 +271,6 @@ public class jpaElementService implements ElementService {
 			elementsDB.save(entity);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
-
 	}
 
 	@Override
@@ -305,29 +289,5 @@ public class jpaElementService implements ElementService {
 
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public ElementEntity getElementByType(String type) {
-		ArrayList<ElementEntity> arr=getElements();
-		for(ElementEntity el:arr) {
-			if(el.getType().equals(type)) {
-				
-				return el;
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public boolean elementWithTypeExists(String type) {
-		ArrayList<ElementEntity> arr=getElements();
-		for(ElementEntity el:arr) {
-			if(el.getType().equals(type)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 }
