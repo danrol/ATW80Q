@@ -39,9 +39,9 @@ public class ElementController {
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
 		// function 5
-		System.err.println("here: "+Arrays.toString(elementService.getAllElements()));
+		System.err.println("here: "+  Arrays.toString(elementService.getAllElements()));
 		ElementEntity t = element.toEntity();
-		t = elementService.addElement(userPlayground, email,t);
+		t = elementService.addElement(userPlayground, email,t); //TODO -- PROBLEM HERE
 		System.err.println(elementService.getAllElements());
 		ElementTO elementT = new ElementTO(this.elementService.getElement(userPlayground,email,t.getSuperkey()));
 		return elementT;

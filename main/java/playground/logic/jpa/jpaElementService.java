@@ -192,7 +192,6 @@ public class jpaElementService implements ElementService {
 	@LoginRequired
 	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
 		return addElementNoLogin(element);
-
 	}
 
 	@Override
