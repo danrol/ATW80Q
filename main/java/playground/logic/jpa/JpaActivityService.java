@@ -58,29 +58,44 @@ public class JpaActivityService implements ActivityService {
 	
 		return null;
 	}
+	//atributes: key:Constants.MESSAGEBOARD_KEY,val:message board id
+	//key:Constants.MESSAGE_ID_ATTR,val:the message to put in
 
 	@Override
 	public Object getMessage(ActivityEntity activity) {
-		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
-		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
-		return el.getAttributes().get(messageId);
+		String id =(String)activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
+		if(elementService.getElementNoLogin(id) !=null) {
+			return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+		}
+		return null;
 	}
 	@Override
 	public Object deleteMessage(ActivityEntity activity) {
-		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
-		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
-		return el.getAttributes().remove(messageId);
+		String id =(String)activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
+		if(elementService.getElementNoLogin(id) !=null) {
+			if(activityDB.existsById(activity.getId())) {
+				activityDB.deleteById(activity.getId());
+				return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+			}
+			
+		}
+		return null;
 	}
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		ElementEntity el = elementService.getElementByType(Constants.MESSAGEBOARD);
-		String messageId = (String) el.getAttributes().get(Constants.MESSAGE_ID_ATTR);
-		return el.getAttributes().put(messageId, activity.getAttribute());
+		String id =(String)activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
+		if(elementService.getElementNoLogin(id) !=null) {
+			if(!activityDB.existsById(activity.getId())) {
+				activityDB.deleteById(activity.getId());
+				activityDB.save(activity);
+				return activity.getAttribute().get(Constants.MESSAGE_ID_ATTR);
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public ActivityEntity addActivity(ActivityEntity e) {
-		activityDB.save(e);
 		executeActivity(e);
 		return getActivity(e.getSuperkey());
 	}
