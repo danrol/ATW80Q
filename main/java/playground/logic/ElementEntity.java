@@ -41,7 +41,8 @@ public class ElementEntity {
 	private double x;
 	private double y;
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
-	//private String superkey;
+	
+	private String superkey;
 
 	@Autowired
 	public ElementEntity() {
@@ -62,7 +63,7 @@ public class ElementEntity {
 		this.creatorEmail = elEntity.creatorEmail;
 		setX(elEntity.getX());
 		setY(elEntity.getY());
-		setSuperkey();
+		//setSuperkey();
 
 	}
 
@@ -106,8 +107,13 @@ public class ElementEntity {
 
 	@Id
 	public String getSuperkey() {
-		return id+" "+creatorPlayground;
+		return createKey(id, creatorPlayground);
 	}
+	public void setSuperkey(String Superkey) {
+		//this.superkey = Superkey;
+	}
+	
+	
 /*
 	public void setSuperkey(String Superkey) {
 		this.superkey = Superkey;

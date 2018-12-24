@@ -149,7 +149,6 @@ public class ElementTO implements Serializable {
 		rv.setX(location.getX());
 		rv.setY(location.getY());
 		rv.setAttributes(attributes);
-		rv.setSuperkey();
 		return rv;
 	}
 
