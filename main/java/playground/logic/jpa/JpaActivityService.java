@@ -27,14 +27,14 @@ import playground.logic.UserService;
 @Service
 public class JpaActivityService implements ActivityService {
 	private ActivityDao activityDB;
-	private IdGeneratorDao idGenerator;
+	private IdGeneratorActivityDao idGeneratorActivity;
 	private ElementService elementService;
 	private UserService userService;
 
 	@Autowired
-	public JpaActivityService(ActivityDao activity, IdGeneratorDao idGenerator) {
+	public JpaActivityService(ActivityDao activity, IdGeneratorActivityDao idGeneratorActivity) {
 		this.activityDB = activity;
-		this.idGenerator = idGenerator;
+		this.idGeneratorActivity = idGeneratorActivity;
 	}
 
 	@Autowired

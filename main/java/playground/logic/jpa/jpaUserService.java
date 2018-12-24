@@ -24,12 +24,12 @@ public class jpaUserService implements UserService {
 
 	// this is the database we need are saving in
 	private UserDao userDB;
-	private IdGeneratorDao idGenerator;
+	private IdGeneratorUserDao IdGeneratorUser;
 
 	@Autowired
-	public jpaUserService(UserDao userDB, IdGeneratorDao idGenerator) {
+	public jpaUserService(UserDao userDB, IdGeneratorUserDao IdGeneratorUser) {
 		this.userDB = userDB;
-		this.idGenerator = idGenerator;
+		this.IdGeneratorUser = IdGeneratorUser;
 	}
 	
 
@@ -65,10 +65,10 @@ public class jpaUserService implements UserService {
 		if (userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
 		} else {
-			IdGenerator tmp = this.idGenerator.save(new IdGenerator());
+			IdGeneratorUser tmp = this.IdGeneratorUser.save(new IdGeneratorUser());
 			System.err.println("User ID: " + tmp.getId());
 			Long dummyId = tmp.getId();
-			this.idGenerator.delete(tmp);
+			this.IdGeneratorUser.delete(tmp);
 			user.setId("" + dummyId);
 			userDB.save(user);
 			result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());

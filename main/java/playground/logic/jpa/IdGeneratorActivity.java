@@ -5,10 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class IdGenerator {
+public class IdGeneratorActivity {
 	private Long id;
 
-	public IdGenerator() {
+	public IdGeneratorActivity() {
 	}
 
 	@Id
@@ -18,7 +18,7 @@ public class IdGenerator {
 	}
 
 	public void setId(Long id) {
+		System.err.println("IN IdGeneratorElement : " + id);
 		this.id = id;
 	}
-
 }

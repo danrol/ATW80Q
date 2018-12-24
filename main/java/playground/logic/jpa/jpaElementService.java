@@ -29,13 +29,13 @@ public class jpaElementService implements ElementService {
 
 	// this is the database we need are saving in
 	private ElementDao elementsDB;
-	private IdGeneratorDao idGenerator;
+	private IdGeneratorElementDao idGeneratorElement;
 	private UserService userService;
 
 	@Autowired
-	public jpaElementService(ElementDao elementsDB, IdGeneratorDao idGenerator) {
+	public jpaElementService(ElementDao elementsDB, IdGeneratorElementDao idGeneratorElement) {
 		this.elementsDB = elementsDB;
-		this.idGenerator = idGenerator;
+		this.idGeneratorElement = idGeneratorElement;
 	}
 
 	@Autowired
@@ -258,10 +258,10 @@ public class jpaElementService implements ElementService {
 		if (elementsDB.existsById(element.getSuperkey())) {
 			System.out.println("already exist in database: " + element.toString());
 		} else {
-			IdGenerator tmp = this.idGenerator.save(new IdGenerator());
+			IdGeneratorElement tmp = this.idGeneratorElement.save(new IdGeneratorElement());
 			System.err.println("Element ID: " + tmp.getId());
 			Long dummyId = tmp.getId();
-			this.idGenerator.delete(tmp);
+			this.idGeneratorElement.delete(tmp);
 			element.setId("" + dummyId);
 			elementsDB.save(element);
 		}
