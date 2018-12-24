@@ -38,9 +38,9 @@ public class ElementController {
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
 		// function 5
-
-		elementService.addElement(userPlayground, email,element.toEntity());
-		ElementTO elementT = new ElementTO(this.elementService.getElement(userPlayground,email,element.getId(),element.getCreatorPlayground()));
+		ElementEntity t = element.toEntity();
+		elementService.addElement(userPlayground, email,t);
+		ElementTO elementT = new ElementTO(this.elementService.getElement(userPlayground,email,t.getSuperkey()));
 		return elementT;
 	}
 	
