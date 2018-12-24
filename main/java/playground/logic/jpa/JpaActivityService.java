@@ -24,6 +24,14 @@ import playground.logic.UserService;
  *		key:Constants.MESSAGE_ID_ATTR
  *		val:the message to put in
 */
+
+/*
+ * ELEMENT:question ,ELEMENT->ATTRIBUTE:answer
+ * get question
+ * set question
+ * answer question
+ * get rules
+ */
 @Service
 public class JpaActivityService implements ActivityService {
 	private ActivityDao activityDB;
@@ -121,5 +129,51 @@ public class JpaActivityService implements ActivityService {
 			}
 		}
 		return lst2;
+	}
+	
+	@Override 
+	public Object setQuestion(ActivityEntity activity) {
+		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		if (elementService.getElementNoLogin(id) != null) {
+			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
+			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
+			for (ActivityEntity a : lst) {
+				if (a.getAttribute().get(Constants.ANSWER_ATTR)
+						.equals(activity.getAttribute().get(Constants.ANSWER_ATTR))) {
+					return activity.getAttribute().get(Constants.QUESTION_KEY);
+				}
+			}
+			activityDB.save(activity);
+			return activity.getAttribute().get(Constants.QUESTION_KEY);
+		}
+		return null;
+	}
+	@Override 
+	public Object getQuestion(ActivityEntity activity) {
+		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		if (elementService.getElementNoLogin(id) != null) {
+			return activity.getAttribute().get(Constants.ANSWER_ATTR);
+		}
+		return null;
+		
+	}
+	@Override 
+	public Object answerQuestion(ActivityEntity activity) {
+		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		if (elementService.getElementNoLogin(id) != null) {
+			Optional<ActivityEntity> a =activityDB.findById(id);
+			if(a.isPresent()) {
+				if(a.get().getAttribute().get(Constants.ANSWER_ATTR).equals(activity.getAttribute().get(Constants.ANSWER_ATTR))) {
+					return "answer is correct";
+				}else
+				{
+					return "answer is incorrect";
+				}
+			}
+			return null;
+				
+		}
+		return null;
+		
 	}
 }
