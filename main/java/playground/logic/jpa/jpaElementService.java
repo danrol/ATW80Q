@@ -190,8 +190,8 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = false)
 	@LoginRequired
-	public void addElement(String userPlayground, String email, ElementEntity element) {
-		addElementNoLogin(element);
+	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
+		return addElementNoLogin(element);
 
 	}
 

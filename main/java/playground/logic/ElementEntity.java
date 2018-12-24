@@ -23,7 +23,6 @@ import playground.Constants;
 import playground.dal.ElementDao;
 import playground.logic.jpa.IdGeneratorElement;
 import playground.logic.jpa.IdGeneratorElementDao;
-import playground.logic.jpa.JpaGeneratorService;
 
 //KEY is: id+creatorPlayground
 @Entity
