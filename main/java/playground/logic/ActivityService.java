@@ -20,4 +20,10 @@ public interface ActivityService {
 
 	Object executeActivity(String userPlayground, String email, ActivityEntity activity);
 
+	Object getQuestion(ActivityEntity activity);
+
+	Object setQuestion(ActivityEntity activity);
+
+	Object answerQuestion(ActivityEntity activity);
+
 }

@@ -36,7 +36,12 @@ public class Constants {
 	public static final String MESSAGE_READ = "MESSAGE_READ";
 	public static final String MESSAGE_WRITE = "MESSAGE_WRITE";
 	public static final String MESSAGE_DELETE = "MESSAGE_DELETE";
-	
+	//
+	public static final String QUESTION_READ = "QUESTION_READ";
+	public static final String QUESTION_WRITE = "QUESTION_WRITE";
+	public static final String QUESTION_ANSWER = "QUESTION_ANSWER";
+	public static final String QUESTION_KEY = "QUESTION_KEY";
+	public static  String ANSWER_ATTR = "answer";
 	public static String MESSAGE_ATTR = "Message";
 	
 	@Value("${playground.name:playgroundrolnik}")
