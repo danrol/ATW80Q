@@ -41,7 +41,7 @@ public class ElementController {
 		// function 5
 		System.err.println("here: "+  Arrays.toString(elementService.getAllElements()));
 		ElementEntity t = element.toEntity();
-		t = elementService.addElement(userPlayground, email,t); //TODO -- PROBLEM HERE
+		t = elementService.addElement(userPlayground, email, t); //TODO -- PROBLEM HERE
 		System.err.println(elementService.getAllElements());
 		ElementTO elementT = new ElementTO(this.elementService.getElement(userPlayground,email,t.getSuperkey()));
 		return elementT;
