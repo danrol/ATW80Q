@@ -1,6 +1,9 @@
 package playground.logic.jpa;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -27,10 +30,7 @@ import playground.logic.UserService;
 
 /*
  * ELEMENT:question ,ELEMENT->ATTRIBUTE:answer
- * get question
- * set question
- * answer question
- * get rules
+ *	there is a problem that with the paging in method addMessage()
  */
 @Service
 public class JpaActivityService implements ActivityService {
@@ -98,7 +98,7 @@ public class JpaActivityService implements ActivityService {
 	public Object addMessage(ActivityEntity activity) {
 		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_KEY);
 		if (elementService.getElementNoLogin(id) != null) {
-			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
+			ArrayList<ActivityEntity> lst = getAllByElementAttributeSuperkey(id,PageRequest.of(0,8,Direction.ASC,id));
 			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
 			for (ActivityEntity a : lst) {
 				if (a.getAttribute().get(Constants.MESSAGE_ATTR)
@@ -161,7 +161,7 @@ public class JpaActivityService implements ActivityService {
 	public Object getQuestion(ActivityEntity activity) {
 		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
 		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.ANSWER_ATTR);
+			return elementService.getElementNoLogin(id);
 		}
 		return null;
 		
