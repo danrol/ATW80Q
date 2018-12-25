@@ -17,3 +17,4 @@ target/classes/playground/logic/stubs/DummyActivityService.class
 target/test-classes/playground/layout/ElementTest.class
 target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
 *.class
+*.class

@@ -394,13 +394,14 @@ public class ElementTest {
 	@Test
 	public void successfullyGetElementsByAttributeNameValue() {
 
-		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
+		String creatorPlayground = "creatorPlayground";
+		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", creatorPlayground);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO elementTO = new ElementTO(
 				new ElementEntity(Constants.ELEMENT_NAME, "playground", "nudnik@mail.ru", 1, 0));
-		elementTO.setCreatorPlayground("creatorPlayground");
+		elementTO.setCreatorPlayground(creatorPlayground);
 		ElementTO elementForTest = elementTO;
 
 		HashMap<String, Object> testMap = new HashMap<>();
@@ -409,14 +410,14 @@ public class ElementTest {
 		testMap.put("attr3", "attr3Val");
 
 		elementForTest.setAttributes(testMap);
-		elementService.addElementNoLogin(elementForTest.toEntity());
+		elementService.addElement(creatorPlayground, "nudnik@mail.ru",elementForTest.toEntity());
 
 		ElementTO[] forNow = this.restTemplate.getForObject(
 				url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
-				"creatorPlayground", "nudnik@mail.ru", "attr3", "attr3Val");
+				creatorPlayground, "nudnik@mail.ru", "attr3", "attr3Val");
 
 		assertThat(forNow).isNotNull();
-		assertThat(forNow[0]).isEqualToComparingFieldByField(elementForTest);
+		assertThat(forNow[0]).isEqualToIgnoringGivenFields(elementForTest, "creationDate", "id");
 	}
 
 	// 10.2 Scenario: Test no Elements in ElementService with searched

@@ -117,5 +117,26 @@ public class DummyActivityService implements ActivityService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+	@Override
+	public Object getQuestion(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object setQuestion(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Object answerQuestion(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
