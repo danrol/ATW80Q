@@ -112,26 +112,27 @@ public class ElementTest {
 	public void successfullyUpdateElement() {
 
 		UserEntity userElementCreator = new UserEntity("username", "userMail@email.com", "ava", Constants.PLAYER_ROLE,
-				"playground");
+				Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 
 		userService.addUser(userElementCreator);
 		ElementEntity elementForTestEntity = new ElementEntity("name", "playground", "elementMail@email.com", 0, 1);
 
-		elementForTestEntity = elementService.addElementNoLogin(elementForTestEntity);
+		elementForTestEntity = elementService.addElement(elementForTestEntity.getCreatorPlayground(), 
+				elementForTestEntity.getCreatorEmail(),elementForTestEntity);
 
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setName("changedName");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, "playground", "userMail@email.com", elementForTestEntity.getCreatorPlayground(),
-				"123");
+				updatedElementForTestTO, Constants.PLAYGROUND_NAME, "userMail@email.com", "playground",
+				elementForTestEntity.getId());
 
-		ElementEntity actualEntity = elementService.getElementNoLogin(elementForTestEntity.getSuperkey());
+		ElementEntity actualEntity = elementService.getElement("playground", "userMail@email.com", elementForTestEntity.getSuperkey());
 
 		assertThat(actualEntity).isNotNull();
 
-		assertThat(actualEntity).isEqualToComparingFieldByField(updatedElementForTestTO.toEntity());
+		assertThat(actualEntity).isEqualToIgnoringGivenFields(updatedElementForTestTO.toEntity(), "creationDate");
 	}
 
 	// 6.2 Scenario: Test update non-existent element
