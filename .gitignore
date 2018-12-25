@@ -18,3 +18,7 @@ target/test-classes/playground/layout/ElementTest.class
 target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
 *.class
 *.class
+target/test-classes/playground/layout/ElementTest.class
+target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
+*/target/**
+target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
