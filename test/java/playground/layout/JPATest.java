@@ -65,8 +65,8 @@ public class JPATest {
 	public void addNonExistingElementToJPA() {
 		
 		
-		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element = new ElementEntity(id,Constants.ELEMENT_NAME, playground,creatorPlayground,1,2);
+		String playground="playground",creatorPlayground="creator";
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, playground,creatorPlayground,1,2);
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
@@ -77,13 +77,14 @@ public class JPATest {
 	@Test
 	public void addExistingElementToJPA() {
 		
-		String playground="playground",creatorPlayground="creator",id="idOfElement";
-		ElementEntity element = new ElementEntity(id,"name1", playground,creatorPlayground,1,2);
+		String playground="playground",creatorPlayground="creator";
+		ElementEntity element = new ElementEntity("name1", playground,creatorPlayground,1,2);
 		elementService.addElementNoLogin(element);
-		ElementEntity element2 = new ElementEntity(id,"name2", playground,creatorPlayground,1,2);
+		ElementEntity element2 = new ElementEntity("name2", playground,creatorPlayground,1,2);
 		elementService.addElementNoLogin(element2);
 		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground()))).isEqualTo(element);
+		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground())))
+		.isEqualToIgnoringGivenFields(element, "creationDate");
 	}
 	
 	//2.1 Scenario:  Adding non existing user
