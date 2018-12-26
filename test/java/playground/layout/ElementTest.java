@@ -82,7 +82,7 @@ public class ElementTest {
 	}
 
 	// 5.2 Scenario: Saving an existing element
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void saveAlreadyExistElement() {
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
@@ -98,7 +98,7 @@ public class ElementTest {
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
 
-		assertThat(element).isEqualTo(elem.toEntity());
+		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), "creationDate");
 		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
 
 	}
