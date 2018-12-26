@@ -249,11 +249,9 @@ public class jpaElementService implements ElementService {
 	public ElementEntity addElementNoLogin(ElementEntity element) {
 		
 		if (elementsDB.existsById(element.getSuperkey())) {
-			System.out.println("already exist in database: " + element.toString());
-			return elementsDB.findById(element.getSuperkey()).orElse(null);
+			throw new ElementDataException("element data already exist in database");
 		} else {
 			IdGeneratorElement tmp = IdGeneratorElement.save(new IdGeneratorElement());
-			System.err.println("creating Element ID: " + tmp.getId());
 			Long id = tmp.getId();
 			IdGeneratorElement.delete(tmp);
 			element.setId(id +"");

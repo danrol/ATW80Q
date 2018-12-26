@@ -66,8 +66,9 @@ public class ElementController {
 		 * OUTPUT: ElementTO
 		 */
 		ElementEntity element = null;
-
+		System.err.println("HERE: " + Arrays.asList(elementService.getAllElements()));
 		element = elementService.getElement(userPlayground, email,id, creatorPlayground);
+		System.err.println("HERE: " + Arrays.asList(elementService.getAllElements()));
 
 		return new ElementTO(element);
 	}

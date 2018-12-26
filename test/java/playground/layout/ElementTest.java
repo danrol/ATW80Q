@@ -82,7 +82,7 @@ public class ElementTest {
 	}
 
 	// 5.2 Scenario: Saving an existing element
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void saveAlreadyExistElement() {
 		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
 				"playground");
@@ -93,7 +93,6 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity("elementName", "playground", "email@mail.com", 5, 6);
 
 		element = elementService.addElementNoLogin(element);
-		System.err.println("ELEMENT: " + element.toString());
 		int dbSize = elementService.getAllElements().length;
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
 				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
