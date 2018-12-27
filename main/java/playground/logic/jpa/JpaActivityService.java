@@ -3,16 +3,14 @@ package playground.logic.jpa;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
-
 import java.util.ArrayList;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.dal.ActivityDao;
+import playground.exceptions.ElementDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementService;
@@ -35,14 +33,14 @@ import playground.logic.UserService;
 @Service
 public class JpaActivityService implements ActivityService {
 	private ActivityDao activityDB;
-	private IdGeneratorActivityDao idGeneratorActivity;
+	private IdGeneratorActivityDao IdGeneratorActivity;
 	private ElementService elementService;
 	private UserService userService;
 
 	@Autowired
-	public JpaActivityService(ActivityDao activity, IdGeneratorActivityDao idGeneratorActivity) {
+	public JpaActivityService(ActivityDao activity, IdGeneratorActivityDao IdGeneratorActivity) {
 		this.activityDB = activity;
-		this.idGeneratorActivity = idGeneratorActivity;
+		this.IdGeneratorActivity = IdGeneratorActivity;
 	}
 
 	@Autowired
@@ -116,8 +114,17 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e) {
-		executeActivity(userPlayground, email, e);
-		return getActivity(e.getSuperkey());
+		if (activityDB.existsById(e.getSuperkey())) {
+			throw new ElementDataException("activity data already exist in database");
+		} else {
+			executeActivity(userPlayground, email, e);
+			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());//TODO: "Field 'id' doesn't have a default value" exception 
+			Long id = tmp.getId();
+			IdGeneratorActivity.delete(tmp);
+			e.setId(id +"");
+			//return activityDB.save(e);
+			return getActivity(e.getSuperkey());
+		}
 	}
 
 	@Override

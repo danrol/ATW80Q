@@ -46,9 +46,7 @@ public class ActivityController {
 		/* function 11
 		 * INPUT: ActivityTO
 		 * OUTPUT: Object
-		 */
-		
-		
+		 */		
 		ActivityEntity t = activityService.addActivity(userPlayground, email,activity.toEntity());
 		return new ActivityTO(t); 
 	}
