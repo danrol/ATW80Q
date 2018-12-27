@@ -37,7 +37,6 @@ public class UserEntity {
 		setRole(role);
 		setPlayground(playground);
 		setPoints(0);
-		setSuperkey();
 		this.verificationCode = generateCode();
 	}
 
@@ -54,16 +53,13 @@ public class UserEntity {
 
 	@Id
 	public String getSuperkey() {
-		return superkey;
+		return createKey(email, playground);
 	}
 
 	public void setSuperkey(String superkey) {
-		this.superkey = superkey;
+		//empty
 	}
 	
-	public void setSuperkey() {
-		superkey = createKey(email, playground);
-	}
 	@Transient
 	public static String createKey(String email, String playground) {
 		return email.concat(" " + playground);
