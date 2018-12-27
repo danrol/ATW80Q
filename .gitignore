@@ -22,3 +22,7 @@ target/test-classes/playground/layout/ElementTest.class
 target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
 */target/**
 target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
+target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/maven/ATW80Q/ATW80Q/pom.properties
+target/classes/playground/aop/LoginRequiredAspect.class
+*.class
