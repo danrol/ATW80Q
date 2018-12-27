@@ -1,7 +1,6 @@
 package playground.controller;
 
 import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -10,13 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import playground.Constants;
 import playground.aop.LoginRequired;
-import playground.aop.PlayerLogin;
-import playground.layout.ElementTO;
 import playground.layout.UserTO;
-import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
@@ -41,17 +36,12 @@ public class UserController {
 	}
 	
 
-	@RequestMapping(
-			method = RequestMethod.POST,
-			path = "/playground/users",
-			produces = MediaType.APPLICATION_JSON_VALUE,
-			consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO registerNewUser(@RequestBody NewUserForm newUserForm) {
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-
 		return new UserTO(userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), 
 				newUserForm.getRole(), Constants.PLAYGROUND_NAME)));
 	}

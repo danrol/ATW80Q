@@ -2,7 +2,6 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Pageable;
@@ -69,7 +68,6 @@ public class jpaUserService implements UserService {
 		{
 			IdGeneratorUser gn = new IdGeneratorUser();
 			IdGeneratorUser tmp = IdGeneratorUser.save(gn);
-			System.err.println("creating User ID: " + tmp.getId());
 			Long dummyId = tmp.getId();
 			IdGeneratorUser.delete(tmp);
 			user.setId(dummyId+"");
@@ -85,7 +83,6 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(email, playground);
-
 		if (user != null) {
 			if (user.getVerificationCode().equals(""))
 				return user; // User already confirmed
@@ -135,6 +132,7 @@ public class jpaUserService implements UserService {
 		String idToSearchBy = UserEntity.createKey(email, playground);
 		UserEntity user = userDB.findById(idToSearchBy).orElse(null);
 		return user;
+		
 	}
 
 	@Override

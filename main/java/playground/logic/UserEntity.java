@@ -4,9 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import playground.Constants;
 
 //KEY IS EMAIL+PLAYGROUND

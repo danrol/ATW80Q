@@ -12,17 +12,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import playground.Constants;
-import playground.dal.ElementDao;
-import playground.logic.jpa.IdGeneratorElement;
-import playground.logic.jpa.IdGeneratorElementDao;
 
 //KEY is: id+creatorPlayground
 @Entity

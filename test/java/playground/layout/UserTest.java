@@ -64,7 +64,7 @@ public class UserTest {
 	//1.1 Scenario: Test register with wrong email (no “@” and web address afterwards) 
 
 	@Test(expected = RuntimeException.class)
-	public void registerNewUserWithWrongEmail() {
+	public void registerNewUserWithWrongEmail() {//TODO: tests throw RuntimeException at the NewUserForm and fail restTemplate
 
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS,
 				Constants.PLAYER_ROLE);
@@ -77,11 +77,10 @@ public class UserTest {
 	public void successfullyRegisterNewUser() {
 
 		NewUserForm postUserForm = new NewUserForm("nudnik@mail.ru", "Curiosity", "ava", "PLAYER");
-		
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
-				UserTO.class);
+				UserTO.class);		
 		assertThat(actualReturnedValue).isNotNull().isEqualToComparingFieldByField(testValue);
 	}
 	//1.3 Scenario: Test register user with the same email as the one that another user already have in the database
@@ -127,10 +126,10 @@ public class UserTest {
 	public void confirmUserNotInPlayground() {
 
 		UserEntity u = new UserEntity("userTest", "userTestPlayground@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
-				"OtherPlayground");
+				Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
-				Constants.PLAYGROUND_NAME, "userTestPlayground@gmail.com", u.getVerificationCode());
+				"OtherPlayground", "userTestPlayground@gmail.com", u.getVerificationCode());
 	}
 	//2.4 Scenario: Email is registered but verification code is wrong
 	@Test(expected = RuntimeException.class)
@@ -149,6 +148,7 @@ public class UserTest {
 	// ******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
 	//3.1 Scenario: Successful Login
+	//TODO: check if all test 3 works after fixing the "Login Required"
 	@Test
 	public void loginUserWithCorrectEmail() {
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
@@ -181,16 +181,17 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
 	}
 	//3.4 Scenario: User not verified
-	@Test(expected = RuntimeException.class)
-	public void loginUserWhenUserNotverified() {
+	@Test
+	public void loginUserWhenUserNotVerified() {
 
 		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		assertThat(u.isVerified()).isFalse();
-		
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, "userTest@gmail.com");
+		assertThat(user.toEntity().isVerified()).isFalse();
+		
 	}
 
 	// url #3/playground/users/login/{playground}/{email} test finished
@@ -228,7 +229,7 @@ public class UserTest {
 	}
 	
 	//4.3 Scenario: Moderator changes other player user
-	@Test
+	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
 
 		UserEntity moderatorUser = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,",
