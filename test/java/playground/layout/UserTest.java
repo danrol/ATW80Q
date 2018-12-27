@@ -170,6 +170,7 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
 	}
+	
 	//3.3 Scenario: User doesn’t belong in playground
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
@@ -181,16 +182,16 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 	}
 	//3.4 Scenario: User not verified
-	@Test
+	@Test(expected=RuntimeException.class)
 	public void loginUserWhenUserNotVerified() {
 
 		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		assertThat(u.isVerified()).isFalse();
+		
 		this.userService.addUser(u);
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-		assertThat(user.toEntity().isVerified()).isFalse();
 		
 	}
 

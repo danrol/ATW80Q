@@ -19,7 +19,7 @@ public class LoggerAspect {
 	
 	@Around("@annotation(playground.aop.MyLog)")
 	public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
-		System.err.println("IN MyLog");
+		System.err.println("Playground Logger --->");
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		String methodName = joinPoint.getSignature().getName();
 		String methodSignature = className + "." + methodName + "()";
