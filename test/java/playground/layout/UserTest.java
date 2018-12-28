@@ -106,7 +106,7 @@ public class UserTest {
 	public void confirmUserEmailNotInDatabase() {
 
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
-				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, "1234");
+				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_VERIFICATION_CODE);
 	}
 	//2.2 Scenario : Successful confirmation
 	@Test
@@ -219,7 +219,7 @@ public class UserTest {
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
 
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,",
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -232,12 +232,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
 
-		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,",
+		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
 
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -250,7 +250,7 @@ public class UserTest {
 	@Test
 	public void changeUserWhenRoleIsPlayerAndChangeHisUser() {
 
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
@@ -262,12 +262,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
 
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
 
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -280,12 +280,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
 
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
 
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,",
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
