@@ -44,6 +44,8 @@ public class Constants {
 	public static final String ID_FOR_TESTS = "308748323";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	public static final String AVATAR_FOR_TESTS = "MyAvatar.jpg";
+	public static final double Location_x = 5;
+	public static final double Location_y = 6;
 	
 	public static int DEFAULT_EXPIRATION_YEAR;
 	public static int DEFAULT_EXPIRATION_MONTH;

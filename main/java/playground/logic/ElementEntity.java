@@ -61,7 +61,6 @@ public class ElementEntity {
 
 	public ElementEntity(String name, String playground, String email, double x, double y) {
 		this();
-
 		this.name = name;
 		this.playground = playground;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;

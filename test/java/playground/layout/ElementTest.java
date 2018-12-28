@@ -68,8 +68,7 @@ public class ElementTest {
 	@Test
 	public void saveElementInDatabase() {
 
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, "thisPlayground", Constants.EMAIL_FOR_TESTS, 5, 6);
