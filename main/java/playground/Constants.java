@@ -11,7 +11,7 @@ public class Constants {
 	public static final String Function_2 = "/playground/users/confirm/{playground}/{email}/{code}";
 	public static final String Function_3 = "/playground/users/login/{playground}/{email}";
 	public static final String Function_4 = "/playground/users/{playground}/{email}";
-	
+	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
 	
 	public static String PLAYGROUND_MAIL="PLAYGROUND_MAIL";

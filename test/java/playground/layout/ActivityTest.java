@@ -72,13 +72,13 @@ private RestTemplate restTemplate;
 	//11.1 Scenario: Server receives activity
 	@Test
 	public void testSendValidEchoActivityToServer() {	
-		UserEntity user = new UserEntity("username","UserTest@gmail.com","avatar",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.DEFAULT_ACTIVITY_TYPE);
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"UserTest@gmail.com");
+		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
 		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
 	}
 	
