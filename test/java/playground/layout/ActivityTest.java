@@ -82,6 +82,8 @@ private RestTemplate restTemplate;
 		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
 	}
 	
+	//TODO: need more gherkin!!
+	
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//
 

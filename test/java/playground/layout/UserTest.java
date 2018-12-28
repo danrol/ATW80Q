@@ -148,7 +148,6 @@ public class UserTest {
 	// ******************************************************************************************//
 	// url #3 /playground/users/login/{playground}/{email} tests started
 	//3.1 Scenario: Successful Login
-	//TODO: check if all test 3 works after fixing the "Login Required"
 	@Test
 	public void loginUserWithCorrectEmail() {
 		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
