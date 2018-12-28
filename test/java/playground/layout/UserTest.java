@@ -159,12 +159,8 @@ public class UserTest {
 		assertThat(user).isNotNull();
 	}
 	//3.2 Scenario: Email not in Database
-	@Test(expected = RuntimeException.class)//TODO: email is not like in Gherkin example
+	@Test(expected = RuntimeException.class)
 	public void loginUserEmailNotInDatabase() {
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, "Wrongnudnik@mail.ru", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
-				Constants.PLAYGROUND_NAME);
-		u.verifyUser();
-		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
