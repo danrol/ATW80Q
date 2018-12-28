@@ -13,7 +13,13 @@ public class IdGeneratorActivity {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	/*
+	 * TODO
+	 * temporary fix - should be
+	 * @GeneratedValue(strategy=GenerationType.IDENTITY)
+	 * 
+	 * */
 	public Long getId() {
 		return id;
 	}

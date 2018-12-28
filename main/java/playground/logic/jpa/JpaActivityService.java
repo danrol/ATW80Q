@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import playground.Constants;
 import playground.aop.LoginRequired;
+import playground.aop.MyLog;
 import playground.dal.ActivityDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ActivityEntity;
@@ -59,9 +60,17 @@ public class JpaActivityService implements ActivityService {
 	@LoginRequired
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity) {
 
+		this.addActivityNoLogin(activity);
 		String activityType = activity.getType();
 
 		switch (activityType) {
+		case Constants.DEFAULT_ACTIVITY_TYPE:
+		{
+			/*
+			 * Default activity is ECHO
+			 * */
+			return activity;
+		}
 		case Constants.MESSAGE: {
 			return getMessage(activity);
 		}
@@ -82,6 +91,8 @@ public class JpaActivityService implements ActivityService {
 
 		return null;
 	}
+
+
 
 	@Override
 	public Object getMessage(ActivityEntity activity) {
@@ -113,18 +124,24 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	@Override
+	@LoginRequired
 	public ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e) {
-		if (activityDB.existsById(e.getSuperkey())) {
+		return addActivityNoLogin(e);
+	}
+	
+	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
+		if (activityDB.existsById(activity.getSuperkey())) {
 			throw new ElementDataException("activity data already exist in database");
 		} else {
-			executeActivity(userPlayground, email, e);
-			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());//TODO: "Field 'id' doesn't have a default value" exception 
+			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
+			//TODO: "Field 'id' doesn't have a default value" exception 
 			Long id = tmp.getId();
 			IdGeneratorActivity.delete(tmp);
-			e.setId(id +"");
+			activity.setId(id +"");
 			//return activityDB.save(e);
-			return getActivity(e.getSuperkey());
+			return getActivity(activity.getSuperkey());
 		}
+		
 	}
 
 	@Override
@@ -195,4 +212,12 @@ public class JpaActivityService implements ActivityService {
 		return null;
 		
 	}
+	
+	@Override
+	@MyLog
+	public void cleanActivityService() {
+		activityDB.deleteAll();
+	}
+	
+	
 }

@@ -13,7 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.Constants;
 import playground.logic.ActivityEntity;
+import playground.logic.ActivityService;
 import playground.logic.ElementService;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @RunWith(SpringRunner.class)
@@ -23,10 +25,17 @@ private RestTemplate restTemplate;
 	
 	private ElementService elementService;
 	private UserService userService;
+	private ActivityService activityService;
+	
 	
 	@Autowired
 	public void setElementService(ElementService elementService){
 		this.elementService = elementService;
+	}
+	
+	@Autowired
+	public void setActivityService(ActivityService activityService){
+		this.activityService = activityService;
 	}
 	
 	@Autowired
@@ -55,16 +64,22 @@ private RestTemplate restTemplate;
 	public void teardown() {
 		userService.cleanUserService();
 		elementService.cleanElementService();
+		activityService.cleanActivityService();
 	}
 	//******************************************************************************************//
 	// url #11 /playground/activities/{userPlayground}/{email} started
 	
 	//11.1 Scenario: Server receives activity
 	@Test
-	public void testSendValidActivityToServer() {		
-		ActivityTO act = new ActivityTO(new ActivityEntity());
-		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"Test@gmail.com");
-		assertThat(act).isEqualToComparingFieldByField(ob);
+	public void testSendValidEchoActivityToServer() {	
+		UserEntity user = new UserEntity("username","UserTest@gmail.com","avatar",Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.DEFAULT_ACTIVITY_TYPE);
+		ActivityTO act = new ActivityTO(ent);
+		ActivityTO ob = this.restTemplate.postForObject(this.url + "/playground/activities/{userPlayground}/{email}", act, ActivityTO.class,Constants.PLAYGROUND_NAME,"UserTest@gmail.com");
+		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
 	}
 	
 	// url #11 /playground/activities/{userPlayground}/{email} finished

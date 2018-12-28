@@ -26,4 +26,6 @@ public interface ActivityService {
 
 	Object answerQuestion(ActivityEntity activity);
 
+	void cleanActivityService();
+
 }

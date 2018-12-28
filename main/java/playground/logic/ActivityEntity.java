@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -22,7 +24,7 @@ public class ActivityEntity implements Serializable {
 	// Primary key - playground+id
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
-	private String id;
+	private String id="";
 	private String elementPlayground;
 	private String elementId;
 	private String type;
@@ -48,7 +50,6 @@ public class ActivityEntity implements Serializable {
 		attribute = new HashMap<String, Object>();
 		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
 		this.playground = Constants.PLAYGROUND_NAME;
-		this.id = "";
 	}
 
 //	create constructors that receive just a JSon 
@@ -168,7 +169,7 @@ public class ActivityEntity implements Serializable {
 	public void setSuperkey(String Superkey) {
 		//empty
 	}
-	
+	@Transient
 	public void setSuperkey() {
 		//empty
 		}

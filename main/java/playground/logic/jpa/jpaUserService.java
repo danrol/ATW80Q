@@ -61,7 +61,7 @@ public class jpaUserService implements UserService {
 	@Transactional
 	@MyLog
 	public UserEntity addUser(UserEntity user) {
-		UserEntity result = new UserEntity();
+		UserEntity result=null;
 		if (userDB.existsById(user.getSuperkey())) {
 			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
 		} else 
@@ -73,7 +73,7 @@ public class jpaUserService implements UserService {
 			user.setId(dummyId+"");
 			
 			userDB.save(user);
-			result = userDB.findById(user.getSuperkey()).orElse(new UserEntity());
+			result = userDB.findById(user.getSuperkey()).orElse(null);
 		}
 		return result;
 	}
