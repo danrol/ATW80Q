@@ -22,6 +22,7 @@ public class Constants {
 	
 	public static String PLAYGROUND_MAIL="PLAYGROUND_MAIL";
 	public static String PLAYGROUND_NAME="PLAYGROUND_NAME";
+	public static final String Other_Playground = "OtherPlayground";
 	public static final String MODERATOR_ROLE = "MODERATOR";
 	public static final String PLAYER_ROLE = "PLAYER";
 	public static final String UNDEFINED_ROLE = "NO_ROLE";
@@ -39,6 +40,7 @@ public class Constants {
 	public static final int USER_NOT_VERIFIED = 0;
 	public static final String ELEMENT_DEFAULT_TYPE = "Element";
 	public static final String EMAIL_FOR_TESTS = "nudnik@mail.ru";
+	public static final String Other_Email_For_Test = "OtherEmail@gmail.com";
 	public static final String ID_FOR_TESTS = "308748323";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	public static final String AVATAR_FOR_TESTS = "MyAvatar.jpg";

@@ -2,6 +2,8 @@ package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import javax.annotation.PostConstruct;
+
+import org.apache.tomcat.util.bcel.Const;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,7 +63,6 @@ public class UserTest {
 	// url #1 /playground/users tests start
 	
 	//1.1 Scenario: Test register with wrong email (no “@” and web address afterwards) 
-
 	@Test(expected = RuntimeException.class)
 	public void registerNewUserWithWrongEmail() {//TODO: tests throw RuntimeException at the NewUserForm and fail restTemplate
 
@@ -119,7 +120,7 @@ public class UserTest {
 
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, "OtherPlayground", Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, Constants.Other_Playground, Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
 	}
 	
 	//2.4 Scenario: Email is registered but verification code is wrong
@@ -158,7 +159,7 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
 		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, "OtherPlayground");
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.Other_Playground);
 		u.verifyUser();
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
@@ -195,7 +196,7 @@ public class UserTest {
 		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
@@ -208,7 +209,7 @@ public class UserTest {
 		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
@@ -231,7 +232,7 @@ public class UserTest {
 		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
@@ -244,7 +245,7 @@ public class UserTest {
 		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
