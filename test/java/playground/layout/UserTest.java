@@ -68,7 +68,7 @@ public class UserTest {
 
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS,
 				Constants.PLAYER_ROLE);
-		this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
+		this.restTemplate.postForObject(this.url + Constants.Function_1 , postUserForm,
 				UserTO.class);
 	}
 
@@ -79,7 +79,7 @@ public class UserTest {
 		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
-		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
+		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + Constants.Function_1, postUserForm,
 				UserTO.class);		
 		assertThat(actualReturnedValue).isNotNull().isEqualToComparingFieldByField(testValue);
 	}
@@ -91,7 +91,7 @@ public class UserTest {
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		userService.addUser(userToAdd.toEntity());
-		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
+		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + Constants.Function_1, postUserForm,
 				UserTO.class);
 		assertThat(actualReturnedValue).isNull();
 	}
@@ -105,7 +105,7 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void confirmUserEmailNotInDatabase() {
 
-		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_VERIFICATION_CODE);
 	}
 	//2.2 Scenario : Successful confirmation
@@ -115,7 +115,7 @@ public class UserTest {
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}",
+		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_2,
 				UserTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
 
 		assertThat(user).isNotNull();
@@ -128,7 +128,7 @@ public class UserTest {
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class,
 				"OtherPlayground", Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
 	}
 	//2.4 Scenario: Email is registered but verification code is wrong
@@ -139,7 +139,7 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME);
 		String code = u.getVerificationCode();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, code + "x");
 	}
 
@@ -154,18 +154,18 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}",
+		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_3,
 				UserTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 		assertThat(user).isNotNull();
 	}
 	//3.2 Scenario: Email not in Database
 	@Test(expected = RuntimeException.class)//TODO: email is not like in Gherkin example
 	public void loginUserEmailNotInDatabase() {
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, "nudnik2@mail.ru", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, "Wrongnudnik@mail.ru", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
 	}
@@ -177,7 +177,7 @@ public class UserTest {
 				"OtherPlayground");
 		u.verifyUser();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 	}
 	//3.4 Scenario: User not verified
@@ -189,7 +189,7 @@ public class UserTest {
 		assertThat(u.isVerified()).isFalse();
 		
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/login/{playground}/{email}", UserTO.class,
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 		
 	}
@@ -206,7 +206,7 @@ public class UserTest {
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", moderatorUser,
+		this.restTemplate.put(this.url + Constants.Function_4, moderatorUser,
 				Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
 	}
 	
@@ -224,7 +224,7 @@ public class UserTest {
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME,
 				moderatorUser.getEmail());
 	}
 	
@@ -242,7 +242,7 @@ public class UserTest {
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME,
 				moderatorUser.getEmail());
 	}
 
@@ -254,7 +254,7 @@ public class UserTest {
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", PlayerUser,
+		this.restTemplate.put(this.url + Constants.Function_4, PlayerUser,
 				Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
 	}
 	
@@ -272,7 +272,7 @@ public class UserTest {
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
 
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME,
 				PlayerUser.getEmail());
 	}
 	
@@ -289,7 +289,7 @@ public class UserTest {
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
-		this.restTemplate.put(this.url + "/playground/users/{playground}/{email}", OtherUser, Constants.PLAYGROUND_NAME,
+		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME,
 				PlayerUser.getEmail());
 	}
 
