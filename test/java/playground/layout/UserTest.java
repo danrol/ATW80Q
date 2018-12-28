@@ -76,7 +76,7 @@ public class UserTest {
 	@Test
 	public void successfullyRegisterNewUser() {
 
-		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, "Curiosity", Constants.AVATAR_FOR_TESTS, "PLAYER");
+		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + "/playground/users", postUserForm,
@@ -87,7 +87,7 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void registerUserThatAlreadyExists() {
 
-		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, "Curiosity", Constants.AVATAR_FOR_TESTS, "PLAYER");
+		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(),
 				postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		userService.addUser(userToAdd.toEntity());
@@ -112,7 +112,7 @@ public class UserTest {
 	@Test
 	public void confirmUserWithCorrectCode() {
 
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
 		UserTO user = this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}",
@@ -125,7 +125,7 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void confirmUserNotInPlayground() {
 
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + "/playground/users/confirm/{playground}/{email}/{code}", UserTO.class,
@@ -135,7 +135,7 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void confirmUserWithIncorrectVerificationCode() {
 
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		String code = u.getVerificationCode();
 		this.userService.addUser(u);
@@ -150,7 +150,7 @@ public class UserTest {
 	//3.1 Scenario: Successful Login
 	@Test
 	public void loginUserWithCorrectEmail() {
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
@@ -161,7 +161,7 @@ public class UserTest {
 	//3.2 Scenario: Email not in Database
 	@Test(expected = RuntimeException.class)//TODO: email is not like in Gherkin example
 	public void loginUserEmailNotInDatabase() {
-		UserEntity u = new UserEntity("userTest", "nudnik2@mail.ru", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, "nudnik2@mail.ru", Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
@@ -173,7 +173,7 @@ public class UserTest {
 	//3.3 Scenario: User doesn’t belong in playground
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				"OtherPlayground");
 		u.verifyUser();
 		this.userService.addUser(u);
@@ -184,7 +184,7 @@ public class UserTest {
 	@Test(expected=RuntimeException.class)
 	public void loginUserWhenUserNotVerified() {
 
-		UserEntity u = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		assertThat(u.isVerified()).isFalse();
 		
@@ -202,7 +202,7 @@ public class UserTest {
 	@Test
 	public void changeUserWhenRoleIsModeratorAndChangeHisUser() {
 
-		UserEntity moderatorUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
+		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
@@ -214,12 +214,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
 
-		UserEntity moderatorUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
+		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS,
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
 
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,",
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,",
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -232,12 +232,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
 
-		UserEntity moderatorUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, "Test.jpg,",
+		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,",
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
 		userService.addUser(moderatorUser);
 
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -250,7 +250,7 @@ public class UserTest {
 	@Test
 	public void changeUserWhenRoleIsPlayerAndChangeHisUser() {
 
-		UserEntity PlayerUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
@@ -262,12 +262,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
 
-		UserEntity PlayerUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
 
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
@@ -280,12 +280,12 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
 
-		UserEntity PlayerUser = new UserEntity("userTest", Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
+		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		PlayerUser.verifyUser();
 		userService.addUser(PlayerUser);
 
-		UserEntity OtherUser = new UserEntity("userTest", "OtherUserTest@gmail.com", "Test.jpg,",
+		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, "OtherUserTest@gmail.com", "Test.jpg,",
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		OtherUser.verifyUser();
 		userService.addUser(OtherUser);
