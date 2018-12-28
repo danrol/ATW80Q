@@ -68,13 +68,13 @@ public class ElementTest {
 	@Test
 	public void saveElementInDatabase() {
 
-		UserEntity user = new UserEntity("user", "mail@mail.com", "ava", Constants.MODERATOR_ROLE,
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity("elementName", "thisPlayground", "mail@mail.com", 5, 6);
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, "thisPlayground", Constants.EMAIL_FOR_TESTS, 5, 6);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + "/playground/elements/{userPlayground}/{email}",
-				new ElementTO(element), ElementTO.class, Constants.PLAYGROUND_NAME, "mail@mail.com");
+				new ElementTO(element), ElementTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 		ElementEntity element2 = elemTO.toEntity();
 
 		assertThat(element2).isEqualToIgnoringGivenFields(element, "id" , "superkey");
@@ -84,18 +84,18 @@ public class ElementTest {
 	// 5.2 Scenario: Saving an existing element
 	@Test(expected = RuntimeException.class)
 	public void saveAlreadyExistElement() {
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
 
 		userService.addUser(userElementCreator);
 
-		ElementEntity element = new ElementEntity("elementName", "playground", "email@mail.com", 5, 6);
+		ElementEntity element = new ElementEntity("elementName", "playground", Constants.EMAIL_FOR_TESTS, 5, 6);
 
 		element = elementService.addElementNoLogin(element);
 		int dbSize = elementService.getAllElements().length;
 		ElementTO elem = this.restTemplate.postForObject(this.url + "/playground/elements/{playground}/{email}",
-				new ElementTO(element), ElementTO.class, "playground", "email@mail.com");
+				new ElementTO(element), ElementTO.class, "playground", Constants.EMAIL_FOR_TESTS);
 
 		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), "creationDate");
 		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
@@ -110,12 +110,12 @@ public class ElementTest {
 	@Test
 	public void successfullyUpdateElement() {
 
-		UserEntity userElementCreator = new UserEntity("username", "userMail@email.com", "ava", Constants.PLAYER_ROLE,
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE,
 				Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity("name", "playground", "elementMail@email.com", 0, 1);
+		ElementEntity elementForTestEntity = new ElementEntity("name", "playground", Constants.EMAIL_FOR_TESTS, 0, 1);
 
 		elementForTestEntity = elementService.addElement(elementForTestEntity.getCreatorPlayground(), 
 				elementForTestEntity.getCreatorEmail(),elementForTestEntity);
@@ -124,10 +124,10 @@ public class ElementTest {
 		updatedElementForTestTO.setName("changedName");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, Constants.PLAYGROUND_NAME, "userMail@email.com", "playground",
+				updatedElementForTestTO, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, "playground",
 				elementForTestEntity.getId());
 
-		ElementEntity actualEntity = elementService.getElement("playground", "userMail@email.com", elementForTestEntity.getSuperkey());
+		ElementEntity actualEntity = elementService.getElement("playground", Constants.EMAIL_FOR_TESTS, elementForTestEntity.getSuperkey());
 
 		assertThat(actualEntity).isNotNull();
 
@@ -138,11 +138,11 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void updateNonExistingElement() {
 
-		ElementEntity elementEntityForTest = new ElementEntity("name", "playground", "email@email.com", 0, 1);
+		ElementEntity elementEntityForTest = new ElementEntity("name", "playground", Constants.EMAIL_FOR_TESTS, 0, 1);
 		ElementTO elementForTest = new ElementTO(elementEntityForTest);
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				elementForTest, "userPlayground", "email@email.com", "wrongPlayground", elementEntityForTest.getId());
+				elementForTest, "userPlayground", Constants.EMAIL_FOR_TESTS, "wrongPlayground", elementEntityForTest.getId());
 	}
 
 	// 6.3 Scenario : Test update existing element with non existing Creator email
@@ -159,7 +159,7 @@ public class ElementTest {
 		updatedElementForTestTO.setPlayground("forTest");
 
 		this.restTemplate.put(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
-				updatedElementForTestTO, "userPlayground", "test@test.com", "playgr", updatedElementForTestEntity.getId());
+				updatedElementForTestTO, "userPlayground", Constants.EMAIL_FOR_TESTS, "playgr", updatedElementForTestEntity.getId());
 
 	}
 
@@ -172,12 +172,12 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementExists() {
 
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg", Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
-				"elementTest@gmail.com", 5, 7);
+				Constants.EMAIL_FOR_TESTS, 5, 7);
 		this.elementService.addElementNoLogin(element);
 
 		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
@@ -190,7 +190,7 @@ public class ElementTest {
 	// database
 	@Test(expected = RuntimeException.class)
 	public void GETElementCorrectLoginElementNotInDatabase() {
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
@@ -207,7 +207,7 @@ public class ElementTest {
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
-				"elementTest@gmail.com", 1, 7);
+				Constants.EMAIL_FOR_TESTS, 1, 7);
 		this.userService.addUser(u);
 		this.elementService.addElementNoLogin(element);
 		ElementTO el = this.restTemplate.getForObject(
@@ -222,12 +222,12 @@ public class ElementTest {
 	// exist
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
-		UserEntity u = new UserEntity("userTest", "userTest@gmail.com", "Test.jpg,", Constants.MODERATOR_ROLE,
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.MODERATOR_ROLE,
 				Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME,
-				"elementTest@gmail.com", 4, 3);
+				Constants.EMAIL_FOR_TESTS, 4, 3);
 		this.elementService.addElementNoLogin(element);
 
 		this.restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
@@ -246,20 +246,20 @@ public class ElementTest {
 	@Test
 	public void GETAllFromDatabase() {
 
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elem1 = new ElementEntity("nameOfElement", "playground", "email@email.com", 1, 2);
-		ElementEntity elem2 = new ElementEntity("nameOfElement", "playground", "email@email.com", 2, 1);
+		ElementEntity elem1 = new ElementEntity("nameOfElement", "playground", Constants.EMAIL_FOR_TESTS, 1, 2);
+		ElementEntity elem2 = new ElementEntity("nameOfElement", "playground", Constants.EMAIL_FOR_TESTS, 2, 1);
 		elem1 = elementService.addElementNoLogin(elem1);
 		elem2 = elementService.addElementNoLogin(elem2);
 
 		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
 
 		ElementTO[] result = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
-				ElementTO[].class, "playground", "email@email.com");
+				ElementTO[].class, "playground", Constants.EMAIL_FOR_TESTS);
 
 		assertThat(result).isNotNull();
 		assertThat(result[0]).isEqualToComparingFieldByField(arrForTest[0]);
@@ -271,13 +271,13 @@ public class ElementTest {
 	@Test
 	public void GETAllFromEmptyDatabase() {
 
-		UserEntity userElementCreator = new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE,
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE,
 				"playground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all",
-				ElementTO[].class, "playground", "email@email.com");
+				ElementTO[].class, "playground", Constants.EMAIL_FOR_TESTS);
 		assertThat(elemArr).isEqualTo(new ElementTO[0]);
 
 	}
@@ -286,17 +286,17 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETAllFromDatabaseWithNoUserVerified() {
 
-		ElementEntity t1 = new ElementEntity("name1", "playground", "email@email.com", 1, 2);
-		ElementEntity t2 = new ElementEntity("name2", "playground", "email@email.com", 2, 1);
+		ElementEntity t1 = new ElementEntity("name1", "playground", Constants.EMAIL_FOR_TESTS, 1, 2);
+		ElementEntity t2 = new ElementEntity("name2", "playground", Constants.EMAIL_FOR_TESTS, 2, 1);
 
-		elementService.addElement("creator", "email@email", t1);
-		elementService.addElement("creator", "email@email", t2);
+		elementService.addElement("creator", Constants.EMAIL_FOR_TESTS, t1);
+		elementService.addElement("creator", Constants.EMAIL_FOR_TESTS, t2);
 
 		userService
-				.addUser(new UserEntity("username", "email@email.com", "ava", Constants.PLAYER_ROLE, "userPlayground"));
+				.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, "userPlayground"));
 
 		restTemplate.getForObject(this.url + "/playground/elements/{userPlayground}/{email}/all", ElementTO[].class,
-				"userPlayground", "email@email.com");
+				"userPlayground", Constants.EMAIL_FOR_TESTS);
 	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
@@ -308,32 +308,32 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementsWithNegativeDistance() {
 
-		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
 		user.verifyUser();
 		userService.addUser(user);
 		int distance = -1, x = 5, y = 5;
-		ElementEntity element = new ElementEntity("name", "TestPlayground", "email@email.com", x, y);
+		ElementEntity element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, x, y);
 		elementService.addElementNoLogin(element);
 
 		ElementTO[] elements = this.restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
-				"TestPlayground", "email@email.com", x, y, distance);
+				"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
 	}
 
 	// 9.2 Scenario: Distance is Zero
 	@Test
 	public void distanceIsGreaterThanZero() {
-		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
 		user.verifyUser();
 		userService.addUser(user);
 
 		for (int i = 0; i < 10; i++) {
 			ElementEntity element = new ElementEntity("name" + i, "TestPlayground",
-					"email@email.com", i, i);
+					Constants.EMAIL_FOR_TESTS, i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity("name" + i, "TestPlayground", "email@email.com", 0, i);
+			element = new ElementEntity("name" + i, "TestPlayground", Constants.EMAIL_FOR_TESTS, 0, i);
 			elementService.addElementNoLogin(element);
 		}
 
@@ -341,7 +341,7 @@ public class ElementTest {
 
 		ElementTO[] elements = this.restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
-				"TestPlayground", "email@email.com", x, y, distance);
+				"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
 
 		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
@@ -356,21 +356,21 @@ public class ElementTest {
 	@Test
 	public void GETElementsWithZeroDistance() {
 
-		UserEntity user = new UserEntity("TestUser", "email@email.com", "avatar.jpg", Constants.PLAYER_ROLE,
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE,
 				"TestPlayground");
 		user.verifyUser();
 		userService.addUser(user);
 
-		ElementEntity element = new ElementEntity("name", "TestPlayground", "email@email.com", 1, 2);
+		ElementEntity element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, 1, 2);
 		elementService.addElementNoLogin(element);
-		element = new ElementEntity("name", "TestPlayground", "email@email.com", 1, 3);
+		element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, 1, 3);
 		elementService.addElementNoLogin(element);
 
 		int distance = 0, x = 1, y = 2;
 
 		ElementTO[] elements = this.restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}", ElementTO[].class,
-				"TestPlayground", "email@email.com", x, y, distance);
+				"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
 
 		assertThat(elements.length).isEqualTo(1);
 
@@ -394,12 +394,12 @@ public class ElementTest {
 	public void successfullyGetElementsByAttributeNameValue() {
 
 		String creatorPlayground = "creatorPlayground";
-		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", creatorPlayground);
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", creatorPlayground);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO elementTO = new ElementTO(
-				new ElementEntity(Constants.ELEMENT_NAME, "playground", "nudnik@mail.ru", 1, 0));
+				new ElementEntity(Constants.ELEMENT_NAME, "playground", Constants.EMAIL_FOR_TESTS, 1, 0));
 		elementTO.setCreatorPlayground(creatorPlayground);
 		ElementTO elementForTest = elementTO;
 
@@ -409,11 +409,11 @@ public class ElementTest {
 		testMap.put("attr3", "attr3Val");
 
 		elementForTest.setAttributes(testMap);
-		elementService.addElement(creatorPlayground, "nudnik@mail.ru",elementForTest.toEntity());
+		elementService.addElement(creatorPlayground, Constants.EMAIL_FOR_TESTS,elementForTest.toEntity());
 
 		ElementTO[] forNow = this.restTemplate.getForObject(
 				url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}", ElementTO[].class,
-				creatorPlayground, "nudnik@mail.ru", "attr3", "attr3Val");
+				creatorPlayground, Constants.EMAIL_FOR_TESTS, "attr3", "attr3Val");
 
 		assertThat(forNow).isNotNull();
 		assertThat(forNow[0]).isEqualToIgnoringGivenFields(elementForTest, "creationDate", "id");
@@ -424,12 +424,12 @@ public class ElementTest {
 	@Test
 	public void attributeNotExist() {
 
-		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", "nudnik@mail.ru", 1, 0)) };
+				new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", Constants.EMAIL_FOR_TESTS, 1, 0)) };
 
 		elementForTest[0].setCreatorPlayground("creatorPlayground");
 		HashMap<String, Object> testMap = new HashMap<>();
@@ -440,7 +440,7 @@ public class ElementTest {
 
 		ElementTO[] responseEntity = restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-				ElementTO[].class, "creatorPlayground", "nudnik@mail.ru", "noSuchAttribute", "attr3Val");
+				ElementTO[].class, "creatorPlayground", Constants.EMAIL_FOR_TESTS, "noSuchAttribute", "attr3Val");
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 
@@ -449,12 +449,12 @@ public class ElementTest {
 	@Test
 	public void valueInAttributeNotExist() {
 
-		UserEntity userElementCreator = new UserEntity("name", "nudnik@mail.ru", "ava", "player", "creatorPlayground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
 		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", "nudnik@mail.ru", 1, 0)) };
+				new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", Constants.EMAIL_FOR_TESTS, 1, 0)) };
 
 		elementForTest[0].setCreatorPlayground("creatorPlayground");
 		HashMap<String, Object> testMap = new HashMap<>();
@@ -465,7 +465,7 @@ public class ElementTest {
 
 		ElementTO[] responseEntity = restTemplate.getForObject(
 				this.url + "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-				ElementTO[].class, "creatorPlayground", "nudnik@mail.ru", "randomAttribute", "wrongValue");
+				ElementTO[].class, "creatorPlayground", Constants.EMAIL_FOR_TESTS, "randomAttribute", "wrongValue");
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 
