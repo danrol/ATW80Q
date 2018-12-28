@@ -171,10 +171,9 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity getElementNoLogin(String superkey) {
+	public ElementEntity getElementNoLogin(String superkey) {//TODO: dont need exception?!
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
-			System.err.println("\n\n\n");
 			try {
 				ElementEntity t = el.get();
 				return t;
