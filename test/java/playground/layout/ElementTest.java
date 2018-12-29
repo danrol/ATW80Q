@@ -202,9 +202,9 @@ public class ElementTest {
 		elem2 = elementService.addElementNoLogin(elem2);
 		ElementTO[] arrForTest = new ElementTO[] {new ElementTO(elem1), new ElementTO(elem2)};
 		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, userElementCreator.getEmail(),Constants.PLAYGROUND_NAME);
-		assertThat(result).isNotNull();
-		assertThat(result[0]).isEqualToComparingFieldByField(arrForTest[0]);
-		assertThat(result[1]).isEqualToComparingFieldByField(arrForTest[1]);
+		assertThat(result).isNotNull();//arrForTest[0]
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.Ignore_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.Ignore_creationDate);
 	}
 
 	// 8.2 Scenario: Test get all elements from empty database
@@ -214,20 +214,8 @@ public class ElementTest {
 		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, Constants.EMAIL_FOR_TESTS, Constants.PLAYGROUND_NAME);
+		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, userElementCreator.getEmail(), Constants.PLAYGROUND_NAME);
 		assertThat(elemArr).isEqualTo(new ElementTO[0]);
-	}
-
-	// 8.3 Scenario: Not registered user fails to get all elements in the database
-	@Test(expected = RuntimeException.class)
-	public void GETAllFromDatabaseWithNoUserVerified() {
-
-		ElementEntity t1 = new ElementEntity(Constants.ELEMENT_NAME+"1", Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 2);
-		ElementEntity t2 = new ElementEntity(Constants.ELEMENT_NAME+"2", Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 2, 1);
-		elementService.addElement(Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, t1);
-		elementService.addElement(Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, t2);
-		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
-		restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, "userPlayground", Constants.EMAIL_FOR_TESTS);
 	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished

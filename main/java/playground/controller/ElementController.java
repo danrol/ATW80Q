@@ -65,7 +65,6 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		System.err.println("Finction 7");
 		ElementEntity element = null;
 		element = elementService.getElement(userPlayground, email, id, creatorPlayground);
 		return new ElementTO(element);
@@ -76,7 +75,6 @@ public class ElementController {
 		//function 8
 		System.err.println("Funnction 8");
 		ArrayList<ElementEntity> allElements = elementService.getElements(pageable);
-		System.err.println(allElements);
 		if (allElements.size() != 0  ) 
 			return getElementTOArray(elementService.lstToArray(allElements));
 		else return new ElementTO[0];
