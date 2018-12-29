@@ -51,6 +51,7 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
+	public static final String MESSAGE_TYPE = "MESSAGE";
 	public static final String MESSAGE_NAME = "MESSAGE";
 	public static final String GET_MESSAGE_ACTIVITY = "MESSAGE_READ";
 	public static final String MESSAGE_WRITE_ACTIVITY = "MESSAGE_WRITE";

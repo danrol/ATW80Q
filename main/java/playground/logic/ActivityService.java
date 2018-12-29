@@ -14,7 +14,7 @@ public interface ActivityService {
 
 	Object addMessage(ActivityEntity activity);
 
-	ArrayList<ActivityEntity> getAllActivitiesInMessageBoard(String Superkey,Pageable pageable);
+	ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey,Pageable pageable);
 
 	ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e);
 

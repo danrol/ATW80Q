@@ -115,7 +115,7 @@ public class JpaActivityService implements ActivityService {
 		int PAGE_NUM = 0, PAGE_SIZE=8;
 		String messageBoard_ID = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
 		if (elementService.getElementNoLogin(messageBoard_ID) != null) {
-			ArrayList<ActivityEntity> activities = getAllActivitiesInMessageBoard(messageBoard_ID,PageRequest.of(PAGE_NUM,PAGE_SIZE,Direction.ASC,messageBoard_ID));
+			ArrayList<ActivityEntity> activities = getAllMessagesActivitiesInMessageBoard(messageBoard_ID,PageRequest.of(PAGE_NUM,PAGE_SIZE,Direction.ASC,messageBoard_ID));
 
 			//checking if message already exists, returns if yes
 			for (ActivityEntity message_activity : activities) {
@@ -166,17 +166,13 @@ public class JpaActivityService implements ActivityService {
 	 * Fix this method - make a new query 
 	 * */
 	@Override
-	public ArrayList<ActivityEntity> getAllActivitiesInMessageBoard(String superkey, Pageable pageable) {
+	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 		ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
-		for (ActivityEntity a : activityDB.findAll(pageable))
+		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, 
+				Constants.MESSAGE_TYPE, pageable))
 			lst.add(a);
-		for (ActivityEntity a : lst) {
-			if (a.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY).equals(superkey)) {
-				lst2.add(a);
-			}
-		}
-		return lst2;
+		return lst;
 	}
 	
 	@Override 

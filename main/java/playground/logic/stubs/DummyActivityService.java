@@ -99,7 +99,7 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public ArrayList<ActivityEntity> getAllActivitiesInMessageBoard(String Superkey, Pageable pageable) {
+	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
