@@ -5,3 +5,4 @@ bin/
 .project
 .settings/
 target/
+target/test-classes/playground/layout/UserTest.class
