@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import playground.Constants;
+import playground.exceptions.RegisterNewUserException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -41,16 +42,22 @@ public class DummyInitializer {
 		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
-		//mod = userService.addUser(mod);
+		try {
+
+			mod = userService.addUser(mod);
+		}
+		catch(RegisterNewUserException e) {
+			mod = userService.getUser(mod.getEmail(), mod.getPlayground());
+		}
 		String msg = "msg";
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 30; i++) {
 
 			ActivityEntity entity = new ActivityEntity();
 			entity.setType(Constants.ADD_MESSAGE_ACTIVITY);
 			entity.getAttribute().put(Constants.MESSAGE_ATTR_MESSAGE_TYPE, msg + i);
 			entity.getAttribute().put(Constants.MESSAGEBOARD_ID_KEY, msgBoard.getSuperkey());
-			//activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity,null);
+			activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity,null);
 
 			// TODO remove the comments from above - this code makes it crush for some
 			// reason
