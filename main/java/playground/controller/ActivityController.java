@@ -1,6 +1,7 @@
 package playground.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,11 +45,11 @@ public class ActivityController {
 	@LoginRequired
 	@RequestMapping(method = RequestMethod.POST, path = "/playground/activities/{userPlayground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object RequestServer(@PathVariable("userPlayground") String userPlayground,
-			@PathVariable("email") String email, @RequestBody ActivityTO activity) {
+			@PathVariable("email") String email, @RequestBody ActivityTO activity,Pageable pageable) {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
-		Object t = activityService.executeActivity(userPlayground, email, activity.toEntity());
+		Object t = activityService.executeActivity(userPlayground, email, activity.toEntity(),pageable);
 		
 		switch(t.getClass().getName())
 		{

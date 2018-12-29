@@ -18,7 +18,7 @@ public interface ActivityService {
 
 	ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e);
 
-	Object executeActivity(String userPlayground, String email, ActivityEntity activity);
+	Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable);
 
 	Object getQuestion(ActivityEntity activity);
 

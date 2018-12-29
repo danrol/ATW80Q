@@ -31,15 +31,17 @@ public class DummyInitializer {
 		// empty
 	}
 
-//	@PostConstruct
+	@PostConstruct
 	public void init() {
 		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard", Constants.PLAYGROUND_NAME,
 				Constants.PLAYGROUND_MAIL, 0, 0);
-		msgBoard = elementService.addElementNoLogin(msgBoard);
+
+			msgBoard = elementService.addElementNoLogin(msgBoard);
+
 		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
 				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
-		mod = userService.addUser(mod);
+		//mod = userService.addUser(mod);
 		String msg = "msg";
 
 		for (int i = 0; i < 3; i++) {
