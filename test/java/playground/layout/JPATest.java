@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -20,6 +21,7 @@ import playground.logic.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@ConfigurationProperties(prefix = "test")
 public class JPATest {
 	
 	private RestTemplate restTemplate;
@@ -35,6 +37,8 @@ public class JPATest {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	
+	
 
 	@LocalServerPort
 	private int port;
@@ -45,6 +49,7 @@ public class JPATest {
 		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
+
 	}
 
 	@Before
