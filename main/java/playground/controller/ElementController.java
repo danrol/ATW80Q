@@ -55,6 +55,7 @@ public class ElementController {
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
+		System.err.println("Function 6");
 		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
@@ -85,7 +86,6 @@ public class ElementController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAroundLocation(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground, @PathVariable("distance") double distance, @PathVariable("x") double x, @PathVariable("y") double y){
 		//function 9
-		System.err.println("Funnction 9");
 		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, pageable);
 		return getElementTOArray(elements);
 	}

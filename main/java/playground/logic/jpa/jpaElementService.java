@@ -258,6 +258,7 @@ public class jpaElementService implements ElementService {
 	@ModeratorLogin
 	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorplayground) {
 		ElementEntity tempElement = this.getElement(userPlayground, email, ElementEntity.createKey(id, creatorplayground));
+		System.err.println("tempElement: " + tempElement);
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			entity.setCreationDate(tempElement.getCreationDate());
