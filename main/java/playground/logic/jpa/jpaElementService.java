@@ -51,9 +51,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@PlayerLogin
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
-			double distance, Pageable pageable) {
-
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}

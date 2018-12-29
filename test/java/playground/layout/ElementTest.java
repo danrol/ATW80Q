@@ -230,10 +230,9 @@ public class ElementTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		int distance = -1, x = 5, y = 5;
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y);
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y);
 		elementService.addElementNoLogin(element);
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
+		this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y, Constants.Negaive_Distance);
 	}
 
 	// 9.2 Scenario: Distance is Zero
@@ -243,19 +242,18 @@ public class ElementTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		for (int i = 0; i < 10; i++) {
-			ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME + i, Constants.PLAYGROUND_NAME,	Constants.EMAIL_FOR_TESTS, i, i);
+		for (int i = 0; i < Constants.Distance; i++) {
+			ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME + i, Constants.PLAYGROUND_NAME, user.getEmail(), i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity("name" + i, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 0, i);
+			element = new ElementEntity("name" + i, Constants.PLAYGROUND_NAME, user.getEmail(), 0, i);
 			elementService.addElementNoLogin(element);
 		}
-		int distance = 10, x = 5, y = 5;
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y, Constants.Distance);
 		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
-			double actualDistance = this.distanceBetween(x1, y1, x, y);
-			assertThat(actualDistance).isLessThan(distance);
+			double actualDistance = this.distanceBetween(x1, y1, Constants.Location_x, Constants.Location_y);
+			assertThat(actualDistance).isLessThan(Constants.Distance);
 		}
 	}
 
@@ -266,14 +264,13 @@ public class ElementTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 2);
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y);
 		elementService.addElementNoLogin(element);
-		element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 3);
+		element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y + 2);
 		elementService.addElementNoLogin(element);
-		int distance = 0, x = 1, y = 2;
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.Location_x, Constants.Location_y, Constants.Zero_Distance);
 		assertThat(elements.length).isEqualTo(1);
-		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), x,y);
+		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), Constants.Location_x, Constants.Location_y);
 		assertThat(actualDistance).isEqualTo(0);
 	}
 

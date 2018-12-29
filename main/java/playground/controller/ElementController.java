@@ -73,7 +73,6 @@ public class ElementController {
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getAllElements(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground) {
 		//function 8
-		System.err.println("Funnction 8");
 		ArrayList<ElementEntity> allElements = elementService.getElements(pageable);
 		if (allElements.size() != 0  ) 
 			return getElementTOArray(elementService.lstToArray(allElements));
@@ -84,15 +83,9 @@ public class ElementController {
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
 			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsAroundLocation(
-			Pageable pageable,
-			@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground,
-			@PathVariable("distance") double distance, 
-			@PathVariable("x") int x, 
-			@PathVariable("y") int y){
+	public ElementTO[] getElementsAroundLocation(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground, @PathVariable("distance") double distance, @PathVariable("x") double x, @PathVariable("y") double y){
 		//function 9
-
+		System.err.println("Funnction 9");
 		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, pageable);
 		return getElementTOArray(elements);
 	}
