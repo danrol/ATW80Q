@@ -86,6 +86,9 @@ public class JpaActivityService implements ActivityService {
 		case Constants.QUESTION_ANSWER_ACTIVITY:{
 			return answerQuestion(activity);
 		}
+		case Constants.ADD_MESSAGE_BOARD_ACTIVITY:{
+			return null;
+		}
 			
 		}
 
@@ -93,7 +96,10 @@ public class JpaActivityService implements ActivityService {
 	}
 
 
-
+	/*
+	 * Input: activity of type GET_MESSAGE_ACTIVITY
+	 * Output: activity of type MESSAGE_WRITE_ACTIVITY
+	 * */
 	@Override
 	public Object getMessage(ActivityEntity activity) {
 		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
@@ -153,6 +159,11 @@ public class JpaActivityService implements ActivityService {
 		return null;
 	}
 
+	
+	/*
+	 * TODO
+	 * Fix this method - make a new query 
+	 * */
 	@Override
 	public ArrayList<ActivityEntity> getAllActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
