@@ -21,6 +21,8 @@ import playground.logic.jpa.IdGeneratorActivityDao;
 public class DummyActivityService implements ActivityService {
 
 	private ArrayList<ActivityEntity> activityDB;
+	private ArrayList<ElementEntity> messageBoardDB;
+	private ArrayList<ElementEntity> questionDB;
 	private IdGeneratorActivityDao IdGeneratorActivity;
 	private ElementService elementService;
 	private UserService userService;
@@ -28,6 +30,8 @@ public class DummyActivityService implements ActivityService {
 	@Autowired
 	public DummyActivityService(ActivityDao activity, IdGeneratorActivityDao IdGeneratorActivity) {
 		this.activityDB = new ArrayList();
+		this.messageBoardDB=new ArrayList();
+		this.questionDB=new ArrayList();
 		this.IdGeneratorActivity = IdGeneratorActivity;
 	}
 
@@ -89,6 +93,12 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
+		for(ElementEntity e:messageBoardDB) {
+			if(e.getSuperkey().equals(activity.getElementId())) {
+				e.getAttributes().put(Constants.MESSAGE_ATTR_MESSAGE_TYPE, activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE));
+				return e;
+			}
+		}
 		return null;
 	}
 
@@ -102,8 +112,8 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public ActivityEntity addActivity(String userPlayground, String email, ActivityEntity e) {
-		// TODO Auto-generated method stub
-		return null;
+		activityDB.add(e);
+		return e;
 	}
 
 
@@ -137,15 +147,21 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object addMessageBoard(ActivityEntity activity) {
-		// TODO Auto-generated method stub
-		return null;
+		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
+				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.X_ATTR),
+				(double)activity.getAttribute().get(Constants.X_ATTR));
+		questionDB.add(e);
+		return e;
 	}
 
 
 	@Override
 	public Object addQuestion(ActivityEntity activity) {
-		// TODO Auto-generated method stub
-		return null;
+		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
+				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.X_ATTR),
+				(double)activity.getAttribute().get(Constants.X_ATTR));
+		messageBoardDB.add(e);
+		return e;
 	}
 
 
