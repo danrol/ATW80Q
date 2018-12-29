@@ -59,9 +59,12 @@ public class Constants {
 	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE";
 	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER";
 	public static final String QUESTION_KEY = "QUESTION_KEY";
+	public static final String QUESTION_NAME = "QUESTION_NAME";
 	public static final String ANSWER_ATTR_QUESTION_TYPE = "answer";
 	public static final String MESSAGE_ATTR_MESSAGE_TYPE = "Message";
-	
+	public static final String MESSAGE_BOARD_NAME = "MESSAGE_BOARD_NAME";
+	public static final String X_ATTR = "X_ATTR";
+	public static final String Y_ATTR = "Y_ATTR";
 	
 	public static final String Ignore_attributes = "attributes";
 	public static final String Ignore_creationDate = "creationDate";

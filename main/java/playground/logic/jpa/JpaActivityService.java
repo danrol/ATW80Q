@@ -14,6 +14,7 @@ import playground.dal.ActivityDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 /* 
@@ -222,6 +223,43 @@ public class JpaActivityService implements ActivityService {
 		}
 		return null;
 		
+	}
+	//when message board is created , in the attributes in map: 
+	//attribute name. attribute x, attribute y,
+	@Override
+	public Object addMessageBoard(ActivityEntity activity) {
+		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		if (elementService.getElementNoLogin(id) != null) {
+			Object name=activity.getAttribute().get(Constants.MESSAGE_BOARD_NAME);
+			Object x=activity.getAttribute().get(Constants.X_ATTR);
+			Object y=activity.getAttribute().get(Constants.Y_ATTR);
+			if(name.getClass().isInstance(String.class)&&x.getClass().isInstance(Double.class)&&y.getClass().isInstance(Double.class)){
+				ElementEntity e= new ElementEntity((String)name,activity.getPlayground(),activity.getPlayerEmail(),(double)x,(double)y);
+				elementService.addElementNoLogin(e);
+				activityDB.save(activity);
+				return activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+			}
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public Object addQuestion(ActivityEntity activity) {
+		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		if (elementService.getElementNoLogin(id) != null) {
+			Object name=activity.getAttribute().get(Constants.QUESTION_NAME);
+			Object x=activity.getAttribute().get(Constants.X_ATTR);
+			Object y=activity.getAttribute().get(Constants.Y_ATTR);
+			if(name.getClass().isInstance(String.class)&&x.getClass().isInstance(Double.class)&&y.getClass().isInstance(Double.class)){
+				ElementEntity e= new ElementEntity((String)name,activity.getPlayground(),activity.getPlayerEmail(),(double)x,(double)y);
+				elementService.addElementNoLogin(e);
+				activityDB.save(activity);
+				return activity.getAttribute().get(Constants.QUESTION_KEY);
+			}
+			
+		}
+		return null;
 	}
 	
 	@Override

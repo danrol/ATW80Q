@@ -28,4 +28,8 @@ public interface ActivityService {
 
 	void cleanActivityService();
 
+	Object addMessageBoard(ActivityEntity activity);
+
+	Object addQuestion(ActivityEntity activity);
+
 }
