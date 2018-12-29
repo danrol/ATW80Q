@@ -1,6 +1,5 @@
 package playground.init;
 
-
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -13,14 +12,13 @@ import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
-
 @Component
 @Profile("demo")
 public class DummyInitializer {
 	private ElementService elementService;
 	private ActivityService activityService;
 	private UserService userService;
-	
+
 	@Autowired
 	public DummyInitializer(ElementService elementService, ActivityService activityService, UserService userService) {
 		this();
@@ -28,33 +26,34 @@ public class DummyInitializer {
 		this.activityService = activityService;
 		this.userService = userService;
 	}
-	
+
 	public DummyInitializer() {
-		//empty
+		// empty
 	}
 
 //	@PostConstruct
 	public void init() {
-		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard", Constants.PLAYGROUND_NAME, Constants.PLAYGROUND_MAIL, 0, 0);
+		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard", Constants.PLAYGROUND_NAME,
+				Constants.PLAYGROUND_MAIL, 0, 0);
 		msgBoard = elementService.addElementNoLogin(msgBoard);
-		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL+".jp", "avatar", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
+				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
-		mod=userService.addUser(mod);
+		mod = userService.addUser(mod);
 		String msg = "msg";
-		/*
-		for(int i=0;i<3;i++)
-		{
-		
+
+		for (int i = 0; i < 3; i++) {
+
 			ActivityEntity entity = new ActivityEntity();
-			entity.setType(Constants.MESSAGE);
-			entity.getAttribute().put(Constants.MESSAGE_ATTR, msg + i);
+			entity.setType(Constants.MESSAGE_WRITE_ACTIVITY);
+			entity.getAttribute().put(Constants.MESSAGE_ATTR_MESSAGE_TYPE, msg + i);
 			entity.getAttribute().put(Constants.MESSAGEBOARD_ID_KEY, msgBoard.getSuperkey());
-			activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity);
-			
-			
-			//TODO remove the comments from above - this code makes it crush for some reason
+			activityService.executeActivity(mod.getPlayground(), mod.getEmail(), entity);
+
+			// TODO remove the comments from above - this code makes it crush for some
+			// reason
 		}
-		*/
+
 	}
-	
+
 }
