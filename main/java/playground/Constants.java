@@ -56,14 +56,16 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
+	
 	public static final String MESSAGE_TYPE = "MESSAGE";
 	public static final String MESSAGE_NAME = "MESSAGE";
-	public static final String GET_MESSAGE_ACTIVITY = "MESSAGE_READ";
-	public static final String MESSAGE_WRITE_ACTIVITY = "MESSAGE_WRITE";
-	public static final String ADD_MESSAGE_BOARD_ACTIVITY = "ADD_MESSAGEBOARD";
-	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ";
-	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE";
-	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER";
+	public static final String GET_SCORES_ACTIVITY = "GET_SCORES_ACTIVITY";
+	public static final String GET_MESSAGE_ACTIVITY = "MESSAGE_READ_ACTIVITY";
+	public static final String ADD_MESSAGE_ACTIVITY = "MESSAGE_WRITE_ACTIVITY";
+	public static final String ADD_MESSAGE_BOARD_ACTIVITY = "ADD_MESSAGEBOARD_ACTIVITY";
+	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ_ACTIVITY";
+	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE_ACTIVITY";
+	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER_ACTIVITY";
 	public static final String QUESTION_KEY = "QUESTION_KEY";
 	public static final String QUESTION_NAME = "QUESTION_NAME";
 	public static final String ANSWER_ATTR_QUESTION_TYPE = "answer";
@@ -95,6 +97,7 @@ public class Constants {
 
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);
+
 	
 	
 	

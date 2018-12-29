@@ -62,7 +62,7 @@ public class JpaActivityService implements ActivityService {
 	@LoginRequired
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 
-		this.addActivityNoLogin(activity);
+		
 		String activityType = activity.getType();
 
 		switch (activityType) {
@@ -76,7 +76,7 @@ public class JpaActivityService implements ActivityService {
 			return getAllMessagesActivitiesInMessageBoard(
 					(String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY), pageable);
 		}
-		case Constants.MESSAGE_WRITE_ACTIVITY: {
+		case Constants.ADD_MESSAGE_ACTIVITY: {
 			return addMessage(activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
@@ -90,6 +90,10 @@ public class JpaActivityService implements ActivityService {
 		}
 		case Constants.ADD_MESSAGE_BOARD_ACTIVITY: {
 			return null;
+		}
+		case Constants.GET_SCORES_ACTIVITY:{
+			return null;
+			//userService.getHighScores(pageable);
 		}
 
 		}
@@ -112,23 +116,8 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		int PAGE_NUM = 0, PAGE_SIZE = 8;
-		String messageBoard_ID = activity.getElementId();
-		if (elementService.getElementNoLogin(messageBoard_ID) != null) {
-			ArrayList<ActivityEntity> activities = getAllMessagesActivitiesInMessageBoard(messageBoard_ID,
-					PageRequest.of(PAGE_NUM, PAGE_SIZE, Direction.ASC, messageBoard_ID));
-
-			// checking if message already exists, returns if yes
-			for (ActivityEntity message_activity : activities) {
-				if (message_activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE)
-						.equals(activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE))) {
-					return message_activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
-				}
-			}
-
-			activityDB.save(activity);
-		}
-		return null;
+		this.addActivityNoLogin(activity);
+		return activity;
 	}
 
 	@Override
