@@ -60,9 +60,7 @@ public class jpaElementService implements ElementService {
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		
+				
 		UserEntity u = userService.getUser(email, userPlayground);
 		
 		ArrayList<ElementEntity> allElements = this.getElements();
@@ -95,7 +93,7 @@ public class jpaElementService implements ElementService {
 	private boolean roleIsCorrect(UserEntity user, Date date) {
 		//TODO check how to improve
 		Date now = new Date();
-		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) != -1)
+		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
 			return true;
 		else if (user.getRole().equals(Constants.MODERATOR_ROLE))
 			return true;
@@ -150,12 +148,13 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-				tempElementsList.add(e);
+				if(roleIsCorrect(userService.getUser(email, userPlayground), e.getExpirationDate()))
+					tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty()) {
 			return new ElementEntity[0];
 		} else
-			return lstToArray(tempElementsList);
+			return getElementsBySizeAndPage(tempElementsList, pageable);
 
 	}
 
@@ -176,12 +175,12 @@ public class jpaElementService implements ElementService {
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
 			Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
-		ArrayList<ElementEntity> result = new ArrayList<>();
-		for (ElementEntity element : elements) {
-			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
-				result.add(element);
-		}
-		return lstToArray(result);
+//		ArrayList<ElementEntity> result = new ArrayList<>();
+//		for (ElementEntity element : elements) {
+//			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
+//				result.add(element);
+//		}
+		return lstToArray(elementsDB.findAllByCreatorPlaygroundAndCreatorEmail(creatorPlayground, email, pageable));
 	}
 
 	@Override
