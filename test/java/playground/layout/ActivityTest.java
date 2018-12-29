@@ -58,7 +58,9 @@ private RestTemplate restTemplate;
 	
 	@Before
 	public void setup() {
-		
+		userService.cleanUserService();
+		elementService.cleanElementService();
+		activityService.cleanActivityService();
 	}
 
 	@After
