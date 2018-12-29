@@ -82,7 +82,7 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void saveAlreadyExistElement() {
 		
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, "playground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity element = new ElementEntity("elementName", "playground", Constants.EMAIL_FOR_TESTS, 5, 6);
@@ -102,7 +102,7 @@ public class ElementTest {
 	@Test
 	public void successfullyUpdateElement() {
 
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity elementForTestEntity = new ElementEntity("name", "playground", Constants.EMAIL_FOR_TESTS, 0, 1);
@@ -145,7 +145,7 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementExists() {
 
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 5, 7);
@@ -158,7 +158,7 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementCorrectLoginElementNotInDatabase() {
 		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.PLAYGROUND_NAME, "userTestWrong@gmail.com", Constants.PLAYGROUND_NAME, "elementIdTest");
@@ -184,7 +184,7 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementIncorrectLoginElementNotInDatabase() {
 		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "Test.jpg,", Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 4, 3);
@@ -202,7 +202,7 @@ public class ElementTest {
 	@Test
 	public void GETAllFromDatabase() {
 
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, "playground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementEntity elem1 = new ElementEntity("nameOfElement", "playground", Constants.EMAIL_FOR_TESTS, 1, 2);
@@ -220,7 +220,7 @@ public class ElementTest {
 	@Test
 	public void GETAllFromEmptyDatabase() {
 
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, "playground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, "playground", Constants.EMAIL_FOR_TESTS);
@@ -235,7 +235,7 @@ public class ElementTest {
 		ElementEntity t2 = new ElementEntity("name2", "playground", Constants.EMAIL_FOR_TESTS, 2, 1);
 		elementService.addElement("creator", Constants.EMAIL_FOR_TESTS, t1);
 		elementService.addElement("creator", Constants.EMAIL_FOR_TESTS, t2);
-		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", Constants.PLAYER_ROLE, "userPlayground"));
+		userService.addUser(new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME));
 		restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, "userPlayground", Constants.EMAIL_FOR_TESTS);
 	}
 
@@ -248,30 +248,30 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementsWithNegativeDistance() {
 
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE, "TestPlayground");
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		int distance = -1, x = 5, y = 5;
-		ElementEntity element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, x, y);
+		ElementEntity element = new ElementEntity("name", Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y);
 		elementService.addElementNoLogin(element);
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
 	}
 
 	// 9.2 Scenario: Distance is Zero
 	@Test
 	public void distanceIsGreaterThanZero() {
 		
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE, "TestPlayground");
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		for (int i = 0; i < 10; i++) {
-			ElementEntity element = new ElementEntity("name" + i, "TestPlayground",	Constants.EMAIL_FOR_TESTS, i, i);
+			ElementEntity element = new ElementEntity("name" + i, Constants.PLAYGROUND_NAME,	Constants.EMAIL_FOR_TESTS, i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity("name" + i, "TestPlayground", Constants.EMAIL_FOR_TESTS, 0, i);
+			element = new ElementEntity("name" + i, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 0, i);
 			elementService.addElementNoLogin(element);
 		}
 		int distance = 10, x = 5, y = 5;
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
 		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
@@ -284,15 +284,15 @@ public class ElementTest {
 	@Test
 	public void GETElementsWithZeroDistance() {
 
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "avatar.jpg", Constants.PLAYER_ROLE, "TestPlayground");
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, 1, 2);
+		ElementEntity element = new ElementEntity("name", Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 2);
 		elementService.addElementNoLogin(element);
-		element = new ElementEntity("name", "TestPlayground", Constants.EMAIL_FOR_TESTS, 1, 3);
+		element = new ElementEntity("name", Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 3);
 		elementService.addElementNoLogin(element);
 		int distance = 0, x = 1, y = 2;
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,"TestPlayground", Constants.EMAIL_FOR_TESTS, x, y, distance);
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, x, y, distance);
 		assertThat(elements.length).isEqualTo(1);
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), x,y);
 		assertThat(actualDistance).isEqualTo(0);
@@ -313,7 +313,7 @@ public class ElementTest {
 	public void successfullyGetElementsByAttributeNameValue() {
 
 		String creatorPlayground = "creatorPlayground";
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", creatorPlayground);
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, "player", creatorPlayground);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO elementTO = new ElementTO(
@@ -336,7 +336,7 @@ public class ElementTest {
 	@Test
 	public void attributeNotExist() {
 
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", "creatorPlayground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", Constants.EMAIL_FOR_TESTS, 1, 0)) };
@@ -355,7 +355,7 @@ public class ElementTest {
 	@Test
 	public void valueInAttributeNotExist() {
 
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, "ava", "player", "creatorPlayground");
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, "player", "creatorPlayground");
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Constants.ELEMENT_NAME, "userPlayground", Constants.EMAIL_FOR_TESTS, 1, 0)) };
