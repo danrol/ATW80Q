@@ -52,16 +52,15 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
 	public static final String MESSAGE_NAME = "MESSAGE";
-	public static final String MESSAGE = "MESSAGE_READ";
-	public static final String MESSAGE_WRITE = "MESSAGE_WRITE";
-	public static final String MESSAGE_DELETE = "MESSAGE_DELETE";
+	public static final String GET_MESSAGE_ACTIVITY = "MESSAGE_READ";
+	public static final String MESSAGE_WRITE_ACTIVITY = "MESSAGE_WRITE";
 	//
-	public static final String QUESTION_READ = "QUESTION_READ";
-	public static final String QUESTION_WRITE = "QUESTION_WRITE";
-	public static final String QUESTION_ANSWER = "QUESTION_ANSWER";
+	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ";
+	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE";
+	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER";
 	public static final String QUESTION_KEY = "QUESTION_KEY";
-	public static  String ANSWER_ATTR = "answer";
-	public static String MESSAGE_ATTR = "Message";
+	public static final String ANSWER_ATTR_QUESTION_TYPE = "answer";
+	public static final String MESSAGE_ATTR_MESSAGE_TYPE = "Message";
 	
 	
 	public static final String Ignore_attributes = "attributes";
