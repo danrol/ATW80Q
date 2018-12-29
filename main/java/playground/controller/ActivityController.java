@@ -54,7 +54,9 @@ public class ActivityController {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
-		Object t = activityService.executeActivity(userPlayground, email, activity.toEntity(),pageable);
+		
+		ActivityEntity activityEnt = activity.toEntity();
+		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
 		
 		switch(t.getClass().getName())
 		{

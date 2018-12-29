@@ -71,7 +71,7 @@ public class JPATest {
 		
 		
 		String playground="playground",creatorPlayground="creator";
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, playground,creatorPlayground,1,2);
+		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, playground,creatorPlayground,1,2);
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));

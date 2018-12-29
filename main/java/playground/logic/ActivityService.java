@@ -24,7 +24,7 @@ public interface ActivityService {
 
 	Object setQuestion(ActivityEntity activity);
 
-	Object answerQuestion(ActivityEntity activity);
+	boolean answerQuestion(ActivityEntity activity);
 
 	void cleanActivityService();
 

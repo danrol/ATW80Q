@@ -133,8 +133,8 @@ public class DummyActivityService implements ActivityService {
 		String id = activity.getElementId();
 		for(ElementEntity e:questionDB)
 		if (e.getSuperkey().equals(id)) {
-			e.getAttributes().put(Constants.ACTIVITY_ANSWER_KEY,activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY));
-			return activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY);
+			e.getAttributes().put(Constants.ELEMENT_ANSWER_KEY,activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY));
+			return activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY);
 		}
 		return null;
 	}

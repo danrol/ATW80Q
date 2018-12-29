@@ -9,36 +9,33 @@ import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.ActivityDao;
+import playground.exceptions.ActivityDataException;
 import playground.exceptions.ElementDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
-/* 
- * TYPE Message_write
- * attributes: 
- * 		key:Constants.MESSAGEBOARD_KEY
- * 		val:message board id
- * 
- * 
- *		key:Constants.MESSAGE_ID_ATTR
- *		val:the message to put in
-*/
 
 /*
- * ELEMENT:question ,ELEMENT->ATTRIBUTE:answer
+ * 		Element Type : Question
+ * 			Attributes:
+ * 				
  * 
  * 
  * 		Activity types attributes index:
  * 			DEFAULT_ACTIVITY_TYPE: 
  * 				*NONE*
  * 
- * 			GET_MESSAGE_ACTIVITY:
- * 				
+ * 			GET_MESSAGES_ACTIVITY:
+ * 				ACTIVITY_MESSAGEBOARD_ID_KEY	
  * 
- * 			ADD_MESSAGE_ACTIVITY:
+ * 			ADD_MESSAGES_ACTIVITY:
+ * 				ACTIVITY_MESSAGEBOARD_ID_KEY 	
+ * 				ACTIVITY_MESSAGE_KEY			
+ * 
  * 			QUESTION_READ_ACTIVITY:
+ * 				
  * 			ADD_QUESTION_ACTIVITY:
  * 			QUESTION_ANSWER_ACTIVITY:
  * 			ADD_MESSAGE_BOARD_ACTIVITY:
@@ -75,7 +72,6 @@ public class JpaActivityService implements ActivityService {
 	@LoginRequired
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 
-		
 		String activityType = activity.getType();
 
 		switch (activityType) {
@@ -85,7 +81,7 @@ public class JpaActivityService implements ActivityService {
 			 */
 			return activity;
 		}
-		case Constants.GET_MESSAGE_ACTIVITY: {
+		case Constants.GET_MESSAGES_ACTIVITY: {
 			return getAllMessagesActivitiesInMessageBoard(
 					(String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY), pageable);
 		}
@@ -104,9 +100,9 @@ public class JpaActivityService implements ActivityService {
 		case Constants.ADD_MESSAGE_BOARD_ACTIVITY: {
 			return null;
 		}
-		case Constants.GET_SCORES_ACTIVITY:{
+		case Constants.GET_SCORES_ACTIVITY: {
 			return null;
-			//userService.getHighScores(pageable);
+			// userService.getHighScores(pageable);
 		}
 
 		}
@@ -131,7 +127,7 @@ public class JpaActivityService implements ActivityService {
 	public Object addMessage(ActivityEntity activity) {
 		String msgboard_superkey = (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
-		if(messageBoard!=null)
+		if (messageBoard != null)
 			this.addActivityNoLogin(activity);
 		return activity;
 	}
@@ -174,7 +170,7 @@ public class JpaActivityService implements ActivityService {
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 		ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
-		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Constants.MESSAGE_TYPE, pageable))
+		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Constants.MESSAGE_ACTIVITY, pageable))
 			lst.add(a);
 		return lst;
 	}
@@ -182,19 +178,16 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public Object setQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
-			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
-			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
-			for (ActivityEntity a : lst) {
-				if (a.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY)
-						.equals(activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY))) {
-					return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
-				}
-			}
+		if(elementService.getElementNoLogin(id) == null)
+			throw new ElementDataException("No such element: " + id);
+		if (activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY) != null
+						|| activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY) != null) {
+
 			activityDB.save(activity);
-			return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
+			return activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY);
 		}
-		return null;
+		else
+			throw new ActivityDataException("Question fields are empty.");
 	}
 
 	@Override
@@ -208,22 +201,24 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	@Override
-	public Object answerQuestion(ActivityEntity activity) {
-		String id = activity.getElementId();
+	public boolean answerQuestion(ActivityEntity activity) {
+		String id = (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		if (elementService.getElementNoLogin(id) != null) {
-			Optional<ActivityEntity> a = activityDB.findById(id);
-			if (a.isPresent()) {
-				if (a.get().getAttribute().get(Constants.ACTIVITY_ANSWER_KEY)
-						.equals(activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY))) {
-					return "answer is correct";
+			ElementEntity a = elementService.getElementNoLogin(id);
+			if (a!=null && a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
+				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY)).toLowerCase();
+				String actual_answer = ((String)a.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)).toLowerCase();
+			
+				if (actual_answer.equals(user_answer)) {
+					return Constants.CORRECT_ANSWER;
 				} else {
-					return "answer is incorrect";
+					return Constants.WRONG_ANSWER;
 				}
 			}
-			return null;
+			throw new ElementDataException("Invalid element - expected ELEMENT_QUESTION_TYPE");
 
 		}
-		return null;
+		throw new ElementDataException("No such element : " + id);
 
 	}
 
@@ -253,7 +248,7 @@ public class JpaActivityService implements ActivityService {
 	public Object addQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
-			Object name = activity.getAttribute().get(Constants.ACTIVITY_QUESTION_NAME);
+			Object name = activity.getAttribute().get(Constants.ELEMENT_QUESTION_NAME);
 			Object x = activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
 			Object y = activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
 			if (name.getClass().isInstance(String.class) && x.getClass().isInstance(Double.class)
@@ -262,7 +257,7 @@ public class JpaActivityService implements ActivityService {
 						(double) x, (double) y);
 				elementService.addElementNoLogin(e);
 				activityDB.save(activity);
-				return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
+				return activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY);
 			}
 
 		}
