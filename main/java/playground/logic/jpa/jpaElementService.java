@@ -1,7 +1,10 @@
 package playground.logic.jpa;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.aop.PlayerLogin;
+import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
@@ -16,6 +20,7 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @Service
@@ -55,20 +60,47 @@ public class jpaElementService implements ElementService {
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
-		ArrayList<ElementEntity> allElements = getElements(pageable);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		UserEntity u = userService.getUser(email, userPlayground);
+		
+		ArrayList<ElementEntity> allElements = this.getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 
+		
 		for (ElementEntity el : allElements) {
 			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
 			if (actualDistance <= distance) {
-				lst.add(el);
+				if(roleIsCorrect(userService.getUser(email, userPlayground), el.getExpirationDate()))
+						lst.add(el);
 			}
 		}
 		if (lst.isEmpty()) {
 			return null;
 		} else {
-			return lstToArray(lst);
+			return getElementsBySizeAndPage(lst, pageable);
 		}
+	}
+
+	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {  
+		return lst
+				.stream()
+				.skip(pageable.getPageSize() * pageable.getPageNumber()) 
+				.limit(pageable.getPageSize()) 
+				.collect(Collectors.toList()) 
+				.toArray(new ElementEntity[lst.size()]);
+	}
+	
+	private boolean roleIsCorrect(UserEntity user, Date date) {
+		//TODO check how to improve
+		Date now = new Date();
+		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) != -1)
+			return true;
+		else if (user.getRole().equals(Constants.MODERATOR_ROLE))
+			return true;
+		else
+			return false;
 	}
 
 	@Override
