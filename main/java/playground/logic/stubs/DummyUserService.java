@@ -102,23 +102,11 @@ public class DummyUserService implements UserService{
 	public void updateUser(String playground,String email,UserEntity user) {
 		
 		login(playground, email);
-		if (getUser(email, playground).getRole().equals(Constants.MODERATOR_ROLE)) {
-			if(user.getEmail().equals(email)) {
-				updateUser(user);
-			}
-			else if (!user.getRole().equals(Constants.MODERATOR_ROLE)) {
-				updateUser(user);
-			} else {
-				throw new PermissionUserException("Moderator cannot change other moderator user");
-			}
-		} else if (getUser(email, playground).getRole().equals(Constants.PLAYER_ROLE)) {
-			if (email.equals(user.getEmail())) {
-				updateUser(user);
-			} else {
-				throw new PermissionUserException("PLAYER_ROLE cannot change other users information");
-			}
-		} else {
-			throw new PermissionUserException("invalid role " + getUser(email, playground).getRole());
+		if(user.getSuperkey().equals(UserEntity.createKey(email, playground))) {
+			updateUser(user);
+		}
+		else {
+			throw new RuntimeException("Update user data allowed only on yourself");
 		}
 	}
 	
