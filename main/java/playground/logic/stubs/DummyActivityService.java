@@ -50,7 +50,7 @@ public class DummyActivityService implements ActivityService {
 	public String[] readMessagesFromMessageboard() {
 		ArrayList<String> messages = new ArrayList<>();
 		for(ElementEntity elEn: elementService.getAllElements()) {
-			if(elEn.getType() == Constants.MESSAGE_ATTR_MESSAGE_TYPE)
+			if(elEn.getType().equals(Constants.MESSAGE_ATTR_MESSAGE_TYPE))
 				messages.add(elEn.getAttributes().toString());
 		}
 		return messages.toArray(new String[messages.size()]);
@@ -119,14 +119,23 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object getQuestion(ActivityEntity activity) {
-		// TODO Auto-generated method stub
+		String id = activity.getElementId();
+		for(ElementEntity e:questionDB)
+		if (e.getSuperkey().equals(id)) {
+			return e;
+		}
 		return null;
 	}
 
 
 	@Override
 	public Object setQuestion(ActivityEntity activity) {
-		// TODO Auto-generated method stub
+		String id = activity.getElementId();
+		for(ElementEntity e:questionDB)
+		if (e.getSuperkey().equals(id)) {
+			e.getAttributes().put(Constants.ANSWER_ATTR_QUESTION_TYPE,activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE));
+			return activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE);
+		}
 		return null;
 	}
 
