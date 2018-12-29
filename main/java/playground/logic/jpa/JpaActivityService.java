@@ -103,7 +103,7 @@ public class JpaActivityService implements ActivityService {
 	 * */
 	@Override
 	public Object getMessage(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			return activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
 		}
@@ -113,7 +113,7 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public Object addMessage(ActivityEntity activity) {
 		int PAGE_NUM = 0, PAGE_SIZE=8;
-		String messageBoard_ID = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		String messageBoard_ID = activity.getElementId();
 		if (elementService.getElementNoLogin(messageBoard_ID) != null) {
 			ArrayList<ActivityEntity> activities = getAllMessagesActivitiesInMessageBoard(messageBoard_ID,PageRequest.of(PAGE_NUM,PAGE_SIZE,Direction.ASC,messageBoard_ID));
 
@@ -177,7 +177,7 @@ public class JpaActivityService implements ActivityService {
 	
 	@Override 
 	public Object setQuestion(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
@@ -194,7 +194,7 @@ public class JpaActivityService implements ActivityService {
 	}
 	@Override 
 	public Object getQuestion(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			return elementService.getElementNoLogin(id);
 		}
@@ -203,7 +203,7 @@ public class JpaActivityService implements ActivityService {
 	}
 	@Override 
 	public Object answerQuestion(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			Optional<ActivityEntity> a =activityDB.findById(id);
 			if(a.isPresent()) {
@@ -224,7 +224,7 @@ public class JpaActivityService implements ActivityService {
 	//attribute name. attribute x, attribute y,
 	@Override
 	public Object addMessageBoard(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			Object name=activity.getAttribute().get(Constants.MESSAGE_BOARD_NAME);
 			Object x=activity.getAttribute().get(Constants.X_ATTR);
@@ -242,7 +242,7 @@ public class JpaActivityService implements ActivityService {
 	
 	@Override
 	public Object addQuestion(ActivityEntity activity) {
-		String id = (String) activity.getAttribute().get(Constants.QUESTION_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			Object name=activity.getAttribute().get(Constants.QUESTION_NAME);
 			Object x=activity.getAttribute().get(Constants.X_ATTR);
