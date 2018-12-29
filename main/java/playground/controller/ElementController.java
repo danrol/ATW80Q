@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import playground.aop.LoginRequired;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -36,9 +38,8 @@ public class ElementController {
 		this.userService = userService;
 	}
 	
-
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO SaveElement(@RequestBody ElementTO element,@PathVariable("email") String email,@PathVariable("userPlayground")String userPlayground)  {
+	public ElementTO SaveElement(@PathVariable("userPlayground")String userPlayground ,@PathVariable("email") String email, @RequestBody ElementTO element)  {
 		// function 5
 		ElementEntity t = element.toEntity();
 		t = elementService.addElement(userPlayground, email, t);
@@ -48,8 +49,8 @@ public class ElementController {
 	
 	
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateElement(@RequestBody ElementTO element, @PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground, @PathVariable("playground") String creatorPlayground,
+	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element,
+			 @PathVariable("playground") String creatorPlayground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO

@@ -2,7 +2,9 @@ package playground.aop;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import playground.Constants;
 import playground.dal.UserDao;
@@ -10,6 +12,9 @@ import playground.exceptions.LoginException;
 import playground.exceptions.PermissionUserException;
 import playground.logic.UserEntity;
 
+
+@Component
+@Aspect
 public class ModeratorLoginAspect {
 
 	private UserDao userDB;
@@ -20,16 +25,15 @@ public class ModeratorLoginAspect {
 	}
 	
 	@Around("@annotation(playground.aop.ModeratorLogin) && args(userPlayground,email,..)")
-	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email, 
-			String requiredRole) throws Throwable {
+	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
 			else if(u.getRole() != Constants.MODERATOR_ROLE)
-				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
-				
+				throw new PermissionUserException("User" + u.getRole() + " has no access rights.");
+		System.err.println("Moderator Login: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 		

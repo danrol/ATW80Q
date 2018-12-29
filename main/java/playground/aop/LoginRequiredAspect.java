@@ -29,7 +29,7 @@ public LoginRequiredAspect(UserDao userDB) {
 			throw new LoginException("Email is not registered.");
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
-		System.err.println("User " + u + "logged in.");		
+		System.err.println("Login Required: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}
