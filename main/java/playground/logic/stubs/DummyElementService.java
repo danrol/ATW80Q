@@ -40,8 +40,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void addElement(String userPlayground, String email, ElementEntity element) {
-		addElementNoLogin(element);
+	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
+		return addElementNoLogin(element);
 	}
 
 	@Override
@@ -197,8 +197,9 @@ public class DummyElementService implements ElementService {
 	
 
 	@Override
-	public void addElementNoLogin(ElementEntity element) {
+	public ElementEntity addElementNoLogin(ElementEntity element) {
 		elements.add(element);
+		return element;
 	}
 
 
