@@ -22,12 +22,14 @@ public class LoggerAspect {
 		String className = joinPoint.getTarget().getClass().getSimpleName();
 		String methodName = joinPoint.getSignature().getName();
 		String methodSignature = className + "." + methodName + "()";
+		System.err.println("playground logger --------->>>");
 		log.debug(methodSignature + " - start with args " + Arrays.toString(joinPoint.getArgs()));
 
 		try {
 			Object rv = joinPoint.proceed();
 			log.debug(methodSignature + " - ended successfully");
-
+			System.err.println("playground logger OUT--------->>>");
+			
 			return rv;
 		} catch (Throwable e) {
 			log.error(methodSignature + " - end with error" + e.getClass().getName());
