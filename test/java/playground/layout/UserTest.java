@@ -62,7 +62,7 @@ public class UserTest {
 	
 	//1.1 Scenario: Test register with wrong email (no �@� and web address afterwards) 
 	@Test(expected = RuntimeException.class)
-	public void registerNewUserWithWrongEmail() {
+	public void registerNewUserWithWrongEmail(){
 
 		NewUserForm postUserForm = new NewUserForm("WrongEmail", Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		this.restTemplate.postForObject(this.url + Constants.Function_1 , postUserForm, UserTO.class);
@@ -213,4 +213,5 @@ public class UserTest {
 
 	// url #4 /playground/users/{playground}/{email} test finished
 	// ******************************************************************************************//
+	
 }

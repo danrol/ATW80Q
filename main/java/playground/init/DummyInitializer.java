@@ -14,7 +14,7 @@ import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @Component
-@Profile("demo")
+@Profile("demo1")
 public class DummyInitializer {
 	private ElementService elementService;
 	private ActivityService activityService;

@@ -2,14 +2,19 @@ package playground.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import playground.aop.LoginRequired;
+import playground.aop.MyLog;
+import playground.exceptions.ErrorException;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
@@ -62,6 +67,17 @@ public class ActivityController {
 		default:
 			return t;
 		}
+	}
+	
+	@MyLog
+	@ExceptionHandler
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public ErrorException handleException(Exception e) {
+		String message = e.getMessage();
+		if (message == null) {
+			message = "There is no relevant message";
+		}
+		return new ErrorException(message);
 	}
 
 }
