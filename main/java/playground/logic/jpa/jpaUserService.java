@@ -70,7 +70,7 @@ public class jpaUserService implements UserService {
 			IdGeneratorUser.delete(tmp);
 			user.setId(id+"");
 			userDB.save(user);
-			return userDB.findById(user.getSuperkey()).orElse(null);
+			return user;
 		}
 	}
 
@@ -111,7 +111,12 @@ public class jpaUserService implements UserService {
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
 			try {
+				UserEntity oldUser = this.getUser(user.getEmail(),user.getPlayground());
+				if(oldUser.isVerified())
+					user.verifyUser();
+				String id = oldUser.getId();
 				userDB.deleteById(user.getSuperkey());
+				user.setId(id);
 				userDB.save(user);
 			} catch (Exception e) {
 				System.out.println("failed to update user" + user.toString());
@@ -146,7 +151,7 @@ public class jpaUserService implements UserService {
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {
 		UserEntity u =  getUser(email, playground);
-		if (u.equals(user)) {
+		if (u.getSuperkey().equals(user.getSuperkey())) {
 			updateUser(user);
 		}
 		else throw new PermissionUserException("User " + u + " can't access another user");

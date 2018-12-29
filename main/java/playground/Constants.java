@@ -83,6 +83,7 @@ public class Constants {
 	public static final String Ignore_x = "x";
 	public static final String Ignore_y = "y";
 	
+	public static final String USER_VERIFICATION_FIELD = "verificationCode";
 	
 	
 

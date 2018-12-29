@@ -62,7 +62,7 @@ public class UserTest {
 //******************************************************************************************//
 	// url #1 /playground/users tests start
 	
-	//1.1 Scenario: Test register with wrong email (no “@” and web address afterwards) 
+	//1.1 Scenario: Test register with wrong email (no ï¿½@ï¿½ and web address afterwards) 
 	@Test(expected = RuntimeException.class)
 	public void registerNewUserWithWrongEmail() {//TODO: tests throw RuntimeException at the NewUserForm and fail restTemplate
 
@@ -114,7 +114,7 @@ public class UserTest {
 
 	}
 	
-	//2.3 Scenario: Playground doesn’t match user 
+	//2.3 Scenario: Playground doesnï¿½t match user 
 	@Test(expected = RuntimeException.class)
 	public void confirmUserNotInPlayground() {
 
@@ -155,7 +155,7 @@ public class UserTest {
 		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 	}
 	
-	//3.3 Scenario: User doesn’t belong in playground
+	//3.3 Scenario: User doesnï¿½t belong in playground
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
 		
@@ -181,75 +181,37 @@ public class UserTest {
 	
 	//4.1 Scenario: Moderator changes his user
 	@Test
-	public void changeUserWhenRoleIsModeratorAndChangeHisUser() {
+	public void UserUpdateHisInfo() {
 
 		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
-		userService.addUser(moderatorUser);
-		this.restTemplate.put(this.url + Constants.Function_4, moderatorUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
-	}
+		moderatorUser = userService.addUser(moderatorUser);
+		moderatorUser.setAvatar("name");
+		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(moderatorUser), moderatorUser.getPlayground(), moderatorUser.getEmail());
+		
+		UserEntity t = userService.getUser(moderatorUser.getEmail(), moderatorUser.getPlayground());
+
+		assertThat(moderatorUser).isEqualTo(t);
+		}
 	
 	//4.2 Scenario: Moderator changes other moderator user
 	@Test(expected = RuntimeException.class)
-	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsModerator() {
+	public void UserUpdateAnotherUser() {
+
 
 		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		moderatorUser.verifyUser();
-		userService.addUser(moderatorUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		OtherUser.verifyUser();
-		userService.addUser(OtherUser);
-		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
+		moderatorUser = userService.addUser(moderatorUser);
+		
+		UserEntity otherUser = new UserEntity(Constants.DEFAULT_USERNAME, "other"+Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		otherUser.verifyUser();
+		otherUser = userService.addUser(otherUser);
+		
+		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(otherUser), moderatorUser.getPlayground(), moderatorUser.getEmail());
+
+		
 	}
 	
-	//4.3 Scenario: Moderator changes other player user
-	@Test(expected = RuntimeException.class)
-	public void changeUserWhenRoleIsModeratorAndChangeOtherUserAndOtherUserIsPlayer() {
-
-		UserEntity moderatorUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		moderatorUser.verifyUser();
-		userService.addUser(moderatorUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		OtherUser.verifyUser();
-		userService.addUser(OtherUser);
-		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, moderatorUser.getEmail());
-	}
-
-	//4.4 Scenario: Player changes his user
-	@Test
-	public void changeUserWhenRoleIsPlayerAndChangeHisUser() {
-
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		PlayerUser.verifyUser();
-		userService.addUser(PlayerUser);
-		this.restTemplate.put(this.url + Constants.Function_4, PlayerUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
-	
-	//4.5 Scenario: Player changes other player user
-	@Test(expected = RuntimeException.class)
-	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsPlayer() {
-
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		PlayerUser.verifyUser();
-		userService.addUser(PlayerUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		OtherUser.verifyUser();
-		userService.addUser(OtherUser);
-		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
-	
-	//4.6 Scenario: Player changes other moderator user
-	@Test(expected = RuntimeException.class)
-	public void changeUserWhenRoleIsPlayerAndChangeOtherUserAndOtherUserIsModerator() {
-
-		UserEntity PlayerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		PlayerUser.verifyUser();
-		userService.addUser(PlayerUser);
-		UserEntity OtherUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.Other_Email_For_Test, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		OtherUser.verifyUser();
-		userService.addUser(OtherUser);
-		this.restTemplate.put(this.url + Constants.Function_4, OtherUser, Constants.PLAYGROUND_NAME, PlayerUser.getEmail());
-	}
 
 	// url #4 /playground/users/{playground}/{email} test finished
 	// ******************************************************************************************//

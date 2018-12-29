@@ -68,12 +68,12 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUser(@RequestBody UserEntity user, @PathVariable("email") String email,
+	public void updateUser(@RequestBody UserTO user, @PathVariable("email") String email,
 			@PathVariable("playground") String playground) {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
-		this.userService.updateUser(playground,email, user);
+		this.userService.updateUser(playground,email, user.toEntity());
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE)
