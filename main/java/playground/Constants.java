@@ -63,6 +63,23 @@ public class Constants {
 	public static  String ANSWER_ATTR = "answer";
 	public static String MESSAGE_ATTR = "Message";
 	
+	
+	public static final String Ignore_attributes = "attributes";
+	public static final String Ignore_creationDate = "creationDate";
+	public static final String Ignore_creatorEmail = "creatorEmail";
+	public static final String Ignore_creatorPlayground = "creatorPlayground";
+	public static final String Ignore_expirationDate = "expirationDate";
+	public static final String Ignore_id = "id";
+	public static final String Ignore_name = "name";
+	public static final String Ignore_playground = "playground";
+	public static final String Ignore_superkey = "superkey";
+	public static final String Ignore_type = "type";
+	public static final String Ignore_x = "x";
+	public static final String Ignore_y = "y";
+	
+	
+	
+
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);
 	
