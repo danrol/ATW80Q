@@ -69,8 +69,12 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void updateUser(UserEntity user) {
-		UserEntity tempUser = this.getUser(user.getEmail(), user.getPlayground());
-		users.remove(tempUser);
+		UserEntity oldUser = this.getUser(user.getEmail(), user.getPlayground());
+		if(oldUser.isVerified())
+			user.verifyUser();
+		String id = oldUser.getId();
+		users.remove(oldUser);
+		user.setId(id);
 		users.add(user);
 	}
 	
