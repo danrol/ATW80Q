@@ -130,12 +130,14 @@ public class ElementTest {
 	// in playground
 	@Test(expected = RuntimeException.class)
 	public void updateElementForNonExistingCreator() {
-
-		ElementEntity updatedElementForTestEntity = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.Other_Email_For_Test, 0, 1);
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		ElementEntity updatedElementForTestEntity = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.Other_Email_For_Test, Constants.Location_x, Constants.Location_y);
 		elementService.addElementNoLogin(updatedElementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
 		updatedElementForTestTO.setPlayground("forTest");
-		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.CREATOR_PLAYGROUND_FOR_TESTS, updatedElementForTestEntity.getId());
+		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, updatedElementForTestEntity.getCreatorPlayground(), updatedElementForTestEntity.getId());
 	}
 
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with
