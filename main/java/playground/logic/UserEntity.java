@@ -1,10 +1,13 @@
 package playground.logic;
 
+import java.util.regex.Pattern;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import playground.Constants;
+import playground.exceptions.RegisterNewUserException;
 
 //KEY IS EMAIL+PLAYGROUND
 @Entity
@@ -83,9 +86,22 @@ public class UserEntity {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		if(emailIsValid(email))
+			this.email = email;
+		else 
+			throw new RegisterNewUserException("Registration data is not correct. Check your input");
 	}
+	
+	@Transient
+	public static boolean emailIsValid(String email) {
+		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
+				+ "A-Z]{2,7}$";
 
+		Pattern pat = Pattern.compile(emailRegex);
+		if (email == null)
+			return false;
+		return pat.matcher(email).matches();
+	}
 	
 	public String getAvatar() {
 		return avatar;

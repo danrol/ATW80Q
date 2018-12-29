@@ -25,8 +25,7 @@ public class NewUserForm implements Serializable {
 
 	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
-		if (emailIsValid(email) && username != null
-				&& role != null) {
+		if (username != null && role != null) {
 		this.email = email;
 		this.username = username;
 		this.avatar = avatar;
@@ -42,15 +41,7 @@ public class NewUserForm implements Serializable {
 	}
 	
 	
-	public static boolean emailIsValid(String email) {
-		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
-				+ "A-Z]{2,7}$";
-
-		Pattern pat = Pattern.compile(emailRegex);
-		if (email == null)
-			return false;
-		return pat.matcher(email).matches();
-	}
+	
 	
 	public String getEmail() {
 		return email;
