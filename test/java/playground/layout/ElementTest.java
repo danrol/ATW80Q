@@ -152,9 +152,9 @@ public class ElementTest {
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 5, 7);
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, u.getEmail(), Constants.Location_x, Constants.Location_y);
 		this.elementService.addElementNoLogin(element);
-		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.PLAYGROUND_NAME, Constants.Other_Email_For_Test, Constants.CREATOR_PLAYGROUND_FOR_TESTS, element.getId());
+		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.Other_Playground, u.getEmail(), element.getCreatorPlayground(), element.getId());
 	}
 
 	// 7.2 Scenario: Get element with incorrect login details, and element not in
@@ -165,7 +165,7 @@ public class ElementTest {
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.PLAYGROUND_NAME, Constants.Other_Email_For_Test, Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.ID_FOR_TESTS);
+		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.PLAYGROUND_NAME, u.getEmail(), Constants.CREATOR_PLAYGROUND_FOR_TESTS, Constants.ID_FOR_TESTS);
 	}
 
 	// 7.3 Scenario: Get Element with correct login details and element exists

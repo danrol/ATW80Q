@@ -55,7 +55,6 @@ public class ElementController {
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-		System.err.println("Funnction 6");
 		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
@@ -66,8 +65,9 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
+		System.err.println("Funnction 7");
 		ElementEntity element = null;
-		element = elementService.getElement(userPlayground, email,id, creatorPlayground);
+		element = elementService.getElement(userPlayground, email, id, creatorPlayground);
 		return new ElementTO(element);
 	}
 

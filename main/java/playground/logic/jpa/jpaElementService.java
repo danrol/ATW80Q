@@ -174,15 +174,12 @@ public class jpaElementService implements ElementService {
 	public ElementEntity getElementNoLogin(String superkey) {//TODO: dont need exception?!
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
-			try {
 				ElementEntity t = el.get();
 				return t;
-			} catch (Exception e) {
-				System.err.println("element:" + el.toString() + "/n failed to load from database");
-			}
 		}
-		System.err.println("Could not find element " + superkey);
-		return null;
+		else
+			throw new ElementDataException("Could not find element " + superkey);
+		
 	}
 
 	@Override
