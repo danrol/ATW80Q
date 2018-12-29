@@ -54,9 +54,9 @@ public class DummyInitializer {
 		for (int i = 0; i < 30; i++) {
 
 			ActivityEntity entity = new ActivityEntity();
-			entity.setType(Constants.ADD_MESSAGE_ACTIVITY);
-			entity.getAttribute().put(Constants.MESSAGE_ATTR_MESSAGE_TYPE, msg + i);
-			entity.getAttribute().put(Constants.MESSAGEBOARD_ID_KEY, msgBoard.getSuperkey());
+			entity.setType(Constants.MESSAGE_ACTIVITY);
+			entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, msg + i);
+			entity.getAttribute().put(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY, msgBoard.getSuperkey());
 			activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity,null);
 
 			// TODO remove the comments from above - this code makes it crush for some

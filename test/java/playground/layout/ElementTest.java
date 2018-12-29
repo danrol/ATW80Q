@@ -74,7 +74,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, user.getPlayground(), user.getEmail(), Constants.Location_x, Constants.Location_y);
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element), ElementTO.class, user.getPlayground(), user.getEmail());
 		ElementEntity element2 = elemTO.toEntity();
-		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.Ignore_id , Constants.Ignore_superkey);
+		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.ELEMENT_FIELD_id , Constants.ELEMENT_FIELD_superkey);
 	}
 
 	// 5.2 Scenario: Saving an existing element
@@ -88,7 +88,7 @@ public class ElementTest {
 		element = elementService.addElementNoLogin(element);
 		int dbSize = elementService.getAllElements().length;
 		ElementTO elem = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element), ElementTO.class, userElementCreator.getPlayground(), userElementCreator.getEmail());
-		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), Constants.Ignore_creationDate);
+		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), Constants.ELEMENT_FIELD_creationDate);
 		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
 
 	}
@@ -111,7 +111,7 @@ public class ElementTest {
 		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, userElementCreator.getPlayground(), userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
 		ElementEntity actualEntity = elementService.getElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementForTestEntity.getSuperkey());
 		assertThat(actualEntity).isNotNull();
-		assertThat(actualEntity).isEqualToIgnoringGivenFields(updatedElementForTestTO.toEntity(), Constants.Ignore_creationDate);
+		assertThat(actualEntity).isEqualToIgnoringGivenFields(updatedElementForTestTO.toEntity(), Constants.ELEMENT_FIELD_creationDate);
 	}
 
 	// 6.2 Scenario: Test update non-existent element
@@ -203,8 +203,8 @@ public class ElementTest {
 		ElementTO[] arrForTest = new ElementTO[] {new ElementTO(elem1), new ElementTO(elem2)};
 		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, userElementCreator.getEmail(),Constants.PLAYGROUND_NAME);
 		assertThat(result).isNotNull();
-		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.Ignore_creationDate);
-		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.Ignore_creationDate);
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
 	}
 
 	// 8.2 Scenario: Test get all elements from empty database
@@ -301,7 +301,7 @@ public class ElementTest {
 		elementService.addElement(Constants.PLAYGROUND_NAME, userElementCreator.getEmail(),elementForTest.toEntity());
 		ElementTO[] forNow = this.restTemplate.getForObject(url + Constants.Function_10, ElementTO[].class,	elementForTest.getPlayground(), userElementCreator.getEmail(), Constants.attributeName + Constants.Numbers.THREE.ordinal(), testMap.get(Constants.attributeName + Constants.Numbers.THREE.ordinal()));
 		assertThat(forNow).isNotNull();
-		assertThat(forNow[0]).isEqualToIgnoringGivenFields(elementForTest, Constants.Ignore_creationDate, Constants.Ignore_id);
+		assertThat(forNow[0]).isEqualToIgnoringGivenFields(elementForTest, Constants.ELEMENT_FIELD_creationDate, Constants.ELEMENT_FIELD_id);
 	}
 
 	// 10.2 Scenario: Test no Elements in ElementService with searched

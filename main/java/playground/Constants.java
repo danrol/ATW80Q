@@ -11,12 +11,14 @@ public class Constants {
 	public static final String Function_2 = "/playground/users/confirm/{playground}/{email}/{code}";
 	public static final String Function_3 = "/playground/users/login/{playground}/{email}";
 	public static final String Function_4 = "/playground/users/{playground}/{email}";
+	
 	public static final String Function_5 = "/playground/elements/{userPlayground}/{email}";
 	public static final String Function_6 = "/playground/elements/{userPlayground}/{email}/{playground}/{id}";
 	public static final String Function_7 = "/playground/elements/{userPlayground}/{email}/{playground}/{id}";
 	public static final String Function_8 = "/playground/elements/{userPlayground}/{email}/all";
 	public static final String Function_9 = "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}";
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
+	
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
 	
@@ -30,12 +32,13 @@ public class Constants {
 	
 
 	public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
-	public static final String MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";
+	public static final String ACTIVITY_MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";
 	public static final String QUESTION = "QUESTION";
 	public static final String DEFAULT_VERIFICATION_CODE = "1234";
 
 	public static String DEFAULT_USERNAME ="DEFAULT_USERNAME";
 	public static final String DEFAULT_ACTIVITY_TYPE = "echo";
+	
 	public static final int USER_VERIFIED = 1;
 	public static final int USER_NOT_VERIFIED = 0;
 	
@@ -60,41 +63,47 @@ public class Constants {
 	public static int DEFAULT_EXPIRATION_DAY;
 	//
 	
-	public static final String MESSAGE_TYPE = "MESSAGE";
-	public static final String MESSAGE_NAME = "MESSAGE";
+
 	public static final String GET_SCORES_ACTIVITY = "GET_SCORES_ACTIVITY";
 	public static final String GET_MESSAGE_ACTIVITY = "MESSAGE_READ_ACTIVITY";
-	public static final String ADD_MESSAGE_ACTIVITY = "MESSAGE_WRITE_ACTIVITY";
+	public static final String MESSAGE_ACTIVITY = "MESSAGE_WRITE_ACTIVITY";
 	public static final String ADD_MESSAGE_BOARD_ACTIVITY = "ADD_MESSAGEBOARD_ACTIVITY";
 	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ_ACTIVITY";
 	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE_ACTIVITY";
 	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER_ACTIVITY";
-	public static final String QUESTION_KEY = "QUESTION_KEY";
-	public static final String QUESTION_NAME = "QUESTION_NAME";
-	public static final String ANSWER_ATTR_QUESTION_TYPE = "answer";
-	public static final String MESSAGE_ATTR_MESSAGE_TYPE = "Message";
-	public static final String MESSAGE_BOARD_NAME = "MESSAGE_BOARD_NAME";
-	public static final String X_ATTR = "X_ATTR";
-	public static final String Y_ATTR = "Y_ATTR";
+	
+	
+	
+	public static final String ACTIVITY_QUESTION_KEY = "QUESTION_KEY";
+	public static final String ACTIVITY_QUESTION_NAME = "QUESTION_NAME";
+	public static final String ACTIVITY_ANSWER_KEY = "answer";
+	public static final String ACTIVITY_MESSAGE_KEY = "Message";
+	public static final String ACTIVITY_MESSAGE_BOARD_NAME_KEY = "MESSAGE_BOARD_NAME";
+	public static final String ACTIVITY_X_LOCATION_KEY = "X_ATTR";
+	public static final String ACTIVITY_Y_LOCATION_KEY = "Y_ATTR";
+	
+	
+	
 	public static final String attributeName = "attribute";
 	public static final String attrValue = "attrValue";
 	public static final String noSuchAttribute = "noSuchAttribute";
 	public static final String wrongAttributeValue = "wrongAttributeValue";
 	
-	public static final String Ignore_attributes = "attributes";
-	public static final String Ignore_creationDate = "creationDate";
-	public static final String Ignore_creatorEmail = "creatorEmail";
-	public static final String Ignore_creatorPlayground = "creatorPlayground";
-	public static final String Ignore_expirationDate = "expirationDate";
-	public static final String Ignore_id = "id";
-	public static final String Ignore_name = "name";
-	public static final String Ignore_playground = "playground";
-	public static final String Ignore_superkey = "superkey";
-	public static final String Ignore_type = "type";
-	public static final String Ignore_x = "x";
-	public static final String Ignore_y = "y";
+	public static final String ELEMENT_FIELD_attributes = "attributes";
+	public static final String ELEMENT_FIELD_creationDate = "creationDate";
+	public static final String ELEMENT_FIELD_creatorEmail = "creatorEmail";
+	public static final String ELEMENT_FIELD_creatorPlayground = "creatorPlayground";
+	public static final String ELEMENT_FIELD_expirationDate = "expirationDate";
+	public static final String ELEMENT_FIELD_id = "id";
+	public static final String ELEMENT_FIELD_name = "name";
+	public static final String ELEMENT_FIELD_playground = "playground";
+	public static final String ELEMENT_FIELD_superkey = "superkey";
+	public static final String ELEMENT_FIELD_type = "type";
+	public static final String ELEMENT_FIELD_x = "x";
+	public static final String ELEMENT_FIELD_y = "y";
 	
-	public static final String USER_VERIFICATION_FIELD = "verificationCode";
+	
+	public static final String USER_FIELD_USER_VERIFICATION_FIELD = "verificationCode";
 	
 	
 

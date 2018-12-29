@@ -1,8 +1,6 @@
 package playground.logic.jpa;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,22 @@ import playground.logic.UserService;
 
 /*
  * ELEMENT:question ,ELEMENT->ATTRIBUTE:answer
- *	there is a problem that with the paging in method addMessage()
+ * 
+ * 
+ * 		Activity types attributes index:
+ * 			DEFAULT_ACTIVITY_TYPE: 
+ * 				*NONE*
+ * 
+ * 			GET_MESSAGE_ACTIVITY:
+ * 				
+ * 
+ * 			ADD_MESSAGE_ACTIVITY:
+ * 			QUESTION_READ_ACTIVITY:
+ * 			ADD_QUESTION_ACTIVITY:
+ * 			QUESTION_ANSWER_ACTIVITY:
+ * 			ADD_MESSAGE_BOARD_ACTIVITY:
+ * 			GET_SCORES_ACTIVITY:
+ * 
  */
 
 @Service
@@ -74,9 +87,9 @@ public class JpaActivityService implements ActivityService {
 		}
 		case Constants.GET_MESSAGE_ACTIVITY: {
 			return getAllMessagesActivitiesInMessageBoard(
-					(String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY), pageable);
+					(String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY), pageable);
 		}
-		case Constants.ADD_MESSAGE_ACTIVITY: {
+		case Constants.MESSAGE_ACTIVITY: {
 			return addMessage(activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
@@ -109,14 +122,14 @@ public class JpaActivityService implements ActivityService {
 	public Object getMessage(ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
+			return activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY);
 		}
 		return null;
 	}
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		String msgboard_superkey = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		String msgboard_superkey = (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if(messageBoard!=null)
 			this.addActivityNoLogin(activity);
@@ -173,13 +186,13 @@ public class JpaActivityService implements ActivityService {
 			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
 			for (ActivityEntity a : lst) {
-				if (a.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE)
-						.equals(activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE))) {
-					return activity.getAttribute().get(Constants.QUESTION_KEY);
+				if (a.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY)
+						.equals(activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY))) {
+					return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
 				}
 			}
 			activityDB.save(activity);
-			return activity.getAttribute().get(Constants.QUESTION_KEY);
+			return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
 		}
 		return null;
 	}
@@ -200,8 +213,8 @@ public class JpaActivityService implements ActivityService {
 		if (elementService.getElementNoLogin(id) != null) {
 			Optional<ActivityEntity> a = activityDB.findById(id);
 			if (a.isPresent()) {
-				if (a.get().getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE)
-						.equals(activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE))) {
+				if (a.get().getAttribute().get(Constants.ACTIVITY_ANSWER_KEY)
+						.equals(activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY))) {
 					return "answer is correct";
 				} else {
 					return "answer is incorrect";
@@ -220,16 +233,16 @@ public class JpaActivityService implements ActivityService {
 	public Object addMessageBoard(ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
-			Object name = activity.getAttribute().get(Constants.MESSAGE_BOARD_NAME);
-			Object x = activity.getAttribute().get(Constants.X_ATTR);
-			Object y = activity.getAttribute().get(Constants.Y_ATTR);
+			Object name = activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY);
+			Object x = activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
+			Object y = activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
 			if (name.getClass().isInstance(String.class) && x.getClass().isInstance(Double.class)
 					&& y.getClass().isInstance(Double.class)) {
 				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
 						(double) x, (double) y);
 				elementService.addElementNoLogin(e);
 				activityDB.save(activity);
-				return activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+				return activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 			}
 
 		}
@@ -240,16 +253,16 @@ public class JpaActivityService implements ActivityService {
 	public Object addQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
-			Object name = activity.getAttribute().get(Constants.QUESTION_NAME);
-			Object x = activity.getAttribute().get(Constants.X_ATTR);
-			Object y = activity.getAttribute().get(Constants.Y_ATTR);
+			Object name = activity.getAttribute().get(Constants.ACTIVITY_QUESTION_NAME);
+			Object x = activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
+			Object y = activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
 			if (name.getClass().isInstance(String.class) && x.getClass().isInstance(Double.class)
 					&& y.getClass().isInstance(Double.class)) {
 				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
 						(double) x, (double) y);
 				elementService.addElementNoLogin(e);
 				activityDB.save(activity);
-				return activity.getAttribute().get(Constants.QUESTION_KEY);
+				return activity.getAttribute().get(Constants.ACTIVITY_QUESTION_KEY);
 			}
 
 		}

@@ -50,7 +50,7 @@ public class DummyActivityService implements ActivityService {
 	public String[] readMessagesFromMessageboard() {
 		ArrayList<String> messages = new ArrayList<>();
 		for(ElementEntity elEn: elementService.getAllElements()) {
-			if(elEn.getType().equals(Constants.MESSAGE_ATTR_MESSAGE_TYPE))
+			if(elEn.getType().equals(Constants.ACTIVITY_MESSAGE_KEY))
 				messages.add(elEn.getAttributes().toString());
 		}
 		return messages.toArray(new String[messages.size()]);
@@ -85,7 +85,7 @@ public class DummyActivityService implements ActivityService {
 	public Object getMessage(ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
+			return activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY);
 		}
 		return null;
 	}
@@ -95,7 +95,7 @@ public class DummyActivityService implements ActivityService {
 	public Object addMessage(ActivityEntity activity) {
 		for(ElementEntity e:messageBoardDB) {
 			if(e.getSuperkey().equals(activity.getElementId())) {
-				e.getAttributes().put(Constants.MESSAGE_ATTR_MESSAGE_TYPE, activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE));
+				e.getAttributes().put(Constants.ACTIVITY_MESSAGE_KEY, activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY));
 				return e;
 			}
 		}
@@ -133,8 +133,8 @@ public class DummyActivityService implements ActivityService {
 		String id = activity.getElementId();
 		for(ElementEntity e:questionDB)
 		if (e.getSuperkey().equals(id)) {
-			e.getAttributes().put(Constants.ANSWER_ATTR_QUESTION_TYPE,activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE));
-			return activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE);
+			e.getAttributes().put(Constants.ACTIVITY_ANSWER_KEY,activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY));
+			return activity.getAttribute().get(Constants.ACTIVITY_ANSWER_KEY);
 		}
 		return null;
 	}
@@ -157,8 +157,8 @@ public class DummyActivityService implements ActivityService {
 	@Override
 	public Object addMessageBoard(ActivityEntity activity) {
 		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
-				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.X_ATTR),
-				(double)activity.getAttribute().get(Constants.X_ATTR));
+				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
+				(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
 		questionDB.add(e);
 		return e;
 	}
@@ -167,8 +167,8 @@ public class DummyActivityService implements ActivityService {
 	@Override
 	public Object addQuestion(ActivityEntity activity) {
 		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
-				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.X_ATTR),
-				(double)activity.getAttribute().get(Constants.X_ATTR));
+				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
+				(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
 		messageBoardDB.add(e);
 		return e;
 	}
