@@ -157,7 +157,7 @@ public class ElementTest {
 		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.Other_Playground, u.getEmail(), element.getCreatorPlayground(), element.getId());
 	}
 
-	// 7.2 Scenario: Get element with incorrect login details, and element not in
+	// 7.2 Scenario: Get element with correct login details, and element not in
 	// database
 	@Test(expected = RuntimeException.class)
 	public void GETElementCorrectLoginElementNotInDatabase() {
@@ -174,26 +174,13 @@ public class ElementTest {
 		
 		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 7);
 		this.userService.addUser(u);
+		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, u.getEmail(), Constants.Location_x, Constants.Location_y);
 		this.elementService.addElementNoLogin(element);
-		ElementTO el = this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class,	Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.CREATOR_PLAYGROUND_FOR_TESTS, element.getId());
+		ElementTO el = this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class,	Constants.PLAYGROUND_NAME, u.getEmail(), element.getCreatorPlayground(), element.getId());
 		assertThat(el).isNotNull();
 		assertThat(el.getId()).isEqualTo(element.getId());
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
-	}
-
-	// 7.4 Scenario: Get element with correct login details and element doesnt
-	// exist
-	@Test(expected = RuntimeException.class)
-	public void GETElementIncorrectLoginElementNotInDatabase() {
-		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
-		u.verifyUser();
-		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 4, 3);
-		this.elementService.addElementNoLogin(element);
-		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.PLAYGROUND_NAME, Constants.Other_Email_For_Test, Constants.CREATOR_PLAYGROUND_FOR_TESTS, element.getId());
 	}
 
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test
