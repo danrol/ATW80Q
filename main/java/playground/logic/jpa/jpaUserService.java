@@ -66,12 +66,10 @@ public class jpaUserService implements UserService {
 			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
 		} else 
 		{
-			IdGeneratorUser gn = new IdGeneratorUser();
-			IdGeneratorUser tmp = IdGeneratorUser.save(gn);
-			Long dummyId = tmp.getId();
+			IdGeneratorUser tmp = IdGeneratorUser.save(new IdGeneratorUser());
+			Long id = tmp.getId();
 			IdGeneratorUser.delete(tmp);
-			user.setId(dummyId+"");
-			
+			user.setId(id+"");
 			userDB.save(user);
 			result = userDB.findById(user.getSuperkey()).orElse(null);
 		}

@@ -196,12 +196,12 @@ public class ElementTest {
 		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elem1 = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 2);
-		ElementEntity elem2 = new ElementEntity(Constants.ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 2, 1);
+		ElementEntity elem1 = new ElementEntity(Constants.ELEMENT_NAME + "1", Constants.PLAYGROUND_NAME, userElementCreator.getEmail(), Constants.Location_x, Constants.Location_y);
+		ElementEntity elem2 = new ElementEntity(Constants.ELEMENT_NAME+ "2", Constants.PLAYGROUND_NAME,userElementCreator.getEmail(), Constants.Location_y, Constants.Location_x);
 		elem1 = elementService.addElementNoLogin(elem1);
 		elem2 = elementService.addElementNoLogin(elem2);
-		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
-		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, Constants.EMAIL_FOR_TESTS,Constants.PLAYGROUND_NAME);
+		ElementTO[] arrForTest = new ElementTO[] {new ElementTO(elem1), new ElementTO(elem2)};
+		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, userElementCreator.getEmail(),Constants.PLAYGROUND_NAME);
 		assertThat(result).isNotNull();
 		assertThat(result[0]).isEqualToComparingFieldByField(arrForTest[0]);
 		assertThat(result[1]).isEqualToComparingFieldByField(arrForTest[1]);

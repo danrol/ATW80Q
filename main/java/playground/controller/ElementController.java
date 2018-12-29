@@ -65,23 +65,18 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		System.err.println("Funnction 7");
+		System.err.println("Finction 7");
 		ElementEntity element = null;
 		element = elementService.getElement(userPlayground, email, id, creatorPlayground);
 		return new ElementTO(element);
 	}
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getAllElements(
-			Pageable pageable,
-			@PathVariable("email") String email,
-			@PathVariable("userPlayground") String userPlayground
-			) {
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ElementTO[] getAllElements(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground) {
 		//function 8
-
-
+		System.err.println("Funnction 8");
 		ArrayList<ElementEntity> allElements = elementService.getElements(pageable);
+		System.err.println(allElements);
 		if (allElements.size() != 0  ) 
 			return getElementTOArray(elementService.lstToArray(allElements));
 		else return new ElementTO[0];
