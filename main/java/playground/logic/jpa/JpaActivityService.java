@@ -137,15 +137,16 @@ public class JpaActivityService implements ActivityService {
 	}
 	
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
+		//TODO: "Field 'id' doesn't have a default value" exception
+		IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
+		Long id = tmp.getId();
+		IdGeneratorActivity.delete(tmp);
+		activity.setId(id +"");
+		
 		if (activityDB.existsById(activity.getSuperkey())) {
 			throw new ElementDataException("activity data already exist in database");
 		} else {
-			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
-			//TODO: "Field 'id' doesn't have a default value" exception 
-			Long id = tmp.getId();
-			IdGeneratorActivity.delete(tmp);
-			activity.setId(id +"");
-			//return activityDB.save(e);
+			activityDB.save(activity);
 			return getActivity(activity.getSuperkey());
 		}
 		
