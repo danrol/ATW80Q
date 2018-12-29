@@ -71,19 +71,19 @@ public class JpaActivityService implements ActivityService {
 			 * */
 			return activity;
 		}
-		case Constants.MESSAGE: {
+		case Constants.GET_MESSAGE_ACTIVITY: {
 			return getMessage(activity);
 		}
-		case Constants.MESSAGE_WRITE: {
+		case Constants.MESSAGE_WRITE_ACTIVITY: {
 			return addMessage(activity);
 		}
-		case Constants.QUESTION_READ:{
+		case Constants.QUESTION_READ_ACTIVITY:{
 			return getQuestion(activity);
 		}
-		case Constants.QUESTION_WRITE:{
+		case Constants.ADD_QUESTION_ACTIVITY:{
 			return setQuestion(activity);
 		}
-		case Constants.QUESTION_ANSWER:{
+		case Constants.QUESTION_ANSWER_ACTIVITY:{
 			return answerQuestion(activity);
 		}
 			
@@ -98,7 +98,7 @@ public class JpaActivityService implements ActivityService {
 	public Object getMessage(ActivityEntity activity) {
 		String id = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
 		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.MESSAGE_ATTR);
+			return activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
 		}
 		return null;
 	}
@@ -112,9 +112,9 @@ public class JpaActivityService implements ActivityService {
 
 			//checking if message already exists, returns if yes
 			for (ActivityEntity message_activity : activities) {
-				if (message_activity.getAttribute().get(Constants.MESSAGE_ATTR)
-						.equals(activity.getAttribute().get(Constants.MESSAGE_ATTR))) {
-					return message_activity.getAttribute().get(Constants.MESSAGE_ATTR);
+				if (message_activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE)
+						.equals(activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE))) {
+					return message_activity.getAttribute().get(Constants.MESSAGE_ATTR_MESSAGE_TYPE);
 				}
 			}
 			
@@ -174,8 +174,8 @@ public class JpaActivityService implements ActivityService {
 			ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 			ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
 			for (ActivityEntity a : lst) {
-				if (a.getAttribute().get(Constants.ANSWER_ATTR)
-						.equals(activity.getAttribute().get(Constants.ANSWER_ATTR))) {
+				if (a.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE)
+						.equals(activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE))) {
 					return activity.getAttribute().get(Constants.QUESTION_KEY);
 				}
 			}
@@ -199,7 +199,7 @@ public class JpaActivityService implements ActivityService {
 		if (elementService.getElementNoLogin(id) != null) {
 			Optional<ActivityEntity> a =activityDB.findById(id);
 			if(a.isPresent()) {
-				if(a.get().getAttribute().get(Constants.ANSWER_ATTR).equals(activity.getAttribute().get(Constants.ANSWER_ATTR))) {
+				if(a.get().getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE).equals(activity.getAttribute().get(Constants.ANSWER_ATTR_QUESTION_TYPE))) {
 					return "answer is correct";
 				}else
 				{
