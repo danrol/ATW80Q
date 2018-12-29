@@ -24,7 +24,7 @@ public class ActivityEntity implements Serializable {
 	// Primary key - playground+id
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
-	private String id="";
+	private String id=" ";
 	private String elementPlayground;
 	private String elementId;
 	private String type;

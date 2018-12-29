@@ -25,7 +25,7 @@ public class ElementEntity {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private String id="";
+	private String id=" ";
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;

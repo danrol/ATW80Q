@@ -261,17 +261,16 @@ public class jpaElementService implements ElementService {
 	@Override
 	@MyLog
 	@ModeratorLogin
-	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
-			String playground) {
-		ElementEntity tempElement = this.getElement(userPlayground, email,
-				ElementEntity.createKey(id, userPlayground));
+	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorplayground) {
+		ElementEntity tempElement = this.getElement(userPlayground, email, ElementEntity.createKey(id, creatorplayground));
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			entity.setCreationDate(tempElement.getCreationDate());
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(entity);
-		} else
+		} else {
 			throw new ElementDataException("element data for update is incorrect");
+			}
 	}
 
 	@Override

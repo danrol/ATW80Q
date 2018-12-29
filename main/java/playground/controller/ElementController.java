@@ -49,14 +49,13 @@ public class ElementController {
 	
 	
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element,
-			 @PathVariable("playground") String creatorPlayground,
+	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element, @PathVariable("playground") String creatorPlayground,
 			@PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-
+		System.err.println("Funnction 6");
 		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
