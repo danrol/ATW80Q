@@ -38,7 +38,10 @@ public class Constants {
 	public static final String DEFAULT_ACTIVITY_TYPE = "echo";
 	public static final int USER_VERIFIED = 1;
 	public static final int USER_NOT_VERIFIED = 0;
+	
 	public static final String ELEMENT_DEFAULT_TYPE = "Element";
+	public static final String ELEMENT_MESSAGEBOARD_TYPE = "MessageBoard";
+	
 	public static final String EMAIL_FOR_TESTS = "nudnik@mail.ru";
 	public static final String Other_Email_For_Test = "OtherEmail@gmail.com";
 	public static final String ID_FOR_TESTS = "308748323";
@@ -97,6 +100,7 @@ public class Constants {
 
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);
+
 
 	
 	

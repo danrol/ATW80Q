@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import playground.Constants;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
+import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -69,9 +70,9 @@ private RestTemplate restTemplate;
 	//******************************************************************************************//
 	// url #11 /playground/activities/{userPlayground}/{email} started
 	
-	//11.1 Scenario: Server receives activity
+	//11.1 Scenario: Sending Echo activity
 	@Test
-	public void testSendValidEchoActivityToServer() {	
+	public void SendEchoActivity() {	
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
@@ -82,8 +83,40 @@ private RestTemplate restTemplate;
 		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
 	}
 	
-	//TODO: need more gherkin!!
+	//11.2 Scenario:  Sending Message activity
+	@Test
+	public void SendMessageActivityToExistingBoard() {	
+		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
+		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		elementService.addElementNoLogin(messageBoard);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.ADD_MESSAGE_ACTIVITY);
+		ent.getAttribute().put(Constants.MESSAGEBOARD_ID_KEY, messageBoard.getSuperkey());
+		ActivityTO act = new ActivityTO(ent);
+		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
+	}
 	
+	//11.3 Scenario:  Sending Message activity to non existing message board
+	@Test(expected=RuntimeException.class)
+	public void SendMessageActivityToNonExistingBoard() {	
+		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
+		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		//elementService.addElementNoLogin(messageBoard);
+		//NOT ADDING
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.ADD_MESSAGE_ACTIVITY);
+		ent.getAttribute().put(Constants.MESSAGEBOARD_ID_KEY, messageBoard.getSuperkey());
+		ActivityTO act = new ActivityTO(ent);
+		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
+	}
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//
 

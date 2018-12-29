@@ -116,7 +116,10 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		this.addActivityNoLogin(activity);
+		String msgboard_superkey = (String) activity.getAttribute().get(Constants.MESSAGEBOARD_ID_KEY);
+		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
+		if(messageBoard!=null)
+			this.addActivityNoLogin(activity);
 		return activity;
 	}
 
