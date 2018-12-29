@@ -49,8 +49,7 @@ public class ElementController {
 	
 	
 	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
-	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element, @PathVariable("playground") String creatorPlayground,
-			@PathVariable("id") String id) {
+	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element, @PathVariable("playground") String creatorPlayground, @PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
@@ -82,8 +81,7 @@ public class ElementController {
 	}
 	
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAroundLocation(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground, @PathVariable("distance") double distance, @PathVariable("x") double x, @PathVariable("y") double y){
 		//function 9
 		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, pageable);
@@ -91,30 +89,20 @@ public class ElementController {
 	}
 	
 
-	@RequestMapping(
-			method=RequestMethod.GET,
-			path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
-			produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByAttributeNameValue(
-			Pageable pageable,
-			@PathVariable("userPlayground") String userPlayground, 
-			@PathVariable ("email") String email, 
-			@PathVariable("attributeName") String attributeName,
-			@PathVariable("value") String value) {
+	@RequestMapping(method=RequestMethod.GET, path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",produces=MediaType.APPLICATION_JSON_VALUE)
+	public ElementTO[] getElementsByAttributeNameValue(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
 		/* function 10
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
 		ElementEntity[] elementsWithValueInAttr= elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, pageable);
-		
 		if (elementsWithValueInAttr.length != 0  ) 
 			return getElementTOArray(elementsWithValueInAttr);
 		else return new ElementTO[0];
 
 	}
 	
-	public ElementTO[] getElementTOArray(ElementEntity[] lst){
-		ArrayList<ElementTO> result = new ArrayList<>();
+	public ElementTO[] getElementTOArray(ElementEntity[] lst){ArrayList<ElementTO> result = new ArrayList<>();
 		for (ElementEntity e : lst) {
 			result.add(new ElementTO(e));
 		}

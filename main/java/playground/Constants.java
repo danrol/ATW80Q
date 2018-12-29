@@ -44,11 +44,13 @@ public class Constants {
 	public static final String ID_FOR_TESTS = "308748323";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	public static final String AVATAR_FOR_TESTS = "MyAvatar.jpg";
+	
 	public static final double Location_x = 5;
 	public static final double Location_y = 6;
 	public static final double Negaive_Distance = -1;
 	public static final double Distance = 10;
-	public static final double Zero_Distance = 0;
+	public static final double Zero_Distance = 0;	
+	public enum Numbers {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN};
 	
 	public static int DEFAULT_EXPIRATION_YEAR;
 	public static int DEFAULT_EXPIRATION_MONTH;
@@ -69,6 +71,10 @@ public class Constants {
 	public static final String MESSAGE_BOARD_NAME = "MESSAGE_BOARD_NAME";
 	public static final String X_ATTR = "X_ATTR";
 	public static final String Y_ATTR = "Y_ATTR";
+	public static final String attributeName = "attribute";
+	public static final String attrValue = "attrValue";
+	public static final String noSuchAttribute = "noSuchAttribute";
+	public static final String wrongAttributeValue = "wrongAttributeValue";
 	
 	public static final String Ignore_attributes = "attributes";
 	public static final String Ignore_creationDate = "creationDate";
