@@ -96,7 +96,7 @@ private RestTemplate restTemplate;
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.getAttribute().put(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY, messageBoard.getSuperkey());
+		ent.setElementId(messageBoard.getSuperkey());
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
 		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
@@ -108,13 +108,13 @@ private RestTemplate restTemplate;
 		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 		//elementService.addElementNoLogin(messageBoard);
-		//NOT ADDING
+		//NO ADDING
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MODERATOR_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.getAttribute().put(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY, messageBoard.getSuperkey());
+		ent.setElementId(messageBoard.getSuperkey());
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
 		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
