@@ -164,5 +164,19 @@ public class DummyUserService implements UserService{
 	}
 
 
+	@Override
+	public void addPointsToUser(String user_id, long points) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public UserEntity getUser(String superkey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

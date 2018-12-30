@@ -82,16 +82,6 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public Object getMessage(ActivityEntity activity) {
-		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY);
-		}
-		return null;
-	}
-
-
-	@Override
 	public Object addMessage(ActivityEntity activity) {
 		for(ElementEntity e:messageBoardDB) {
 			if(e.getSuperkey().equals(activity.getElementId())) {
@@ -128,7 +118,7 @@ public class DummyActivityService implements ActivityService {
 	}
 
 
-	@Override
+	//@Override
 	public Object setQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
 		for(ElementEntity e:questionDB)
@@ -141,9 +131,9 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public Object answerQuestion(ActivityEntity activity) {
+	public boolean answerQuestion(ActivityEntity activity) {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 
@@ -165,7 +155,7 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public Object addQuestion(ActivityEntity activity) {
+	public Object addQuestion(String userPlayground, String email,ActivityEntity activity) {
 		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
 				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
 				(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
@@ -179,5 +169,8 @@ public class DummyActivityService implements ActivityService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
 	
 }

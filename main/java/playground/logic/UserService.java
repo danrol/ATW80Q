@@ -18,7 +18,7 @@ public interface UserService {
 	void updateUser(UserEntity user);
 
 	UserEntity getUser(String email, String playground);
-
+	
 	UserEntity login(String playground, String email);
 
 	void addUser(NewUserForm user);
@@ -27,6 +27,10 @@ public interface UserService {
 	
 	
 	void updateUser(String playground, String email, UserEntity user);
+	
+	void addPointsToUser(String user_id, long points);
+	
+	UserEntity getUser(String superkey);
 	
 
 }

@@ -131,8 +131,8 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public UserEntity getUser(String email, String playground) {
 		String idToSearchBy = UserEntity.createKey(email, playground);
-		UserEntity user = userDB.findById(idToSearchBy).orElse(null);
-		return user;
+		
+		return getUser(idToSearchBy);
 		
 	}
 
@@ -179,6 +179,26 @@ public class jpaUserService implements UserService {
 	public boolean isUserInDatabase(UserEntity user) {
 
 		return this.userDB.existsById(user.getSuperkey());
+	}
+
+
+
+
+
+
+	@Override
+	public void addPointsToUser(String user_id, long points) {
+		UserEntity user = this.getUser(user_id);
+		long curr_points = this.getUser(user_id).getPoints()+points;
+		user.setPoints(curr_points);
+		updateUser(user);
+	}
+
+
+	@Override
+	public UserEntity getUser(String superkey) {
+		UserEntity user = userDB.findById(superkey).orElse(null);
+		return user;
 	}
 
 }

@@ -66,8 +66,9 @@ public class Constants {
 	// Element Attribute types
 
 	public static final String ELEMENT_QUESTION_KEY = "QUESTION_KEY"; // Actual question
-	public static final String ELEMENT_QUESTION_NAME = "QUESTION_NAME";// Title of question
+	public static final String ELEMENT_QUESTION_TITLE_KEY = "QUESTION_NAME";// Title of question
 	public static final String ELEMENT_ANSWER_KEY = "Answer"; // Answer to question
+	public static final String ELEMENT_POINT_KEY = "points_value"; // Answer to question
 
 	// Activity types
 
@@ -79,16 +80,22 @@ public class Constants {
 	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ_ACTIVITY";
 	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE_ACTIVITY";
 	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER_ACTIVITY";
+	
 
 	// Activity attribute keys
 	public static final String ACTIVITY_QUESTION_ID_KEY = "USER_CHOICE_OF_QUESTION_ID";
 	public static final String ACTIVITY_USER_ANSWER_KEY = "User_answer";
+	public static final String ANSWERING_USER_ID_KEY = "User_id";
 	public static final String ACTIVITY_MESSAGE_KEY = "Message"; // String of the actual message
 	public static final String ACTIVITY_MESSAGE_BOARD_NAME_KEY = "MESSAGE_BOARD_NAME";// name of message board
 	public static final String ACTIVITY_MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";// superkey of messageboard element
 	public static final String ACTIVITY_X_LOCATION_KEY = "X_ATTR"; // x axis location key
 	public static final String ACTIVITY_Y_LOCATION_KEY = "Y_ATTR"; // y axis location key
-
+	public static final String ACTIVITY_SET_QUESTION_QUESTION_TITLE = "QUESTION_TITLE";
+	public static final String ACTIVITY_SET_QUESTION_QUESTION = "THE_QUESTION";
+	public static final String ACTIVITY_SET_QUESTION_ANSWER = "THE_ANSWER";
+	public static final String ACTIVITY_SET_QUESTION_POINTS = "Question_points";
+	
 	public static final String attributeName = "attribute";
 	public static final String attrValue = "attrValue";
 	public static final String noSuchAttribute = "noSuchAttribute";
@@ -118,6 +125,7 @@ public class Constants {
 
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);
+
 
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {

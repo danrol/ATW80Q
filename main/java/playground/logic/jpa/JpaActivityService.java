@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import playground.Constants;
 import playground.aop.LoginRequired;
+import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
 import playground.dal.ActivityDao;
 import playground.exceptions.ActivityDataException;
@@ -15,12 +16,16 @@ import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 /*
  * 		Element Type : Question
  * 			Attributes:
- * 				
+ * 				ELEMENT_QUESTION_KEY
+ * 				ELEMENT_QUESTION_TITLE_KEY
+ * 				ELEMENT_ANSWER_KEY
+ * 				ELEMENT_POINT_KEY
  * 
  * 
  * 		Activity types attributes index:
@@ -35,11 +40,24 @@ import playground.logic.UserService;
  * 				ACTIVITY_MESSAGE_KEY			
  * 
  * 			QUESTION_READ_ACTIVITY:
- * 				
+ * 				ACTIVITY_QUESTION_ID_KEY
+ * 				ACTIVITY_USER_ANSWER_KEY
+ * 
  * 			ADD_QUESTION_ACTIVITY:
+ * 				ACTIVITY_SET_QUESTION_QUESTION_TITLE
+ * 				ACTIVITY_SET_QUESTION_QUESTION
+ * 				ACTIVITY_SET_QUESTION_ANSWER
+ * 				ACTIVITY_SET_QUESTION_POINTS
+ * 				ACTIVITY_X_LOCATION_KEY
+ * 				ACTIVITY_Y_LOCATION_KEY
+ * 
  * 			QUESTION_ANSWER_ACTIVITY:
+ * 				ACTIVITY_QUESTION_ID_KEY
+ * 				ACTIVITY_USER_ANSWER_KEY
+ * 				ANSWERING_USER_ID_KEY
+ * 
  * 			ADD_MESSAGE_BOARD_ACTIVITY:
- * 			GET_SCORES_ACTIVITY:
+ * 				GET_SCORES_ACTIVITY:
  * 
  */
 
@@ -82,8 +100,10 @@ public class JpaActivityService implements ActivityService {
 			return activity;
 		}
 		case Constants.GET_MESSAGES_ACTIVITY: {
-			return getAllMessagesActivitiesInMessageBoard(
-					(String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY), pageable);
+			//return getAllMessagesActivitiesInMessageBoard(
+			//		(String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY), pageable);
+			
+			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Constants.MESSAGE_ACTIVITY: {
 			return addMessage(activity);
@@ -92,7 +112,7 @@ public class JpaActivityService implements ActivityService {
 			return getQuestion(activity);
 		}
 		case Constants.ADD_QUESTION_ACTIVITY: {
-			return setQuestion(activity);
+			return addQuestion(userPlayground,email,activity);
 		}
 		case Constants.QUESTION_ANSWER_ACTIVITY: {
 			return answerQuestion(activity);
@@ -110,25 +130,15 @@ public class JpaActivityService implements ActivityService {
 		return null;
 	}
 
-	/*
-	 * Input: activity of type GET_MESSAGE_ACTIVITY Output: activity of type
-	 * MESSAGE_WRITE_ACTIVITY
-	 */
-	@Override
-	public Object getMessage(ActivityEntity activity) {
-		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
-			return activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY);
-		}
-		return null;
-	}
-
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		String msgboard_superkey = (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
+		//String msgboard_superkey = (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
+		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if (messageBoard != null)
 			this.addActivityNoLogin(activity);
+		else
+			throw new ElementDataException("No such Message Board : " + msgboard_superkey);
 		return activity;
 	}
 
@@ -139,18 +149,23 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
-		// TODO: "Field 'id' doesn't have a default value" exception
-		IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
-		Long id = tmp.getId();
-		IdGeneratorActivity.delete(tmp);
-		activity.setId(id + "");
+		/*
+		 * TODO: "Field 'id' doesn't have a default value" exception See
+		 * IdGeneratorActivity for info
+		 */
 
-		if (activityDB.existsById(activity.getSuperkey())) {
-			throw new ElementDataException("activity data already exist in database");
-		} else {
-			activityDB.save(activity);
-			return getActivity(activity.getSuperkey());
-		}
+		// generating id for new activity
+		do {
+
+			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
+			Long id = tmp.getId();
+			IdGeneratorActivity.delete(tmp);
+			activity.setId(id + "");
+
+		} while (activityDB.existsById(activity.getSuperkey()));
+
+		activityDB.save(activity);
+		return getActivity(activity.getSuperkey());
 
 	}
 
@@ -176,23 +191,10 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	@Override
-	public Object setQuestion(ActivityEntity activity) {
-		String id = activity.getElementId();
-		if(elementService.getElementNoLogin(id) == null)
-			throw new ElementDataException("No such element: " + id);
-		if (activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY) != null
-						|| activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY) != null) {
-
-			activityDB.save(activity);
-			return activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY);
-		}
-		else
-			throw new ActivityDataException("Question fields are empty.");
-	}
-
-	@Override
 	public Object getQuestion(ActivityEntity activity) {
+		//String id = (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		String id = activity.getElementId();
+		
 		if (elementService.getElementNoLogin(id) != null) {
 			return elementService.getElementNoLogin(id);
 		}
@@ -202,14 +204,18 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public boolean answerQuestion(ActivityEntity activity) {
-		String id = (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
+		//String id = (String) activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
+		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			ElementEntity a = elementService.getElementNoLogin(id);
-			if (a!=null && a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
-				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY)).toLowerCase();
-				String actual_answer = ((String)a.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)).toLowerCase();
-			
+			if (a != null && a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
+				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY))
+						.toLowerCase();
+				String actual_answer = ((String) a.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)).toLowerCase();
+				long points = (long) a.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+				String answering_user = (String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY);
 				if (actual_answer.equals(user_answer)) {
+					userService.addPointsToUser(answering_user, points);
 					return Constants.CORRECT_ANSWER;
 				} else {
 					return Constants.WRONG_ANSWER;
@@ -236,32 +242,35 @@ public class JpaActivityService implements ActivityService {
 				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
 						(double) x, (double) y);
 				elementService.addElementNoLogin(e);
-				activityDB.save(activity);
+				this.addActivityNoLogin(activity);
 				return activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 			}
 
 		}
 		return null;
 	}
-
+	@ModeratorLogin
 	@Override
-	public Object addQuestion(ActivityEntity activity) {
-		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
-			Object name = activity.getAttribute().get(Constants.ELEMENT_QUESTION_NAME);
-			Object x = activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
-			Object y = activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
-			if (name.getClass().isInstance(String.class) && x.getClass().isInstance(Double.class)
-					&& y.getClass().isInstance(Double.class)) {
-				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
-						(double) x, (double) y);
-				elementService.addElementNoLogin(e);
-				activityDB.save(activity);
-				return activity.getAttribute().get(Constants.ELEMENT_QUESTION_KEY);
-			}
+	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
 
-		}
-		return null;
+		String question = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION);
+		String question_title = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION_TITLE);
+		String answer = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_ANSWER);
+		long points = (long)activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
+		
+		double x = (double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
+		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
+		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, activity.getElementPlayground(),
+				activity.getPlayerEmail(), x, y);
+		question_element.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_TITLE_KEY, question_title);
+		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, question);
+		question_element.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
+		question_element.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		ElementEntity element = elementService.addElementNoLogin(question_element);
+		this.addActivityNoLogin(activity);
+
+		return element;
 	}
 
 	@Override
