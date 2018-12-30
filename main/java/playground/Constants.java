@@ -85,10 +85,11 @@ public class Constants {
 	// Activity attribute keys
 	public static final String ACTIVITY_QUESTION_ID_KEY = "USER_CHOICE_OF_QUESTION_ID";
 	public static final String ACTIVITY_USER_ANSWER_KEY = "User_answer";
-	public static final String ANSWERING_USER_ID_KEY = "User_id";
+	public static final String USER_ID_OF_ACTIVITY_KEY = "User_id";
 	public static final String ACTIVITY_MESSAGE_KEY = "Message"; // String of the actual message
 	public static final String ACTIVITY_MESSAGE_BOARD_NAME_KEY = "MESSAGE_BOARD_NAME";// name of message board
-	public static final String ACTIVITY_MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";// superkey of messageboard element
+	//Deprecated
+	//public static final String ACTIVITY_MESSAGEBOARD_ID_KEY = "MESSAGE_BOARD_KEY";// superkey of messageboard element
 	public static final String ACTIVITY_X_LOCATION_KEY = "X_ATTR"; // x axis location key
 	public static final String ACTIVITY_Y_LOCATION_KEY = "Y_ATTR"; // y axis location key
 	public static final String ACTIVITY_SET_QUESTION_QUESTION_TITLE = "QUESTION_TITLE";

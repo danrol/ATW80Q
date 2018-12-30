@@ -10,7 +10,6 @@ public interface ActivityService {
 	
 	ActivityEntity getActivity(String superkey);
 
-	Object addMessage(ActivityEntity activity);
 
 	ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey,Pageable pageable);
 
@@ -24,8 +23,11 @@ public interface ActivityService {
 
 	void cleanActivityService();
 
-	Object addMessageBoard(ActivityEntity activity);
 
 	Object addQuestion(String userPlayground, String email, ActivityEntity activity);
+
+	Object addMessage(String userPlayground, String email, ActivityEntity activity);
+
+	Object addMessageBoard(String userPlayground, String email, ActivityEntity activity);
 
 }

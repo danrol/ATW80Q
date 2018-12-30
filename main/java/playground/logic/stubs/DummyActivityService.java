@@ -79,7 +79,7 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public Object addMessage(ActivityEntity activity) {
+	public Object addMessage(String userPlayground, String email,ActivityEntity activity) {
 		for(ElementEntity e:messageBoardDB) {
 			if(e.getSuperkey().equals(activity.getElementId())) {
 				e.getAttributes().put(Constants.ACTIVITY_MESSAGE_KEY, activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY));
@@ -142,7 +142,7 @@ public class DummyActivityService implements ActivityService {
 
 
 	@Override
-	public Object addMessageBoard(ActivityEntity activity) {
+	public Object addMessageBoard(String userPlayground, String email,ActivityEntity activity) {
 		ElementEntity e= new ElementEntity(activity.getElementId(), activity.getPlayground(), 
 				activity.getPlayerEmail(),(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
 				(double)activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
@@ -166,6 +166,7 @@ public class DummyActivityService implements ActivityService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 
 
