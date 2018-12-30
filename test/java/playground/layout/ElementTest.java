@@ -245,7 +245,7 @@ public class ElementTest {
 		for (int i = 0; i < Constants.Distance; i++) {
 			ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + i, Constants.PLAYGROUND_NAME, user.getEmail(), i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + i, Constants.PLAYGROUND_NAME, user.getEmail(), 0, i);
+			element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + i+i, Constants.PLAYGROUND_NAME, user.getEmail(), 0, i);
 			elementService.addElementNoLogin(element);
 		}
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,Constants.PLAYGROUND_NAME, user.getEmail(), Constants.Location_x, Constants.Location_y, Constants.Distance);
