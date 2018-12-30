@@ -69,7 +69,7 @@ public class jpaElementService implements ElementService {
 		for (ElementEntity el : allElements) {
 			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
 			if (actualDistance <= distance) {
-				if(roleIsCorrect(userService.getUser(email, userPlayground), el.getExpirationDate()))
+				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), el.getExpirationDate()))
 						lst.add(el);
 			}
 		}
@@ -89,7 +89,7 @@ public class jpaElementService implements ElementService {
 				.toArray(new ElementEntity[lst.size()]);
 	}
 	
-	private boolean roleIsCorrect(UserEntity user, Date date) {
+	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
 		//TODO check how to improve
 		Date now = new Date();
 		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
@@ -147,7 +147,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-				if(roleIsCorrect(userService.getUser(email, userPlayground), e.getExpirationDate()))
+				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), e.getExpirationDate()))
 					tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty()) {
