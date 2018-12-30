@@ -9,9 +9,10 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 
-//@Service
+@Service
 public class DummyElementService implements ElementService {
 
 	/**
@@ -195,8 +196,12 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public ElementEntity addElementNoLogin(ElementEntity element) {
+		if (elements.contains(element))
+			throw new ElementDataException("element data already exist in database");
+		else {
 		elements.add(element);
 		return element;
+		}
 	}
 
 
