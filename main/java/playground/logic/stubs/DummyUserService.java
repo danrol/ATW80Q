@@ -2,10 +2,7 @@ package playground.logic.stubs;
 import java.util.ArrayList;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import playground.Constants;
-import playground.exceptions.PermissionUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.LoginException;
 import playground.exceptions.RegisterNewUserException;

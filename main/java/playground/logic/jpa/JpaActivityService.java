@@ -10,7 +10,6 @@ import playground.aop.LoginRequired;
 import playground.aop.ModeratorLogin;
 import playground.aop.MyLog;
 import playground.dal.ActivityDao;
-import playground.exceptions.ActivityDataException;
 import playground.exceptions.ElementDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;

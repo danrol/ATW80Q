@@ -1,11 +1,10 @@
 package playground.logic.jpa;
 
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
