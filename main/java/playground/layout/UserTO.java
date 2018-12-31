@@ -1,14 +1,12 @@
 package playground.layout;
 
-import java.io.Serializable;
 import java.util.regex.Pattern;
 
 import playground.Constants;
 import playground.logic.UserEntity;
 
-public class UserTO implements Serializable {
+public class UserTO {
 
-	private static final long serialVersionUID = -1313647147242659048L;
 	private String email = "";
 	private String avatar = "";
 	private String username;

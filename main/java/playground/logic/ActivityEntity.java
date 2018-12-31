@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,19 +29,6 @@ public class ActivityEntity implements Serializable {
 	private String playerEmail;
 	private String superkey;
 	private Map<String, Object> attribute;
-
-	private ElementService elementService;
-	private UserService userService;
-
-	@Autowired
-	public void setElementService(ElementService elementService) {
-		this.elementService = elementService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	public ActivityEntity() {
 		attribute = new HashMap<String, Object>();

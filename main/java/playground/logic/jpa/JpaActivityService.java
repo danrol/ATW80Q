@@ -179,11 +179,8 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public ActivityEntity getActivity(String superkey) {
-		Optional<ActivityEntity> e = activityDB.findById(superkey);
-		if (e.isPresent()) {
-			return e.get();
-		}
-		return null;
+		return activityDB.findById(superkey).orElse(null);
+
 	}
 
 	/*

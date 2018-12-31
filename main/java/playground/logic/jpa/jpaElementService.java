@@ -19,6 +19,7 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.Location;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -65,7 +66,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> allElements = this.getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 
-		
+//		lst = elementsDB.findByXAndYNear(x, y,distance,pageable);
 		for (ElementEntity el : allElements) {
 			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
 			if (actualDistance <= distance) {

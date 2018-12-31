@@ -1,13 +1,12 @@
 package playground.layout;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
 import playground.logic.ElementEntity;
 import playground.logic.Location;
 
-public class ElementTO implements Serializable {
+public class ElementTO {
 
 	/**
 	 * 

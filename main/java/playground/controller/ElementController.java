@@ -25,17 +25,10 @@ import playground.logic.UserService;
 public class ElementController {
 
 	private ElementService elementService;
-	private UserService userService;
-
 
 	@Autowired
 	public void setElementService(ElementService elementService){
 		this.elementService = elementService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService){
-		this.userService = userService;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
