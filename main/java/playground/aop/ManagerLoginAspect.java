@@ -24,7 +24,7 @@ public class ManagerLoginAspect {
 		this.userDB = userDB;
 	}
 	
-	@Around("@annotation(playground.aop.ModeratorLogin) && args(userPlayground,email,..)")
+	@Around("@annotation(playground.aop.ManagerLogin) && args(userPlayground,email,..)")
 	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
