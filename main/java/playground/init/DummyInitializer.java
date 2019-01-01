@@ -39,8 +39,8 @@ public class DummyInitializer {
 
 			msgBoard = elementService.addElementNoLogin(msgBoard);
 
-		UserEntity mod = new UserEntity("moderator1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
-				Constants.MODERATOR_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity("manager1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
+				Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		try {
 

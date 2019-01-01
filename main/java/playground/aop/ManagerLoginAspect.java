@@ -15,12 +15,12 @@ import playground.logic.UserEntity;
 
 @Component
 @Aspect
-public class ModeratorLoginAspect {
+public class ManagerLoginAspect {
 
 	private UserDao userDB;
 
 	@Autowired
-	public ModeratorLoginAspect(UserDao userDB) {
+	public ManagerLoginAspect(UserDao userDB) {
 		this.userDB = userDB;
 	}
 	
@@ -31,9 +31,9 @@ public class ModeratorLoginAspect {
 			throw new LoginException("Email is not registered.");
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
-			else if(u.getRole() != Constants.MODERATOR_ROLE)
+			else if(u.getRole() != Constants.MANAGER_ROLE)
 				throw new PermissionUserException("User" + u.getRole() + " has no access rights.");
-		System.err.println("Moderator Login: User " + u + "logged in.");
+		System.err.println("Manager Login: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 		

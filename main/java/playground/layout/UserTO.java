@@ -81,8 +81,8 @@ public class UserTO {
 
 	public void setRole(String role) {
 		role = role.toLowerCase();
-		if (role.equals(Constants.MODERATOR_ROLE.toLowerCase())) {
-			this.role = Constants.MODERATOR_ROLE;
+		if (role.equals(Constants.MANAGER_ROLE.toLowerCase())) {
+			this.role = Constants.MANAGER_ROLE;
 		} else if (role.equals(Constants.PLAYER_ROLE.toLowerCase())) {
 			this.role = Constants.PLAYER_ROLE;
 		} else {

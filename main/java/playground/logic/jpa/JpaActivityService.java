@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import playground.Constants;
 import playground.aop.LoginRequired;
-import playground.aop.ModeratorLogin;
+import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
 import playground.dal.ActivityDao;
@@ -237,7 +237,7 @@ public class JpaActivityService implements ActivityService {
 	// when message board is created , in the attributes in map:
 	// attribute name. attribute x, attribute y,
 	@Override
-	@ModeratorLogin
+	@ManagerLogin
 	public Object addMessageBoard(String userPlayground,String email,ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
@@ -257,7 +257,7 @@ public class JpaActivityService implements ActivityService {
 		}
 		return null;
 	}
-	@ModeratorLogin
+	@ManagerLogin
 	@Override
 	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
 

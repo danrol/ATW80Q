@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import playground.aop.PlayerLogin;
 import playground.Constants;
 import playground.aop.LoginRequired;
-import playground.aop.ModeratorLogin;
+import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
@@ -94,7 +94,7 @@ public class jpaElementService implements ElementService {
 		Date now = new Date();
 		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
 			return true;
-		else if (user.getRole().equals(Constants.MODERATOR_ROLE))
+		else if (user.getRole().equals(Constants.MANAGER_ROLE))
 			return true;
 		else
 			return false;
@@ -119,7 +119,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@Transactional(readOnly = false)
-	@ModeratorLogin
+	@ManagerLogin
 	public void addElements(String userPlayground, String email, ElementEntity[] elements) {
 		for (int i = 0; i < elements.length; i++) {
 			addElement(userPlayground, email, elements[i]);
@@ -248,7 +248,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional
 	@MyLog
-	@ModeratorLogin
+	@ManagerLogin
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
 			for (ElementEntity el : elements) {
@@ -285,7 +285,7 @@ public class jpaElementService implements ElementService {
 
 	@Override
 	@MyLog
-	@ModeratorLogin
+	@ManagerLogin
 	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorplayground) {
 		ElementEntity tempElement = this.getElement(userPlayground, email, ElementEntity.createKey(id, creatorplayground));
 		System.err.println("tempElement: " + tempElement);
@@ -302,7 +302,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = false)
 	@MyLog
-	@ModeratorLogin
+	@ManagerLogin
 	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element) {
 
 		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());

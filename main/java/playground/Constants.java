@@ -24,7 +24,7 @@ public class Constants {
 	public static String PLAYGROUND_MAIL = "PLAYGROUND_MAIL";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
 	public static final String Other_Playground = "OtherPlayground";
-	public static final String MODERATOR_ROLE = "MODERATOR";
+	public static final String MANAGER_ROLE = "MANAGER";
 	public static final String PLAYER_ROLE = "PLAYER";
 	public static final String UNDEFINED_ROLE = "NO_ROLE";
 	public static final String DEFAULT_ELEMENT_NAME = "Rolnik's element";
