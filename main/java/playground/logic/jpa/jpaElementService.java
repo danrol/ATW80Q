@@ -19,7 +19,6 @@ import playground.dal.ElementDao;
 import playground.exceptions.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.Location;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

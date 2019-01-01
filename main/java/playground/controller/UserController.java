@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
-import playground.exceptions.ConfirmException;
 import playground.exceptions.ErrorException;
-import playground.exceptions.RegisterNewUserException;
 import playground.layout.UserTO;
-import playground.logic.ElementService;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -28,14 +25,7 @@ import playground.logic.UserService;
 @RestController
 public class UserController {
 
-	private ElementService elementService;
 	private UserService userService;
-
-
-	@Autowired
-	public void setElementService(ElementService elementService){
-		this.elementService = elementService;
-	}
 
 	@Autowired
 	public void setUserService(UserService userService){

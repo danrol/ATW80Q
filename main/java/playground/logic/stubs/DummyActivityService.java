@@ -2,7 +2,6 @@ package playground.logic.stubs;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import playground.Constants;
@@ -11,7 +10,6 @@ import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.UserService;
 import playground.logic.jpa.IdGeneratorActivityDao;
 
 //@Service
@@ -20,16 +18,13 @@ public class DummyActivityService implements ActivityService {
 	private ArrayList<ActivityEntity> activityDB;
 	private ArrayList<ElementEntity> messageBoardDB;
 	private ArrayList<ElementEntity> questionDB;
-	private IdGeneratorActivityDao IdGeneratorActivity;
 	private ElementService elementService;
-	private UserService userService;
 
 	@Autowired
 	public DummyActivityService(ActivityDao activity, IdGeneratorActivityDao IdGeneratorActivity) {
-		this.activityDB = new ArrayList();
-		this.messageBoardDB=new ArrayList();
-		this.questionDB=new ArrayList();
-		this.IdGeneratorActivity = IdGeneratorActivity;
+		this.activityDB = new ArrayList<ActivityEntity>();
+		this.messageBoardDB=new ArrayList<ElementEntity>();
+		this.questionDB=new ArrayList<ElementEntity>();
 	}
 
 	@Autowired
@@ -38,11 +33,6 @@ public class DummyActivityService implements ActivityService {
 
 	}
 
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-
-	}
 	
 	public String[] readMessagesFromMessageboard() {
 		ArrayList<String> messages = new ArrayList<>();

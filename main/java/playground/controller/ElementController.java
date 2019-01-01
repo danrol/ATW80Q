@@ -18,7 +18,6 @@ import playground.exceptions.ErrorException;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.UserService;
 
 
 @RestController

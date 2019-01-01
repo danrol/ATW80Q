@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.exceptions.ErrorException;
@@ -21,26 +20,12 @@ import playground.layout.UserTO;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
-import playground.logic.ElementService;
 import playground.logic.UserEntity;
-import playground.logic.UserService;
 
 @RestController
 public class ActivityController {
 
-	private ElementService elementService;
-	private UserService userService;
 	private ActivityService activityService;
-
-	@Autowired
-	public void setElementService(ElementService elementService) {
-		this.elementService = elementService;
-	}
-
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
 
 	@Autowired
 	public void setActivityService(ActivityService activityService) {
