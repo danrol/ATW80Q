@@ -14,6 +14,7 @@ import playground.dal.UserDao;
 import playground.exceptions.PermissionUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.RegisterNewUserException;
+import playground.exceptions.UserDataException;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -23,7 +24,6 @@ public class jpaUserService implements UserService {
 
 	// this is the database we need are saving in
 	private UserDao userDB;
-
 	private IdGeneratorUserDao IdGeneratorUser;
 
 	@Autowired
@@ -31,8 +31,6 @@ public class jpaUserService implements UserService {
 		this.userDB = userDB;
 		this.IdGeneratorUser = IdGeneratorUser;
 	}
-	
-
 
 	@Override
 	@Transactional
@@ -41,7 +39,6 @@ public class jpaUserService implements UserService {
 		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
 			for(UserEntity u: userDB.findAll())
 				lst.add(u);
-
 		return lst;
 	}
 	
@@ -53,10 +50,10 @@ public class jpaUserService implements UserService {
 		return turnListIntoArray(allUsers);
 	}
 
-	
 	public UserEntity[] turnListIntoArray(List<UserEntity> lst) {
 		return lst.toArray(new UserEntity[lst.size()]);
 	}
+	
 	@Override
 	@Transactional
 	@MyLog
@@ -118,13 +115,10 @@ public class jpaUserService implements UserService {
 				userDB.deleteById(user.getSuperkey());
 				user.setId(id);
 				userDB.save(user);
-			} catch (Exception e) {
-				//TODO: throw exception
-				System.out.println("failed to update user" + user.toString());
+			} catch (UserDataException e) {
+				throw new UserDataException("failed to update user" + user.toString());
 			}
-
 		}
-
 	}
 
 	@Override
@@ -132,9 +126,7 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public UserEntity getUser(String email, String playground) {
 		String idToSearchBy = UserEntity.createKey(email, playground);
-		
 		return getUser(idToSearchBy);
-		
 	}
 
 	@Override
@@ -144,7 +136,6 @@ public class jpaUserService implements UserService {
 	//TODO stub	
 		return null;
 	}
-
 
 	@Override
 	@Transactional
@@ -170,22 +161,14 @@ public class jpaUserService implements UserService {
 					Constants.PLAYGROUND_NAME);
 			addUser(userEnt);
 		}
-
 	}
-
 	
 	@Override
 	@Transient
 	@MyLog
 	public boolean isUserInDatabase(UserEntity user) {
-
 		return this.userDB.existsById(user.getSuperkey());
 	}
-
-
-
-
-
 
 	@Override
 	public void addPointsToUser(String user_id, long points) {
@@ -195,11 +178,9 @@ public class jpaUserService implements UserService {
 		updateUser(user);
 	}
 
-
 	@Override
 	public UserEntity getUser(String superkey) {
 		UserEntity user = userDB.findById(superkey).orElse(null);
 		return user;
 	}
-
 }

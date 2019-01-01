@@ -11,7 +11,9 @@ import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
 import playground.dal.ActivityDao;
+import playground.exceptions.ActivityDataException;
 import playground.exceptions.ElementDataException;
+import playground.exceptions.RegisterNewUserException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -133,8 +135,7 @@ public class JpaActivityService implements ActivityService {
 		}
 
 		}
-
-		return null;
+		throw new ActivityDataException("No such activity type: "+ activityType);
 	}
 
 	@Override
@@ -157,6 +158,7 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
+		//TODO: do we need exception here? 
 		/*
 		 * TODO: "Field 'id' doesn't have a default value" exception See
 		 * IdGeneratorActivity for info
@@ -164,14 +166,12 @@ public class JpaActivityService implements ActivityService {
 
 		// generating id for new activity
 		do {
-
 			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
 			Long id = tmp.getId();
 			IdGeneratorActivity.delete(tmp);
 			activity.setId(id + "");
 
 		} while (activityDB.existsById(activity.getSuperkey()));
-
 		activityDB.save(activity);
 		return getActivity(activity.getSuperkey());
 
@@ -203,7 +203,7 @@ public class JpaActivityService implements ActivityService {
 		if (elementService.getElementNoLogin(id) != null) {
 			return elementService.getElementNoLogin(id);
 		}
-		return null; //TODO: need to throw exception
+		throw new ElementDataException("No question found in database");
 
 	}
 
@@ -255,21 +255,18 @@ public class JpaActivityService implements ActivityService {
 			}
 
 		}
-		return null; //TODO: throw exception
+		throw new ElementDataException("Cannot add message");
 	}
 	@ManagerLogin
 	@Override
 	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
-
 		String question = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION);
 		String question_title = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION_TITLE);
 		String answer = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_ANSWER);
 		long points = (long)activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
-		
 		double x = (double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
 		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
-		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, activity.getElementPlayground(),
-				activity.getPlayerEmail(), x, y);
+		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, activity.getElementPlayground(), activity.getPlayerEmail(), x, y);
 		question_element.setType(Constants.ELEMENT_QUESTION_TYPE);
 		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_TITLE_KEY, question_title);
 		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, question);
@@ -277,7 +274,6 @@ public class JpaActivityService implements ActivityService {
 		question_element.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
 		ElementEntity element = elementService.addElementNoLogin(question_element);
 		this.addActivityNoLogin(activity);
-
 		return element;
 	}
 

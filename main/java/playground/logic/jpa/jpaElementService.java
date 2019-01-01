@@ -59,9 +59,7 @@ public class jpaElementService implements ElementService {
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		}
-				
 		UserEntity u = userService.getUser(email, userPlayground);
-		
 		ArrayList<ElementEntity> allElements = this.getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
 
@@ -74,7 +72,7 @@ public class jpaElementService implements ElementService {
 			}
 		}
 		if (lst.isEmpty()) {
-			return null; //TODO: throw exception
+			throw new ElementDataException("No elements in radius");
 		} else {
 			return getElementsBySizeAndPage(lst, pageable);
 		}
@@ -106,14 +104,12 @@ public class jpaElementService implements ElementService {
 		double xin = x1 - x2;
 		double yin = y1 - y2;
 		return Math.sqrt(xin * xin + yin * yin);
-
 	}
 
 	@Override
 	@Transient
 	@MyLog
 	public boolean isElementInDatabase(ElementEntity element) {
-
 		return this.elementsDB.existsById(element.getSuperkey());
 	}
 
@@ -124,7 +120,6 @@ public class jpaElementService implements ElementService {
 		for (int i = 0; i < elements.length; i++) {
 			addElement(userPlayground, email, elements[i]);
 		}
-
 	}
 
 	@Override
@@ -134,7 +129,6 @@ public class jpaElementService implements ElementService {
 		for (int i = 0; i < elements.length; i++) {
 			addElementNoLogin(elements[i]);
 		}
-
 	}
 
 	@Override
@@ -223,7 +217,6 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 		for (ElementEntity e : elementsDB.findAll())
 			lst.add(e);
-
 		return lst;
 	}
 
@@ -233,7 +226,6 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 		for (ElementEntity e : elementsDB.findAll(pageable))
 			lst.add(e);
-
 		return lst;
 	}
 
@@ -242,7 +234,6 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
 		return lst.toArray(new ElementEntity[lst.size()]);
-
 	}
 
 	@Override
@@ -312,7 +303,5 @@ public class jpaElementService implements ElementService {
 			elementsDB.save(element);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
-
 	}
-
 }

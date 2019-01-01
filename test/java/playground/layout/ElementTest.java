@@ -183,6 +183,9 @@ public class ElementTest {
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
 	}
 
+	
+	//TODO: Test - get elements is radius and return exception: "No elements in radius"
+	
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test
 	// finished
 
