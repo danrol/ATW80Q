@@ -8,9 +8,6 @@ import playground.logic.Location;
 
 public class ElementTO {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	protected String name;
 	protected String id;
