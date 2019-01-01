@@ -14,7 +14,6 @@ import playground.dal.UserDao;
 import playground.exceptions.PermissionUserException;
 import playground.exceptions.ConfirmException;
 import playground.exceptions.RegisterNewUserException;
-import playground.exceptions.UserDataException;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
@@ -115,8 +114,8 @@ public class jpaUserService implements UserService {
 				userDB.deleteById(user.getSuperkey());
 				user.setId(id);
 				userDB.save(user);
-			} catch (UserDataException e) {
-				throw new UserDataException("failed to update user" + user.toString());
+			} catch (PermissionUserException e) {
+				throw new PermissionUserException("failed to update user" + user.toString());
 			}
 		}
 	}

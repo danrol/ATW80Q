@@ -7,9 +7,6 @@ import playground.exceptions.RegisterNewUserException;
 
 public class NewUserForm implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String email;
 	private String username;
@@ -35,13 +32,10 @@ public class NewUserForm implements Serializable {
 //		this.playground = Constants.PLAYGROUND_NAME;
 	}
 
-	private String createVerificationCode() {
-		Random r = new Random();
-		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
-	}
-	
-	
-	
+//	private String createVerificationCode() {
+//		Random r = new Random();
+//		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
+//	}
 	
 	public String getEmail() {
 		return email;

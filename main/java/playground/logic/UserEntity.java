@@ -1,5 +1,6 @@
 package playground.logic;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import javax.persistence.Entity;
@@ -43,12 +44,13 @@ public class UserEntity {
 
 	public UserEntity(NewUserForm user) {
 		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
-		
 	}
 
 	@Transient
-	private static String generateCode() {
-		return Constants.DEFAULT_VERIFICATION_CODE;
+	private static String generateCode()  {
+		Random r = new Random();
+		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
+		//return Constants.DEFAULT_VERIFICATION_CODE;
 	}
 
 	@Id
