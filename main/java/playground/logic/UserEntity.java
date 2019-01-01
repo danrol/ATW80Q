@@ -169,7 +169,6 @@ public class UserEntity {
 	}
 
 	@Override
-	@Transient
 	public String toString() {
 		return "UserEntity [superkey="+superkey+",id="+id+" email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
 				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", points=" + points + "]";

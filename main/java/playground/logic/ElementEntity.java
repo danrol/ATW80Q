@@ -214,7 +214,7 @@ public class ElementEntity {
 		this.y = y;
 	}
 
-	@Transient
+	@Override
 	public String toString() {
 		return "ElementEntity [superkey=" + this.getSuperkey() + ", name=" + name + ", id=" + id + ", playground=" + playground
 				+ ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", type=" + type
