@@ -74,7 +74,7 @@ public class jpaElementService implements ElementService {
 			}
 		}
 		if (lst.isEmpty()) {
-			return null;
+			return null; //TODO: throw exception
 		} else {
 			return getElementsBySizeAndPage(lst, pageable);
 		}

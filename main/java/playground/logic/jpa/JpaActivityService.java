@@ -203,7 +203,7 @@ public class JpaActivityService implements ActivityService {
 		if (elementService.getElementNoLogin(id) != null) {
 			return elementService.getElementNoLogin(id);
 		}
-		return null;
+		return null; //TODO: need to throw exception
 
 	}
 
@@ -255,7 +255,7 @@ public class JpaActivityService implements ActivityService {
 			}
 
 		}
-		return null;
+		return null; //TODO: throw exception
 	}
 	@ManagerLogin
 	@Override

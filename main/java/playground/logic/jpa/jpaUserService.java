@@ -119,6 +119,7 @@ public class jpaUserService implements UserService {
 				user.setId(id);
 				userDB.save(user);
 			} catch (Exception e) {
+				//TODO: throw exception
 				System.out.println("failed to update user" + user.toString());
 			}
 
