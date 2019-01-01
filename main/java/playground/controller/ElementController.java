@@ -46,7 +46,6 @@ public class ElementController {
 		 * INPUT: ElementTO
 		 * OUTPUT: NONE
 		 */
-		System.err.println("Function 6");
 		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
@@ -57,8 +56,7 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO
 		 */
-		ElementEntity element = null;
-		element = elementService.getElement(userPlayground, email, id, creatorPlayground);
+		ElementEntity element = elementService.getElement(userPlayground, email, id, creatorPlayground);
 		return new ElementTO(element);
 	}
 
@@ -95,17 +93,15 @@ public class ElementController {
 	}
 	
 	public ElementTO[] getElementTOArray(ElementEntity[] lst){ArrayList<ElementTO> result = new ArrayList<>();
-		for (ElementEntity e : lst) {
+		for (ElementEntity e : lst)
 			result.add(new ElementTO(e));
-		}
 		return result.toArray(new ElementTO[lst.length]);
 	}
 	
 	public ElementEntity[] getElementTOArray(ElementTO[] lst){
 		ArrayList<ElementEntity> result = new ArrayList<>();
-		for (ElementTO e : lst) {
+		for (ElementTO e : lst)
 			result.add(e.toEntity());
-		}
 		return result.toArray(new ElementEntity[lst.length]);
 	}
 	
@@ -114,9 +110,8 @@ public class ElementController {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErrorException handleException(Exception e) {
 		String message = e.getMessage();
-		if (message == null) {
+		if (message == null)
 			message = "There is no relevant message";
-		}
 		return new ErrorException(message);
 	}
 }

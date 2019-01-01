@@ -15,7 +15,6 @@ import playground.exceptions.RegisterNewUserException;
 @Table(name = "USER")
 public class UserEntity {
 	
-
 	private String email;
 	private String avatar;
 	private String username;

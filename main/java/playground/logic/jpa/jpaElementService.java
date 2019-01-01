@@ -56,26 +56,23 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@PlayerLogin
 	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
-		if (distance < 0) {
+		if (distance < 0) 
 			throw new RuntimeException("Negative distance (" + distance + ")");
-		}
 		UserEntity u = userService.getUser(email, userPlayground);
 		ArrayList<ElementEntity> allElements = this.getElements();
 		ArrayList<ElementEntity> lst = new ArrayList<>();
-
 //		lst = elementsDB.findByXAndYNear(x, y,distance,pageable);
 		for (ElementEntity el : allElements) {
 			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
-			if (actualDistance <= distance) {
+			if (actualDistance <= distance)
 				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), el.getExpirationDate()))
 						lst.add(el);
-			}
 		}
-		if (lst.isEmpty()) {
+		if (lst.isEmpty()) 
 			throw new ElementDataException("No elements in radius");
-		} else {
+		 else 
 			return getElementsBySizeAndPage(lst, pageable);
-		}
+		
 	}
 
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {  
@@ -117,18 +114,16 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@ManagerLogin
 	public void addElements(String userPlayground, String email, ElementEntity[] elements) {
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) 
 			addElement(userPlayground, email, elements[i]);
-		}
 	}
 
 	@Override
 	@Transactional(readOnly = false)
 	@MyLog
 	public void addElementsNoLogin(ElementEntity[] elements) {
-		for (int i = 0; i < elements.length; i++) {
+		for (int i = 0; i < elements.length; i++) 
 			addElementNoLogin(elements[i]);
-		}
 	}
 
 	@Override
@@ -144,9 +139,9 @@ public class jpaElementService implements ElementService {
 				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), e.getExpirationDate()))
 					tempElementsList.add(e);
 		}
-		if (tempElementsList.isEmpty()) {
+		if (tempElementsList.isEmpty()) 
 			return new ElementEntity[0];
-		} else
+		 else
 			return getElementsBySizeAndPage(tempElementsList, pageable);
 
 	}
@@ -242,10 +237,8 @@ public class jpaElementService implements ElementService {
 	@ManagerLogin
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
-			for (ElementEntity el : elements) {
+			for (ElementEntity el : elements) 
 				updateElementInDatabaseFromExternalElement(userPlayground, email, el);
-			}
-
 		} catch (ElementDataException e) {
 			throw new ElementDataException("Elements in collection have incorrect fields.");
 		}
@@ -262,10 +255,9 @@ public class jpaElementService implements ElementService {
 	@Override
 	@MyLog
 	public ElementEntity addElementNoLogin(ElementEntity element) {
-		
-		if (elementsDB.existsById(element.getSuperkey())) {
+		if (elementsDB.existsById(element.getSuperkey()))
 			throw new ElementDataException("element data already exist in database");
-		} else {
+		 else {
 			IdGeneratorElement tmp = IdGeneratorElement.save(new IdGeneratorElement());
 			Long id = tmp.getId();
 			IdGeneratorElement.delete(tmp);
@@ -285,9 +277,8 @@ public class jpaElementService implements ElementService {
 			entity.setCreationDate(tempElement.getCreationDate());
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(entity);
-		} else {
+		} else
 			throw new ElementDataException("element data for update is incorrect");
-			}
 	}
 
 	@Override
@@ -295,7 +286,6 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@ManagerLogin
 	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element) {
-
 		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
 		if (tempElement != null) {
 			// Deletes old and replaces with new

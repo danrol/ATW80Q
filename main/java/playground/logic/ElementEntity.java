@@ -56,7 +56,6 @@ public class ElementEntity {
 		this.creatorEmail = elEntity.creatorEmail;
 		setX(elEntity.getX());
 		setY(elEntity.getY());
-
 	}
 
 	public ElementEntity(String name, String playground, String email, double x, double y) {
@@ -96,6 +95,7 @@ public class ElementEntity {
 	public String getSuperkey() {
 		return createKey(id, creatorPlayground);
 	}
+	
 	public void setSuperkey(String Superkey) {
 		//empty
 	}

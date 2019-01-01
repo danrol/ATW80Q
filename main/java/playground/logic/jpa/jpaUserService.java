@@ -57,9 +57,9 @@ public class jpaUserService implements UserService {
 	@Transactional
 	@MyLog
 	public UserEntity addUser(UserEntity user) {
-		if (userDB.existsById(user.getSuperkey())) {
+		if (userDB.existsById(user.getSuperkey()))
 			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
-		} else 
+		else 
 		{
 			IdGeneratorUser tmp = IdGeneratorUser.save(new IdGeneratorUser());
 			Long id = tmp.getId();
@@ -84,10 +84,8 @@ public class jpaUserService implements UserService {
 					user.verifyUser();
 				else
 					throw new ConfirmException("Invalid verification code");
-			} else {
-				throw new ConfirmException("User: " + user.getEmail() + " does not belong to the specified playground ("
-						+ playground + ")");
-			}
+			} else
+				throw new ConfirmException("User: " + user.getEmail() + " does not belong to the specified playground ("+ playground + ")");
 		} else {
 			throw new ConfirmException("Email is not registered.");
 		}
@@ -98,7 +96,6 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public void cleanUserService() {
 		userDB.deleteAll();
-
 	}
 
 	@Override
@@ -142,9 +139,8 @@ public class jpaUserService implements UserService {
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {
 		UserEntity u =  getUser(email, playground);
-		if (u.getSuperkey().equals(user.getSuperkey())) {
+		if (u.getSuperkey().equals(user.getSuperkey()))
 			updateUser(user);
-		}
 		else throw new PermissionUserException("User " + u + " can't access another user");
 
 	}

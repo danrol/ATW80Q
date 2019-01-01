@@ -158,7 +158,6 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
-		//TODO: do we need exception here? 
 		/*
 		 * TODO: "Field 'id' doesn't have a default value" exception See
 		 * IdGeneratorActivity for info

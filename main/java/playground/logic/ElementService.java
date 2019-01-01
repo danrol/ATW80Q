@@ -10,8 +10,7 @@ public interface ElementService {
 
 	boolean isElementInDatabase(ElementEntity element);
 
-	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName,
-			String value, Pageable pageable);
+	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName, String value, Pageable pageable);
 
 	boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground, String creatorEmail);
 
@@ -35,8 +34,7 @@ public interface ElementService {
 
 	void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element);
 
-	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
-			String creatorPlayground);
+	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorPlayground);
 
 	void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements);
 
@@ -46,8 +44,7 @@ public interface ElementService {
 
 	void addElements(String userPlayground, String email, ElementEntity[] elements);
 
-	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
-			Pageable pageable);
+	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable);
 
 	ElementEntity addElement(String userPlayground, String email, ElementEntity element);
 

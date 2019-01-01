@@ -49,7 +49,6 @@ public class ActivityEntity implements Serializable {
 		this.playerPlayground = acEntity.playerPlayground;
 		this.playerEmail = acEntity.playerEmail;
 		this.attribute = acEntity.attribute;
-
 	}
 
 	@Override
@@ -153,10 +152,12 @@ public class ActivityEntity implements Serializable {
 	public void setSuperkey(String Superkey) {
 		//empty
 	}
+	
 	@Transient
 	public void setSuperkey() {
 		//empty
 		}
+	
 	@Transient
 	public static String createKey(String id, String playground) {
 		return id.concat(" " + playground);

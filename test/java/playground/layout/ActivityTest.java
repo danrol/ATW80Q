@@ -27,8 +27,7 @@ private RestTemplate restTemplate;
 	private ElementService elementService;
 	private UserService userService;
 	private ActivityService activityService;
-	
-	
+
 	@Autowired
 	public void setElementService(ElementService elementService){
 		this.elementService = elementService;

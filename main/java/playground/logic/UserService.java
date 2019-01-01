@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 public interface UserService {
 
 	ArrayList<UserEntity> getUsers();
+	
 	UserEntity[] getUsers(Pageable pageable);
 
 	UserEntity addUser(UserEntity user);

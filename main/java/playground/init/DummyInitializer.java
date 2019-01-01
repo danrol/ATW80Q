@@ -14,7 +14,7 @@ import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 @Component
-@Profile("demo1")
+@Profile("demo")
 public class DummyInitializer {
 	private ElementService elementService;
 	private ActivityService activityService;
@@ -43,22 +43,18 @@ public class DummyInitializer {
 				Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		try {
-
 			mod = userService.addUser(mod);
 		}
 		catch(RegisterNewUserException e) {
 			mod = userService.getUser(mod.getEmail(), mod.getPlayground());
 		}
 		String msg = "msg";
-
 		for (int i = 0; i < 30; i++) {
-
 			ActivityEntity entity = new ActivityEntity();
 			entity.setType(Constants.MESSAGE_ACTIVITY);
 			entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, msg + i);
 			entity.setElementId(msgBoard.getSuperkey());
 			activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity,null);
-
 			// TODO remove the comments from above - this code makes it crush for some
 			// reason
 		}

@@ -20,8 +20,6 @@ public class ElementTO {
 	protected Location location;
 	protected Map<String, Object> attributes;
 
-	
-
 	public ElementTO(ElementEntity e) {
 		this.setName(e.getName());
 		this.setId(e.getId());

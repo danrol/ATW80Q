@@ -13,8 +13,6 @@ import playground.logic.UserEntity;
 @Aspect
 public class LoginRequiredAspect {
 	
-
-
 private UserDao userDB;
 
 @Autowired

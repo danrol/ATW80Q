@@ -1,13 +1,9 @@
 package playground.logic;
 
-import java.io.Serializable;
-import java.util.Random;
-import java.util.regex.Pattern;
 import playground.exceptions.RegisterNewUserException;
 
-public class NewUserForm implements Serializable {
+public class NewUserForm {
 
-	private static final long serialVersionUID = 1L;
 	private String email;
 	private String username;
 	private String avatar;

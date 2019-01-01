@@ -32,20 +32,17 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-
 	@RequestMapping(method = RequestMethod.POST, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public UserTO registerNewUser(@RequestBody NewUserForm newUserForm) {
 		/* function 1
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-		return new UserTO(userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), 
-				newUserForm.getRole(), Constants.PLAYGROUND_NAME)));
+		return new UserTO(userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), newUserForm.getRole(), Constants.PLAYGROUND_NAME)));
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/users/confirm/{playground}/{email}/{code}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, 
-			@PathVariable("code") String code)
+	public UserTO verifyUser(@PathVariable("playground") String playground, @PathVariable("email") String email, @PathVariable("code") String code)
 	{
 		/* function 2
 		 * INPUT: NONE
@@ -65,8 +62,7 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void updateUser(@RequestBody UserTO user, @PathVariable("email") String email,
-			@PathVariable("playground") String playground) {
+	public void updateUser(@RequestBody UserTO user, @PathVariable("email") String email, @PathVariable("playground") String playground) {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
@@ -76,7 +72,6 @@ public class UserController {
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users", produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserTO[] getAllUsers(Pageable pageable) {
 		return getElementTOArray(userService.getUsers(pageable));
-		
 	}
 
 	public UserTO[] getElementTOArray(UserEntity[] lst){
@@ -92,10 +87,8 @@ public class UserController {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErrorException handleException(Exception e) {
 		String message = e.getMessage();
-		if (message == null) {
+		if (message == null)
 			message = "There is no relevant message";
-		}
 		return new ErrorException(message);
-	}	
-	
+	}
 }

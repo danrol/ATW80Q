@@ -24,7 +24,6 @@ public class PlayerLoginAspect {
 
 	@Around("@annotation(playground.aop.PlayerLogin) && args(userPlayground,email,..)")
 	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
-
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
@@ -36,5 +35,4 @@ public class PlayerLoginAspect {
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}
-
 }

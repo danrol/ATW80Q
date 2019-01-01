@@ -34,15 +34,12 @@ public class ActivityController {
 
 	@LoginRequired
 	@RequestMapping(method = RequestMethod.POST, path = "/playground/activities/{userPlayground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Object RequestServer(@PathVariable("userPlayground") String userPlayground,
-			@PathVariable("email") String email, @RequestBody ActivityTO activity,Pageable pageable) {
+	public Object RequestServer(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ActivityTO activity,Pageable pageable) {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
-		
 		ActivityEntity activityEnt = activity.toEntity();
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
-		
 		switch(t.getClass().getName())
 		{
 		case "ActivityEntity":
@@ -61,9 +58,8 @@ public class ActivityController {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public ErrorException handleException(Exception e) {
 		String message = e.getMessage();
-		if (message == null) {
+		if (message == null)
 			message = "There is no relevant message";
-		}
 		return new ErrorException(message);
 	}
 

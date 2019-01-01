@@ -1,15 +1,13 @@
 package playground.logic;
 
-
 import java.util.ArrayList;
 import org.springframework.data.domain.Pageable;
+
 public interface ActivityService {
 	
-
 	public String toString();
 	
 	ActivityEntity getActivity(String superkey);
-
 
 	ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey,Pageable pageable);
 
@@ -22,7 +20,6 @@ public interface ActivityService {
 	boolean answerQuestion(ActivityEntity activity);
 
 	void cleanActivityService();
-
 
 	Object addQuestion(String userPlayground, String email, ActivityEntity activity);
 
