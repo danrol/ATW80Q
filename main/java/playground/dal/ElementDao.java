@@ -16,9 +16,11 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param("creatorEmail") String creatorEmail, 
 			Pageable pageable);
 	
-//	public ArrayList<ElementEntity> findByXBetweenDistanceAndYBetweenDistance(
-//			double x,
-//			double y,
-//			double distance,
-//			Pageable pageable);
+	public ArrayList<ElementEntity> findByXBetweenAndYBetween(
+    		@Param("x1") double d,
+    		@Param("x2") double e,
+    		@Param("y1") double f,
+    		@Param("y2") double g,
+    		Pageable pageable);
+
 }

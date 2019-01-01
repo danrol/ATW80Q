@@ -59,19 +59,8 @@ public class jpaElementService implements ElementService {
 		if (distance < 0) 
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		UserEntity u = userService.getUser(email, userPlayground);
-		ArrayList<ElementEntity> allElements = this.getElements();
-		ArrayList<ElementEntity> lst = new ArrayList<>();
-//		lst = elementsDB.findByXAndYNear(x, y,distance,pageable);
-		for (ElementEntity el : allElements) {
-			double actualDistance = distanceBetween(el.getX(), el.getY(), x, y);
-			if (actualDistance <= distance)
-				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), el.getExpirationDate()))
-						lst.add(el);
-		}
-		if (lst.isEmpty()) 
-			throw new ElementDataException("No elements in radius");
-		 else 
-			return getElementsBySizeAndPage(lst, pageable);
+		
+		return  lstToArray(elementsDB.findByXBetweenAndYBetween(x, x+distance, y, y+distance, pageable));
 		
 	}
 
