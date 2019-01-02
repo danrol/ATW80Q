@@ -58,7 +58,6 @@ public class jpaElementService implements ElementService {
 	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
 		if (distance < 0) 
 			throw new RuntimeException("Negative distance (" + distance + ")");
-		UserEntity u = userService.getUser(email, userPlayground);
 		
 		return  lstToArray(elementsDB.findByXBetweenAndYBetween(x, x+distance, y, y+distance, pageable));
 		
