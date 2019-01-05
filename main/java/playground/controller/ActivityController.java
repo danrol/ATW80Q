@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.exceptions.ErrorException;
 import playground.layout.ActivityTO;
@@ -32,7 +31,6 @@ public class ActivityController {
 		this.activityService = activityService;
 	}
 
-	@LoginRequired
 	@RequestMapping(method = RequestMethod.POST, path = "/playground/activities/{userPlayground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object RequestServer(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ActivityTO activity,Pageable pageable) {
 		/*
