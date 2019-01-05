@@ -52,6 +52,9 @@ public class Constants {
 	public static final double Negaive_Distance = -1;
 	public static final double Distance = 10;
 	public static final double Zero_Distance = 0;
+	public static final int PAGE_NUMBER = 1;
+	public static final int SIZE_NUMBER = 3;
+
 
 	public enum Numbers {
 		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN
