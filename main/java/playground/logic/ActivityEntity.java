@@ -51,10 +51,6 @@ public class ActivityEntity implements Serializable {
 		this.attribute = acEntity.attribute;
 	}
 
-	@Override
-	public String toString() {
-		return "ActivityTO [toString()=" + super.toString() + "]";
-	}
 
 	public String getPlayground() {
 		return playground;
@@ -186,6 +182,13 @@ public class ActivityEntity implements Serializable {
 		} else if (!this.getSuperkey().equals(other.getSuperkey()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "ActivityEntity [playground=" + playground + ", id=" + id + ", elementPlayground=" + elementPlayground
+				+ ", elementId=" + elementId + ", type=" + type + ", playerPlayground=" + playerPlayground
+				+ ", playerEmail=" + playerEmail + ", superkey=" + superkey + ", attribute=" + attribute + "]";
 	}
 	
 	

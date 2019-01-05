@@ -32,10 +32,6 @@ public class ActivityTO  {
 		attribute = a.getAttribute();
 	}
 
-	@Override
-	public String toString() {
-		return "ActivityTO [toString()=" + super.toString() + "]";
-	}
 
 	public String getPlayground() {
 		return playground;
@@ -113,4 +109,13 @@ public class ActivityTO  {
 		rv.setType(this.getType());
 		return rv;
 	}
+
+	@Override
+	public String toString() {
+		return "ActivityTO [playground=" + playground + ", id=" + id + ", elementPlayground=" + elementPlayground
+				+ ", elementId=" + elementId + ", type=" + type + ", playerPlayground=" + playerPlayground
+				+ ", playerEmail=" + playerEmail + ", attribute=" + attribute + "]";
+	}
+	
+	
 }
