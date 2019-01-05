@@ -162,13 +162,12 @@ public class JpaActivityService implements ActivityService {
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
 		if (activityDB.existsById(activity.getSuperkey()))
 			throw new ActivityDataException("Activity exists: " + activity.getSuperkey());
-		do {
-			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
-			Long id = tmp.getId();
-			IdGeneratorActivity.delete(tmp);
-			activity.setId(id + "");
 
-		} while (activityDB.existsById(activity.getSuperkey()));
+		IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
+		Long id = tmp.getId();
+		IdGeneratorActivity.delete(tmp);
+		activity.setId(id + "");
+
 		activityDB.save(activity);
 		return getActivity(activity.getSuperkey());
 
@@ -194,8 +193,6 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object getQuestion(ActivityEntity activity) {
-		// String id =
-		// (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		String id = activity.getElementId();
 
 		if (elementService.getElementNoLogin(id) != null) {
@@ -207,8 +204,6 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public boolean answerQuestion(ActivityEntity activity) {
-		// String id = (String)
-		// activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			ElementEntity a = elementService.getElementNoLogin(id);
@@ -267,6 +262,10 @@ public class JpaActivityService implements ActivityService {
 		long points = (long) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
 		double x = (double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
 		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
+
+		if (question != null || question_title != null || answer != null)
+			throw new ActivityDataException("Attribute is missin in question");
+
 		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,
 				activity.getElementPlayground(), activity.getPlayerEmail(), x, y);
 		question_element.setType(Constants.ELEMENT_QUESTION_TYPE);
