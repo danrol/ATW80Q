@@ -2,6 +2,8 @@ package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.HashMap;
+import java.util.stream.IntStream;
+
 import javax.annotation.PostConstruct;
 import org.junit.After;
 import org.junit.Before;
@@ -206,6 +208,33 @@ public class ElementTest {
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class, userElementCreator.getEmail(), Constants.PLAYGROUND_NAME);
 		assertThat(elemArr).isEqualTo(new ElementTO[0]);
 	}
+	
+	// 8.2 Scenario: Test get all elements from empty database
+	@Test
+	public void GETALLFromDatabaseWithPagination() {
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		ElementTO[] arrForTest = new ElementTO[Constants.SIZE_NUMBER];
+		ElementEntity elementToAdd;
+		int arrIndex = 0;
+		
+		for(int n=1; n<=11;n++) {
+			elementToAdd = new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.Location_x, Constants.Location_y);
+			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
+			if (Constants.PAGE_NUMBER*Constants.SIZE_NUMBER<n && n<=Constants.PAGE_NUMBER*Constants.SIZE_NUMBER*2) {
+				arrForTest[arrIndex] = new ElementTO(elementToAdd);
+				arrIndex++;
+			}
+		}
+		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8+createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER), 
+				ElementTO[].class, userElementCreator.getEmail(),Constants.PLAYGROUND_NAME);
+		
+		assertThat(result).isNotNull();
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[2]).isEqualToIgnoringGivenFields(arrForTest[2], Constants.ELEMENT_FIELD_creationDate);
+	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished
 	// ******************************************************************************************//
@@ -339,5 +368,9 @@ public class ElementTest {
 		double yin = y1 - y2;
 		return Math.sqrt(xin * xin + yin * yin);
 
+	}
+	
+	public String createPaginationStringAppendixForUrl(int pageNum, int sizeNum) {
+		return "?page="+String.valueOf(pageNum)+"&size="+String.valueOf(sizeNum);
 	}
 }
