@@ -88,15 +88,10 @@ public class UserEntity {
 	}
 
 	public void setEmail(String email) {
-		System.err.println(email);
-		if(emailIsValid(email)) {
-			System.err.println("IN");
+		if(emailIsValid(email))
 			this.email = email;
-		}
-		else {
-			System.err.println("IN2");
+		else 
 			throw new RegisterNewUserException("Registration data is not correct. Check your input");
-		}
 	}
 	
 	@Transient

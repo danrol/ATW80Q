@@ -105,13 +105,6 @@ public class jpaUserService implements UserService {
 		if (userDB.existsById(user.getSuperkey())) {
 			try {
 				UserEntity oldUser = this.getUser(user.getEmail(),user.getPlayground());
-				System.err.println(oldUser.getEmail());
-				System.err.println(user.getEmail());
-				System.err.println(oldUser.getPlayground());
-				System.err.println(user.getPlayground());
-				if(!oldUser.getEmail().equals(user.getEmail()) || !oldUser.getPlayground().equals(user.getPlayground())) { 
-					throw new PermissionUserException("Cannot change users Email or Playground");
-				}
 				if(oldUser.isVerified())
 					user.verifyUser();
 				String id = oldUser.getId();
@@ -145,6 +138,7 @@ public class jpaUserService implements UserService {
 	@MyLog
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {
+		
 		UserEntity u =  getUser(email, playground);
 		if (u.getSuperkey().equals(user.getSuperkey()))
 			updateUser(user);
