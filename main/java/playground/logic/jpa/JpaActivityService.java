@@ -109,9 +109,10 @@ public class JpaActivityService implements ActivityService {
 			return activity;
 		}
 		case Constants.GET_MESSAGES_ACTIVITY: {
-			//return getAllMessagesActivitiesInMessageBoard(
-			//		(String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY), pageable);
-			
+			// return getAllMessagesActivitiesInMessageBoard(
+			// (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY),
+			// pageable);
+
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Constants.MESSAGE_ACTIVITY: {
@@ -121,7 +122,7 @@ public class JpaActivityService implements ActivityService {
 			return getQuestion(activity);
 		}
 		case Constants.ADD_QUESTION_ACTIVITY: {
-			return addQuestion(userPlayground,email,activity);
+			return addQuestion(userPlayground, email, activity);
 		}
 		case Constants.QUESTION_ANSWER_ACTIVITY: {
 			return answerQuestion(activity);
@@ -135,13 +136,14 @@ public class JpaActivityService implements ActivityService {
 		}
 
 		}
-		throw new ActivityDataException("No such activity type: "+ activityType);
+		throw new ActivityDataException("No such activity type: " + activityType);
 	}
 
 	@Override
 	@PlayerLogin
-	public Object addMessage(String userPlayground, String email,ActivityEntity activity) {
-		//String msgboard_superkey = (String) activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
+	public Object addMessage(String userPlayground, String email, ActivityEntity activity) {
+		// String msgboard_superkey = (String)
+		// activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if (messageBoard != null)
@@ -158,12 +160,8 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	private ActivityEntity addActivityNoLogin(ActivityEntity activity) {
-		/*
-		 * TODO: "Field 'id' doesn't have a default value" exception See
-		 * IdGeneratorActivity for info
-		 */
-
-		// generating id for new activity
+		if (activityDB.existsById(activity.getSuperkey()))
+			throw new ActivityDataException("Activity exists: " + activity.getSuperkey());
 		do {
 			IdGeneratorActivity tmp = IdGeneratorActivity.save(new IdGeneratorActivity());
 			Long id = tmp.getId();
@@ -196,9 +194,10 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public Object getQuestion(ActivityEntity activity) {
-		//String id = (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
+		// String id =
+		// (String)activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		String id = activity.getElementId();
-		
+
 		if (elementService.getElementNoLogin(id) != null) {
 			return elementService.getElementNoLogin(id);
 		}
@@ -208,7 +207,8 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public boolean answerQuestion(ActivityEntity activity) {
-		//String id = (String) activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
+		// String id = (String)
+		// activity.getAttribute().get(Constants.ACTIVITY_QUESTION_ID_KEY);
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			ElementEntity a = elementService.getElementNoLogin(id);
@@ -220,7 +220,8 @@ public class JpaActivityService implements ActivityService {
 				String answering_user_email = activity.getPlayerEmail();
 				String answering_user_playground = activity.getPlayerPlayground();
 				if (actual_answer.equals(user_answer)) {
-					userService.addPointsToUser(UserEntity.createKey(answering_user_email, answering_user_playground), points);
+					userService.addPointsToUser(UserEntity.createKey(answering_user_email, answering_user_playground),
+							points);
 					return Constants.CORRECT_ANSWER;
 				} else {
 					return Constants.WRONG_ANSWER;
@@ -237,7 +238,7 @@ public class JpaActivityService implements ActivityService {
 	// attribute name. attribute x, attribute y,
 	@Override
 	@ManagerLogin
-	public Object addMessageBoard(String userPlayground,String email,ActivityEntity activity) {
+	public Object addMessageBoard(String userPlayground, String email, ActivityEntity activity) {
 		String id = activity.getElementId();
 		if (elementService.getElementNoLogin(id) != null) {
 			Object name = activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY);
@@ -249,23 +250,25 @@ public class JpaActivityService implements ActivityService {
 						(double) x, (double) y);
 				e.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 				e.setCreatorEmail(activity.getPlayerEmail());
-				e=elementService.addElementNoLogin(e);
+				e = elementService.addElementNoLogin(e);
 				return e;
 			}
 
 		}
 		throw new ElementDataException("Cannot add message");
 	}
+
 	@ManagerLogin
 	@Override
 	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
 		String question = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION);
 		String question_title = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION_TITLE);
 		String answer = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_ANSWER);
-		long points = (long)activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
+		long points = (long) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
 		double x = (double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
 		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
-		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, activity.getElementPlayground(), activity.getPlayerEmail(), x, y);
+		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,
+				activity.getElementPlayground(), activity.getPlayerEmail(), x, y);
 		question_element.setType(Constants.ELEMENT_QUESTION_TYPE);
 		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_TITLE_KEY, question_title);
 		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, question);
