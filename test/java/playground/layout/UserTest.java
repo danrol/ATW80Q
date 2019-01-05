@@ -71,7 +71,7 @@ public class UserTest {
 	//1.2 Scenario: Test successful register 
 	@Test
 	public void successfullyRegisterNewUser() {
-
+		
 		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE);
 		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), postUserForm.getAvatar(), postUserForm.getRole(), Constants.PLAYGROUND_NAME));
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + Constants.Function_1, postUserForm,	UserTO.class);		
@@ -196,7 +196,6 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void UserUpdateAnotherUser() {
 
-
 		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		managerUser.verifyUser();
 		managerUser = userService.addUser(managerUser);
@@ -205,12 +204,39 @@ public class UserTest {
 		otherUser.verifyUser();
 		otherUser = userService.addUser(otherUser);
 		
-		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(otherUser), managerUser.getPlayground(), managerUser.getEmail());
-
+		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(otherUser), managerUser.getPlayground(), managerUser.getEmail());		
+	}
+	
+	//4.3 Scenario: manager changes his email
+	@Test(expected = RuntimeException.class)
+	public void UserUpdateHisEmail() {
+		
+		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+		managerUser.verifyUser();
+		managerUser = userService.addUser(managerUser);
+		managerUser.setEmail("email");
+		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(managerUser), managerUser.getPlayground(), managerUser.getEmail());
+	}
+	
+	
+	
+	//4.4 Scenario: manager changes his playground
+	@Test(expected = RuntimeException.class)
+	public void UserUpdateHisPlayGround() {
+		
+		
+		
+	}
+	//4.5 Scenario: manager changes his both email and playground
+	@Test(expected = RuntimeException.class)
+	public void UserUpdateHisEmailandPlayground() {
+		
+		
 		
 	}
 	
-
+	
+	
 	// url #4 /playground/users/{playground}/{email} test finished
 	// ******************************************************************************************//
 	

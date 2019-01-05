@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import playground.Constants;
+import playground.exceptions.PermissionUserException;
 import playground.exceptions.RegisterNewUserException;
 
 //KEY IS EMAIL+PLAYGROUND
@@ -87,10 +88,15 @@ public class UserEntity {
 	}
 
 	public void setEmail(String email) {
-		if(emailIsValid(email))
+		System.err.println(email);
+		if(emailIsValid(email)) {
+			System.err.println("IN");
 			this.email = email;
-		else 
+		}
+		else {
+			System.err.println("IN2");
 			throw new RegisterNewUserException("Registration data is not correct. Check your input");
+		}
 	}
 	
 	@Transient
