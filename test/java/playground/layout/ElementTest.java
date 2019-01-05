@@ -1,10 +1,8 @@
 package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import javax.annotation.PostConstruct;
 import org.junit.After;
 import org.junit.Before;
@@ -21,11 +19,8 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -133,6 +128,35 @@ public class ElementTest {
 		updatedElementForTestTO.setPlayground("forTest");
 		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, Constants.PLAYGROUND_NAME, userElementCreator.getEmail(), updatedElementForTestEntity.getCreatorPlayground(), updatedElementForTestEntity.getId());
 	}
+	
+	
+	// 6.4 Scenario : Test update element ID
+		@Test(expected = RuntimeException.class)
+		public void updateElementID() {
+			
+			UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+			userElementCreator.verifyUser();
+			userService.addUser(userElementCreator);
+			ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, userElementCreator.getPlayground(), userElementCreator.getEmail(), Constants.Location_x, Constants.Location_y);
+			elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(),elementForTestEntity);
+			ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
+			updatedElementForTestTO.setId(Constants.ID_FOR_TESTS + "0");
+			this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, userElementCreator.getPlayground(), userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
+			}
+		
+		// 6.5 Scenario : Test update element creatorplayground
+			@Test(expected = RuntimeException.class)
+			public void updateElementCreatorplayground() {
+					
+				UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+				userElementCreator.verifyUser();
+				userService.addUser(userElementCreator);
+				ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, userElementCreator.getPlayground(), userElementCreator.getEmail(), Constants.Location_x, Constants.Location_y);
+				elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(),elementForTestEntity);
+				ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
+				updatedElementForTestTO.setId(Constants.CREATOR_PLAYGROUND_FOR_TESTS + "1");
+				this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, userElementCreator.getPlayground(), userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
+				}
 
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with
 	// PUT test finished
