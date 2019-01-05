@@ -95,7 +95,7 @@ public class ElementEntity {
 	public String getSuperkey() {
 		return createKey(id, creatorPlayground);
 	}
-	@Transient
+	
 	public void setSuperkey(String Superkey) {
 		//empty
 	}
@@ -235,61 +235,10 @@ public class ElementEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		ElementEntity other = (ElementEntity) obj;
-		if (attributes == null) {
-			if (other.attributes != null)
-				return false;
-		} else if (!attributes.equals(other.attributes))
+		if(this.getSuperkey().equals(other.getSuperkey()))
+			return true;
+		else
 			return false;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
-		if (creatorEmail == null) {
-			if (other.creatorEmail != null)
-				return false;
-		} else if (!creatorEmail.equals(other.creatorEmail))
-			return false;
-		if (creatorPlayground == null) {
-			if (other.creatorPlayground != null)
-				return false;
-		} else if (!creatorPlayground.equals(other.creatorPlayground))
-			return false;
-		if (expirationDate == null) {
-			if (other.expirationDate != null)
-				return false;
-		} else if (!expirationDate.equals(other.expirationDate))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (playground == null) {
-			if (other.playground != null)
-				return false;
-		} else if (!playground.equals(other.playground))
-			return false;
-		if (superkey == null) {
-			if (other.superkey != null)
-				return false;
-		} else if (!superkey.equals(other.superkey))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
-			return false;
-		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
-			return false;
-		return true;
 	}
 		
 	
