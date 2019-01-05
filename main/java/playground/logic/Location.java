@@ -11,14 +11,12 @@ public class Location {
 	}
 
 	public Location(String location) { // format "x,y"
-		super();
 		String[] s = location.split(",");
 		this.x = new Double(s[0]);
 		this.y = new Double(s[1]);
 	}
 
 	public Location(double x, double y) {
-		super();
 		this.x = x;
 		this.y = y;
 	}

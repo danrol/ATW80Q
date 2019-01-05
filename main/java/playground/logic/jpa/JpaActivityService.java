@@ -265,7 +265,7 @@ public class JpaActivityService implements ActivityService {
 		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
 
 		if (question != null || question_title != null || answer != null)
-			throw new ActivityDataException("Attribute is missin in question");
+			throw new ActivityDataException("Attribute is missing in question");
 
 		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,
 				activity.getElementPlayground(), activity.getPlayerEmail(), x, y);

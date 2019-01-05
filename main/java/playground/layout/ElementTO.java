@@ -3,6 +3,7 @@ package playground.layout;
 import java.util.Date;
 import java.util.Map;
 
+import playground.aop.MyLog;
 import playground.logic.ElementEntity;
 import playground.logic.Location;
 
@@ -131,7 +132,6 @@ public class ElementTO {
 
 	public ElementEntity toEntity() {
 		ElementEntity rv = new ElementEntity();
-		// need to think the logic
 		rv.setName(name);
 		rv.setId(id);
 		rv.setPlayground(playground);
@@ -140,6 +140,7 @@ public class ElementTO {
 		rv.setType(type);
 		rv.setCreatorPlayground(creatorPlayground);
 		rv.setCreatorEmail(creatorEmail);
+		System.err.println(location.getX());
 		rv.setX(location.getX());
 		rv.setY(location.getY());
 		rv.setAttributes(attributes);

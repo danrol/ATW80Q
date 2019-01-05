@@ -139,7 +139,6 @@ private RestTemplate restTemplate;
 		ActivityTO act = new ActivityTO(ent);
 		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ElementTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
 		ElementEntity rv_messageboard = messageBoardTO.toEntity();
-		System.err.println(rv_messageboard + " here");
 		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
 		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
 		
