@@ -69,7 +69,7 @@ public class jpaElementService implements ElementService {
 				.skip(pageable.getPageSize() * pageable.getPageNumber()) 
 				.limit(pageable.getPageSize()) 
 				.collect(Collectors.toList()) 
-				.toArray(new ElementEntity[lst.size()]);
+				.toArray(new ElementEntity[pageable.getPageSize()]);
 	}
 	
 	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {

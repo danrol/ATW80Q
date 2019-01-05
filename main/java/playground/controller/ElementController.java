@@ -100,9 +100,11 @@ public class ElementController {
 	
 	public ElementEntity[] getElementTOArray(ElementTO[] lst){
 		ArrayList<ElementEntity> result = new ArrayList<>();
-		for (ElementTO e : lst)
+		for (ElementTO e : lst) {
+			if(e != null)
 			result.add(e.toEntity());
-		return result.toArray(new ElementEntity[lst.length]);
+		}
+		return result.toArray(new ElementEntity[result.size()]);
 	}
 	
 	@MyLog
