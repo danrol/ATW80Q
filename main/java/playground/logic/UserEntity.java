@@ -56,7 +56,7 @@ public class UserEntity {
 	public String getSuperkey() {
 		return createKey(email, playground);
 	}
-
+	@Transient
 	public void setSuperkey(String superkey) {
 		//empty
 	}

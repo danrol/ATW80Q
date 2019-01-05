@@ -95,7 +95,7 @@ public class ElementEntity {
 	public String getSuperkey() {
 		return createKey(id, creatorPlayground);
 	}
-	
+	@Transient
 	public void setSuperkey(String Superkey) {
 		//empty
 	}

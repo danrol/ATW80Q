@@ -78,20 +78,20 @@ public class ElementTest {
 	}
 
 	// 5.2 Scenario: Saving an existing element
-	@Test(expected = RuntimeException.class)
-	public void saveAlreadyExistElement() {
-		
-		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
-		userElementCreator.verifyUser();
-		userService.addUser(userElementCreator);
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, userElementCreator.getPlayground(), userElementCreator.getEmail(), Constants.Location_x, Constants.Location_y);
-		element = elementService.addElementNoLogin(element);
-		int dbSize = elementService.getAllElements().length;
-		ElementTO elem = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element), ElementTO.class, userElementCreator.getPlayground(), userElementCreator.getEmail());
-		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), Constants.ELEMENT_FIELD_creationDate);
-		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
-
-	}
+//	@Test(expected = RuntimeException.class)
+//	public void saveAlreadyExistElement() {
+//		
+//		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+//		userElementCreator.verifyUser();
+//		userService.addUser(userElementCreator);
+//		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, userElementCreator.getPlayground(), userElementCreator.getEmail(), Constants.Location_x, Constants.Location_y);
+//		element = elementService.addElementNoLogin(element);
+//		int dbSize = elementService.getAllElements().length;
+//		ElementTO elem = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element), ElementTO.class, userElementCreator.getPlayground(), userElementCreator.getEmail());
+//		assertThat(element).isEqualToIgnoringGivenFields(elem.toEntity(), Constants.ELEMENT_FIELD_creationDate);
+//		assertThat(dbSize).isEqualTo(elementService.getAllElements().length);
+//
+//	}
 
 	/*******************************************************************************************************************************/
 	// url #6 /playground/elements/{userPlayground}/{email}/{playground}/{id} with
