@@ -187,7 +187,7 @@ public class UserTest {
 		managerUser.setAvatar("name");
 		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(managerUser), managerUser.getPlayground(), managerUser.getEmail());
 		
-		UserEntity t = userService.getUser(managerUser.getEmail(), managerUser.getPlayground());
+		UserEntity t = userService.getUser(managerUser.getPlayground(), managerUser.getEmail());
 
 		assertThat(managerUser).isEqualTo(t);
 		}

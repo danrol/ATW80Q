@@ -46,7 +46,7 @@ public class DummyInitializer {
 			mod = userService.addUser(mod);
 		}
 		catch(RegisterNewUserException e) {
-			mod = userService.getUser(mod.getEmail(), mod.getPlayground());
+			mod = userService.getUser(mod.getPlayground(), mod.getEmail());
 		}
 		String msg = "msg";
 		for (int i = 0; i < 30; i++) {

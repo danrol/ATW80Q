@@ -99,7 +99,7 @@ public class JPATest {
 		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
 		userService.addUser(user);
 		assertThat(userService.isUserInDatabase(user));
-		assertThat(userService.getUser(user.getEmail(), user.getPlayground())).isEqualTo(user);
+		assertThat(userService.getUser(user.getPlayground(), user.getEmail())).isEqualTo(user);
 	}
 	
 	//2.2 Scenario:  Adding an existing user to jpa

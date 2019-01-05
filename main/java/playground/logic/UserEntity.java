@@ -2,13 +2,11 @@ package playground.logic;
 
 import java.util.Random;
 import java.util.regex.Pattern;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import playground.Constants;
-import playground.exceptions.PermissionUserException;
 import playground.exceptions.RegisterNewUserException;
 
 //KEY IS EMAIL+PLAYGROUND

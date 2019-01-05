@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import playground.Constants;
-import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.exceptions.ErrorException;
 import playground.layout.UserTO;
@@ -52,13 +51,12 @@ public class UserController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, path = "/playground/users/login/{playground}/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@LoginRequired
 	public UserTO login(@PathVariable("playground") String userPlayground, @PathVariable("email") String email) {
 		/*
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
 		 */
-		return new UserTO(this.userService.getUser(email, userPlayground));
+		return new UserTO(this.userService.getUser(userPlayground, email));
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)

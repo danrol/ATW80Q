@@ -124,7 +124,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-				if(roleIsCorrectExpirationDateCheck(userService.getUser(email, userPlayground), e.getExpirationDate()))
+				if(roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))
 					tempElementsList.add(e);
 		}
 		if (tempElementsList.isEmpty()) 

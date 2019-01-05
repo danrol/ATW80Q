@@ -74,7 +74,7 @@ public class jpaUserService implements UserService {
 	@Transactional
 	@MyLog
 	public UserEntity verifyUser(String email, String playground, String code) {
-		UserEntity user = getUser(email, playground);
+		UserEntity user = getUser(playground, email);
 		if (user != null) {
 			if (user.getVerificationCode().equals(""))
 				return user; // User already confirmed
@@ -104,7 +104,7 @@ public class jpaUserService implements UserService {
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
 			try {
-				UserEntity oldUser = this.getUser(user.getEmail(),user.getPlayground());
+				UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
 				if(oldUser.isVerified())
 					user.verifyUser();
 				String id = oldUser.getId();
@@ -120,7 +120,8 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly=true)
 	@MyLog
-	public UserEntity getUser(String email, String playground) {
+	@LoginRequired
+	public UserEntity getUser(String playground, String email) {
 		String idToSearchBy = UserEntity.createKey(email, playground);
 		return getUser(idToSearchBy);
 	}
@@ -139,7 +140,7 @@ public class jpaUserService implements UserService {
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {
 		
-		UserEntity u =  getUser(email, playground);
+		UserEntity u =  getUser(playground, email);
 		if (u.getSuperkey().equals(user.getSuperkey()))
 			updateUser(user);
 		else throw new PermissionUserException("User " + u + " can't access another user");
@@ -150,7 +151,7 @@ public class jpaUserService implements UserService {
 	@Transactional
 	@MyLog
 	public void addUser(NewUserForm user) {
-		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
+		if (this.getUser(Constants.PLAYGROUND_NAME, user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),

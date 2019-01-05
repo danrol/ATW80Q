@@ -34,19 +34,19 @@ public class DummyUserService implements UserService{
 	@Override
 	public UserEntity addUser(UserEntity user) {
 		UserEntity result = new UserEntity();
-		if (this.getUser(user.getEmail(), user.getPlayground()) != null)
+		if (this.getUser(user.getPlayground(), user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
-		result = getUser(user.getEmail(), user.getPlayground());
+		result = getUser(user.getPlayground(), user.getEmail());
 		}
 		return result;
 	}
 	
 	@Override
 	public void addUser(NewUserForm user) {
-		if (this.getUser(user.getEmail(), Constants.PLAYGROUND_NAME) != null)
+		if (this.getUser(Constants.PLAYGROUND_NAME, user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 				users.add(new UserEntity(user));
@@ -55,7 +55,7 @@ public class DummyUserService implements UserService{
 	
 	
 	@Override
-	public UserEntity getUser(String email, String playground) {
+	public UserEntity getUser(String playground, String email) {
 		for(UserEntity u:users)
 		{
 			if(u.getEmail().equals(email) && u.getPlayground().equals(playground))
@@ -66,7 +66,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void updateUser(UserEntity user) {
-		UserEntity oldUser = this.getUser(user.getEmail(), user.getPlayground());
+		UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
 		if(oldUser.isVerified())
 			user.verifyUser();
 		String id = oldUser.getId();
@@ -82,7 +82,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public UserEntity login(String playground, String email) {
-		UserEntity u = getUser(email, playground);
+		UserEntity u = getUser(playground, email);
 		if (u != null) {
 			if (u.getPlayground().equals(playground)) {
 				if (u.isVerified()) {
@@ -113,7 +113,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public UserEntity verifyUser(String email, String playground, String code) {
-		UserEntity user = getUser(email, playground);
+		UserEntity user = getUser(playground, email);
 		
 		if(user !=null) {
 			//TODO remove if. added playground check to getUser 

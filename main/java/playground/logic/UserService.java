@@ -18,7 +18,7 @@ public interface UserService {
 
 	void updateUser(UserEntity user);
 
-	UserEntity getUser(String email, String playground);
+	UserEntity getUser(String playground, String email);
 	
 	UserEntity login(String playground, String email);
 
