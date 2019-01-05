@@ -125,9 +125,9 @@ private RestTemplate restTemplate;
 
 	}
 	
-	//11.11 Scenario: Add message board activity
+	//11.11 Scenario: Add message board activity as Manager
 	@Test
-	public void AddMessageBoardActivity() {	
+	public void AddMessageBoardActivityAsManager() {	
 		String msgBoard_name = "messageBoardName";
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MANAGER_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
@@ -145,6 +145,25 @@ private RestTemplate restTemplate;
 		
 	}
 	
+	//11.12 Scenario: Add message board activity as Player
+	@Test(expected=RuntimeException.class)
+	public void AddMessageBoardActivityAsPlayer() {	
+		String msgBoard_name = "messageBoardName";
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.PLAYER_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.ADD_MESSAGE_BOARD_ACTIVITY);
+		ent.getAttribute().put(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY, msgBoard_name);
+		
+		ActivityTO act = new ActivityTO(ent);
+		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ElementTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+		ElementEntity rv_messageboard = messageBoardTO.toEntity();
+		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
+		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+		
+		
+	}
 	
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//

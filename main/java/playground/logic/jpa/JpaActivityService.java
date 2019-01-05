@@ -96,7 +96,7 @@ public class JpaActivityService implements ActivityService {
 	}
 
 	@Override
-	@LoginRequired
+	//@LoginRequired
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 
 		String activityType = activity.getType();
@@ -236,22 +236,15 @@ public class JpaActivityService implements ActivityService {
 	@ManagerLogin
 	public Object addMessageBoard(String userPlayground, String email, ActivityEntity activity) {
 			Object name = activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY);
-			
-			
 			if (!(name.getClass().getName().equals(String.class.getName()))) {
 				throw new ActivityDataException("Invalid types in attributes" + name.getClass());
 			}
-			
-			
 				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
 						0, 0);
 				e.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 				e.setCreatorEmail(activity.getPlayerEmail());
 				e = elementService.addElementNoLogin(e);
-				System.err.println(e);
 				return e;
-			
-
 	}
 
 	@ManagerLogin

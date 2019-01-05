@@ -23,9 +23,10 @@ public class ManagerLoginAspect {
 	public ManagerLoginAspect(UserDao userDB) {
 		this.userDB = userDB;
 	}
-	
+	@MyLog
 	@Around("@annotation(playground.aop.ManagerLogin) && args(userPlayground,email,..)")
 	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
+		System.err.println("ManagerLogin area");
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");

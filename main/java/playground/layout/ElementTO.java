@@ -22,6 +22,7 @@ public class ElementTO {
 	protected Map<String, Object> attributes;
 
 	public ElementTO(ElementEntity e) {
+		this();
 		this.setName(e.getName());
 		this.setId(e.getId());
 		this.setPlayground(e.getPlayground());
@@ -30,12 +31,13 @@ public class ElementTO {
 		this.setType(e.getType());
 		this.setCreatorPlayground(e.getCreatorPlayground());
 		this.setCreatorEmail(e.getCreatorEmail());
-		this.setLocation(new Location(e.getX(), e.getY()));
+		location.setX(e.getX());
+		location.setY(e.getY());
 		this.setAttributes(e.getAttributes());
 	}
 
 	public ElementTO() {
-
+		location = new Location();
 	}
 
 	public Map<String, Object> getAttributes() {

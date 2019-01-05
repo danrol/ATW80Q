@@ -21,7 +21,7 @@ public class PlayerLoginAspect {
 	public PlayerLoginAspect(UserDao userDB) {
 		this.userDB = userDB;
 	}
-
+	@MyLog
 	@Around("@annotation(playground.aop.PlayerLogin) && args(userPlayground,email,..)")
 	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
