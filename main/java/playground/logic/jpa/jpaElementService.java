@@ -59,7 +59,7 @@ public class jpaElementService implements ElementService {
 		if (distance < 0) 
 			throw new RuntimeException("Negative distance (" + distance + ")");
 		
-		return  lstToArray(elementsDB.findAllByXBetweenAndYBetween(x, x+distance, y, y+distance, pageable));
+		return  lstToArray(elementsDB.findAllByXBetweenAndYBetween(x-distance, x+distance, y-distance, y+distance, pageable));
 		
 	}
 
