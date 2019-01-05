@@ -49,8 +49,11 @@ public class Constants {
 	public static final String AVATAR_FOR_TESTS = "MyAvatar.jpg";
 	public static final double Location_x = 5;
 	public static final double Location_y = 6;
+	public static final double Another_Location_x = 0;
+	public static final double Another_Location_y = 8;
 	public static final double Negaive_Distance = -1;
 	public static final double Distance = 10;
+	public static final double ANOTHER_DISTANCE = 6;	
 	public static final double Zero_Distance = 0;
 	public static final int PAGE_NUMBER = 1;
 	public static final int SIZE_NUMBER = 3;

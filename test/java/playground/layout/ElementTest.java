@@ -1,8 +1,9 @@
 package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 import org.junit.After;
@@ -20,6 +21,11 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -216,19 +222,15 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] arrForTest = new ElementTO[Constants.SIZE_NUMBER];
-		ElementEntity elementToAdd;
-		int arrIndex = 0;
 		
 		for(int n=1; n<=11;n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.Location_x, Constants.Location_y);
-			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
-			if (Constants.PAGE_NUMBER*Constants.SIZE_NUMBER<n && n<=Constants.PAGE_NUMBER*Constants.SIZE_NUMBER*2) {
-				arrForTest[arrIndex] = new ElementTO(elementToAdd);
-				arrIndex++;
-			}
+			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), 
+					new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.Location_x, Constants.Location_y));
 		}
 		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_8+createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER), 
 				ElementTO[].class, userElementCreator.getEmail(),Constants.PLAYGROUND_NAME);
+		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
+		arrForTest = getElementTOArray(elementService.lstToArray(elementService.getElements(pageable)));
 		
 		assertThat(result).isNotNull();
 		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
@@ -291,9 +293,35 @@ public class ElementTest {
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), Constants.Location_x, Constants.Location_y);
 		assertThat(actualDistance).isEqualTo(Constants.Zero_Distance);
 	}
+	
+	// 9.4 Scenario: Distance is greater than Zero with pagination
+	@Test
+	public void GETElementsWithZeroDistanceWithPagination() {
+		UserEntity userElementCreator = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		userElementCreator.verifyUser();
+		userService.addUser(userElementCreator);
+		ElementTO[] arrForTest = new ElementTO[Constants.SIZE_NUMBER];
+		ElementEntity elementToAdd;
+		
+		for(int n=1; n<=6;n++) {
+			elementToAdd = new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 0, n);
+			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
+		}
+		ElementTO[] result = restTemplate.getForObject(this.url + Constants.Function_9+createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER), 
+				ElementTO[].class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.Another_Location_x, Constants.Another_Location_y, Constants.ANOTHER_DISTANCE);
+		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
+		arrForTest = getElementTOArray(elementService.getAllElementsInRadius(userElementCreator.getPlayground(), userElementCreator.getEmail(),
+				Constants.Another_Location_x, Constants.Another_Location_y, Constants.ANOTHER_DISTANCE, pageable));
+		
+		assertThat(result).isNotNull();
+		assertThat(result.length).isEqualTo(arrForTest.length);
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
+	}
 
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
 	// test finished
+
 
 	// ******************************************************************************************//
 
@@ -363,6 +391,8 @@ public class ElementTest {
 	// test finished
 
 	// ******************************************************************************************//
+	//Test helper methods
+	
 	public double distanceBetween(double x1, double y1, double x2, double y2) {
 		double xin = x1 - x2;
 		double yin = y1 - y2;
@@ -373,4 +403,10 @@ public class ElementTest {
 	public String createPaginationStringAppendixForUrl(int pageNum, int sizeNum) {
 		return "?page="+String.valueOf(pageNum)+"&size="+String.valueOf(sizeNum);
 	}
+	
+	public ElementTO[] getElementTOArray(ElementEntity[] lst){ArrayList<ElementTO> result = new ArrayList<>();
+	for (ElementEntity e : lst)
+		result.add(new ElementTO(e));
+	return result.toArray(new ElementTO[lst.length]);
+}
 }
