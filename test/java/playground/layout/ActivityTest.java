@@ -12,6 +12,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.Constants;
+import playground.dal.ElementDao;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -27,7 +28,13 @@ private RestTemplate restTemplate;
 	private ElementService elementService;
 	private UserService userService;
 	private ActivityService activityService;
-
+	private ElementDao elementsDB;
+	
+	@Autowired
+	public void setElementDao(ElementDao elementsDB){
+		this.elementsDB = elementsDB;
+	}
+	
 	@Autowired
 	public void setElementService(ElementService elementService){
 		this.elementService = elementService;
@@ -97,8 +104,8 @@ private RestTemplate restTemplate;
 		ent.setType(Constants.MESSAGE_ACTIVITY);
 		ent.setElementId(messageBoard.getSuperkey());
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
-		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
+		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+		assertThat(act).isEqualToIgnoringGivenFields(message,"id");
 	}
 	
 	//11.3 Scenario:  Sending Message activity to non existing message board
@@ -106,8 +113,7 @@ private RestTemplate restTemplate;
 	public void SendMessageActivityToNonExistingBoard() {	
 		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		//elementService.addElementNoLogin(messageBoard);
-		//NO ADDING
+
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MANAGER_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
@@ -115,9 +121,32 @@ private RestTemplate restTemplate;
 		ent.setType(Constants.MESSAGE_ACTIVITY);
 		ent.setElementId(messageBoard.getSuperkey());
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
-		assertThat(act).isEqualToIgnoringGivenFields(ob,"id");
+		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+
 	}
+	
+	//11.11 Scenario: Add message board activity
+	@Test
+	public void AddMessageBoardActivity() {	
+		String msgBoard_name = "messageBoardName";
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MANAGER_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.ADD_MESSAGE_BOARD_ACTIVITY);
+		ent.getAttribute().put(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY, msgBoard_name);
+		
+		ActivityTO act = new ActivityTO(ent);
+		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ElementTO.class,Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS);
+		ElementEntity rv_messageboard = messageBoardTO.toEntity();
+		System.err.println(rv_messageboard + " here");
+		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
+		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+		
+		
+	}
+	
+	
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//
 

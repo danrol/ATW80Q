@@ -39,6 +39,9 @@ public class ActivityController {
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
 		ActivityEntity activityEnt = activity.toEntity();
+		activityEnt.setPlayerEmail(email);
+		activityEnt.setPlayerPlayground(userPlayground);
+		
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
 		switch(t.getClass().getName())
 		{

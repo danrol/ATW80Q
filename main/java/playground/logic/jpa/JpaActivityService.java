@@ -142,12 +142,13 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	@PlayerLogin
 	public Object addMessage(String userPlayground, String email, ActivityEntity activity) {
-		// String msgboard_superkey = (String)
-		// activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY);
 		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if (messageBoard != null)
-			this.addActivityNoLogin(activity);
+		{
+			this.addActivityNoLogin(activity);	
+		
+		}
 		else
 			throw new ElementDataException("No such Message Board : " + msgboard_superkey);
 		return activity;
@@ -234,23 +235,23 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	@ManagerLogin
 	public Object addMessageBoard(String userPlayground, String email, ActivityEntity activity) {
-		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
 			Object name = activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY);
-			Object x = activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
-			Object y = activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
-			if (name.getClass().isInstance(String.class) && x.getClass().isInstance(Double.class)
-					&& y.getClass().isInstance(Double.class)) {
+			
+			
+			if (!(name.getClass().getName().equals(String.class.getName()))) {
+				throw new ActivityDataException("Invalid types in attributes" + name.getClass());
+			}
+			
+			
 				ElementEntity e = new ElementEntity((String) name, activity.getPlayground(), activity.getPlayerEmail(),
-						(double) x, (double) y);
+						0, 0);
 				e.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 				e.setCreatorEmail(activity.getPlayerEmail());
 				e = elementService.addElementNoLogin(e);
+				System.err.println(e);
 				return e;
-			}
+			
 
-		}
-		throw new ElementDataException("Cannot add message");
 	}
 
 	@ManagerLogin
