@@ -94,7 +94,7 @@ private RestTemplate restTemplate;
 	//11.2 Scenario:  Sending Message activity
 	@Test
 	public void SendMessageActivityToExistingBoard() {	
-		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
+		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.LOCATION_X1,Constants.LOCATION_Y1);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 		elementService.addElementNoLogin(messageBoard);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MANAGER_ROLE,Constants.PLAYGROUND_NAME);
@@ -111,7 +111,7 @@ private RestTemplate restTemplate;
 	//11.3 Scenario:  Sending Message activity to non existing message board
 	@Test(expected=RuntimeException.class)
 	public void SendMessageActivityToNonExistingBoard() {	
-		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.Location_x,Constants.Location_y);
+		ElementEntity messageBoard = new ElementEntity("msgboard",Constants.PLAYGROUND_NAME,Constants.EMAIL_FOR_TESTS,Constants.LOCATION_X1,Constants.LOCATION_Y1);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.MANAGER_ROLE,Constants.PLAYGROUND_NAME);
