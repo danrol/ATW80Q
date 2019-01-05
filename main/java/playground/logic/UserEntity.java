@@ -57,7 +57,7 @@ public class UserEntity {
 	public String getSuperkey() {
 		return createKey(email, playground);
 	}
-	@Transient
+
 	public void setSuperkey(String superkey) {
 		//empty
 	}
@@ -190,44 +190,11 @@ public class UserEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		UserEntity other = (UserEntity) obj;
-		if (avatar == null) {
-			if (other.avatar != null)
-				return false;
-		} else if (!avatar.equals(other.avatar))
+		
+		if(this.getSuperkey().equals(other.getSuperkey()))
+			return true;
+		else
 			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (playground == null) {
-			if (other.playground != null)
-				return false;
-		} else if (!playground.equals(other.playground))
-			return false;
-		if (points != other.points)
-			return false;
-		if (role == null) {
-			if (other.role != null)
-				return false;
-		} else if (!role.equals(other.role))
-			return false;
-		if (superkey == null) {
-			if (other.superkey != null)
-				return false;
-		} else if (!superkey.equals(other.superkey))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		if (verificationCode == null) {
-			if (other.verificationCode != null)
-				return false;
-		} else if (!verificationCode.equals(other.verificationCode))
-			return false;
-		return true;
 	}
 
 }

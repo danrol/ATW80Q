@@ -162,4 +162,31 @@ public class ActivityEntity implements Serializable {
 	public static String createKey(String id, String playground) {
 		return id.concat(" " + playground);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((superkey == null) ? 0 : superkey.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ActivityEntity other = (ActivityEntity) obj;
+		if (this.getSuperkey() == null) {
+			if (other.getSuperkey() != null)
+				return false;
+		} else if (!this.getSuperkey().equals(other.getSuperkey()))
+			return false;
+		return true;
+	}
+	
+	
 }
