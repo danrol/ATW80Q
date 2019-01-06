@@ -118,8 +118,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@PlayerLogin
-	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName,
-			String value, Pageable pageable) {
+	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName, String value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
@@ -150,7 +149,7 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
 			Pageable pageable) {
-		ArrayList<ElementEntity> elements = getElements();
+		//ArrayList<ElementEntity> elements = getElements();
 //		ArrayList<ElementEntity> result = new ArrayList<>();
 //		for (ElementEntity element : elements) {
 //			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
@@ -176,7 +175,7 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	public ElementEntity getElementNoLogin(String superkey) {//TODO: dont need exception?!
+	public ElementEntity getElementNoLogin(String superkey) {
 		Optional<ElementEntity> el = elementsDB.findById(superkey);
 		if (el.isPresent()) {
 				ElementEntity t = el.get();
@@ -200,6 +199,7 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 		for (ElementEntity e : elementsDB.findAll())
 			lst.add(e);
+		System.err.println("lst: " + lst);
 		return lst;
 	}
 
