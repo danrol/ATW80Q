@@ -16,12 +16,15 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param("creatorPlayground") String creatorPlayground, 
 			@Param("creatorEmail") String creatorEmail, 
 			Pageable pageable);
-			//	ArrayList<ElementEntity> result = new ArrayList<>();
-			//	for (ElementEntity element : elements) {
-			//		if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
-			//			result.add(element);
-			//	}	
 	
+			//public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
+			//	Pageable pageable) {
+			//ArrayList<ElementEntity> elements = getElements();
+			//		ArrayList<ElementEntity> result = new ArrayList<>();
+			//		for (ElementEntity element : elements) {
+			//			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
+			//				result.add(element);
+			//		}
 	
 	
 	
@@ -72,18 +75,16 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 	
 	
 	
-
 			//	public ArrayList<ElementEntity> getElements() {
 			//		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 			//		for (ElementEntity e : elementsDB.findAll())
 			//			lst.add(e);
-			//		System.err.println("lst: " + lst);
 			//		return lst;
 			//	}
 	
 	
 	
-	
+	/**public Page<ElementEntity> findAll(Pageable pageable);**/
 			//	public ArrayList<ElementEntity> getElements(Pageable pageable) {
 			//		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 			//		for (ElementEntity e : elementsDB.findAll(pageable))
@@ -98,7 +99,7 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			//	}
 	
 				
-			//	@Query(value = "from ELEMENT s join s.attributes a where a.name = ?1 AND a.value= ?1")
+			//	@Query(value = "FROM ELEMENT s JOIN s.attributes a WHERE a.name = ?1 AND a.value= ?1")
 			//	public ArrayList<ElementEntity> findAllByAttributNameAndAttributeValue(
 			//			String attributeName,
 			//			Object attributeValue,
