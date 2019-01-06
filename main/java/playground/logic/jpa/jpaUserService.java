@@ -38,6 +38,7 @@ public class jpaUserService implements UserService {
 		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
 			for(UserEntity u: userDB.findAll())
 				lst.add(u);
+			
 		return lst;
 	}
 	
@@ -122,13 +123,8 @@ public class jpaUserService implements UserService {
 	@MyLog
 	@LoginRequired
 	public UserEntity getUser(String playground, String email) {
-//		String idToSearchBy = UserEntity.createKey(email, playground);
-//		UserEntity t = userDB.findUserByPlaygroundAndEmail(playground, email);
-//		UserEntity u = getUser(idToSearchBy);
-//		System.err.println("1: " + u);
-//		System.err.println("2: " + t);
-//		return getUser(idToSearchBy);
-		return userDB.findUserByPlaygroundAndEmail(playground, email);
+		return getUser(UserEntity.createKey(email, playground));
+//		return userDB.findUserByPlaygroundAndEmail(playground, email);
 	}
 
 	@Override

@@ -13,5 +13,6 @@ public interface UserDao  extends PagingAndSortingRepository<UserEntity, String>
 	public UserEntity findUserByPlaygroundAndEmail(
 			@Param("Playground") String Playground, 
 			@Param("Email") String Email);
+
 	
 }
