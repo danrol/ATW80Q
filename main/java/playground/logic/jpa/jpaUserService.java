@@ -121,10 +121,8 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly=true)
 	@MyLog
-	@LoginRequired
 	public UserEntity getUser(String playground, String email) {
 		return getUser(UserEntity.createKey(email, playground));
-//		return userDB.findUserByPlaygroundAndEmail(playground, email);
 	}
 
 	@Override

@@ -70,8 +70,8 @@ public class JPATest {
 	public void addNonExistingElementToJPA() {
 		
 		
-		String playground="playground",creatorPlayground="creator";
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, playground,creatorPlayground,1,2);
+		String creatorPlayground="creator";
+		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,creatorPlayground,1,2);
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
@@ -82,10 +82,10 @@ public class JPATest {
 	@Test
 	public void addExistingElementToJPA() {
 		
-		String playground="playground",creatorPlayground="creator";
-		ElementEntity element = new ElementEntity("name1", playground,creatorPlayground,1,2);
+		String creatorPlayground="creator";
+		ElementEntity element = new ElementEntity("name1",creatorPlayground,1,2);
 		elementService.addElementNoLogin(element);
-		ElementEntity element2 = new ElementEntity("name2", playground,creatorPlayground,1,2);
+		ElementEntity element2 = new ElementEntity("name2",creatorPlayground,1,2);
 		elementService.addElementNoLogin(element2);
 		assertThat(elementService.isElementInDatabase(element));
 		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground())))
