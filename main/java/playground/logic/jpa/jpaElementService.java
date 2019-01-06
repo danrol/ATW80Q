@@ -176,10 +176,9 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	public ElementEntity getElementNoLogin(String superkey) {
-		Optional<ElementEntity> el = elementsDB.findById(superkey);
-		if (el.isPresent()) {
-				ElementEntity t = el.get();
-				return t;
+		ElementEntity el = elementsDB.findById(superkey).orElse(null);
+		if (el != null) {
+				return el;
 		}
 		else
 			throw new ElementDataException("Could not find element " + superkey);

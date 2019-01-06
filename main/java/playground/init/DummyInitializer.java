@@ -34,7 +34,7 @@ public class DummyInitializer {
 
 	@PostConstruct
 	public void init() {
-		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard", Constants.PLAYGROUND_NAME,
+		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard",
 				Constants.PLAYGROUND_MAIL, 0, 0);
 
 			msgBoard = elementService.addElementNoLogin(msgBoard);
