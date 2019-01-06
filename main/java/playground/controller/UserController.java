@@ -64,6 +64,9 @@ public class UserController {
 		/*
 		 * function 4 INPUT: UserTO OUTPUT: NONE
 		 */
+		System.err.println(playground);
+		System.err.println(email);
+		System.err.println(user.toEntity());
 		this.userService.updateUser(playground,email, user.toEntity());
 	}
 	

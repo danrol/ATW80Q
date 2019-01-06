@@ -183,7 +183,7 @@ public class UserTest {
 
 		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		managerUser.verifyUser();
-		managerUser = userService.addUser(managerUser);
+		this.userService.addUser(managerUser);
 		managerUser.setAvatar("name");
 		this.restTemplate.put(this.url + Constants.Function_4, new UserTO(managerUser), managerUser.getPlayground(), managerUser.getEmail());
 		
@@ -198,7 +198,7 @@ public class UserTest {
 
 		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		managerUser.verifyUser();
-		managerUser = userService.addUser(managerUser);
+		this.userService.addUser(managerUser);
 		
 		UserEntity otherUser = new UserEntity(Constants.DEFAULT_USERNAME, "other"+Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		otherUser.verifyUser();

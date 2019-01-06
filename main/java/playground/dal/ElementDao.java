@@ -17,15 +17,6 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param("creatorEmail") String creatorEmail, 
 			Pageable pageable);
 	
-			//public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
-			//	Pageable pageable) {
-			//ArrayList<ElementEntity> elements = getElements();
-			//		ArrayList<ElementEntity> result = new ArrayList<>();
-			//		for (ElementEntity element : elements) {
-			//			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
-			//				result.add(element);
-			//		}
-	
 	
 	
 
@@ -36,74 +27,12 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
     		@Param("y2") double g,
     		Pageable pageable);
 	
-	
-	
-	
-	
-	
-
-			//	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName, String value, Pageable pageable) {
-			//		ArrayList<ElementEntity> elements = getElements();
-			//		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-			//		for (ElementEntity e : elements) {
-			//			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-			//				if(roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))
-			//					tempElementsList.add(e);
-			//		}
-			//		if (tempElementsList.isEmpty()) 
-			//			return new ElementEntity[0];
-			//		 else
-			//			return getElementsBySizeAndPage(tempElementsList, pageable);
-			//
-			//	}
-	
-	
-	
-	
-			//	public ElementEntity getElementNoLogin(String superkey) {
-			//		Optional<ElementEntity> el = elementsDB.findById(superkey);
-			//		if (el.isPresent()) {
-			//				ElementEntity t = el.get();
-			//				return t;
-			//		}
-			//		else
-			//			throw new ElementDataException("Could not find element " + superkey);
-			//		
-			//	}
-
-	
-	
-	
-	
-			//	public ArrayList<ElementEntity> getElements() {
-			//		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
-			//		for (ElementEntity e : elementsDB.findAll())
-			//			lst.add(e);
-			//		return lst;
-			//	}
-	
-	
-	
-	/**public Page<ElementEntity> findAll(Pageable pageable);**/
-			//	public ArrayList<ElementEntity> getElements(Pageable pageable) {
-			//		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
-			//		for (ElementEntity e : elementsDB.findAll(pageable))
-			//			lst.add(e);
-			//		return lst;
-			//	}
-	
-	
-			//	public ElementEntity[] getAllElements() {
-			//		ArrayList<ElementEntity> arr = getElements();
-			//		return arr.toArray(new ElementEntity[arr.size()]);
-			//	}
-	
-				
-			//	@Query(value = "FROM ELEMENT s JOIN s.attributes a WHERE a.name = ?1 AND a.value= ?1")
-			//	public ArrayList<ElementEntity> findAllByAttributNameAndAttributeValue(
-			//			String attributeName,
-			//			Object attributeValue,
-			//			Pageable pageable);
+		
+//	@Query(value = "FROM ELEMENT s JOIN s.attributes a WHERE a.name = ?1 AND a.value= ?1")
+//	public ArrayList<ElementEntity> findAllByAttributNameAndAttributeValue(
+//			String attributeName,
+//			Object attributeValue,
+//			Pageable pageable);
 	
 }
 	
