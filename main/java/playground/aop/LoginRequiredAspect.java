@@ -21,7 +21,7 @@ public LoginRequiredAspect(UserDao userDB) {
 }
 	@MyLog
 	@Around("@annotation(playground.aop.LoginRequired) && args(userPlayground, email,..)")
-	public Object log(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
+	public Object login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
