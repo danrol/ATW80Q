@@ -149,12 +149,7 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
 			Pageable pageable) {
-		//ArrayList<ElementEntity> elements = getElements();
-//		ArrayList<ElementEntity> result = new ArrayList<>();
-//		for (ElementEntity element : elements) {
-//			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
-//				result.add(element);
-//		}
+
 		return lstToArray(elementsDB.findAllByCreatorPlaygroundAndCreatorEmail(creatorPlayground, email, pageable));
 	}
 
@@ -162,7 +157,12 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@LoginRequired
 	public ElementEntity getElement(String userPlayground, String email, String id, String creatorPlayground) {
-		return getElement(userPlayground, email, ElementEntity.createKey(id, creatorPlayground));
+		return getElement(userPlayground, email, createKey(id, creatorPlayground));
+	}
+
+	@Override
+	public String createKey(String id, String creatorPlayground) {
+		return id.concat(" " + creatorPlayground);
 	}
 
 	@Override
@@ -260,7 +260,7 @@ public class jpaElementService implements ElementService {
 		if(!entity.getId().equals(id) || !entity.getCreatorPlayground().equals(creatorplayground))
 			throw new ElementDataException("Cannot change users Id or creatorplayground");
 		else {
-			ElementEntity tempElement = this.getElement(userPlayground, email, ElementEntity.createKey(id, creatorplayground));
+			ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorplayground));
 			System.err.println("tempElement: " + tempElement);
 			if (tempElement != null) {
 				// Deletes old and replaces with new

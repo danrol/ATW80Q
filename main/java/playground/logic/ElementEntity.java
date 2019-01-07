@@ -93,18 +93,13 @@ public class ElementEntity {
 
 	@Id
 	public String getSuperkey() {
-		return createKey(id, creatorPlayground);
+		return id.concat(" " + creatorPlayground);
 	}
 	
 	public void setSuperkey(String Superkey) {
 		//empty
 	}
 	
-	@Transient
-	public static String createKey(String id, String creatorPlayground) {
-		return id.concat(" " + creatorPlayground);
-	}
-
 	public String getName() {
 		return name;
 	}

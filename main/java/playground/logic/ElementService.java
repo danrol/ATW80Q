@@ -47,5 +47,7 @@ public interface ElementService {
 	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable);
 
 	ElementEntity addElement(String userPlayground, String email, ElementEntity element);
+	
+	String createKey(String id, String creatorPlayground);
 
 }

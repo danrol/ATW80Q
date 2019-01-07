@@ -60,7 +60,7 @@ public class DummyElementService implements ElementService {
 	@Override
 	public ElementEntity getElement(String userPlayground, String email, String id, String CreatorPlayground) {
 
-		return getElement(userPlayground, email, ElementEntity.createKey(id, CreatorPlayground));
+		return getElement(userPlayground, email, createKey(id, CreatorPlayground));
 	}
 
 	@Override
@@ -130,13 +130,18 @@ public class DummyElementService implements ElementService {
 	public void replaceElementWith(String userPlayground,
 			String email, ElementEntity entity, String id, String creatorPlayground) {
 		ElementEntity tempElement = this.getElement(userPlayground,
-				email, ElementEntity.createKey(id, creatorPlayground));
+				email, createKey(id, creatorPlayground));
 		if (tempElement != null) {
 			elements.remove(tempElement);
 			elements.add(entity);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 
+	}
+
+	@Override
+	private String createKey(String id, String creatorPlayground) {
+		return id.concat(" " + creatorPlayground);
 	}
 
 	@Override
