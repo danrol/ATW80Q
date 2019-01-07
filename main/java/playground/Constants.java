@@ -87,6 +87,7 @@ public class Constants {
 	public static final String QUESTION_READ_ACTIVITY = "QUESTION_READ_ACTIVITY";
 	public static final String ADD_QUESTION_ACTIVITY = "QUESTION_WRITE_ACTIVITY";
 	public static final String QUESTION_ANSWER_ACTIVITY = "QUESTION_ANSWER_ACTIVITY";
+	public static final String GAME_RULES_ACTIVITY = "GAME_RULES_ACTIVITY";
 	
 
 	// Activity attribute keys

@@ -137,9 +137,16 @@ public class JpaActivityService implements ActivityService {
 			return null;
 			// userService.getHighScores(pageable);
 		}
+		case Constants.GAME_RULES_ACTIVITY:{
+			return getGameRules(userPlayground, email, activity);
+		}
 
 		}
 		throw new ActivityDataException("No such activity type: " + activityType);
+	}
+
+	private Object getGameRules(String userPlayground, String email, ActivityEntity activity) {
+		return null;
 	}
 
 	@MyLog
