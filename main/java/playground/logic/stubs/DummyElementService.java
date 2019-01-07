@@ -140,7 +140,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	private String createKey(String id, String creatorPlayground) {
+	public String createKey(String id, String creatorPlayground) {
 		return id.concat(" " + creatorPlayground);
 	}
 

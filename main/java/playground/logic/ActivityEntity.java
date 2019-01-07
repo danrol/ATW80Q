@@ -142,7 +142,7 @@ public class ActivityEntity implements Serializable {
 
 	@Id
 	public String getSuperkey() {
-		return createKey(id, playground);
+		return id.concat(" " + playground);
 	}
 
 	public void setSuperkey(String Superkey) {
@@ -153,11 +153,6 @@ public class ActivityEntity implements Serializable {
 	public void setSuperkey() {
 		//empty
 		}
-	
-	@Transient
-	public static String createKey(String id, String playground) {
-		return id.concat(" " + playground);
-	}
 
 	@Override
 	public int hashCode() {
