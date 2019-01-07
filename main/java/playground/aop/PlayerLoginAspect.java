@@ -11,20 +11,22 @@ import playground.dal.UserDao;
 import playground.exceptions.LoginException;
 import playground.exceptions.PermissionUserException;
 import playground.logic.UserEntity;
+import playground.logic.UserService;
 
 @Component
 @Aspect
 public class PlayerLoginAspect {
 	private UserDao userDB;
-
+	private UserService userService;
 	@Autowired
-	public PlayerLoginAspect(UserDao userDB) {
+	public PlayerLoginAspect(UserDao userDB, UserService userService) {
 		this.userDB = userDB;
+		this.userService=userService;
 	}
 	@MyLog
 	@Around("@annotation(playground.aop.PlayerLogin) && args(userPlayground,email,..)")
 	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
-		UserEntity u = userDB.findById(UserEntity.createKey(email, userPlayground)).orElse(null);
+		UserEntity u = userDB.findById(userService.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
 			else if(!u.isVerified()) 

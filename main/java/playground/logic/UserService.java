@@ -32,6 +32,8 @@ public interface UserService {
 	void addPointsToUser(String user_id, long points);
 	
 	UserEntity getUser(String superkey);
+
+	String createKey(String email, String playground);
 	
 
 }

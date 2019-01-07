@@ -103,7 +103,7 @@ public class DummyUserService implements UserService{
 	public void updateUser(String playground,String email,UserEntity user) {
 		
 		login(playground, email);
-		if(user.getSuperkey().equals(UserEntity.createKey(email, playground))) {
+		if(user.getSuperkey().equals(createKey(email, playground))) {
 			updateUser(user);
 		}
 		else {
@@ -172,6 +172,12 @@ public class DummyUserService implements UserService{
 	public UserEntity getUser(String superkey) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public String createKey(String email, String playground) {
+		return email.concat(" " + playground);
 	}
 
 

@@ -246,7 +246,7 @@ public class JpaActivityService implements ActivityService {
 				String answering_user_email = activity.getPlayerEmail();
 				String answering_user_playground = activity.getPlayerPlayground();
 				if (actual_answer.equals(user_answer)) {
-					userService.addPointsToUser(UserEntity.createKey(answering_user_email, answering_user_playground),
+					userService.addPointsToUser(userService.createKey(answering_user_email, answering_user_playground),
 							points);
 					return Constants.CORRECT_ANSWER;
 				} else {

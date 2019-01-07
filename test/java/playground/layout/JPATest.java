@@ -75,7 +75,7 @@ public class JPATest {
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground()))).isEqualToIgnoringGivenFields(element, "creationDate");
+		assertThat(elementService.getElementNoLogin(elementService.createKey(element.getId(), element.getCreatorPlayground()))).isEqualToIgnoringGivenFields(element, "creationDate");
 	}
 	
 	//1.2 Scenario:  Adding an existing element to jpa
@@ -88,7 +88,7 @@ public class JPATest {
 		ElementEntity element2 = new ElementEntity("name2",creatorPlayground,1,2);
 		elementService.addElementNoLogin(element2);
 		assertThat(elementService.isElementInDatabase(element));
-		assertThat(elementService.getElementNoLogin(ElementEntity.createKey(element.getId(), element.getCreatorPlayground())))
+		assertThat(elementService.getElementNoLogin(userService.createKey(element.getId(), element.getCreatorPlayground())))
 		.isEqualToIgnoringGivenFields(element, "creationDate");
 	}
 	

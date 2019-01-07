@@ -13,7 +13,7 @@ import playground.exceptions.RegisterNewUserException;
 @Entity
 @Table(name = "USER")
 public class UserEntity {
-	
+
 	private String email;
 	private String avatar;
 	private String username;
@@ -26,8 +26,7 @@ public class UserEntity {
 
 	public UserEntity() {
 	}
-	
-	
+
 	public UserEntity(String username, String email, String avatar, String role, String playground) {
 		super();
 		setUsername(username);
@@ -39,30 +38,24 @@ public class UserEntity {
 		this.verificationCode = generateCode();
 	}
 
-
 	public UserEntity(NewUserForm user) {
-		this(user.getUsername(),user.getEmail(),user.getAvatar(),user.getRole(),Constants.PLAYGROUND_NAME);
+		this(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(), Constants.PLAYGROUND_NAME);
 	}
 
 	@Transient
-	private static String generateCode()  {
+	private static String generateCode() {
 		Random r = new Random();
 		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
-		//return Constants.DEFAULT_VERIFICATION_CODE;
+		// return Constants.DEFAULT_VERIFICATION_CODE;
 	}
 
 	@Id
 	public String getSuperkey() {
-		return createKey(email, playground);
+		return email.concat(" " + playground);
 	}
 
 	public void setSuperkey(String superkey) {
-		//empty
-	}
-	
-	@Transient
-	public static String createKey(String email, String playground) {
-		return email.concat(" " + playground);
+		// empty
 	}
 
 	public String getVerificationCode() {
@@ -80,18 +73,18 @@ public class UserEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
-		if(emailIsValid(email))
+		if (emailIsValid(email))
 			this.email = email;
-		else 
+		else
 			throw new RegisterNewUserException("Registration data is not correct. Check your input");
 	}
-	
+
 	@Transient
 	public static boolean emailIsValid(String email) {
 		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
@@ -102,7 +95,7 @@ public class UserEntity {
 			return false;
 		return pat.matcher(email).matches();
 	}
-	
+
 	public String getAvatar() {
 		return avatar;
 	}
@@ -111,7 +104,6 @@ public class UserEntity {
 		this.avatar = avatar;
 	}
 
-	
 	public String getUsername() {
 		return username;
 	}
@@ -120,11 +112,10 @@ public class UserEntity {
 		this.username = username;
 	}
 
-	
 	public String getRole() {
 		return role;
 	}
-	
+
 	public void setRole(String role) {
 		role = role.toLowerCase();
 		if (role.equals(Constants.MANAGER_ROLE.toLowerCase())) {
@@ -137,7 +128,6 @@ public class UserEntity {
 		}
 	}
 
-	
 	public String getPlayground() {
 		return playground;
 	}
@@ -146,7 +136,6 @@ public class UserEntity {
 		this.playground = playground;
 	}
 
-	
 	public long getPoints() {
 		return points;
 	}
@@ -159,7 +148,7 @@ public class UserEntity {
 	public void verifyUser() {
 		verificationCode = null;
 	}
-	
+
 	@Transient
 	public boolean isVerified() {
 		if (this.verificationCode == null)
@@ -170,8 +159,9 @@ public class UserEntity {
 
 	@Override
 	public String toString() {
-		return "UserEntity [superkey="+superkey+",id="+id+" email=" + email + ", avatar=" + avatar + ", username=" + username + ", playground="
-				+ playground + ", role=" + role + ", verificationCode=" + verificationCode + ", points=" + points + "]";
+		return "UserEntity [superkey=" + superkey + ",id=" + id + " email=" + email + ", avatar=" + avatar
+				+ ", username=" + username + ", playground=" + playground + ", role=" + role + ", verificationCode="
+				+ verificationCode + ", points=" + points + "]";
 	}
 
 	@Override
@@ -183,8 +173,8 @@ public class UserEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		UserEntity other = (UserEntity) obj;
-		
-		if(this.getSuperkey().equals(other.getSuperkey()))
+
+		if (this.getSuperkey().equals(other.getSuperkey()))
 			return true;
 		else
 			return false;

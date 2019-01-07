@@ -122,7 +122,7 @@ public class jpaUserService implements UserService {
 	@Transactional(readOnly = true)
 	@MyLog
 	public UserEntity getUser(String playground, String email) {
-		return getUser(UserEntity.createKey(email, playground));
+		return getUser(createKey(email, playground));
 	}
 
 	@Override
@@ -179,5 +179,10 @@ public class jpaUserService implements UserService {
 	public UserEntity getUser(String superkey) {
 		return userDB.findById(superkey).orElse(null);
 
+	}
+	
+	@Override
+	public String createKey(String email, String playground) {
+		return email.concat(" " + playground);
 	}
 }
