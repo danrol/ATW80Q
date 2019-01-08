@@ -100,7 +100,6 @@ public class JpaActivityService implements ActivityService {
 	@PlayerLogin
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 		String activityType = activity.getType();
-
 		switch (activityType) {
 		case Constants.DEFAULT_ACTIVITY_TYPE: {
 			/*

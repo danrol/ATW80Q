@@ -39,15 +39,14 @@ public class ActivityController {
 		ActivityEntity activityEnt = activity.toEntity();
 		activityEnt.setPlayerEmail(email);
 		activityEnt.setPlayerPlayground(userPlayground);
-		
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
 		switch(t.getClass().getName())
 		{
-		case "ActivityEntity":
+		case "playground.logic.ActivityEntity":
 			return new ActivityTO((ActivityEntity) t);
-		case "ElementEntity":
+		case "playground.logic.ElementEntity":
 			return new ElementTO((ElementEntity) t);
-		case "UserEntity":
+		case "playground.logic.UserEntity":
 			return new UserTO((UserEntity) t);
 		default:
 			return t;

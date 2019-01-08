@@ -29,11 +29,11 @@ public class PlayerLoginAspect {
 		UserEntity u = userDB.findById(userService.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
-			else if(!u.isVerified()) 
+		else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
-			else if(u.getRole() != Constants.PLAYER_ROLE)
+		else if(u.getRole() != Constants.PLAYER_ROLE)
 				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
-				
+		System.err.println("Player Login Required: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}
