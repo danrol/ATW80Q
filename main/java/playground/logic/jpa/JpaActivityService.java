@@ -100,14 +100,17 @@ public class JpaActivityService implements ActivityService {
 	@PlayerLogin
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 		String activityType = activity.getType();
+		System.err.println("activityType: " + activityType);
 		switch (activityType) {
 		case Constants.DEFAULT_ACTIVITY_TYPE: {
+			System.err.println("1");
 			/*
 			 * Default activity is ECHO
 			 */
 			return activity;
 		}
 		case Constants.GET_MESSAGES_ACTIVITY: {
+			System.err.println("2");
 			/*
 			 * return getAllMessagesActivitiesInMessageBoard( (String)
 			 * activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY),
@@ -116,27 +119,34 @@ public class JpaActivityService implements ActivityService {
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Constants.MESSAGE_ACTIVITY: {
+			System.err.println("3");
 			return addMessage(userPlayground, email, activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
+			System.err.println("4");
 			return getQuestion(activity);
 		}
 		case Constants.ADD_QUESTION_ACTIVITY: {
+			System.err.println("5");
 			return addQuestion(userPlayground, email, activity);
 		}
 		case Constants.QUESTION_ANSWER_ACTIVITY: {
+			System.err.println("6");
 			return answerQuestion(activity);
 		}
 		case Constants.ADD_MESSAGE_BOARD_ACTIVITY: {
+			System.err.println("7");
 			System.err.println("Adding messageboard....\n\n\n");
 
 			return this.addMessageBoard(userPlayground, email, activity);
 		}
 		case Constants.GET_SCORES_ACTIVITY: {
+			System.err.println("8");
 			return null;
 			// userService.getHighScores(pageable);
 		}
 		case Constants.GAME_RULES_ACTIVITY:{
+			System.err.println("9");
 			return getGameRules(userPlayground, email, activity);
 		}
 

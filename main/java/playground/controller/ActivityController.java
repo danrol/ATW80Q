@@ -36,10 +36,17 @@ public class ActivityController {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
+		System.err.println(email);
+		System.err.println(activity);
+		System.err.println(pageable);
+		System.err.println(userPlayground);
 		ActivityEntity activityEnt = activity.toEntity();
 		activityEnt.setPlayerEmail(email);
 		activityEnt.setPlayerPlayground(userPlayground);
+		System.err.println(activityEnt);
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
+		System.err.println(t);
+		System.err.println(t.getClass().getName());
 		switch(t.getClass().getName())
 		{
 		case "playground.logic.ActivityEntity":

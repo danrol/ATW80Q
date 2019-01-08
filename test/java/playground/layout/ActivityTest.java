@@ -210,22 +210,21 @@ private RestTemplate restTemplate;
 	}
 	
 	@Test
-	public void  GettingScoreFromDatabase() {
+	public void  GettingScoreFromDatabase() {//TODO: Eden Sharoni: Why Constants.CREATOR_PLAYGROUND_FOR_TESTS and not Constants.EMAIL_FOR_TESTS?
 		
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.PLAYER_ROLE,Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.MESSAGE_ACTIVITY);
-		System.err.print("1");
 		ent.setElementId(Constants.CREATOR_PLAYGROUND_FOR_TESTS);
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO rules = this.restTemplate.postForObject
-				(this.url + Constants.Function_11, act, ActivityTO.class,
-						Constants.PLAYGROUND_NAME,Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		System.err.println(ent);
+		System.err.println(act);
+		ActivityTO rules = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,Constants.PLAYGROUND_NAME,Constants.CREATOR_PLAYGROUND_FOR_TESTS);
 		System.err.print("1");
-		System.err.print(act.getType());
-		System.err.print(rules.getType());
+		System.err.print("act.getType(): " + act.getType());
+		System.err.print("rules.getType(): " + rules.getType());
 		assertThat(act.getType().equals(rules.getType()));
 	}
 	
