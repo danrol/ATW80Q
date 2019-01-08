@@ -164,6 +164,68 @@ private RestTemplate restTemplate;
 		
 		
 	}
+	@Test
+	public void AddingQuestionToPlaygroundAsManager() {	
+		
+		
+	}
+	
+	@Test(expected=RuntimeException.class)
+	public void AddingQuestionToMessageBoardAsPlayer() {	
+		
+		
+	}
+	
+	
+	@Test
+	public void  AddingToPlaygroundAQuestionWithAMissingAttribute() {	
+		
+		
+	}
+	
+	@Test
+	public void   ReadExistingQuestionActivity() {	
+		
+		
+	}
+	
+	@Test
+	public void   ReadingAQuestionThatNotExistInDatabase() {	
+		
+		
+	}
+	
+	@Test
+	public void   AnsweringAQuestionWithCorrectAnswer() {	
+		
+		
+	}
+	
+	@Test
+	public void  AnsweringAQuestionWithIncorrectAnswer() {	
+		
+		
+	}
+	
+	@Test
+	public void  GettingScoreFromDatabase() {
+		
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME,Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS,Constants.PLAYER_ROLE,Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Constants.MESSAGE_ACTIVITY);
+		System.err.print("1");
+		ent.setElementId(Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		ActivityTO act = new ActivityTO(ent);
+		ActivityTO rules = this.restTemplate.postForObject
+				(this.url + Constants.Function_11, act, ActivityTO.class,
+						Constants.PLAYGROUND_NAME,Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		System.err.print("1");
+		System.err.print(act.getType());
+		System.err.print(rules.getType());
+		assertThat(act.getType().equals(rules.getType()));
+	}
 	
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	//******************************************************************************************//
