@@ -128,9 +128,9 @@ public class jpaUserService implements UserService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
+	@LoginRequired
 	public UserEntity login(String playground, String email) {
-		// TODO stub
-		return null;
+		return this.getUser(playground, email);
 	}
 
 	@Override

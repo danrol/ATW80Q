@@ -56,7 +56,7 @@ public class UserController {
 		 * function 3
 		 * INPUT: NONE OUTPUT: UserTO
 		 */
-		return new UserTO(this.userService.getUser(userPlayground, email));
+		return new UserTO(this.userService.login(userPlayground, email));
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, path = "/playground/users/{playground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE)

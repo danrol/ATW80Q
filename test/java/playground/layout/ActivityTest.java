@@ -135,7 +135,7 @@ public class ActivityTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void AddingQuestionToMessageBoardAsPlayer() {
+	public void AddingQuestionToPlaygroundAsPlayer() {
 
 	}
 
@@ -165,8 +165,7 @@ public class ActivityTest {
 	}
 
 	@Test
-	public void GettingScoreFromDatabase() {// TODO: Eden Sharoni: Why Constants.CREATOR_PLAYGROUND_FOR_TESTS and not
-											// Constants.EMAIL_FOR_TESTS?
+	public void GettingScoreFromDatabase() {
 
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
@@ -174,17 +173,13 @@ public class ActivityTest {
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.setElementId(Constants.CREATOR_PLAYGROUND_FOR_TESTS);
+		ent.setType(Constants.GET_GAME_RULES_ACTIVITY);
 		ActivityTO act = new ActivityTO(ent);
-		System.err.println(ent);
-		System.err.println(act);
-		ActivityTO rules = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
-				Constants.PLAYGROUND_NAME, Constants.CREATOR_PLAYGROUND_FOR_TESTS);
-		System.err.print("1");
-		System.err.print("act.getType(): " + act.getType());
-		System.err.print("rules.getType(): " + rules.getType());
-		assertThat(act.getType().equals(rules.getType()));
+
+		String rules = this.restTemplate.postForObject(this.url + Constants.Function_11, act, String.class,
+				user.getPlayground(), user.getEmail());
+
+		assertThat(rules).isEqualTo(Constants.GAME_RULES);
 	}
 
 	// url #11 /playground/activities/{userPlayground}/{email} finished

@@ -121,7 +121,6 @@ public class JpaActivityService implements ActivityService {
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Constants.MESSAGE_ACTIVITY: {
-			System.err.println("2");
 			return addMessage(activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
@@ -138,16 +137,16 @@ public class JpaActivityService implements ActivityService {
 			// userService.getHighScores(pageable);
 		}
 		case Constants.GET_GAME_RULES_ACTIVITY:{
-			System.err.println("6");
-			return getGameRules(userPlayground, email, activity);
+			return getGameRules(activity);
 		}
 
 		}
 		throw new ActivityDataException("No such activity type: " + activityType);
 	}
 
-	private Object getGameRules(String userPlayground, String email, ActivityEntity activity) {
-		return null;
+	@Override
+	public String getGameRules(ActivityEntity activity) {
+		return Constants.GAME_RULES;
 	}
 
 
