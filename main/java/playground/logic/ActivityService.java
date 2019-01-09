@@ -21,10 +21,8 @@ public interface ActivityService {
 
 	void cleanActivityService();
 
-	Object addQuestion(String userPlayground, String email, ActivityEntity activity);
 
 	Object addMessage(String userPlayground, String email, ActivityEntity activity);
 
-	Object addMessageBoard(String userPlayground, String email, ActivityEntity activity);
 
 }

@@ -117,26 +117,6 @@ public class DummyActivityService implements ActivityService {
 	}
 
 	@Override
-	public Object addMessageBoard(String userPlayground, String email, ActivityEntity activity) {
-		ElementEntity e = new ElementEntity(activity.getElementId(), activity.getPlayerEmail(),
-				(double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
-				(double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
-		e.setPlayground(activity.getPlayground());
-		questionDB.add(e);
-		return e;
-	}
-
-	@Override
-	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
-		ElementEntity e = new ElementEntity(activity.getElementId(), activity.getPlayerEmail(),
-				(double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY),
-				(double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY));
-		e.setPlayground(activity.getPlayground());
-		messageBoardDB.add(e);
-		return e;
-	}
-
-	@Override
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;

@@ -15,6 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.Constants;
+import playground.dal.ElementDao;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
@@ -28,10 +29,11 @@ public class ElementTest {
 	private RestTemplate restTemplate;
 
 	private ElementService elementService;
-
+	private ElementDao elementsDB;
 	@Autowired
-	public void setElementService(ElementService elementService) {
-		this.elementService = elementService;
+	public void setElementService(ElementService elementService, ElementDao elementsDB) {
+	this.elementsDB = elementsDB;
+	this.elementService = elementService;
 	}
 
 	private UserService userService;
@@ -82,6 +84,46 @@ public class ElementTest {
 		ElementEntity element2 = elemTO.toEntity();
 		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.ELEMENT_FIELD_id,
 				Constants.ELEMENT_FIELD_superkey);
+	}
+	
+	// 5.2 Scenario: Add message board activity as Manager
+	@Test
+	public void AddMessageBoardAsManager() {
+		String msgBoard_name = "messageBoardName";
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ElementEntity board_entity = new ElementEntity(msgBoard_name, Constants.EMAIL_FOR_TESTS, 5, 8);
+		board_entity.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+
+		ElementTO ele = new ElementTO(board_entity);
+		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_5, ele,
+				ElementTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		ElementEntity rv_messageboard = messageBoardTO.toEntity();
+		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
+		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+
+	}
+
+	// 5.3 Scenario: Add message board activity as Player
+	@Test(expected = RuntimeException.class)
+	public void AddMessageBoardAsPlayer() {
+		String msgBoard_name = "messageBoardName";
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+		ElementEntity board_entity = new ElementEntity(msgBoard_name, Constants.EMAIL_FOR_TESTS, 5, 8);
+		board_entity.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+
+		ElementTO ele = new ElementTO(board_entity);
+		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_5, ele,
+				ElementTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		ElementEntity rv_messageboard = messageBoardTO.toEntity();
+		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
+		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+
 	}
 
 	/*******************************************************************************************************************************/

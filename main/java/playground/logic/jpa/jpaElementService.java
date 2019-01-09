@@ -1,6 +1,5 @@
 package playground.logic.jpa;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -21,6 +20,23 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
+
+/**
+ * 
+ * 
+ * 
+ * Element types and their attributes:
+ * 
+ * ELEMENT_DEFAULT_TYPE - NONE
+
+ * ELEMENT_QUESTION_TYPE - 
+ * 		ELEMENT_QUESTION_KEY 
+ * 		ELEMENT_ANSWER_KEY
+ * 		ELEMENT_POINT_KEY
+ * 
+ * ELEMENT_MESSAGEBOARD_TYPE -
+ * 		NONE
+ */
 
 @Service
 public class jpaElementService implements ElementService {
@@ -54,28 +70,26 @@ public class jpaElementService implements ElementService {
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	@PlayerLogin
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable) {
-		if (distance < 0) 
+	@LoginRequired
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
+			double distance, Pageable pageable) {
+		if (distance < 0)
 			throw new RuntimeException("Negative distance (" + distance + ")");
-		
-		return  lstToArray(elementsDB.findAllByXBetweenAndYBetween(x-distance, x+distance, y-distance, y+distance, pageable));
-		
+
+		return lstToArray(elementsDB.findAllByXBetweenAndYBetween(x - distance, x + distance, y - distance,
+				y + distance, pageable));
+
 	}
 
-	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {  
-		return lst
-				.stream()
-				.skip(pageable.getPageSize() * pageable.getPageNumber()) 
-				.limit(pageable.getPageSize()) 
-				.collect(Collectors.toList()) 
-				.toArray(new ElementEntity[pageable.getPageSize()]);
+	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {
+		return lst.stream().skip(pageable.getPageSize() * pageable.getPageNumber()).limit(pageable.getPageSize())
+				.collect(Collectors.toList()).toArray(new ElementEntity[pageable.getPageSize()]);
 	}
-	
+
 	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
-		//TODO check how to improve
+		// TODO check how to improve
 		Date now = new Date();
-		if(user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
+		if (user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
 			return true;
 		else if (user.getRole().equals(Constants.MANAGER_ROLE))
 			return true;
@@ -102,7 +116,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@ManagerLogin
 	public void addElements(String userPlayground, String email, ElementEntity[] elements) {
-		for (int i = 0; i < elements.length; i++) 
+		for (int i = 0; i < elements.length; i++)
 			addElement(userPlayground, email, elements[i]);
 	}
 
@@ -110,25 +124,26 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@MyLog
 	public void addElementsNoLogin(ElementEntity[] elements) {
-		for (int i = 0; i < elements.length; i++) 
+		for (int i = 0; i < elements.length; i++)
 			addElementNoLogin(elements[i]);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
-	@PlayerLogin
-	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName, String value, Pageable pageable) {
+	@LoginRequired
+	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName,
+			String value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-				if(roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))
+				if (roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))
 					tempElementsList.add(e);
 		}
-		if (tempElementsList.isEmpty()) 
+		if (tempElementsList.isEmpty())
 			return new ElementEntity[0];
-		 else
+		else
 			return getElementsBySizeAndPage(tempElementsList, pageable);
 
 	}
@@ -178,17 +193,21 @@ public class jpaElementService implements ElementService {
 	public ElementEntity getElementNoLogin(String superkey) {
 		ElementEntity el = elementsDB.findById(superkey).orElse(null);
 		if (el != null) {
-				return el;
-		}
-		else
+			return el;
+		} else
 			throw new ElementDataException("Could not find element " + superkey);
-		
+
 	}
 
 	@Override
 	@Transactional(readOnly = false)
-	@LoginRequired
+	@ManagerLogin
 	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
+		if(element.getCreatorEmail() != null)
+			element.setCreatorEmail(email);
+
+		element.setPlayground(Constants.PLAYGROUND_NAME);
+
 		return addElementNoLogin(element);
 	}
 
@@ -224,7 +243,7 @@ public class jpaElementService implements ElementService {
 	@ManagerLogin
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
-			for (ElementEntity el : elements) 
+			for (ElementEntity el : elements)
 				updateElementInDatabaseFromExternalElement(userPlayground, email, el);
 		} catch (ElementDataException e) {
 			throw new ElementDataException("Elements in collection have incorrect fields.");
@@ -244,20 +263,43 @@ public class jpaElementService implements ElementService {
 	public ElementEntity addElementNoLogin(ElementEntity element) {
 		if (elementsDB.existsById(element.getSuperkey()))
 			throw new ElementDataException("element data already exist in database");
-		 else {
+		else {
 			IdGeneratorElement tmp = IdGeneratorElement.save(new IdGeneratorElement());
 			Long id = tmp.getId();
 			IdGeneratorElement.delete(tmp);
-			element.setId(id +"");
-			return elementsDB.save(element);
+			element.setId(id + "");
+			boolean valid = validateElement(element);
+			if (valid)
+				return elementsDB.save(element);
+			else
+				throw new ElementDataException("Element is invalid");
 		}
+	}
+
+	private boolean validateElement(ElementEntity element) {
+		switch (element.getType()) {
+		case Constants.ELEMENT_DEFAULT_TYPE:
+			return true;
+		case Constants.ELEMENT_MESSAGEBOARD_TYPE:
+			return true;
+		case Constants.ELEMENT_QUESTION_TYPE:
+			Object q = element.getAttributes().get(Constants.ELEMENT_QUESTION_KEY);
+			Object a = element.getAttributes().get(Constants.ELEMENT_ANSWER_KEY);
+			Object p = element.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+			if ((q != null && q.getClass().equals(String.class)) && (a != null && a.getClass().equals(String.class))
+					&& (p != null && p.getClass().equals(String.class)))
+				return true;
+			break;
+		}
+		return false;
 	}
 
 	@Override
 	@MyLog
 	@ManagerLogin
-	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorplayground) {
-		if(!entity.getId().equals(id) || !entity.getCreatorPlayground().equals(creatorplayground))
+	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
+			String creatorplayground) {
+		if (!entity.getId().equals(id) || !entity.getCreatorPlayground().equals(creatorplayground))
 			throw new ElementDataException("Cannot change users Id or creatorplayground");
 		else {
 			ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorplayground));

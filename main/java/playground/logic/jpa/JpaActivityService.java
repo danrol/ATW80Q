@@ -119,34 +119,24 @@ public class JpaActivityService implements ActivityService {
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Constants.MESSAGE_ACTIVITY: {
-			System.err.println("3");
+			System.err.println("2");
 			return addMessage(userPlayground, email, activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
-			System.err.println("4");
+			System.err.println("3");
 			return getQuestion(activity);
 		}
-		case Constants.ADD_QUESTION_ACTIVITY: {
-			System.err.println("5");
-			return addQuestion(userPlayground, email, activity);
-		}
 		case Constants.QUESTION_ANSWER_ACTIVITY: {
-			System.err.println("6");
+			System.err.println("4");
 			return answerQuestion(activity);
 		}
-		case Constants.ADD_MESSAGE_BOARD_ACTIVITY: {
-			System.err.println("7");
-			System.err.println("Adding messageboard....\n\n\n");
-
-			return this.addMessageBoard(userPlayground, email, activity);
-		}
 		case Constants.GET_SCORES_ACTIVITY: {
-			System.err.println("8");
+			System.err.println("5");
 			return null;
 			// userService.getHighScores(pageable);
 		}
-		case Constants.GAME_RULES_ACTIVITY:{
-			System.err.println("9");
+		case Constants.GET_GAME_RULES_ACTIVITY:{
+			System.err.println("6");
 			return getGameRules(userPlayground, email, activity);
 		}
 
@@ -158,21 +148,7 @@ public class JpaActivityService implements ActivityService {
 		return null;
 	}
 
-	@MyLog
-	@Override
-	public Object addMessageBoard(String userPlayground, String email, ActivityEntity activity) {
-		System.err.println("In messageboard add.....");
-		Object name = activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_BOARD_NAME_KEY);
-		if (!(name.getClass().getName().equals(String.class.getName()))) {
-			throw new ActivityDataException("Invalid types in attributes" + name.getClass());
-		}
-		ElementEntity e = new ElementEntity((String) name, activity.getPlayerEmail(), 0, 0);
-		e.setPlayground(activity.getPlayground());
-		e.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		e.setCreatorEmail(activity.getPlayerEmail());
-		e = elementService.addElementNoLogin(e);
-		return e;
-	}
+
 
 	@MyLog
 	@Override
@@ -269,31 +245,6 @@ public class JpaActivityService implements ActivityService {
 
 	}
 
-	@MyLog
-	@Override
-	public Object addQuestion(String userPlayground, String email, ActivityEntity activity) {
-		String question = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION);
-		String question_title = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_QUESTION_TITLE);
-		String answer = (String) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_ANSWER);
-		long points = (long) activity.getAttribute().get(Constants.ACTIVITY_SET_QUESTION_POINTS);
-		double x = (double) activity.getAttribute().get(Constants.ACTIVITY_X_LOCATION_KEY);
-		double y = (double) activity.getAttribute().get(Constants.ACTIVITY_Y_LOCATION_KEY);
-
-		if (question != null || question_title != null || answer != null)
-			throw new ActivityDataException("Attribute is missing in question");
-
-		ElementEntity question_element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, activity.getPlayerEmail(), x,
-				y);
-		question_element.setPlayground(activity.getElementPlayground());
-		question_element.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_TITLE_KEY, question_title);
-		question_element.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, question);
-		question_element.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
-		question_element.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
-		ElementEntity element = elementService.addElementNoLogin(question_element);
-		this.addActivityNoLogin(activity);
-		return element;
-	}
 
 	@Override
 	@MyLog
