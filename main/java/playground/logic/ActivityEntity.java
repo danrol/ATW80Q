@@ -149,10 +149,6 @@ public class ActivityEntity implements Serializable {
 		//empty
 	}
 	
-	@Transient
-	public void setSuperkey() {
-		//empty
-		}
 
 	@Override
 	public int hashCode() {

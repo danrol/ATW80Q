@@ -11,10 +11,10 @@ import playground.Constants;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.dal.UserDao;
-import playground.exceptions.PermissionUserException;
-import playground.exceptions.ConfirmException;
-import playground.exceptions.RegisterNewUserException;
+import playground.logic.ConfirmException;
 import playground.logic.NewUserForm;
+import playground.logic.PermissionUserException;
+import playground.logic.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

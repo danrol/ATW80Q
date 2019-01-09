@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 import org.springframework.data.domain.Pageable;
 import playground.Constants;
-import playground.exceptions.ConfirmException;
-import playground.exceptions.LoginException;
-import playground.exceptions.RegisterNewUserException;
+import playground.logic.ConfirmException;
+import playground.logic.LoginException;
 import playground.logic.NewUserForm;
+import playground.logic.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

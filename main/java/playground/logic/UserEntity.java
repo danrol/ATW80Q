@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import playground.Constants;
-import playground.exceptions.RegisterNewUserException;
 
 //KEY IS EMAIL+PLAYGROUND
 @Entity

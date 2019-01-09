@@ -92,9 +92,7 @@ public class ActivityTest {
 	// 11.2 Scenario: Sending Message activity as player
 	@Test
 	public void SendMessageActivityToExistingBoardAsPlayer() {
-		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
-		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		ElementEntity messageBoard = createMessageBoard("Messageboard",3,6);
 		messageBoard = elementService.addElementNoLogin(messageBoard);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
@@ -180,4 +178,21 @@ public class ActivityTest {
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	// ******************************************************************************************//
 
+	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
+			double x, double y) {
+		ElementEntity question = new ElementEntity(questionTitle, x, y);
+		question.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		return question;
+	}
+
+
+	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
+		ElementEntity board = new ElementEntity(messageBoardName,x,y);
+		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		return board;
+	}
 }

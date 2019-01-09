@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
-import playground.exceptions.ElementDataException;
+
+import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;

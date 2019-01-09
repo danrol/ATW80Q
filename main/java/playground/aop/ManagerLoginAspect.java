@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 
 import playground.Constants;
 import playground.dal.UserDao;
-import playground.exceptions.LoginException;
-import playground.exceptions.PermissionUserException;
+import playground.logic.LoginException;
+import playground.logic.PermissionUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

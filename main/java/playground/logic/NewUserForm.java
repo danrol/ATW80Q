@@ -1,7 +1,5 @@
 package playground.logic;
 
-import playground.exceptions.RegisterNewUserException;
-
 public class NewUserForm {
 
 	private String email;

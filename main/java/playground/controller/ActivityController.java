@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import playground.aop.MyLog;
-import playground.exceptions.ErrorException;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
+import playground.logic.ErrorException;
 import playground.logic.UserEntity;
 
 @RestController

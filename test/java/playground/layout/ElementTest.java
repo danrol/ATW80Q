@@ -15,6 +15,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import playground.Constants;
+import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -86,7 +87,8 @@ public class ElementTest {
 				ElementTO.class, user.getPlayground(), user.getEmail());
 		ElementEntity element2 = elemTO.toEntity();
 		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.ELEMENT_FIELD_id,
-				Constants.ELEMENT_FIELD_superkey, Constants.ELEMENT_FIELD_creatorPlayground);
+				Constants.ELEMENT_FIELD_superkey, Constants.ELEMENT_FIELD_creatorPlayground,
+				Constants.ELEMENT_FIELD_creatorEmail);
 	}
 
 	// 5.2 Scenario: Add message board activity as Manager
@@ -99,11 +101,12 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity board_entity = elementService.createMessageBoard(messageBoardName, x, y);
+		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
 		ElementTO ele = new ElementTO(board_entity);
-		
+
 		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_5, ele,
 				ElementTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+
 		ElementEntity rv_messageboard = messageBoardTO.toEntity();
 		assertThat(rv_messageboard.getName()).isEqualTo(messageBoardName);
 		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
@@ -122,14 +125,15 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity board_entity = elementService.createMessageBoard(messageBoardName, x, y);
+		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
 		ElementTO ele = new ElementTO(board_entity);
-		
+
 		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
 	}
 
+	//5.4 Scenario: Adding question to Playground as Manager.
 	@Test
 	public void AddingQuestionToPlaygroundAsManager() {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
@@ -137,16 +141,49 @@ public class ElementTest {
 		user.verifyUser();
 		userService.addUser(user);
 
-		ElementEntity q = elementService.createQuestionElement("question title", "the question is here???",
-				"this is the answer", 6, 4, 7);
+		ElementEntity q = createQuestionElement("question title", "the question is here", "this is the answer", 6, 4,
+				7);
+
 		ElementTO ele = new ElementTO(q);
 		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		ElementEntity rv_question = ele.toEntity();
+		assertThat(q).isEqualToIgnoringGivenFields(rv_question, Constants.ELEMENT_FIELD_superkey,
+				Constants.ELEMENT_FIELD_id, Constants.ELEMENT_FIELD_creatorEmail);
 
 	}
 
+	//5.5 Scenario: Adding question to Playground as Player.
 	@Test(expected = RuntimeException.class)
 	public void AddingQuestionToPlaygroundAsPlayer() {
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+
+		ElementEntity q = createQuestionElement("question title", "the question is here???", "this is the answer", 6, 4,
+				7);
+		ElementTO ele = new ElementTO(q);
+		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+	}
+
+	// 5.6 Scenario: Adding to Playground a question with a missing attribute.
+	@Test(expected = RuntimeException.class)
+	public void AddingToPlaygroundAQuestionWithAMissingAttribute() {
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+		user.verifyUser();
+		userService.addUser(user);
+
+		ElementEntity question = new ElementEntity("question title", 2, 3);
+		question.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, "the question is here");
+		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, "this is the answer");
+
+		ElementTO ele = new ElementTO(question);
+		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
 	}
 
@@ -658,4 +695,22 @@ public class ElementTest {
 			result.add(new ElementTO(e));
 		return result.toArray(new ElementTO[lst.length]);
 	}
+
+	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
+			double x, double y) {
+		ElementEntity question = new ElementEntity(questionTitle, x, y);
+		question.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		return question;
+	}
+
+	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
+		ElementEntity board = new ElementEntity(messageBoardName, x, y);
+		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		return board;
+	}
+
 }

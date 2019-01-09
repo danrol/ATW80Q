@@ -15,7 +15,7 @@ import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
-import playground.exceptions.ElementDataException;
+import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
@@ -202,7 +202,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@ManagerLogin
 	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
-		if (element.getCreatorEmail() != null)
+		if (element.getCreatorEmail() == null)
 			element.setCreatorEmail(email);
 
 		element.setPlayground(Constants.PLAYGROUND_NAME);
@@ -271,7 +271,7 @@ public class jpaElementService implements ElementService {
 			if (valid)
 				return elementsDB.save(element);
 			else
-				throw new ElementDataException("Element is invalid");
+				throw new ElementDataException("Element is invalid \n" + element + "\n");
 		}
 	}
 
@@ -280,16 +280,17 @@ public class jpaElementService implements ElementService {
 		case Constants.ELEMENT_DEFAULT_TYPE:
 			return true;
 		case Constants.ELEMENT_MESSAGEBOARD_TYPE:
+			// if messageboard was created outside the playground
 			if (!element.getAttributes().containsKey(Constants.MESSAGEBOARD_MESSAGE_COUNT))
 				element.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
 			return true;
 		case Constants.ELEMENT_QUESTION_TYPE:
-			Object q = element.getAttributes().get(Constants.ELEMENT_QUESTION_KEY);
-			Object a = element.getAttributes().get(Constants.ELEMENT_ANSWER_KEY);
-			Object p = element.getAttributes().get(Constants.ELEMENT_POINT_KEY);
-			if ((q != null && q.getClass().equals(String.class)) && (a != null && a.getClass().equals(String.class))
-					&& (p != null && p.getClass().equals(String.class)))
+			if (element.getAttributes().containsKey(Constants.ELEMENT_QUESTION_KEY)
+					&& element.getAttributes().containsKey(Constants.ELEMENT_ANSWER_KEY)
+					&& element.getAttributes().containsKey(Constants.ELEMENT_POINT_KEY)) {
+
 				return true;
+			}
 			break;
 		}
 		return false;
@@ -327,26 +328,6 @@ public class jpaElementService implements ElementService {
 			elementsDB.save(element);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
-	}
-
-	@Override
-	@MyLog
-	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
-			double x, double y) {
-		ElementEntity question = new ElementEntity(questionTitle, x, y);
-		question.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
-		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
-		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
-		return question;
-	}
-
-	@Override
-	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
-		ElementEntity board = new ElementEntity(messageBoardName,x,y);
-		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
-		return board;
 	}
 
 }

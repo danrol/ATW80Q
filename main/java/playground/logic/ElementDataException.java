@@ -1,4 +1,4 @@
-package playground.exceptions;
+package playground.logic;
 
 public class ElementDataException extends RuntimeException {
 

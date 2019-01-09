@@ -50,9 +50,7 @@ public interface ElementService {
 	
 	String createKey(String id, String creatorPlayground);
 
-	ElementEntity createQuestionElement(String questionTitle, String questionBody,String answer, int points, double x, double y);
 
-	ElementEntity createMessageBoard(String messageBoardName, double x, double y);
 
 	
 }

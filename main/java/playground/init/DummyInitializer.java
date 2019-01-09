@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import playground.Constants;
-import playground.exceptions.RegisterNewUserException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 

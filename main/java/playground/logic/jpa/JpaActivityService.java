@@ -11,13 +11,13 @@ import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
 import playground.dal.ActivityDao;
-import playground.exceptions.ActivityDataException;
-import playground.exceptions.ElementDataException;
-import playground.exceptions.RegisterNewUserException;
+import playground.logic.ActivityDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
+import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
+import playground.logic.RegisterNewUserException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
