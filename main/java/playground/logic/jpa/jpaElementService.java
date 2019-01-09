@@ -321,13 +321,19 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@ManagerLogin
 	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element) {
-		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
+		updateElementInDatabaseFromExternalElementNoLogin(element);
+	}
+
+	@Override
+	public void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity element) {
+		ElementEntity tempElement = this.getElementNoLogin(element.getSuperkey());
 		if (tempElement != null) {
 			// Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
 		} else
 			throw new ElementDataException("element data for update is incorrect");
+		
 	}
 
 }

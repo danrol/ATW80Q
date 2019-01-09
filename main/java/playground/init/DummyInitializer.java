@@ -34,31 +34,61 @@ public class DummyInitializer {
 
 	@PostConstruct
 	public void init() {
-		ElementEntity msgBoard = new ElementEntity("DummyMessageBoard",
-				Constants.PLAYGROUND_MAIL, 0, 0);
+		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
-			msgBoard = elementService.addElementNoLogin(msgBoard);
+		UserEntity mod = new UserEntity("manager", "demoManager@playground.rolnik", "avatar", Constants.MANAGER_ROLE,
+				Constants.PLAYGROUND_NAME);
 
-		UserEntity mod = new UserEntity("manager1", Constants.PLAYGROUND_MAIL + ".jp", "avatar",
-				Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+		UserEntity player = new UserEntity("player", "demoPlayer@playground.rolnik", "avatar", Constants.PLAYER_ROLE,
+				Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
+		player.verifyUser();
 		try {
 			mod = userService.addUser(mod);
+		} catch (RegisterNewUserException e) {
+			mod = userService.getUser(mod.getSuperkey());
 		}
-		catch(RegisterNewUserException e) {
-			mod = userService.getUser(mod.getPlayground(), mod.getEmail());
+		try {
+			player = userService.addUser(player);
+
+		} catch (RegisterNewUserException e) {
+			player = userService.getUser(player.getSuperkey());
 		}
+		msgBoard = elementService.addElement(mod.getPlayground(),mod.getEmail(),msgBoard);
 		String msg = "msg";
 		for (int i = 0; i < 30; i++) {
-			ActivityEntity entity = new ActivityEntity();
-			entity.setType(Constants.MESSAGE_ACTIVITY);
-			entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, msg + i);
-			entity.setElementId(msgBoard.getSuperkey());
-			activityService.executeActivity(mod.getPlayground(),mod.getEmail(),entity,null);
-			// TODO remove the comments from above - this code makes it crush for some
-			// reason
-		}
+			ActivityEntity entity = createMessage(msgBoard.getSuperkey(), msg + i);
+			activityService.executeActivity(player.getPlayground(), player.getEmail(), entity, null);
 
+			ElementEntity q_entity = createQuestionElement("Demo question " + String.valueOf(i),
+					String.valueOf(i) + " + " + String.valueOf(i), String.valueOf(2 * i), i, i, i);
+			elementService.addElement(mod.getPlayground(), mod.getEmail(), q_entity);
+		}
+	}
+
+	public ActivityEntity createMessage(String messageboard_key, String message) {
+		ActivityEntity entity = new ActivityEntity();
+		entity.setType(Constants.MESSAGE_ACTIVITY);
+		entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, message);
+		entity.setElementId(messageboard_key);
+		return entity;
+	}
+
+	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
+			double x, double y) {
+		ElementEntity question = new ElementEntity(questionTitle, x, y);
+		question.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		return question;
+	}
+
+	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
+		ElementEntity board = new ElementEntity(messageBoardName, x, y);
+		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		return board;
 	}
 
 }

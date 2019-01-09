@@ -58,17 +58,6 @@ public class DummyActivityService implements ActivityService {
 		return null;
 	}
 
-	@Override
-	public Object addMessage(String userPlayground, String email, ActivityEntity activity) {
-		for (ElementEntity e : messageBoardDB) {
-			if (e.getSuperkey().equals(activity.getElementId())) {
-				e.getAttributes().put(Constants.ACTIVITY_MESSAGE_KEY,
-						activity.getAttribute().get(Constants.ACTIVITY_MESSAGE_KEY));
-				return e;
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey, Pageable pageable) {
@@ -118,6 +107,18 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object addMessage(ActivityEntity activity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getGameRules(ActivityEntity activity) {
 		// TODO Auto-generated method stub
 		return null;
 	}

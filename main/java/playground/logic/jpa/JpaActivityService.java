@@ -124,7 +124,6 @@ public class JpaActivityService implements ActivityService {
 			return addMessage(activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
-			System.err.println("3");
 			return getQuestion(activity);
 		}
 		case Constants.QUESTION_ANSWER_ACTIVITY: {
@@ -157,12 +156,12 @@ public class JpaActivityService implements ActivityService {
 		
 		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
-		System.err.println("\n\n Message Board with " + msgboard_superkey);
 		if (messageBoard != null) {
 			this.addActivityNoLogin(activity);
 			int num = (int) messageBoard.getAttributes().get(Constants.MESSAGEBOARD_MESSAGE_COUNT);
-			messageBoard.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, ++num);
+			messageBoard.getAttributes().replace(Constants.MESSAGEBOARD_MESSAGE_COUNT, ++num);
 			messageBoard.getAttributes().put(String.valueOf(num),activity.getSuperkey());
+			elementService.updateElementInDatabaseFromExternalElementNoLogin(messageBoard);
 		} else
 			throw new ElementDataException("No such Message Board : " + msgboard_superkey);
 		return activity;
@@ -214,7 +213,9 @@ public class JpaActivityService implements ActivityService {
 		String id = activity.getElementId();
 
 		if (elementService.getElementNoLogin(id) != null) {
-			return elementService.getElementNoLogin(id);
+			ElementEntity question = elementService.getElementNoLogin(id);
+			question.getAttributes().replace(Constants.ELEMENT_ANSWER_KEY, "CENSORED!! You will have to try harder.");
+			return question;
 		}
 		throw new ElementDataException("No question found in database");
 

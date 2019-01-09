@@ -12,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import playground.Constants;
-import playground.dal.ElementDao;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -29,7 +31,6 @@ public class ActivityTest {
 	private ElementService elementService;
 	private UserService userService;
 	private ActivityService activityService;
-
 
 	@Autowired
 	public void setElementService(ElementService elementService) {
@@ -75,11 +76,11 @@ public class ActivityTest {
 
 	// 11.1 Scenario: Sending Echo activity
 	@Test
-	public void SendEchoActivity() { 
+	public void SendEchoActivity() {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		userService.addUser(user);
+		user=userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.DEFAULT_ACTIVITY_TYPE);
 		ActivityTO act = new ActivityTO(ent);
@@ -92,15 +93,14 @@ public class ActivityTest {
 	// 11.2 Scenario: Sending Message activity as player
 	@Test
 	public void SendMessageActivityToExistingBoardAsPlayer() {
-		ElementEntity messageBoard = createMessageBoard("Messageboard",3,6);
+		ElementEntity messageBoard = createMessageBoard("Messageboard", 3, 6);
 		messageBoard = elementService.addElementNoLogin(messageBoard);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		userService.addUser(user);
-		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.setElementId(messageBoard.getSuperkey());
+		user=userService.addUser(user);
+
+		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
@@ -110,30 +110,36 @@ public class ActivityTest {
 	// 11.3 Scenario: Sending Message activity to non existing message board
 	@Test(expected = RuntimeException.class)
 	public void SendMessageActivityToNonExistingBoard() {
-
+		ElementEntity messageBoard = createMessageBoard("Messageboard", 3, 6);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		userService.addUser(user);
-		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.setElementId("random_superkey");
+		user=userService.addUser(user);
+		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
 		act = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
 	}
 
-
-
-
 	@Test
-	public void AddingToPlaygroundAQuestionWithAMissingAttribute() {
-
-	}
-
-	@Test
-	public void ReadExistingQuestionActivity() {
-
+	public void ReadExistingQuestionActivityAsPlayer() {
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		mod.verifyUser();
+		mod=userService.addUser(mod);
+		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
+				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
+				Constants.LOCATION_Y1);
+		question=elementService.addElementNoLogin(question);
+		ActivityEntity activity = new ActivityEntity();
+		activity.setType(Constants.QUESTION_READ_ACTIVITY);
+		activity.setElementId(question.getSuperkey());
+		ActivityTO act = new ActivityTO(activity);
+		System.err.println(act);
+		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ElementTO.class,
+				mod.getPlayground(), mod.getEmail());
+		ElementEntity rv_question = rv_questionTO.toEntity();
+		assertThat(rv_question.getSuperkey()).isEqualTo(question.getSuperkey());
 	}
 
 	@Test
@@ -150,13 +156,12 @@ public class ActivityTest {
 	public void AnsweringAQuestionWithIncorrectAnswer() {
 
 	}
-	
+
 	@Test
 	public void GettingScoreFromDatabase() {
 
 	}
-	
-	
+
 	@Test
 	public void GetGameRulesActivity() {
 
@@ -164,7 +169,7 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 
 		user.verifyUser();
-		userService.addUser(user);
+		user=userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.GET_GAME_RULES_ACTIVITY);
 		ActivityTO act = new ActivityTO(ent);
@@ -188,11 +193,19 @@ public class ActivityTest {
 		return question;
 	}
 
-
 	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
-		ElementEntity board = new ElementEntity(messageBoardName,x,y);
+		ElementEntity board = new ElementEntity(messageBoardName, x, y);
 		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
 		return board;
 	}
+
+	public ActivityEntity createMessage(String messageboard_key, String message) {
+		ActivityEntity entity = new ActivityEntity();
+		entity.setType(Constants.MESSAGE_ACTIVITY);
+		entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, message);
+		entity.setElementId(messageboard_key);
+		return entity;
+	}
+
 }

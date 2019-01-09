@@ -253,6 +253,12 @@ public class DummyElementService implements ElementService {
 				Arrays.asList(paginateList(getElements(), pageable.getPageNumber(), pageable.getPageSize())));
 	}
 
+	@Override
+	public void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 

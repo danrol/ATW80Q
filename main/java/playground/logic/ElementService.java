@@ -50,6 +50,8 @@ public interface ElementService {
 	
 	String createKey(String id, String creatorPlayground);
 
+	void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard);
+
 
 
 	
