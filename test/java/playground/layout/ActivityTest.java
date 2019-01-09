@@ -91,15 +91,15 @@ public class ActivityTest {
 		assertThat(act).isEqualToIgnoringGivenFields(ob, "id", "playerPlayground", "playerEmail");
 	}
 
-	// 11.2 Scenario: Sending Message activity
+	// 11.2 Scenario: Sending Message activity as player
 	@Test
-	public void SendMessageActivityToExistingBoard() {
+	public void SendMessageActivityToExistingBoardAsPlayer() {
 		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X1,
 				Constants.LOCATION_Y1);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 		elementService.addElementNoLogin(messageBoard);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();

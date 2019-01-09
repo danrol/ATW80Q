@@ -35,7 +35,9 @@ import playground.logic.UserService;
  * 		ELEMENT_POINT_KEY
  * 
  * ELEMENT_MESSAGEBOARD_TYPE -
- * 		NONE
+ * 		MESSAGEBOARD_MESSAGE_COUNT
+ *		int values in strings indicated by above constant, "1" for message num 1, "2" for second and etc 		
+ *
  */
 
 @Service
@@ -279,6 +281,8 @@ public class jpaElementService implements ElementService {
 	private boolean validateElement(ElementEntity element) {
 		switch (element.getType()) {
 		case Constants.ELEMENT_DEFAULT_TYPE:
+			if(!element.getAttributes().containsKey(Constants.MESSAGEBOARD_MESSAGE_COUNT))
+				element.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, (long) 0);
 			return true;
 		case Constants.ELEMENT_MESSAGEBOARD_TYPE:
 			return true;
