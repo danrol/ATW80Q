@@ -80,7 +80,7 @@ public class ActivityTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		user=userService.addUser(user);
+		user = userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.DEFAULT_ACTIVITY_TYPE);
 		ActivityTO act = new ActivityTO(ent);
@@ -98,7 +98,7 @@ public class ActivityTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		user=userService.addUser(user);
+		user = userService.addUser(user);
 
 		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
@@ -114,47 +114,107 @@ public class ActivityTest {
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
-		user=userService.addUser(user);
+		user = userService.addUser(user);
 		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
 		act = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
 	}
 
+	// 11.4 Scenario: Read existing question activity
 	@Test
 	public void ReadExistingQuestionActivityAsPlayer() {
 		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
-		mod=userService.addUser(mod);
+		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
 				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
 				Constants.LOCATION_Y1);
-		question=elementService.addElementNoLogin(question);
+		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Constants.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
-		System.err.println(act);
-		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ElementTO.class,
-				mod.getPlayground(), mod.getEmail());
+		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+				ElementTO.class, mod.getPlayground(), mod.getEmail());
 		ElementEntity rv_question = rv_questionTO.toEntity();
 		assertThat(rv_question.getSuperkey()).isEqualTo(question.getSuperkey());
 	}
 
-	@Test
-	public void ReadingAQuestionThatNotExistInDatabase() {
-
+	// 11.5 Scenario: Reading a question that not exist in database.
+	@Test(expected = RuntimeException.class)
+	public void ReadingAQuestionThatDoesNotExistInDatabase() {
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		mod.verifyUser();
+		mod = userService.addUser(mod);
+		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
+				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
+				Constants.LOCATION_Y1);
+		ActivityEntity activity = new ActivityEntity();
+		activity.setType(Constants.QUESTION_READ_ACTIVITY);
+		activity.setElementId(question.getSuperkey());
+		ActivityTO act = new ActivityTO(activity);
+		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+				ElementTO.class, mod.getPlayground(), mod.getEmail());
+		ElementEntity rv_question = rv_questionTO.toEntity();
+		assertThat(rv_question.getSuperkey()).isEqualTo(question.getSuperkey());
 	}
 
+	//11.6 Scenario: Answering a question with correct answer.
 	@Test
-	public void AnsweringAQuestionWithCorrectAnswer() {
+	public void AnsweringQuestionWithCorrectAnswer() {
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		mod.verifyUser();
+		mod = userService.addUser(mod);
+		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
+				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
+				Constants.LOCATION_Y1);
+		question = elementService.addElementNoLogin(question);
+		ActivityEntity activity = new ActivityEntity();
+		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
+		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
+				question.getAttributes().get(Constants.ELEMENT_ANSWER_KEY));
 
+		activity.setElementId(question.getSuperkey());
+		ActivityTO act = new ActivityTO(activity);
+		
+		long points_before = mod.getPoints();
+		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+				boolean.class, mod.getPlayground(), mod.getEmail());
+		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
+		assertThat(SystemResponse).isEqualTo(Constants.CORRECT_ANSWER);
+		int question_val = (int) question.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+		assertThat(points_after).isEqualTo(points_before + new Long(question_val));
 	}
-
+	
+	//11.7 Scenario: Answering a question with incorrect answer.
 	@Test
 	public void AnsweringAQuestionWithIncorrectAnswer() {
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
+		mod.verifyUser();
+		mod = userService.addUser(mod);
+		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
+				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
+				Constants.LOCATION_Y1);
+		question = elementService.addElementNoLogin(question);
+		ActivityEntity activity = new ActivityEntity();
+		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
+		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
+				question.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)+"x");
 
+		activity.setElementId(question.getSuperkey());
+		ActivityTO act = new ActivityTO(activity);
+		
+		long points_before = mod.getPoints();
+		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+				boolean.class, mod.getPlayground(), mod.getEmail());
+		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
+		assertThat(SystemResponse).isEqualTo(Constants.WRONG_ANSWER);
+		assertThat(points_after).isEqualTo(points_before);
 	}
 
 	@Test
@@ -169,7 +229,7 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 
 		user.verifyUser();
-		user=userService.addUser(user);
+		user = userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.GET_GAME_RULES_ACTIVITY);
 		ActivityTO act = new ActivityTO(ent);

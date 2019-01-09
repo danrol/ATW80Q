@@ -225,13 +225,13 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public boolean answerQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
-		if (elementService.getElementNoLogin(id) != null) {
-			ElementEntity a = elementService.getElementNoLogin(id);
-			if (a != null && a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
+		ElementEntity a = elementService.getElementNoLogin(id);
+		if (a != null) {
+			if (a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
 				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY))
 						.toLowerCase();
 				String actual_answer = ((String) a.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)).toLowerCase();
-				long points = (long) a.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+				int points = (int) a.getAttributes().get(Constants.ELEMENT_POINT_KEY);
 				String answering_user_email = activity.getPlayerEmail();
 				String answering_user_playground = activity.getPlayerPlayground();
 				if (actual_answer.equals(user_answer)) {
