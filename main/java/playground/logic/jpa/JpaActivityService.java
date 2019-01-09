@@ -99,6 +99,8 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	@PlayerLogin
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
+		activity.setPlayerEmail(email);
+		activity.setPlayerPlayground(userPlayground);
 		String activityType = activity.getType();
 		System.err.println("activityType: " + activityType);
 		switch (activityType) {
@@ -120,7 +122,7 @@ public class JpaActivityService implements ActivityService {
 		}
 		case Constants.MESSAGE_ACTIVITY: {
 			System.err.println("2");
-			return addMessage(userPlayground, email, activity);
+			return addMessage(activity);
 		}
 		case Constants.QUESTION_READ_ACTIVITY: {
 			System.err.println("3");
@@ -152,12 +154,14 @@ public class JpaActivityService implements ActivityService {
 
 	@MyLog
 	@Override
-	public Object addMessage(String userPlayground, String email, ActivityEntity activity) {
+	public Object addMessage(ActivityEntity activity) {
+		
 		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
+		System.err.println("\n\n Message Board with " + msgboard_superkey);
 		if (messageBoard != null) {
 			this.addActivityNoLogin(activity);
-			long num = (long) messageBoard.getAttributes().get(Constants.MESSAGEBOARD_MESSAGE_COUNT);
+			int num = (int) messageBoard.getAttributes().get(Constants.MESSAGEBOARD_MESSAGE_COUNT);
 			messageBoard.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, ++num);
 			messageBoard.getAttributes().put(String.valueOf(num),activity.getSuperkey());
 		} else

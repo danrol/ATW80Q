@@ -30,10 +30,11 @@ public class ElementTest {
 
 	private ElementService elementService;
 	private ElementDao elementsDB;
+
 	@Autowired
 	public void setElementService(ElementService elementService, ElementDao elementsDB) {
-	this.elementsDB = elementsDB;
-	this.elementService = elementService;
+		this.elementsDB = elementsDB;
+		this.elementService = elementService;
 	}
 
 	private UserService userService;
@@ -77,15 +78,17 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
+		
 		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, user.getEmail(),
 				Constants.LOCATION_X1, Constants.LOCATION_Y1);
+		
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element),
 				ElementTO.class, user.getPlayground(), user.getEmail());
 		ElementEntity element2 = elemTO.toEntity();
 		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.ELEMENT_FIELD_id,
-				Constants.ELEMENT_FIELD_superkey);
+				Constants.ELEMENT_FIELD_superkey, Constants.ELEMENT_FIELD_creatorPlayground);
 	}
-	
+
 	// 5.2 Scenario: Add message board activity as Manager
 	@Test
 	public void AddMessageBoardAsManager() {
@@ -103,6 +106,8 @@ public class ElementTest {
 		ElementEntity rv_messageboard = messageBoardTO.toEntity();
 		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
 		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+		ElementEntity db_msg = elementService.getElementNoLogin(rv_messageboard.getSuperkey());
+		assertThat(db_msg).isEqualTo(rv_messageboard);
 
 	}
 
@@ -118,11 +123,8 @@ public class ElementTest {
 		board_entity.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 
 		ElementTO ele = new ElementTO(board_entity);
-		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_5, ele,
-				ElementTO.class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-		ElementEntity rv_messageboard = messageBoardTO.toEntity();
-		assertThat(rv_messageboard.getName()).isEqualTo(msgBoard_name);
-		assertThat(elementsDB.existsById(rv_messageboard.getSuperkey()));
+		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 
 	}
 
@@ -138,20 +140,20 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		
+
 		ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,
 				userElementCreator.getEmail(), Constants.LOCATION_X1, Constants.LOCATION_Y1);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setName("changedName");
-		
+
 		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO,
 				userElementCreator.getPlayground(), userElementCreator.getEmail(),
 				elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
 		ElementEntity actualEntity = elementService.getElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity.getSuperkey());
-		
+
 		assertThat(actualEntity).isNotNull();
 		assertThat(actualEntity).isEqualToIgnoringGivenFields(updatedElementForTestTO.toEntity(),
 				Constants.ELEMENT_FIELD_creationDate);
@@ -297,31 +299,35 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		
+
 		ElementEntity elem1 = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + Constants.Numbers.ONE.ordinal(),
 				userElementCreator.getEmail(), Constants.LOCATION_X1, Constants.LOCATION_Y1);
 		ElementEntity elem2 = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + Constants.Numbers.TWO.ordinal(),
 				userElementCreator.getEmail(), Constants.LOCATION_Y1, Constants.LOCATION_X1);
-		
+
 		elem1 = elementService.addElementNoLogin(elem1);
 		elem2 = elementService.addElementNoLogin(elem2);
 		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
-		
+
 		ElementTO[] valuesFromController = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class,
 				userElementCreator.getEmail(), Constants.PLAYGROUND_NAME);
-		
+
 		ElementTO[] valuesFromDatabase = getElementTOArray(elementService.getAllElements());
 		assertThat(valuesFromController).isNotNull();
-		
-		//Check values returned from controller
-		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
-		
-		//Check values in database
+
+		// Check values returned from controller
+		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(arrForTest[0],
+				Constants.ELEMENT_FIELD_creationDate);
+		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(arrForTest[1],
+				Constants.ELEMENT_FIELD_creationDate);
+
+		// Check values in database
 		assertThat(valuesFromDatabase).isNotNull();
-		assertThat(valuesFromDatabase[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(valuesFromDatabase[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
-		
+		assertThat(valuesFromDatabase[0]).isEqualToIgnoringGivenFields(arrForTest[0],
+				Constants.ELEMENT_FIELD_creationDate);
+		assertThat(valuesFromDatabase[1]).isEqualToIgnoringGivenFields(arrForTest[1],
+				Constants.ELEMENT_FIELD_creationDate);
+
 	}
 
 	// 8.2 Scenario: Test get all elements from empty database
@@ -334,11 +340,11 @@ public class ElementTest {
 		userService.addUser(userElementCreator);
 		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class,
 				userElementCreator.getEmail(), Constants.PLAYGROUND_NAME);
-		
-		//Check values returned from controller
+
+		// Check values returned from controller
 		assertThat(elemArr).isEqualTo(new ElementTO[0]);
-		
-		//Check values in database
+
+		// Check values in database
 		assertThat(elementService.getAllElements()).isEqualTo(new ElementTO[0]);
 	}
 
@@ -355,20 +361,23 @@ public class ElementTest {
 					new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.EMAIL_FOR_TESTS,
 							Constants.LOCATION_X1, Constants.LOCATION_Y1));
 		}
-		
+
 		ElementTO[] valuesFromController = restTemplate.getForObject(
 				this.url + Constants.Function_8
 						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
 				ElementTO[].class, userElementCreator.getEmail(), Constants.PLAYGROUND_NAME);
 		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
-		ElementTO[] valuesFromDatabase = getElementTOArray(elementService.lstToArray(elementService.getElements(pageable)));
+		ElementTO[] valuesFromDatabase = getElementTOArray(
+				elementService.lstToArray(elementService.getElements(pageable)));
 
 		assertThat(valuesFromController).isNotNull();
-		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(valuesFromDatabase[0], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(valuesFromDatabase[1], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(valuesFromController[2]).isEqualToIgnoringGivenFields(valuesFromDatabase[2], Constants.ELEMENT_FIELD_creationDate);
-		
-		
+		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(valuesFromDatabase[0],
+				Constants.ELEMENT_FIELD_creationDate);
+		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(valuesFromDatabase[1],
+				Constants.ELEMENT_FIELD_creationDate);
+		assertThat(valuesFromController[2]).isEqualToIgnoringGivenFields(valuesFromDatabase[2],
+				Constants.ELEMENT_FIELD_creationDate);
+
 	}
 
 	// url #8 /playground/elements/{userPlayground }/{email}/all test finished

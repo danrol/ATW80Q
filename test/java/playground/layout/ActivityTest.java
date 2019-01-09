@@ -97,7 +97,7 @@ public class ActivityTest {
 		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X1,
 				Constants.LOCATION_Y1);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		elementService.addElementNoLogin(messageBoard);
+		messageBoard = elementService.addElementNoLogin(messageBoard);
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
@@ -107,28 +107,24 @@ public class ActivityTest {
 		ent.setElementId(messageBoard.getSuperkey());
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
-				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-		assertThat(act).isEqualToIgnoringGivenFields(message, "id");
+				user.getPlayground(), user.getEmail());
+		assertThat(act).isEqualToIgnoringGivenFields(message, "id", "playerPlayground", "playerEmail");
 	}
 
 	// 11.3 Scenario: Sending Message activity to non existing message board
 	@Test(expected = RuntimeException.class)
 	public void SendMessageActivityToNonExistingBoard() {
-		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
-		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
+				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Constants.MESSAGE_ACTIVITY);
-		ent.setElementId(messageBoard.getSuperkey());
+		ent.setElementId("random_superkey");
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
-				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-
+				user.getPlayground(), user.getEmail());
 	}
 
 

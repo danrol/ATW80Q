@@ -22,7 +22,7 @@ public interface ActivityService {
 	void cleanActivityService();
 
 
-	Object addMessage(String userPlayground, String email, ActivityEntity activity);
+	Object addMessage(ActivityEntity activity);
 
 
 }

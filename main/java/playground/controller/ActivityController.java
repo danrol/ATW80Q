@@ -36,6 +36,8 @@ public class ActivityController {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
+		
+		
 		System.err.println(email);
 		System.err.println(activity);
 		System.err.println(pageable);
@@ -49,11 +51,11 @@ public class ActivityController {
 		System.err.println(t.getClass().getName());
 		switch(t.getClass().getName())
 		{
-		case "playground.logic.ActivityEntity":
+		case "ActivityEntity":
 			return new ActivityTO((ActivityEntity) t);
-		case "playground.logic.ElementEntity":
+		case "ElementEntity":
 			return new ElementTO((ElementEntity) t);
-		case "playground.logic.UserEntity":
+		case "UserEntity":
 			return new UserTO((UserEntity) t);
 		default:
 			return t;

@@ -28,15 +28,12 @@ import playground.logic.UserService;
  * Element types and their attributes:
  * 
  * ELEMENT_DEFAULT_TYPE - NONE
-
- * ELEMENT_QUESTION_TYPE - 
- * 		ELEMENT_QUESTION_KEY 
- * 		ELEMENT_ANSWER_KEY
- * 		ELEMENT_POINT_KEY
  * 
- * ELEMENT_MESSAGEBOARD_TYPE -
- * 		MESSAGEBOARD_MESSAGE_COUNT
- *		int values in strings indicated by above constant, "1" for message num 1, "2" for second and etc 		
+ * ELEMENT_QUESTION_TYPE - ELEMENT_QUESTION_KEY ELEMENT_ANSWER_KEY
+ * ELEMENT_POINT_KEY
+ * 
+ * ELEMENT_MESSAGEBOARD_TYPE - MESSAGEBOARD_MESSAGE_COUNT int values in strings
+ * indicated by above constant, "1" for message num 1, "2" for second and etc
  *
  */
 
@@ -205,7 +202,7 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = false)
 	@ManagerLogin
 	public ElementEntity addElement(String userPlayground, String email, ElementEntity element) {
-		if(element.getCreatorEmail() != null)
+		if (element.getCreatorEmail() != null)
 			element.setCreatorEmail(email);
 
 		element.setPlayground(Constants.PLAYGROUND_NAME);
@@ -281,10 +278,10 @@ public class jpaElementService implements ElementService {
 	private boolean validateElement(ElementEntity element) {
 		switch (element.getType()) {
 		case Constants.ELEMENT_DEFAULT_TYPE:
-			if(!element.getAttributes().containsKey(Constants.MESSAGEBOARD_MESSAGE_COUNT))
-				element.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, (long) 0);
 			return true;
 		case Constants.ELEMENT_MESSAGEBOARD_TYPE:
+			if (!element.getAttributes().containsKey(Constants.MESSAGEBOARD_MESSAGE_COUNT))
+				element.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
 			return true;
 		case Constants.ELEMENT_QUESTION_TYPE:
 			Object q = element.getAttributes().get(Constants.ELEMENT_QUESTION_KEY);
