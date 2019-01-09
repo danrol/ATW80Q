@@ -328,4 +328,25 @@ public class jpaElementService implements ElementService {
 		} else
 			throw new ElementDataException("element data for update is incorrect");
 	}
+
+	@Override
+	@MyLog
+	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
+			double x, double y) {
+		ElementEntity question = new ElementEntity(questionTitle, x, y);
+		question.setType(Constants.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		return question;
+	}
+
+	@Override
+	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
+		ElementEntity board = new ElementEntity(messageBoardName,x,y);
+		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		return board;
+	}
+
 }

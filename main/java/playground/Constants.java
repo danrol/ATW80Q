@@ -72,7 +72,7 @@ public class Constants {
 
 	public static final String MESSAGEBOARD_MESSAGE_COUNT = "num_of_messages";
 	public static final String ELEMENT_QUESTION_KEY = "QUESTION_KEY"; // Actual question
-	public static final String ELEMENT_QUESTION_TITLE_KEY = "QUESTION_NAME";// Title of question
+	//public static final String ELEMENT_QUESTION_TITLE_KEY = "QUESTION_NAME";// Title of question
 	public static final String ELEMENT_ANSWER_KEY = "Answer"; // Answer to question
 	public static final String ELEMENT_POINT_KEY = "points_value"; // Answer to question
 

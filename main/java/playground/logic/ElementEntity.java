@@ -58,12 +58,11 @@ public class ElementEntity {
 		setY(elEntity.getY());
 	}
 
-	public ElementEntity(String name, String email, double x, double y) {
+	public ElementEntity(String name, double x, double y) {
 		this();
 		this.name = name;
 		this.playground = Constants.PLAYGROUND_NAME;
 		this.creatorPlayground = Constants.PLAYGROUND_NAME;
-		this.creatorEmail = email;
 		setX(x);
 		setY(y);
 	}

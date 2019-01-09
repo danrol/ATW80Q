@@ -75,8 +75,7 @@ public class ActivityTest {
 
 	// 11.1 Scenario: Sending Echo activity
 	@Test
-	public void SendEchoActivity() { // TODO: Eden Sharoni: "isEqualToIgnoringGivenFields" --> is it ok to add
-										// playerPlayground and playerEmail??
+	public void SendEchoActivity() { 
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
@@ -86,15 +85,14 @@ public class ActivityTest {
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-		System.err.println(act.toString());
-		System.err.println(ob.toString());
+
 		assertThat(act).isEqualToIgnoringGivenFields(ob, "id", "playerPlayground", "playerEmail");
 	}
 
 	// 11.2 Scenario: Sending Message activity as player
 	@Test
 	public void SendMessageActivityToExistingBoardAsPlayer() {
-		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X1,
+		ElementEntity messageBoard = new ElementEntity("msgboard", Constants.LOCATION_X1,
 				Constants.LOCATION_Y1);
 		messageBoard.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
 		messageBoard = elementService.addElementNoLogin(messageBoard);
@@ -123,21 +121,12 @@ public class ActivityTest {
 		ent.setType(Constants.MESSAGE_ACTIVITY);
 		ent.setElementId("random_superkey");
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
+		act = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
 	}
 
 
 
-	@Test
-	public void AddingQuestionToPlaygroundAsManager() {
-
-	}
-
-	@Test(expected = RuntimeException.class)
-	public void AddingQuestionToPlaygroundAsPlayer() {
-
-	}
 
 	@Test
 	public void AddingToPlaygroundAQuestionWithAMissingAttribute() {
@@ -163,9 +152,15 @@ public class ActivityTest {
 	public void AnsweringAQuestionWithIncorrectAnswer() {
 
 	}
-
+	
 	@Test
 	public void GettingScoreFromDatabase() {
+
+	}
+	
+	
+	@Test
+	public void GetGameRulesActivity() {
 
 		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);

@@ -71,7 +71,7 @@ public class JPATest {
 		
 		
 		String creatorPlayground="creator";
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,creatorPlayground,1,2);
+		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,1,2);
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
@@ -83,10 +83,10 @@ public class JPATest {
 	public void addExistingElementToJPA() {
 		
 		String creatorPlayground="creator";
-		ElementEntity element = new ElementEntity("name1",creatorPlayground,1,2);
-		elementService.addElementNoLogin(element);
-		ElementEntity element2 = new ElementEntity("name2",creatorPlayground,1,2);
-		elementService.addElementNoLogin(element2);
+		ElementEntity element = new ElementEntity("name1",1,2);
+		element = elementService.addElementNoLogin(element);
+		ElementEntity element2 = new ElementEntity("name2",1,2);
+		element2 = elementService.addElementNoLogin(element2);
 		assertThat(elementService.isElementInDatabase(element));
 		assertThat(elementService.getElementNoLogin(userService.createKey(element.getId(), element.getCreatorPlayground())))
 		.isEqualToIgnoringGivenFields(element, "creationDate");
@@ -97,7 +97,7 @@ public class JPATest {
 	public void addNonExistingUserToJPA() {
 		
 		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
-		userService.addUser(user);
+		user = userService.addUser(user);
 		assertThat(userService.isUserInDatabase(user));
 		assertThat(userService.getUser(user.getPlayground(), user.getEmail())).isEqualTo(user);
 	}
