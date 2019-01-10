@@ -87,7 +87,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 
-		ElementTO elemTO = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element),
+		ElementTO elemTO = this.restTemplate.postForObject(this.url + Playground.Function_5, new ElementTO(element),
 				ElementTO.class, user.getPlayground(), user.getEmail());
 		ElementEntity element2 = elemTO.toEntity();
 		assertThat(element2).isEqualToIgnoringGivenFields(element, Element.ELEMENT_FIELD_id,
@@ -108,7 +108,7 @@ public class ElementTest {
 		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
 		ElementTO ele = new ElementTO(board_entity);
 
-		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Constants.Function_5, ele,
+		ElementTO messageBoardTO = this.restTemplate.postForObject(this.url + Playground.Function_5, ele,
 				ElementTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 
 		ElementEntity rv_messageboard = messageBoardTO.toEntity();
@@ -132,7 +132,7 @@ public class ElementTest {
 		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
 		ElementTO ele = new ElementTO(board_entity);
 
-		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+		ele = this.restTemplate.postForObject(this.url + Playground.Function_5, ele, ElementTO.class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 
 	}
@@ -149,7 +149,7 @@ public class ElementTest {
 				7);
 
 		ElementTO ele = new ElementTO(q);
-		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+		ele = this.restTemplate.postForObject(this.url + Playground.Function_5, ele, ElementTO.class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 		ElementEntity rv_question = ele.toEntity();
 		assertThat(q).isEqualToIgnoringGivenFields(rv_question, Element.ELEMENT_FIELD_superkey,
@@ -168,7 +168,7 @@ public class ElementTest {
 		ElementEntity q = createQuestionElement("question title", "the question is here???", "this is the answer", 6, 4,
 				7);
 		ElementTO ele = new ElementTO(q);
-		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+		ele = this.restTemplate.postForObject(this.url + Playground.Function_5, ele, ElementTO.class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 	}
 
@@ -186,7 +186,7 @@ public class ElementTest {
 		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, "this is the answer");
 
 		ElementTO ele = new ElementTO(question);
-		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
+		ele = this.restTemplate.postForObject(this.url + Playground.Function_5, ele, ElementTO.class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 
 	}
@@ -211,7 +211,7 @@ public class ElementTest {
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setName("changedName");
 
-		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO,
+		this.restTemplate.put(this.url + Playground.Function_6, updatedElementForTestTO,
 				userElementCreator.getPlayground(), userElementCreator.getEmail(),
 				elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
 		ElementEntity actualEntity = elementService.getElement(userElementCreator.getPlayground(),
@@ -233,7 +233,7 @@ public class ElementTest {
 		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 		ElementTO elementForTest = new ElementTO(elementForTestEntity);
-		this.restTemplate.put(this.url + Constants.Function_6, elementForTest, userElementCreator.getPlayground(),
+		this.restTemplate.put(this.url + Playground.Function_6, elementForTest, userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(),
 				elementForTestEntity.getId());
 	}
@@ -251,7 +251,7 @@ public class ElementTest {
 		updatedElementForTestEntity = elementService.addElementNoLogin(updatedElementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
 		updatedElementForTestTO.setPlayground("forTest");
-		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO, Playground.PLAYGROUND_NAME,
+		this.restTemplate.put(this.url + Playground.Function_6, updatedElementForTestTO, Playground.PLAYGROUND_NAME,
 				userElementCreator.getEmail(), updatedElementForTestEntity.getCreatorPlayground(),
 				updatedElementForTestEntity.getId());
 	}
@@ -270,7 +270,7 @@ public class ElementTest {
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setId(User.ID_FOR_TESTS + "0");
-		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO,
+		this.restTemplate.put(this.url + Playground.Function_6, updatedElementForTestTO,
 				userElementCreator.getPlayground(), userElementCreator.getEmail(),
 				elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
 	}
@@ -289,7 +289,7 @@ public class ElementTest {
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
 		updatedElementForTestTO.setId(Playground.CREATOR_PLAYGROUND_FOR_TESTS + "1");
-		this.restTemplate.put(this.url + Constants.Function_6, updatedElementForTestTO,
+		this.restTemplate.put(this.url + Playground.Function_6, updatedElementForTestTO,
 				userElementCreator.getPlayground(), userElementCreator.getEmail(),
 				elementForTestEntity.getCreatorPlayground(), elementForTestEntity.getId());
 	}
@@ -310,7 +310,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 		this.elementService.addElementNoLogin(element);
-		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Playground.Other_Playground,
+		this.restTemplate.getForObject(this.url + Playground.Function_7, ElementTO.class, Playground.Other_Playground,
 				u.getEmail(), element.getCreatorPlayground(), element.getId());
 	}
 
@@ -323,7 +323,7 @@ public class ElementTest {
 				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, u.getEmail(),
+		this.restTemplate.getForObject(this.url + Playground.Function_7, ElementTO.class, u.getEmail(),
 				Playground.CREATOR_PLAYGROUND_FOR_TESTS, User.ID_FOR_TESTS);
 	}
 
@@ -338,7 +338,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 		this.elementService.addElementNoLogin(element);
-		ElementTO el = this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class,
+		ElementTO el = this.restTemplate.getForObject(this.url + Playground.Function_7, ElementTO.class,
 				Playground.PLAYGROUND_NAME, u.getEmail(), element.getCreatorPlayground(), element.getId());
 		assertThat(el).isNotNull();
 		assertThat(el.getId()).isEqualTo(element.getId());
@@ -372,7 +372,7 @@ public class ElementTest {
 		elem2 = elementService.addElementNoLogin(elem2);
 		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
 
-		ElementTO[] valuesFromController = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class,
+		ElementTO[] valuesFromController = restTemplate.getForObject(this.url + Playground.Function_8, ElementTO[].class,
 				userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
 
 		ElementTO[] valuesFromDatabase = getElementTOArray(elementService.getAllElements());
@@ -401,7 +401,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elemArr = restTemplate.getForObject(this.url + Constants.Function_8, ElementTO[].class,
+		ElementTO[] elemArr = restTemplate.getForObject(this.url + Playground.Function_8, ElementTO[].class,
 				userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
 
 		// Check values returned from controller
@@ -426,7 +426,7 @@ public class ElementTest {
 		}
 
 		ElementTO[] valuesFromController = restTemplate.getForObject(
-				this.url + Constants.Function_8
+				this.url + Playground.Function_8
 						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
 				ElementTO[].class, userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
 		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
@@ -459,7 +459,7 @@ public class ElementTest {
 		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 		elementService.addElementNoLogin(element);
-		this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class, Playground.PLAYGROUND_NAME,
+		this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class, Playground.PLAYGROUND_NAME,
 				user.getEmail(), Element.LOCATION_X1, Element.LOCATION_Y1, Element.Negative_Distance);
 	}
 
@@ -477,7 +477,7 @@ public class ElementTest {
 			element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + i + i, 0, i);
 			elementService.addElementNoLogin(element);
 		}
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, user.getEmail(), Element.LOCATION_X1, Element.LOCATION_Y1,
 				Element.Distance);
 		for (ElementTO element : elements) {
@@ -501,7 +501,7 @@ public class ElementTest {
 		elementService.addElementNoLogin(element);
 		element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1 + 2);
 		elementService.addElementNoLogin(element);
-		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
+		ElementTO[] elements = this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, Element.LOCATION_X1, Element.LOCATION_Y1, 0);
 		assertThat(elements.length).isEqualTo("1");
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(),
@@ -524,7 +524,7 @@ public class ElementTest {
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
 		}
 		ElementTO[] result = restTemplate.getForObject(
-				this.url + Constants.Function_9
+				this.url + Playground.Function_9
 						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, Element.LOCATION_X2,
 				Element.LOCATION_Y2, Element.ANOTHER_DISTANCE);
@@ -575,7 +575,7 @@ public class ElementTest {
 		elementService.addElement(Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), elementForTest.toEntity());
 //		elementService.addElement(Constants.PLAYGROUND_NAME, userElementCreator.getEmail(),elementForTest2.toEntity());
 
-//		ElementTO[] result = this.restTemplate.getForObject(url + Constants.Function_10, ElementTO[].class,	Constants.PLAYGROUND_NAME, 
+//		ElementTO[] result = this.restTemplate.getForObject(url + Playground.Function_10, ElementTO[].class,	Constants.PLAYGROUND_NAME, 
 //				userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue);
 
 //		assertThat(result).isNotNull();
@@ -601,7 +601,7 @@ public class ElementTest {
 		testMap.put(Activity.attributeName + "3",
 				Activity.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
-		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Constants.Function_10, ElementTO[].class,
+		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.noSuchAttribute,
 				testMap.get(Activity.attributeName + "3"));
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
@@ -626,7 +626,7 @@ public class ElementTest {
 		testMap.put(Activity.attributeName + "3",
 				Activity.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
-		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Constants.Function_10, ElementTO[].class,
+		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(),
 				Activity.attributeName + "3", Activity.wrongAttributeValue);
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
@@ -659,7 +659,7 @@ public class ElementTest {
 		}
 
 		ElementTO[] result = restTemplate.getForObject(
-				this.url + Constants.Function_10
+				this.url + Playground.Function_10
 						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName,
 				Activity.attrValue);

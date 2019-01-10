@@ -80,7 +80,7 @@ public class ActivityTest {
 		ActivityEntity ent = new ActivityEntity();
 		ent.setType(Activity.DEFAULT_ACTIVITY_TYPE);
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
+		ActivityTO ob = this.restTemplate.postForObject(this.url + Playground.Function_11, act, ActivityTO.class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 		
 		assertThat(act).isEqualToIgnoringGivenFields(ob, "id", "playerPlayground", "playerEmail");
@@ -98,7 +98,7 @@ public class ActivityTest {
 
 		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
-		ActivityTO message = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
+		ActivityTO message = this.restTemplate.postForObject(this.url + Playground.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
 		assertThat(act).isEqualToIgnoringGivenFields(message, "id", "playerPlayground", "playerEmail");
 	}
@@ -113,7 +113,7 @@ public class ActivityTest {
 		user = userService.addUser(user);
 		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
 		ActivityTO act = new ActivityTO(ent);
-		act = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
+		act = this.restTemplate.postForObject(this.url + Playground.Function_11, act, ActivityTO.class,
 				user.getPlayground(), user.getEmail());
 	}
 
@@ -132,7 +132,7 @@ public class ActivityTest {
 		activity.setType(Activity.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
-		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Playground.Function_11, act,
 				ElementTO.class, mod.getPlayground(), mod.getEmail());
 		ElementEntity rv_question = rv_questionTO.toEntity();
 		assertThat(rv_question.getSuperkey()).isEqualTo(question.getSuperkey());
@@ -152,7 +152,7 @@ public class ActivityTest {
 		activity.setType(Activity.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
-		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Playground.Function_11, act,
 				ElementTO.class, mod.getPlayground(), mod.getEmail());
 		ElementEntity rv_question = rv_questionTO.toEntity();
 		assertThat(rv_question.getSuperkey()).isEqualTo(question.getSuperkey());
@@ -178,7 +178,7 @@ public class ActivityTest {
 		ActivityTO act = new ActivityTO(activity);
 		
 		long points_before = mod.getPoints();
-		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+		boolean SystemResponse = this.restTemplate.postForObject(this.url + Playground.Function_11, act,
 				boolean.class, mod.getPlayground(), mod.getEmail());
 		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
 		assertThat(SystemResponse).isEqualTo(Activity.CORRECT_ANSWER);
@@ -206,7 +206,7 @@ public class ActivityTest {
 		ActivityTO act = new ActivityTO(activity);
 		
 		long points_before = mod.getPoints();
-		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
+		boolean SystemResponse = this.restTemplate.postForObject(this.url + Playground.Function_11, act,
 				boolean.class, mod.getPlayground(), mod.getEmail());
 		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
 		assertThat(SystemResponse).isEqualTo(Activity.WRONG_ANSWER);
@@ -230,7 +230,7 @@ public class ActivityTest {
 		ent.setType(Activity.GET_GAME_RULES_ACTIVITY);
 		ActivityTO act = new ActivityTO(ent);
 
-		String rules = this.restTemplate.postForObject(this.url + Constants.Function_11, act, String.class,
+		String rules = this.restTemplate.postForObject(this.url + Playground.Function_11, act, String.class,
 				user.getPlayground(), user.getEmail());
 
 		assertThat(rules).isEqualTo(Activity.GAME_RULES);
