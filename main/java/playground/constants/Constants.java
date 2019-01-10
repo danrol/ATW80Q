@@ -19,20 +19,22 @@ public class Constants {
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
-	public static final int USER_VERIFIED = 1;
-	public static final int USER_NOT_VERIFIED = 0;
+	
+	
+	public static final int USER_VERIFIED = 1; //TODO:Eden Sharoni:  not used in code.
+	public static final int USER_NOT_VERIFIED = 0; //TODO:Eden Sharoni:  not used in code.
 
-	public static final double Zero_Distance = 0;
-	public static final int PAGE_NUMBER = 1;
-	public static final int SIZE_NUMBER = 3;
+	
+	
+	public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
+	public static final int SIZE_NUMBER = 3; //TODO: Eden Sharoni: Don't think this is necessary
 
-	public static final boolean CORRECT_ANSWER = true;
-	public static final boolean WRONG_ANSWER = false;
+	
 
 	public static int DEFAULT_EXPIRATION_YEAR;
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;
-
+	
 	@SuppressWarnings("deprecation")
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);

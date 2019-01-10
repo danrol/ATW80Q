@@ -15,9 +15,9 @@ public class Activity {
 		
 		// Activity attribute keys
 		
-		public static final String ACTIVITY_QUESTION_ID_KEY = "USER_CHOICE_OF_QUESTION_ID";
+		public static final String ACTIVITY_QUESTION_ID_KEY = "USER_CHOICE_OF_QUESTION_ID";//TODO:Eden Sharoni:  not used in code.
 		public static final String ACTIVITY_USER_ANSWER_KEY = "User_answer";
-		public static final String USER_ID_OF_ACTIVITY_KEY = "User_id";
+		public static final String USER_ID_OF_ACTIVITY_KEY = "User_id"; //TODO:Eden Sharoni:  not used in code.
 		public static final String ACTIVITY_MESSAGE_KEY = "Message"; // String of the actual message
 		
 		
@@ -28,6 +28,9 @@ public class Activity {
 
 		public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
 		
-		public static final String QUESTION = "QUESTION";
+		public static final String QUESTION = "QUESTION"; //TODO:Eden Sharoni:  not used in code.
+		
+		public static final boolean CORRECT_ANSWER = true;
+		public static final boolean WRONG_ANSWER = false;
 
 }

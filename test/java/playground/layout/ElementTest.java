@@ -502,12 +502,11 @@ public class ElementTest {
 		element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1 + 2);
 		elementService.addElementNoLogin(element);
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
-				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, Element.LOCATION_X1, Element.LOCATION_Y1,
-				Constants.Zero_Distance);
+				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, Element.LOCATION_X1, Element.LOCATION_Y1, 0);
 		assertThat(elements.length).isEqualTo("1");
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(),
 				Element.LOCATION_X1, Element.LOCATION_Y1);
-		assertThat(actualDistance).isEqualTo(Constants.Zero_Distance);
+		assertThat(actualDistance).isEqualTo(0);
 	}
 
 	// 9.4 Scenario: Distance is greater than Zero with pagination

@@ -181,7 +181,7 @@ public class ActivityTest {
 		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
 				boolean.class, mod.getPlayground(), mod.getEmail());
 		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
-		assertThat(SystemResponse).isEqualTo(Constants.CORRECT_ANSWER);
+		assertThat(SystemResponse).isEqualTo(Activity.CORRECT_ANSWER);
 		int question_val = (int) question.getAttributes().get(Element.ELEMENT_POINT_KEY);
 		assertThat(points_after).isEqualTo(points_before + new Long(question_val));
 	}
@@ -209,7 +209,7 @@ public class ActivityTest {
 		boolean SystemResponse = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
 				boolean.class, mod.getPlayground(), mod.getEmail());
 		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
-		assertThat(SystemResponse).isEqualTo(Constants.WRONG_ANSWER);
+		assertThat(SystemResponse).isEqualTo(Activity.WRONG_ANSWER);
 		assertThat(points_after).isEqualTo(points_before);
 	}
 

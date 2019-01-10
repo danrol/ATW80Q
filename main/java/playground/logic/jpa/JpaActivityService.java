@@ -240,9 +240,9 @@ public class JpaActivityService implements ActivityService {
 				if (actual_answer.equals(user_answer)) {
 					userService.addPointsToUser(userService.createKey(answering_user_email, answering_user_playground),
 							points);
-					return Constants.CORRECT_ANSWER;
+					return Activity.CORRECT_ANSWER;
 				} else {
-					return Constants.WRONG_ANSWER;
+					return Activity.WRONG_ANSWER;
 				}
 			}
 			throw new ElementDataException("Invalid element - expected ELEMENT_QUESTION_TYPE");
