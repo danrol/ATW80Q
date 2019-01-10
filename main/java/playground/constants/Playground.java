@@ -1,7 +1,9 @@
 package playground.constants;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Playground {
 	
 	public static final String Function_1 = "/playground/users";
@@ -29,5 +31,9 @@ public class Playground {
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Playground.PLAYGROUND_NAME = defaultPlaygroundName;
+	}
+	
+	public Playground() {
+		
 	}
 }

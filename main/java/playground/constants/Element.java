@@ -1,5 +1,10 @@
 package playground.constants;
 
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+@Component
 public class Element {
 
 	
@@ -47,5 +52,35 @@ public class Element {
 	public static final double Negative_Distance = -1; //TODO: Eden Sharoni: Don't think this is necessary
 	public static final double Distance = 10; //TODO: Eden Sharoni: Don't think this is necessary
 	public static final double ANOTHER_DISTANCE = 6; //TODO: Eden Sharoni: Don't think this is necessary
+	
+	public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
+	public static final int SIZE_NUMBER = 3; //TODO: Eden Sharoni: Don't think this is necessary
+	
+	public static int DEFAULT_EXPIRATION_YEAR;
+	public static int DEFAULT_EXPIRATION_MONTH;
+	public static int DEFAULT_EXPIRATION_DAY;
+	
+	
+	public static final Date EXP_DATE = new Date(Element.DEFAULT_EXPIRATION_YEAR, Element.DEFAULT_EXPIRATION_MONTH,
+			Element.DEFAULT_EXPIRATION_DAY);
+
+	@Value("${playground.default.exp.month:1}")
+	public void setDefaultExpMonth(int DEFAULT_EXPIRATION_MONTH) {
+		Element.DEFAULT_EXPIRATION_MONTH = DEFAULT_EXPIRATION_MONTH;
+	}
+
+	@Value("${playground.default.exp.year:3000}")
+	public void setDefaultExpYear(int DEFAULT_EXPIRATION_YEAR) {
+		Element.DEFAULT_EXPIRATION_YEAR = DEFAULT_EXPIRATION_YEAR;
+	}
+
+	@Value("${playground.default.exp.day:1}")
+	public void setDefaultExpDay(int DEFAULT_EXPIRATION_DAY) {
+		Element.DEFAULT_EXPIRATION_DAY = DEFAULT_EXPIRATION_DAY;
+	}
+	
+	public Element() {
+		
+	}
 	
 }

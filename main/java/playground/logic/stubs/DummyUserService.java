@@ -1,11 +1,8 @@
 package playground.logic.stubs;
+
 import java.util.ArrayList;
-
 import org.springframework.data.domain.Pageable;
-
-import playground.constants.Constants;
 import playground.constants.Playground;
-import playground.constants.User;
 import playground.logic.ConfirmException;
 import playground.logic.LoginException;
 import playground.logic.NewUserForm;

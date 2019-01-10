@@ -4,9 +4,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-
 import playground.constants.Activity;
-import playground.constants.Constants;
 import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;

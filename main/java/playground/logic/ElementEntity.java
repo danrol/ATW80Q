@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import playground.constants.Constants;
 import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;
@@ -44,7 +42,7 @@ public class ElementEntity {
 
 	@Autowired
 	public ElementEntity() {
-		this.expirationDate = Constants.EXP_DATE;
+		this.expirationDate = Element.EXP_DATE;
 		this.creationDate = new Date();
 	}
 

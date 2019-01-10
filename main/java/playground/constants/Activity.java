@@ -1,5 +1,8 @@
 package playground.constants;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Activity {
 	public static final String DEFAULT_ACTIVITY_TYPE = "echo";
 	
@@ -33,4 +36,7 @@ public class Activity {
 		public static final boolean CORRECT_ANSWER = true;
 		public static final boolean WRONG_ANSWER = false;
 
+		public Activity() {
+			
+		}
 }

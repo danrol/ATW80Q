@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import playground.constants.Constants;
 import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;

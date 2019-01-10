@@ -2,16 +2,11 @@ package playground.logic.jpa;
 
 import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import playground.aop.LoginRequired;
-import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
 import playground.constants.Activity;
-import playground.constants.Constants;
 import playground.constants.Element;
 import playground.dal.ActivityDao;
 import playground.logic.ActivityDataException;
@@ -20,8 +15,6 @@ import playground.logic.ActivityService;
 import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
-import playground.logic.RegisterNewUserException;
-import playground.logic.UserEntity;
 import playground.logic.UserService;
 
 /*

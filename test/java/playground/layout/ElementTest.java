@@ -14,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
 import playground.constants.Activity;
-import playground.constants.Constants;
 import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;
@@ -427,9 +425,9 @@ public class ElementTest {
 
 		ElementTO[] valuesFromController = restTemplate.getForObject(
 				this.url + Playground.Function_8
-						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
 				ElementTO[].class, userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
-		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
 		ElementTO[] valuesFromDatabase = getElementTOArray(
 				elementService.lstToArray(elementService.getElements(pageable)));
 
@@ -516,7 +514,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] arrForTest = new ElementTO[Constants.SIZE_NUMBER];
+		ElementTO[] arrForTest = new ElementTO[Element.SIZE_NUMBER];
 		ElementEntity elementToAdd;
 
 		for (int n = 1; n <= 6; n++) {
@@ -525,10 +523,10 @@ public class ElementTest {
 		}
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_9
-						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, Element.LOCATION_X2,
 				Element.LOCATION_Y2, Element.ANOTHER_DISTANCE);
-		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
 		arrForTest = getElementTOArray(
 				elementService.getAllElementsInRadius(userElementCreator.getPlayground(), userElementCreator.getEmail(),
 						Element.LOCATION_X2, Element.LOCATION_Y2, Element.ANOTHER_DISTANCE, pageable));
@@ -660,11 +658,11 @@ public class ElementTest {
 
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_10
-						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName,
 				Activity.attrValue);
 
-		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
 		arrForTest = getElementTOArray(
 				elementService.getElementsWithValueInAttribute(userElementCreator.getPlayground(),
 						userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue, pageable));

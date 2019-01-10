@@ -6,8 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import playground.constants.Constants;
 import playground.constants.Playground;
 import playground.constants.User;
 

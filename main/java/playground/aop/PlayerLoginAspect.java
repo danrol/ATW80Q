@@ -5,8 +5,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import playground.constants.Constants;
 import playground.constants.User;
 import playground.dal.UserDao;
 import playground.logic.LoginException;

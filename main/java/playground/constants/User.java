@@ -1,7 +1,9 @@
 package playground.constants;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class User {
 	
 	public static String DEFAULT_USERNAME = "DEFAULT_USERNAME";
@@ -18,9 +20,18 @@ public class User {
 	public static final String DEFAULT_VERIFICATION_CODE = "v3r1f1c@ti0nC0d3";
 	public static final String USER_FIELD_USER_VERIFICATION_FIELD = "verificationCode";
 
+	
+	public static final int USER_VERIFIED = 1; //TODO:Eden Sharoni:  not used in code.
+	public static final int USER_NOT_VERIFIED = 0; //TODO:Eden Sharoni:  not used in code.
+	
+	
 	@Value("${playground.default.username:noname}")
 	public void setDefaultUsername(String defaultUsername) {
 		User.DEFAULT_USERNAME = defaultUsername;
 	}
 
+	
+	public User() {
+		
+	}
 }
