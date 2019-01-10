@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import playground.logic.ElementEntity;
 @Component
 public class Element {
 
@@ -36,6 +38,19 @@ public class Element {
 	public static final String ELEMENT_FIELD_id = "id";
 	public static final String ELEMENT_FIELD_superkey = "superkey";
 	
+	
+	//Error messages
+	
+	public static final String MESSAGEBOARD_NOT_FOUND_ERROR = "No such Message Board : ";
+	public static final String QUESTION_NOT_FOUND_ERROR = "No question found in database";
+	public static final String QUESTION_TYPE_ELEMENT_EXPECTED_ERROR = "Invalid element - expected ELEMENT_QUESTION_TYPE";
+	public static final String NO_SUCH_ELEMENT_ERROR = "Could not find element : " ;
+	public static final String NEGATIVE_DISTANCE_ERROR = "Negative distance : ";
+	public static final String CANNOT_MODIFY_KEY_VALUES_ERROR = "Cannot change elements key values : \"Id\" or \"creatorPlayground\"";
+	public static final String ELEMENT_TYPE_INVALID_ERROR = "Element does not meet type requirements. View reference for Element types.";
+	public static final String ADD_ELEMENT_FAIL_DUPLICATE_ERROR = "Cannot add already existing element key.";
+
+	
 	//For tests related to Element
 	
 	public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
@@ -49,6 +64,9 @@ public class Element {
 	public static final Date EXP_DATE = new Date(Element.DEFAULT_EXPIRATION_YEAR, Element.DEFAULT_EXPIRATION_MONTH,
 			Element.DEFAULT_EXPIRATION_DAY);
 
+
+	
+	
 	@Value("${playground.default.exp.month:1}")
 	public void setDefaultExpMonth(int DEFAULT_EXPIRATION_MONTH) {
 		Element.DEFAULT_EXPIRATION_MONTH = DEFAULT_EXPIRATION_MONTH;

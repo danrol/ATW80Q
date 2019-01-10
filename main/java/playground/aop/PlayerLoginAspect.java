@@ -27,12 +27,13 @@ public class PlayerLoginAspect {
 	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(userService.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
-			throw new LoginException("Email is not registered.");
+			throw new LoginException(User.EMAIL_NOT_REGISTERED_ERROR);
 		else if(!u.isVerified()) 
-				throw new LoginException("User is not verified.");
+				throw new LoginException(User.USER_NOT_VERIFIED_ERROR);
 		else if(u.getRole() != User.PLAYER_ROLE)
-				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
+				throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR + joinPoint.getSignature().getDeclaringTypeName());
 		System.err.println("Player Login Required: User " + u + "logged in.");
+		//TODO delete syserr
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}

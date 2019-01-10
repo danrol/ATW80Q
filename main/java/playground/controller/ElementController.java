@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import playground.aop.MyLog;
+import playground.constants.Playground;
 import playground.layout.ElementTO;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -113,7 +114,7 @@ public class ElementController {
 	public ErrorException handleException(Exception e) {
 		String message = e.getMessage();
 		if (message == null)
-			message = "There is no relevant message";
+			message = Playground.NO_RELEVANT_MESSAGE_ERROR;
 		return new ErrorException(message);
 	}
 }

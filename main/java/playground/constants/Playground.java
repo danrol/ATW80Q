@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Playground {
 	
-	// URL
+	// URL API
 	
 	public static final String Function_1 = "/playground/users";
 	public static final String Function_2 = "/playground/users/confirm/{playground}/{email}/{code}";
@@ -20,11 +20,20 @@ public class Playground {
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
-	// test values
+	// Values for JUnit tests
 	public static String PLAYGROUND_MAIL = "PLAYGROUND_MAIL";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
+	
+	public static final String DUMMY_MANAGER_USERNAME = "manager";	
+	public static final String DUMMY_PLAYER_USERNAME = "player";	
+	
+	
+	
+	//Error messages
+	
+	public static final String NO_RELEVANT_MESSAGE_ERROR = "There is no relevant message";
 
 	
 	

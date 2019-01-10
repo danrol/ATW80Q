@@ -77,13 +77,12 @@ public class ElementTest {
 	@Test
 	public void saveElementInDatabase() {
 
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 
-		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + Playground.Function_5, new ElementTO(element),
 				ElementTO.class, user.getPlayground(), user.getEmail());
@@ -99,8 +98,8 @@ public class ElementTest {
 		String messageBoardName = "messageBoardName";
 		double x = 5;
 		double y = 6;
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
@@ -123,8 +122,8 @@ public class ElementTest {
 		String messageBoardName = "messageBoardName";
 		double x = 5;
 		double y = 6;
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		ElementEntity board_entity = createMessageBoard(messageBoardName, x, y);
@@ -135,11 +134,11 @@ public class ElementTest {
 
 	}
 
-	//5.4 Scenario: Adding question to Playground as Manager.
+	// 5.4 Scenario: Adding question to Playground as Manager.
 	@Test
 	public void AddingQuestionToPlaygroundAsManager() {
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 
@@ -155,11 +154,11 @@ public class ElementTest {
 
 	}
 
-	//5.5 Scenario: Adding question to Playground as Player.
+	// 5.5 Scenario: Adding question to Playground as Player.
 	@Test(expected = RuntimeException.class)
 	public void AddingQuestionToPlaygroundAsPlayer() {
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 
@@ -173,8 +172,8 @@ public class ElementTest {
 	// 5.6 Scenario: Adding to Playground a question with a missing attribute.
 	@Test(expected = RuntimeException.class)
 	public void AddingToPlaygroundAQuestionWithAMissingAttribute() {
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 
@@ -202,8 +201,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -228,8 +226,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		ElementTO elementForTest = new ElementTO(elementForTestEntity);
 		this.restTemplate.put(this.url + Playground.Function_6, elementForTest, userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(),
@@ -244,8 +241,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.Other_Email_For_Test);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity updatedElementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME,
-				5, 6);
+		ElementEntity updatedElementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		updatedElementForTestEntity = elementService.addElementNoLogin(updatedElementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
 		updatedElementForTestTO.setPlayground("forTest");
@@ -261,9 +257,8 @@ public class ElementTest {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
-		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		userElementCreator = userService.addUser(userElementCreator);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -281,8 +276,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -305,8 +299,7 @@ public class ElementTest {
 				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		this.elementService.addElementNoLogin(element);
 		this.restTemplate.getForObject(this.url + Playground.Function_7, ElementTO.class, Playground.Other_Playground,
 				u.getEmail(), element.getCreatorPlayground(), element.getId());
@@ -333,8 +326,7 @@ public class ElementTest {
 				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		this.elementService.addElementNoLogin(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + Playground.Function_7, ElementTO.class,
 				Playground.PLAYGROUND_NAME, u.getEmail(), element.getCreatorPlayground(), element.getId());
@@ -361,17 +353,15 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elem1 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "1",
-				5, 6);
-		ElementEntity elem2 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "2",
-				6, 5);
+		ElementEntity elem1 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "1", 5, 6);
+		ElementEntity elem2 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "2", 6, 5);
 
 		elem1 = elementService.addElementNoLogin(elem1);
 		elem2 = elementService.addElementNoLogin(elem2);
 		ElementTO[] arrForTest = new ElementTO[] { new ElementTO(elem1), new ElementTO(elem2) };
 
-		ElementTO[] valuesFromController = restTemplate.getForObject(this.url + Playground.Function_8, ElementTO[].class,
-				userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
+		ElementTO[] valuesFromController = restTemplate.getForObject(this.url + Playground.Function_8,
+				ElementTO[].class, userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
 
 		ElementTO[] valuesFromDatabase = getElementTOArray(elementService.getAllElements());
 		assertThat(valuesFromController).isNotNull();
@@ -419,8 +409,7 @@ public class ElementTest {
 
 		for (int n = 1; n <= 11; n++) {
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(),
-					new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5,
-							6));
+					new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5, 6));
 		}
 
 		ElementTO[] valuesFromController = restTemplate.getForObject(
@@ -450,12 +439,11 @@ public class ElementTest {
 	@Test(expected = RuntimeException.class)
 	public void GETElementsWithNegativeDistance() {
 
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		elementService.addElementNoLogin(element);
 		this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class, Playground.PLAYGROUND_NAME,
 				user.getEmail(), 5, 6, -1);
@@ -465,8 +453,8 @@ public class ElementTest {
 	@Test
 	public void distanceIsGreaterThanZero() {
 
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
 		for (int i = 0; i < 20; i++) {
@@ -476,8 +464,7 @@ public class ElementTest {
 			elementService.addElementNoLogin(element);
 		}
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class,
-				Playground.PLAYGROUND_NAME, user.getEmail(), 5, 6,
-				10);
+				Playground.PLAYGROUND_NAME, user.getEmail(), 5, 6, 10);
 		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
@@ -490,20 +477,19 @@ public class ElementTest {
 	@Test
 	public void GETElementsWithZeroDistance() {
 
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS,
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5,
-				6);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		elementService.addElementNoLogin(element);
 		element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6 + 2);
 		elementService.addElementNoLogin(element);
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 5, 6, 0);
 		assertThat(elements.length).isEqualTo("1");
-		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(),
-				5, 6);
+		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), 5,
+				6);
 		assertThat(actualDistance).isEqualTo(0);
 	}
 
@@ -524,12 +510,10 @@ public class ElementTest {
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_9
 						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
-				ElementTO[].class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 0,
-				8, 6);
+				ElementTO[].class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 0, 8, 6);
 		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
-		arrForTest = getElementTOArray(
-				elementService.getAllElementsInRadius(userElementCreator.getPlayground(), userElementCreator.getEmail(),
-						0, 8, 6, pageable));
+		arrForTest = getElementTOArray(elementService.getAllElementsInRadius(userElementCreator.getPlayground(),
+				userElementCreator.getEmail(), 0, 8, 6, pageable));
 
 		assertThat(result).isNotNull();
 		assertThat(result.length).isEqualTo(arrForTest.length);
@@ -563,10 +547,8 @@ public class ElementTest {
 
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put(Activity.attributeName, Activity.attrValue);
-		testMap.put(Activity.attributeName + "2",
-				Activity.attrValue + "2");
-		testMap.put(Activity.attributeName + "3",
-				Activity.attrValue + "3");
+		testMap.put(Activity.attributeName + "2", Activity.attrValue + "2");
+		testMap.put(Activity.attributeName + "3", Activity.attrValue + "3");
 		elementForTest.setAttributes(testMap);
 //		elementForTest2.setAttributes(testMap);
 
@@ -589,15 +571,11 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
+		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
 		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Activity.attributeName + "1",
-				Activity.attrValue + "1");
-		testMap.put(Activity.attributeName + "2",
-				Activity.attrValue + "2");
-		testMap.put(Activity.attributeName + "3",
-				Activity.attrValue + "3");
+		testMap.put(Activity.attributeName + "1", Activity.attrValue + "1");
+		testMap.put(Activity.attributeName + "2", Activity.attrValue + "2");
+		testMap.put(Activity.attributeName + "3", Activity.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.noSuchAttribute,
@@ -614,19 +592,15 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
+		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
 		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Activity.attributeName + "1",
-				Activity.attrValue + "1");
-		testMap.put(Activity.attributeName + "2",
-				Activity.attrValue + "2");
-		testMap.put(Activity.attributeName + "3",
-				Activity.attrValue + "3");
+		testMap.put(Activity.attributeName + "1", Activity.attrValue + "1");
+		testMap.put(Activity.attributeName + "2", Activity.attrValue + "2");
+		testMap.put(Activity.attributeName + "3", Activity.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
-				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(),
-				Activity.attributeName + "3", Activity.wrongAttributeValue);
+				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName + "3",
+				Activity.wrongAttributeValue);
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 
@@ -647,8 +621,7 @@ public class ElementTest {
 		testMap.put(Activity.attributeName, Activity.attrValue);
 
 		for (int n = 1; n <= 11; n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME,
-					5 + n, 6);
+			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5 + n, 6);
 
 			if (3 <= n && n <= 9) {
 				elementToAdd.setAttributes(testMap);

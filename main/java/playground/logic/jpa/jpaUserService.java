@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.constants.Playground;
+import playground.constants.User;
 import playground.dal.UserDao;
 import playground.logic.ConfirmException;
 import playground.logic.NewUserForm;
@@ -59,7 +60,7 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public UserEntity addUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey()))
-			throw new RegisterNewUserException("User exists with name: " + user.getSuperkey());
+			throw new RegisterNewUserException(User.DUPLICATE_USER_KEY_ERROR + user.getSuperkey());
 		else {
 			IdGeneratorUser tmp = IdGeneratorUser.save(new IdGeneratorUser());
 			Long id = tmp.getId();
@@ -76,19 +77,19 @@ public class jpaUserService implements UserService {
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(playground, email);
 		if (user != null) {
-			if (user.getVerificationCode().equals(""))
+			if (user.isVerified())
 				return user; // User already confirmed
 			else if (user.getPlayground().equals(playground)) {
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
 					user.verifyUser();
 				else
-					throw new ConfirmException("Invalid verification code");
+					throw new ConfirmException(User.VERIFICATION_CODE_MISMATCH_ERROR);
 			} else
-				throw new ConfirmException("User: " + user.getEmail() + " does not belong to the specified playground ("
+				throw new ConfirmException(User.USER_NOT_IN_PLAYGROUND_ERROR + user.getEmail() + "  ("
 						+ playground + ")");
 		} else {
-			throw new ConfirmException("Email is not registered.");
+			throw new ConfirmException(User.EMAIL_NOT_REGISTERED_ERROR);
 		}
 		return user;
 	}
@@ -104,18 +105,16 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
-			try {
-				UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
-				if (oldUser.isVerified())
-					user.verifyUser();
-				String id = oldUser.getId();
-				userDB.deleteById(user.getSuperkey());
-				user.setId(id);
-				userDB.save(user);
-			} catch (PermissionUserException e) {
-				throw new PermissionUserException("failed to update user" + user.toString());
-			}
+
+			UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
+			if (oldUser.isVerified())
+				user.verifyUser();
+			String id = oldUser.getId();
+			userDB.deleteById(user.getSuperkey());
+			user.setId(id);
+			userDB.save(user);
 		}
+		
 	}
 
 	@Override
@@ -143,7 +142,7 @@ public class jpaUserService implements UserService {
 		if (u.getSuperkey().equals(user.getSuperkey()))
 			updateUser(user);
 		else
-			throw new PermissionUserException("User " + u + " can't access another user");
+			throw new PermissionUserException(User.UPDATE_ANOTHER_USER_ERROR);
 
 	}
 
@@ -152,7 +151,7 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public void addUser(NewUserForm user) {
 		if (this.getUser(Playground.PLAYGROUND_NAME, user.getEmail()) != null)
-			throw new RegisterNewUserException("User already registered");
+			throw new RegisterNewUserException(User.USER_ALREADY_REGISTERED_ERROR);
 		else {
 			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),
 					Playground.PLAYGROUND_NAME);
@@ -180,7 +179,7 @@ public class jpaUserService implements UserService {
 		return userDB.findById(superkey).orElse(null);
 
 	}
-	
+
 	@Override
 	public String createKey(String email, String playground) {
 		return email.concat(" " + playground);

@@ -39,10 +39,10 @@ public class DummyInitializer {
 	public void init() {
 		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
-		UserEntity mod = new UserEntity("manager", "demoManager@playground.rolnik", "avatar", User.MANAGER_ROLE,
+		UserEntity mod = new UserEntity(Playground.DUMMY_MANAGER_USERNAME, "demoManager@playground.rolnik", "avatar", User.MANAGER_ROLE,
 				Playground.PLAYGROUND_NAME);
 
-		UserEntity player = new UserEntity("player", "demoPlayer@playground.rolnik", "avatar", User.PLAYER_ROLE,
+		UserEntity player = new UserEntity(Playground.DUMMY_PLAYER_USERNAME, "demoPlayer@playground.rolnik", "avatar", User.PLAYER_ROLE,
 				Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		player.verifyUser();

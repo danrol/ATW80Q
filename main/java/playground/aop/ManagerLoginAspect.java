@@ -36,7 +36,7 @@ public class ManagerLoginAspect {
 			else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
 			else if(u.getRole() != User.MANAGER_ROLE)
-				throw new PermissionUserException("User" + u.getRole() + " has no access rights.");
+				throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR + joinPoint.getSignature().getDeclaringTypeName());
 		System.err.println("Manager Login: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;

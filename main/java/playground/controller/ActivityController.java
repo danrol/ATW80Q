@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import playground.aop.MyLog;
+import playground.constants.Playground;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
@@ -37,18 +38,10 @@ public class ActivityController {
 		 * function 11 INPUT: ActivityTO OUTPUT: Object
 		 */
 		
-		
-		System.err.println(email);
-		System.err.println(activity);
-		System.err.println(pageable);
-		System.err.println(userPlayground);
 		ActivityEntity activityEnt = activity.toEntity();
 		activityEnt.setPlayerEmail(email);
 		activityEnt.setPlayerPlayground(userPlayground);
-		System.err.println(activityEnt);
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
-		System.err.println(t);
-		System.err.println(t.getClass().getName());
 		switch(t.getClass().getName())
 		{
 		case "ActivityEntity":
@@ -68,7 +61,7 @@ public class ActivityController {
 	public ErrorException handleException(Exception e) {
 		String message = e.getMessage();
 		if (message == null)
-			message = "There is no relevant message";
+			message = Playground.NO_RELEVANT_MESSAGE_ERROR;
 		return new ErrorException(message);
 	}
 

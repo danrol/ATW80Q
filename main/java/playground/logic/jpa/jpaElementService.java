@@ -73,7 +73,7 @@ public class jpaElementService implements ElementService {
 	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
 			double distance, Pageable pageable) {
 		if (distance < 0)
-			throw new RuntimeException("Negative distance (" + distance + ")");
+			throw new RuntimeException(Element.NEGATIVE_DISTANCE_ERROR + distance);
 
 		return lstToArray(elementsDB.findAllByXBetweenAndYBetween(x - distance, x + distance, y - distance,
 				y + distance, pageable));
@@ -194,7 +194,7 @@ public class jpaElementService implements ElementService {
 		if (el != null) {
 			return el;
 		} else
-			throw new ElementDataException("Could not find element " + superkey);
+			throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + superkey);
 
 	}
 
@@ -206,7 +206,6 @@ public class jpaElementService implements ElementService {
 			element.setCreatorEmail(email);
 
 		element.setPlayground(Playground.PLAYGROUND_NAME);
-
 		return addElementNoLogin(element);
 	}
 
@@ -241,12 +240,8 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@ManagerLogin
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
-		try {
-			for (ElementEntity el : elements)
-				updateElementInDatabaseFromExternalElement(userPlayground, email, el);
-		} catch (ElementDataException e) {
-			throw new ElementDataException("Elements in collection have incorrect fields.");
-		}
+		for (ElementEntity el : elements)
+			updateElementInDatabaseFromExternalElement(userPlayground, email, el);
 
 	}
 
@@ -261,7 +256,7 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	public ElementEntity addElementNoLogin(ElementEntity element) {
 		if (elementsDB.existsById(element.getSuperkey()))
-			throw new ElementDataException("element data already exist in database");
+			throw new ElementDataException(Element.ADD_ELEMENT_FAIL_DUPLICATE_ERROR);
 		else {
 			IdGeneratorElement tmp = IdGeneratorElement.save(new IdGeneratorElement());
 			Long id = tmp.getId();
@@ -271,7 +266,7 @@ public class jpaElementService implements ElementService {
 			if (valid)
 				return elementsDB.save(element);
 			else
-				throw new ElementDataException("Element is invalid \n" + element + "\n");
+				throw new ElementDataException(Element.ELEMENT_TYPE_INVALID_ERROR + element);
 		}
 	}
 
@@ -300,19 +295,18 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@ManagerLogin
 	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
-			String creatorplayground) {
-		if (!entity.getId().equals(id) || !entity.getCreatorPlayground().equals(creatorplayground))
-			throw new ElementDataException("Cannot change users Id or creatorplayground");
+			String creatorPlayground) {
+		if (!entity.getId().equals(id) || !entity.getCreatorPlayground().equals(creatorPlayground))
+			throw new ElementDataException(Element.CANNOT_MODIFY_KEY_VALUES_ERROR);
 		else {
-			ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorplayground));
-			System.err.println("tempElement: " + tempElement);
+			ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorPlayground));
 			if (tempElement != null) {
 				// Deletes old and replaces with new
 				entity.setCreationDate(tempElement.getCreationDate());
 				elementsDB.deleteById(tempElement.getSuperkey());
 				elementsDB.save(entity);
 			} else
-				throw new ElementDataException("element data for update is incorrect");
+				throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR);
 		}
 	}
 
@@ -332,8 +326,8 @@ public class jpaElementService implements ElementService {
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
 		} else
-			throw new ElementDataException("element data for update is incorrect");
-		
+			throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR);
+
 	}
 
 }

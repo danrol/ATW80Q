@@ -24,7 +24,7 @@ public class LoggerAspect {
 			Object rv = joinPoint.proceed();
 			log.debug(methodSignature + " - ended successfully");
 			System.err.println("playground logger OUT--------->>>");
-			
+			//TODO delete syserr
 			return rv;
 		} catch (Throwable e) {
 			log.error(methodSignature + " - end with error" + e.getClass().getName());

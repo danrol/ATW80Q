@@ -18,7 +18,7 @@ public class UserEntity {
 	private String avatar;
 	private String username;
 	private String playground;
-	private String role = User.UNDEFINED_ROLE;
+	private String role = User.GUEST_ROLE;
 	private String verificationCode = User.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
 	private String id;
@@ -123,7 +123,7 @@ public class UserEntity {
 		} else if (role.equals(User.PLAYER_ROLE.toLowerCase())) {
 			this.role = User.PLAYER_ROLE;
 		} else {
-			this.role = User.UNDEFINED_ROLE;
+			this.role = User.GUEST_ROLE;
 			throw new RuntimeException("Undefined role");
 		}
 	}

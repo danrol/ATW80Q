@@ -12,7 +12,7 @@ public class User {
 	
 	public static final String MANAGER_ROLE = "MANAGER";
 	public static final String PLAYER_ROLE = "PLAYER";
-	public static final String UNDEFINED_ROLE = "NO_ROLE";
+	public static final String GUEST_ROLE = "GUEST";
 	
 	// Test values 
 	
@@ -23,8 +23,21 @@ public class User {
 	public static final String ID_FOR_TESTS = "308748323";
 	
 	public static final String DEFAULT_VERIFICATION_CODE = "v3r1f1c@ti0nC0d3";
-	public static final String USER_FIELD_USER_VERIFICATION_FIELD = "verificationCode";	
+	public static final String USER_FIELD_USER_VERIFICATION_FIELD = "verificationCode";
+
 	
+	//Error messages
+	public static final String USER_ALREADY_REGISTERED_ERROR = "User already registered";
+	public static final String UPDATE_ANOTHER_USER_ERROR = "Users cannot update another user's information.";
+	public static final String UPDATE_FAIL_ERROR = "Failed to update user";
+	public static final String VERIFICATION_CODE_MISMATCH_ERROR = "Invalid verification code";
+	public static final String EMAIL_NOT_REGISTERED_ERROR = "Email is not registered.";
+	public static final String USER_NOT_IN_PLAYGROUND_ERROR = "User does not belong to the specified playground : ";
+	public static final String DUPLICATE_USER_KEY_ERROR = "User already exists with name: ";
+	public static final String USER_NOT_VERIFIED_ERROR = "User is not verified.";
+	public static final String LOGIN_ASPECT_ACCESS_RIGHTS_ERROR = " has no access rights to ";
+
+
 	
 	
 	@Value("${playground.default.username:noname}")

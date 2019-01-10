@@ -37,6 +37,8 @@ public class Activity {
 		public static final boolean CORRECT_ANSWER = true;
 		public static final boolean WRONG_ANSWER = false;
 
+		public static final String ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR = "No such activity type.";
+
 		public Activity() {
 			
 		}

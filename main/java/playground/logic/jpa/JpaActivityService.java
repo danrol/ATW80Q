@@ -21,49 +21,32 @@ import playground.logic.UserService;
  * 		Element Type : Question
  * 			Attributes:
  * 				ELEMENT_QUESTION_KEY
- * 				ELEMENT_QUESTION_TITLE_KEY
  * 				ELEMENT_ANSWER_KEY
  * 				ELEMENT_POINT_KEY
- * 				USER_ID_OF_ACTIVITY_KEY
  * 
  * 		Activity types attributes index:
  * 			DEFAULT_ACTIVITY_TYPE:
- * 				USER_ID_OF_ACTIVITY_KEY 
+ * 				None
  * 
  * 			GET_MESSAGES_ACTIVITY:
  * 				ACTIVITY_MESSAGEBOARD_ID_KEY	
- * 				USER_ID_OF_ACTIVITY_KEY
+ * 
  * 			ADD_MESSAGES_ACTIVITY:
  * 				ACTIVITY_MESSAGEBOARD_ID_KEY 	
  * 				ACTIVITY_MESSAGE_KEY			
- * 				USER_ID_OF_ACTIVITY_KEY
  * 
  * 
  * 			QUESTION_READ_ACTIVITY:
  * 				ACTIVITY_QUESTION_ID_KEY
  * 				ACTIVITY_USER_ANSWER_KEY
- * 				USER_ID_OF_ACTIVITY_KEY
- * 
- * 			ADD_QUESTION_ACTIVITY:
- * 				ACTIVITY_SET_QUESTION_QUESTION_TITLE
- * 				ACTIVITY_SET_QUESTION_QUESTION
- * 				ACTIVITY_SET_QUESTION_ANSWER
- * 				ACTIVITY_SET_QUESTION_POINTS
- * 				ACTIVITY_X_LOCATION_KEY
- * 				ACTIVITY_Y_LOCATION_KEY
- * 				USER_ID_OF_ACTIVITY_KEY
  * 
  * 			QUESTION_ANSWER_ACTIVITY:
  * 				ACTIVITY_QUESTION_ID_KEY
  * 				ACTIVITY_USER_ANSWER_KEY
- * 				USER_ID_OF_ACTIVITY_KEY
  * 
- * 			ADD_MESSAGE_BOARD_ACTIVITY:
- * 				USER_ID_OF_ACTIVITY_KEY
  * 
  * 			GET_SCORES_ACTIVITY:
- * 				USER_ID_OF_ACTIVITY_KEY
- * 
+ * 				None
  */
 
 @Service
@@ -98,7 +81,6 @@ public class JpaActivityService implements ActivityService {
 		activity.setPlayerEmail(email);
 		activity.setPlayerPlayground(userPlayground);
 		String activityType = activity.getType();
-		System.err.println("activityType: " + activityType);
 		switch (activityType) {
 		case Activity.DEFAULT_ACTIVITY_TYPE: {
 			System.err.println("1");
@@ -108,7 +90,7 @@ public class JpaActivityService implements ActivityService {
 			return activity;
 		}
 		case Activity.GET_MESSAGES_ACTIVITY: {
-			System.err.println("2");
+
 			/*
 			 * return getAllMessagesActivitiesInMessageBoard( (String)
 			 * activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY),
@@ -123,20 +105,19 @@ public class JpaActivityService implements ActivityService {
 			return getQuestion(activity);
 		}
 		case Activity.QUESTION_ANSWER_ACTIVITY: {
-			System.err.println("4");
 			return answerQuestion(activity);
 		}
 		case Activity.GET_SCORES_ACTIVITY: {
-			System.err.println("5");
+
 			return null;
 			// userService.getHighScores(pageable);
 		}
-		case Activity.GET_GAME_RULES_ACTIVITY:{
+		case Activity.GET_GAME_RULES_ACTIVITY: {
 			return getGameRules(activity);
 		}
 
 		}
-		throw new ActivityDataException("No such activity type: " + activityType);
+		throw new ActivityDataException(Activity.ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR + activityType);
 	}
 
 	@Override
@@ -144,22 +125,20 @@ public class JpaActivityService implements ActivityService {
 		return Activity.GAME_RULES;
 	}
 
-
-
 	@MyLog
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		
+
 		String msgboard_superkey = activity.getElementId();
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if (messageBoard != null) {
 			this.addActivityNoLogin(activity);
 			int num = (int) messageBoard.getAttributes().get(Element.MESSAGEBOARD_MESSAGE_COUNT);
 			messageBoard.getAttributes().replace(Element.MESSAGEBOARD_MESSAGE_COUNT, ++num);
-			messageBoard.getAttributes().put(String.valueOf(num),activity.getSuperkey());
+			messageBoard.getAttributes().put(String.valueOf(num), activity.getSuperkey());
 			elementService.updateElementInDatabaseFromExternalElementNoLogin(messageBoard);
 		} else
-			throw new ElementDataException("No such Message Board : " + msgboard_superkey);
+			throw new ElementDataException(Element.MESSAGEBOARD_NOT_FOUND_ERROR + msgboard_superkey);
 		return activity;
 	}
 
@@ -197,7 +176,6 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
-		ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
 		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Activity.MESSAGE_ACTIVITY, pageable))
 			lst.add(a);
 		return lst;
@@ -210,10 +188,9 @@ public class JpaActivityService implements ActivityService {
 
 		if (elementService.getElementNoLogin(id) != null) {
 			ElementEntity question = elementService.getElementNoLogin(id);
-			question.getAttributes().replace(Element.ELEMENT_ANSWER_KEY, "CENSORED!! You will have to try harder.");
 			return question;
 		}
-		throw new ElementDataException("No question found in database");
+		throw new ElementDataException(Element.QUESTION_NOT_FOUND_ERROR);
 
 	}
 
@@ -238,13 +215,12 @@ public class JpaActivityService implements ActivityService {
 					return Activity.WRONG_ANSWER;
 				}
 			}
-			throw new ElementDataException("Invalid element - expected ELEMENT_QUESTION_TYPE");
+			throw new ElementDataException(Element.QUESTION_TYPE_ELEMENT_EXPECTED_ERROR);
 
 		}
-		throw new ElementDataException("No such element : " + id);
+		throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + id);
 
 	}
-
 
 	@Override
 	@MyLog
