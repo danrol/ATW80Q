@@ -26,4 +26,8 @@ public class Activity {
 		public static final String noSuchAttribute = "noSuchAttribute";
 		public static final String wrongAttributeValue = "wrongAttributeValue";
 
+		public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
+		
+		public static final String QUESTION = "QUESTION";
+
 }

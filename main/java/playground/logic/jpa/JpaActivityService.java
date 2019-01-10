@@ -148,7 +148,7 @@ public class JpaActivityService implements ActivityService {
 
 	@Override
 	public String getGameRules(ActivityEntity activity) {
-		return Constants.GAME_RULES;
+		return Activity.GAME_RULES;
 	}
 
 
