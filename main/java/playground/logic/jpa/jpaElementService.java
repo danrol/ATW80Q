@@ -2,15 +2,14 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import playground.aop.PlayerLogin;
-import playground.Constants;
+import playground.constants.Constants;
+import playground.constants.Element;
 import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
@@ -277,17 +276,17 @@ public class jpaElementService implements ElementService {
 
 	private boolean validateElement(ElementEntity element) {
 		switch (element.getType()) {
-		case Constants.ELEMENT_DEFAULT_TYPE:
+		case Element.ELEMENT_DEFAULT_TYPE:
 			return true;
-		case Constants.ELEMENT_MESSAGEBOARD_TYPE:
+		case Element.ELEMENT_MESSAGEBOARD_TYPE:
 			// if messageboard was created outside the playground
-			if (!element.getAttributes().containsKey(Constants.MESSAGEBOARD_MESSAGE_COUNT))
-				element.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+			if (!element.getAttributes().containsKey(Element.MESSAGEBOARD_MESSAGE_COUNT))
+				element.getAttributes().put(Element.MESSAGEBOARD_MESSAGE_COUNT, 0);
 			return true;
-		case Constants.ELEMENT_QUESTION_TYPE:
-			if (element.getAttributes().containsKey(Constants.ELEMENT_QUESTION_KEY)
-					&& element.getAttributes().containsKey(Constants.ELEMENT_ANSWER_KEY)
-					&& element.getAttributes().containsKey(Constants.ELEMENT_POINT_KEY)) {
+		case Element.ELEMENT_QUESTION_TYPE:
+			if (element.getAttributes().containsKey(Element.ELEMENT_QUESTION_KEY)
+					&& element.getAttributes().containsKey(Element.ELEMENT_ANSWER_KEY)
+					&& element.getAttributes().containsKey(Element.ELEMENT_POINT_KEY)) {
 
 				return true;
 			}

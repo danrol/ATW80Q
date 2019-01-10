@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import playground.Constants;
+
+import playground.constants.Constants;
+import playground.constants.Element;
 import playground.dal.ActivityDao;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
@@ -16,14 +18,12 @@ import playground.logic.jpa.IdGeneratorActivityDao;
 public class DummyActivityService implements ActivityService {
 
 	private ArrayList<ActivityEntity> activityDB;
-	private ArrayList<ElementEntity> messageBoardDB;
 	private ArrayList<ElementEntity> questionDB;
 	private ElementService elementService;
 
 	@Autowired
 	public DummyActivityService(ActivityDao activity, IdGeneratorActivityDao IdGeneratorActivity) {
 		this.activityDB = new ArrayList<ActivityEntity>();
-		this.messageBoardDB = new ArrayList<ElementEntity>();
 		this.questionDB = new ArrayList<ElementEntity>();
 	}
 
@@ -86,9 +86,9 @@ public class DummyActivityService implements ActivityService {
 		String id = activity.getElementId();
 		for (ElementEntity e : questionDB)
 			if (e.getSuperkey().equals(id)) {
-				e.getAttributes().put(Constants.ELEMENT_ANSWER_KEY,
-						activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY));
-				return activity.getAttribute().get(Constants.ELEMENT_ANSWER_KEY);
+				e.getAttributes().put(Element.ELEMENT_ANSWER_KEY,
+						activity.getAttribute().get(Element.ELEMENT_ANSWER_KEY));
+				return activity.getAttribute().get(Element.ELEMENT_ANSWER_KEY);
 			}
 		return null;
 	}

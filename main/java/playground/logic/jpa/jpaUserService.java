@@ -7,9 +7,10 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import playground.Constants;
+
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
+import playground.constants.Constants;
 import playground.dal.UserDao;
 import playground.logic.ConfirmException;
 import playground.logic.NewUserForm;

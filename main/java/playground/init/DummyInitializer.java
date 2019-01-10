@@ -4,7 +4,9 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import playground.Constants;
+
+import playground.constants.Constants;
+import playground.constants.Element;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -77,17 +79,17 @@ public class DummyInitializer {
 	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
 			double x, double y) {
 		ElementEntity question = new ElementEntity(questionTitle, x, y);
-		question.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
-		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
-		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		question.setType(Element.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Element.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Element.ELEMENT_POINT_KEY, points);
 		return question;
 	}
 
 	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
 		ElementEntity board = new ElementEntity(messageBoardName, x, y);
-		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		board.setType(Element.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Element.MESSAGEBOARD_MESSAGE_COUNT, 0);
 		return board;
 	}
 

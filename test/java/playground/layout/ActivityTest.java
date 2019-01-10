@@ -12,17 +12,13 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import playground.Constants;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
-
+import playground.constants.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ActivityTest {
@@ -86,7 +82,7 @@ public class ActivityTest {
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
-
+		
 		assertThat(act).isEqualToIgnoringGivenFields(ob, "id", "playerPlayground", "playerEmail");
 	}
 
@@ -128,9 +124,9 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
-		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
-				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Constants.QUESTION_READ_ACTIVITY);
@@ -149,9 +145,9 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
-		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
-				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Constants.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
@@ -169,14 +165,14 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
-		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
-				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
 		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
-				question.getAttributes().get(Constants.ELEMENT_ANSWER_KEY));
+				question.getAttributes().get(Element.ELEMENT_ANSWER_KEY));
 
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
@@ -186,7 +182,7 @@ public class ActivityTest {
 				boolean.class, mod.getPlayground(), mod.getEmail());
 		long points_after = userService.getUser(mod.getSuperkey()).getPoints();
 		assertThat(SystemResponse).isEqualTo(Constants.CORRECT_ANSWER);
-		int question_val = (int) question.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+		int question_val = (int) question.getAttributes().get(Element.ELEMENT_POINT_KEY);
 		assertThat(points_after).isEqualTo(points_before + new Long(question_val));
 	}
 	
@@ -197,14 +193,14 @@ public class ActivityTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
-		ElementEntity question = this.createQuestionElement(Constants.QUESTION_TITLE_TEST, Constants.QUESTION_BODY_TEST,
-				Constants.QUESTION_CORRECT_ANSWER_TEST, Constants.QUESTION_POINT_VALUE_TEST, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
 		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
-				question.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)+"x");
+				question.getAttributes().get(Element.ELEMENT_ANSWER_KEY)+"x");
 
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
@@ -246,17 +242,17 @@ public class ActivityTest {
 	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
 			double x, double y) {
 		ElementEntity question = new ElementEntity(questionTitle, x, y);
-		question.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
-		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
-		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		question.setType(Element.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Element.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Element.ELEMENT_POINT_KEY, points);
 		return question;
 	}
 
 	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
 		ElementEntity board = new ElementEntity(messageBoardName, x, y);
-		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		board.setType(Element.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Element.MESSAGEBOARD_MESSAGE_COUNT, 0);
 		return board;
 	}
 

@@ -12,7 +12,8 @@ import javax.persistence.Transient;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import playground.Constants;
+
+import playground.constants.Constants;
 
 @Entity
 @Table(name = "ACTIVITY")

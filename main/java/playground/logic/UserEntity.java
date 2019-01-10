@@ -6,7 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import playground.Constants;
+
+import playground.constants.Constants;
 
 //KEY IS EMAIL+PLAYGROUND
 @Entity

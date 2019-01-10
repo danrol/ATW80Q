@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import playground.Constants;
+
+import playground.constants.Constants;
+import playground.constants.Element;
 
 //KEY is: id+creatorPlayground
 @Entity
@@ -29,7 +31,7 @@ public class ElementEntity {
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;
-	private String type = Constants.ELEMENT_DEFAULT_TYPE;
+	private String type = Element.ELEMENT_DEFAULT_TYPE;
 	private String creatorPlayground;
 	private String creatorEmail;
 	private double x;

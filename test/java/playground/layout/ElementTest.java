@@ -14,8 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import playground.Constants;
-import playground.aop.MyLog;
+import playground.constants.Constants;
+import playground.constants.Element;
 import playground.dal.ElementDao;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -80,15 +80,15 @@ public class ElementTest {
 		user.verifyUser();
 		userService.addUser(user);
 
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 
 		ElementTO elemTO = this.restTemplate.postForObject(this.url + Constants.Function_5, new ElementTO(element),
 				ElementTO.class, user.getPlayground(), user.getEmail());
 		ElementEntity element2 = elemTO.toEntity();
-		assertThat(element2).isEqualToIgnoringGivenFields(element, Constants.ELEMENT_FIELD_id,
-				Constants.ELEMENT_FIELD_superkey, Constants.ELEMENT_FIELD_creatorPlayground,
-				Constants.ELEMENT_FIELD_creatorEmail);
+		assertThat(element2).isEqualToIgnoringGivenFields(element, Element.ELEMENT_FIELD_id,
+				Element.ELEMENT_FIELD_superkey, Element.ELEMENT_FIELD_creatorPlayground,
+				Element.ELEMENT_FIELD_creatorEmail);
 	}
 
 	// 5.2 Scenario: Add message board activity as Manager
@@ -148,8 +148,8 @@ public class ElementTest {
 		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
 				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
 		ElementEntity rv_question = ele.toEntity();
-		assertThat(q).isEqualToIgnoringGivenFields(rv_question, Constants.ELEMENT_FIELD_superkey,
-				Constants.ELEMENT_FIELD_id, Constants.ELEMENT_FIELD_creatorEmail);
+		assertThat(q).isEqualToIgnoringGivenFields(rv_question, Element.ELEMENT_FIELD_superkey,
+				Element.ELEMENT_FIELD_id, Element.ELEMENT_FIELD_creatorEmail);
 
 	}
 
@@ -177,9 +177,9 @@ public class ElementTest {
 		userService.addUser(user);
 
 		ElementEntity question = new ElementEntity("question title", 2, 3);
-		question.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, "the question is here");
-		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, "this is the answer");
+		question.setType(Element.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Element.ELEMENT_QUESTION_KEY, "the question is here");
+		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, "this is the answer");
 
 		ElementTO ele = new ElementTO(question);
 		ele = this.restTemplate.postForObject(this.url + Constants.Function_5, ele, ElementTO.class,
@@ -200,8 +200,8 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -215,7 +215,7 @@ public class ElementTest {
 
 		assertThat(actualEntity).isNotNull();
 		assertThat(actualEntity).isEqualToIgnoringGivenFields(updatedElementForTestTO.toEntity(),
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 	}
 
 	// 6.2 Scenario: Test update non-existent element
@@ -226,8 +226,8 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		ElementTO elementForTest = new ElementTO(elementForTestEntity);
 		this.restTemplate.put(this.url + Constants.Function_6, elementForTest, userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(),
@@ -242,8 +242,8 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.Other_Email_For_Test);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity updatedElementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,
-				Constants.LOCATION_X1, Constants.LOCATION_Y1);
+		ElementEntity updatedElementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME,
+				Element.LOCATION_X1, Element.LOCATION_Y1);
 		updatedElementForTestEntity = elementService.addElementNoLogin(updatedElementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(updatedElementForTestEntity);
 		updatedElementForTestTO.setPlayground("forTest");
@@ -260,8 +260,8 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -279,8 +279,8 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementEntity elementForTestEntity = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		elementForTestEntity = elementService.addElement(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), elementForTestEntity);
 		ElementTO updatedElementForTestTO = new ElementTO(elementForTestEntity);
@@ -303,8 +303,8 @@ public class ElementTest {
 				Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		this.elementService.addElementNoLogin(element);
 		this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class, Constants.Other_Playground,
 				u.getEmail(), element.getCreatorPlayground(), element.getId());
@@ -331,8 +331,8 @@ public class ElementTest {
 				Constants.MANAGER_ROLE, Constants.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		this.elementService.addElementNoLogin(element);
 		ElementTO el = this.restTemplate.getForObject(this.url + Constants.Function_7, ElementTO.class,
 				Constants.PLAYGROUND_NAME, u.getEmail(), element.getCreatorPlayground(), element.getId());
@@ -359,10 +359,10 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elem1 = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + Constants.Numbers.ONE.ordinal(),
-				Constants.LOCATION_X1, Constants.LOCATION_Y1);
-		ElementEntity elem2 = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + Constants.Numbers.TWO.ordinal(),
-				Constants.LOCATION_Y1, Constants.LOCATION_X1);
+		ElementEntity elem1 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + Constants.Numbers.ONE.ordinal(),
+				Element.LOCATION_X1, Element.LOCATION_Y1);
+		ElementEntity elem2 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + Constants.Numbers.TWO.ordinal(),
+				Element.LOCATION_Y1, Element.LOCATION_X1);
 
 		elem1 = elementService.addElementNoLogin(elem1);
 		elem2 = elementService.addElementNoLogin(elem2);
@@ -376,16 +376,16 @@ public class ElementTest {
 
 		// Check values returned from controller
 		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(arrForTest[0],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(arrForTest[1],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 
 		// Check values in database
 		assertThat(valuesFromDatabase).isNotNull();
 		assertThat(valuesFromDatabase[0]).isEqualToIgnoringGivenFields(arrForTest[0],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 		assertThat(valuesFromDatabase[1]).isEqualToIgnoringGivenFields(arrForTest[1],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 
 	}
 
@@ -417,8 +417,8 @@ public class ElementTest {
 
 		for (int n = 1; n <= 11; n++) {
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(),
-					new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-							Constants.LOCATION_Y1));
+					new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+							Element.LOCATION_Y1));
 		}
 
 		ElementTO[] valuesFromController = restTemplate.getForObject(
@@ -431,11 +431,11 @@ public class ElementTest {
 
 		assertThat(valuesFromController).isNotNull();
 		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(valuesFromDatabase[0],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(valuesFromDatabase[1],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 		assertThat(valuesFromController[2]).isEqualToIgnoringGivenFields(valuesFromDatabase[2],
-				Constants.ELEMENT_FIELD_creationDate);
+				Element.ELEMENT_FIELD_creationDate);
 
 	}
 
@@ -452,11 +452,11 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		elementService.addElementNoLogin(element);
 		this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class, Constants.PLAYGROUND_NAME,
-				user.getEmail(), Constants.LOCATION_X1, Constants.LOCATION_Y1, Constants.Negaive_Distance);
+				user.getEmail(), Element.LOCATION_X1, Element.LOCATION_Y1, Element.Negative_Distance);
 	}
 
 	// 9.2 Scenario: Distance is Zero
@@ -467,20 +467,20 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		for (int i = 0; i < Constants.Distance; i++) {
-			ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + i, i, i);
+		for (int i = 0; i < 20; i++) {
+			ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + i, i, i);
 			elementService.addElementNoLogin(element);
-			element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME + i + i, 0, i);
+			element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + i + i, 0, i);
 			elementService.addElementNoLogin(element);
 		}
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
-				Constants.PLAYGROUND_NAME, user.getEmail(), Constants.LOCATION_X1, Constants.LOCATION_Y1,
-				Constants.Distance);
+				Constants.PLAYGROUND_NAME, user.getEmail(), Element.LOCATION_X1, Element.LOCATION_Y1,
+				Element.Distance);
 		for (ElementTO element : elements) {
 			double x1 = element.getLocation().getX();
 			double y1 = element.getLocation().getY();
-			double actualDistance = this.distanceBetween(x1, y1, Constants.LOCATION_X1, Constants.LOCATION_Y1);
-			assertThat(actualDistance).isLessThan(Constants.Distance);
+			double actualDistance = this.distanceBetween(x1, y1, Element.LOCATION_X1, Element.LOCATION_Y1);
+			assertThat(actualDistance).isLessThan(Element.Distance);
 		}
 	}
 
@@ -492,17 +492,17 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		user.verifyUser();
 		userService.addUser(user);
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1,
-				Constants.LOCATION_Y1);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1,
+				Element.LOCATION_Y1);
 		elementService.addElementNoLogin(element);
-		element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1, Constants.LOCATION_Y1 + 2);
+		element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1 + 2);
 		elementService.addElementNoLogin(element);
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
-				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X1, Constants.LOCATION_Y1,
+				Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Element.LOCATION_X1, Element.LOCATION_Y1,
 				Constants.Zero_Distance);
 		assertThat(elements.length).isEqualTo(Constants.Numbers.ONE.ordinal());
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(),
-				Constants.LOCATION_X1, Constants.LOCATION_Y1);
+				Element.LOCATION_X1, Element.LOCATION_Y1);
 		assertThat(actualDistance).isEqualTo(Constants.Zero_Distance);
 	}
 
@@ -517,23 +517,23 @@ public class ElementTest {
 		ElementEntity elementToAdd;
 
 		for (int n = 1; n <= 6; n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME, 0, n);
+			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 0, n);
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
 		}
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Constants.Function_9
 						+ createPaginationStringAppendixForUrl(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER),
-				ElementTO[].class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.LOCATION_X2,
-				Constants.LOCATION_Y2, Constants.ANOTHER_DISTANCE);
+				ElementTO[].class, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Element.LOCATION_X2,
+				Element.LOCATION_Y2, Element.ANOTHER_DISTANCE);
 		Pageable pageable = PageRequest.of(Constants.PAGE_NUMBER, Constants.SIZE_NUMBER);
 		arrForTest = getElementTOArray(
 				elementService.getAllElementsInRadius(userElementCreator.getPlayground(), userElementCreator.getEmail(),
-						Constants.LOCATION_X2, Constants.LOCATION_Y2, Constants.ANOTHER_DISTANCE, pageable));
+						Element.LOCATION_X2, Element.LOCATION_Y2, Element.ANOTHER_DISTANCE, pageable));
 
 		assertThat(result).isNotNull();
 		assertThat(result.length).isEqualTo(arrForTest.length);
-		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Element.ELEMENT_FIELD_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Element.ELEMENT_FIELD_creationDate);
 	}
 
 	// url #9 /playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}
@@ -555,7 +555,7 @@ public class ElementTest {
 				Constants.AVATAR_FOR_TESTS, Constants.PLAYER_ROLE, Constants.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO elementTO = new ElementTO(new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, 1, 0));
+		ElementTO elementTO = new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 1, 0));
 		ElementTO elementForTest = elementTO;
 //		ElementTO elementTO2 = new ElementTO(new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, 1, 0));
 //		ElementTO elementForTest2 = elementTO2;
@@ -589,7 +589,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1, Constants.LOCATION_Y1)) };
+				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1)) };
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put(Constants.attributeName + Constants.Numbers.ONE.ordinal(),
 				Constants.attrValue + Constants.Numbers.ONE.ordinal());
@@ -614,7 +614,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] elementForTest = { new ElementTO(
-				new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.LOCATION_X1, Constants.LOCATION_Y1)) };
+				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1)) };
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put(Constants.attributeName + Constants.Numbers.ONE.ordinal(),
 				Constants.attrValue + Constants.Numbers.ONE.ordinal());
@@ -646,8 +646,8 @@ public class ElementTest {
 		testMap.put(Constants.attributeName, Constants.attrValue);
 
 		for (int n = 1; n <= 11; n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Constants.DEFAULT_ELEMENT_NAME,
-					Constants.LOCATION_X1 + n, Constants.LOCATION_Y1);
+			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME,
+					Element.LOCATION_X1 + n, Element.LOCATION_Y1);
 
 			if (3 <= n && n <= 9) {
 				elementToAdd.setAttributes(testMap);
@@ -667,9 +667,9 @@ public class ElementTest {
 						userElementCreator.getEmail(), Constants.attributeName, Constants.attrValue, pageable));
 
 		assertThat(result).isNotNull();
-		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Constants.ELEMENT_FIELD_creationDate);
-		assertThat(result[2]).isEqualToIgnoringGivenFields(arrForTest[2], Constants.ELEMENT_FIELD_creationDate);
+		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Element.ELEMENT_FIELD_creationDate);
+		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Element.ELEMENT_FIELD_creationDate);
+		assertThat(result[2]).isEqualToIgnoringGivenFields(arrForTest[2], Element.ELEMENT_FIELD_creationDate);
 	}
 	// url #10
 	// "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}"
@@ -699,17 +699,17 @@ public class ElementTest {
 	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
 			double x, double y) {
 		ElementEntity question = new ElementEntity(questionTitle, x, y);
-		question.setType(Constants.ELEMENT_QUESTION_TYPE);
-		question.getAttributes().put(Constants.ELEMENT_QUESTION_KEY, questionBody);
-		question.getAttributes().put(Constants.ELEMENT_ANSWER_KEY, answer);
-		question.getAttributes().put(Constants.ELEMENT_POINT_KEY, points);
+		question.setType(Element.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Element.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Element.ELEMENT_POINT_KEY, points);
 		return question;
 	}
 
 	public ElementEntity createMessageBoard(String messageBoardName, double x, double y) {
 		ElementEntity board = new ElementEntity(messageBoardName, x, y);
-		board.setType(Constants.ELEMENT_MESSAGEBOARD_TYPE);
-		board.getAttributes().put(Constants.MESSAGEBOARD_MESSAGE_COUNT, 0);
+		board.setType(Element.ELEMENT_MESSAGEBOARD_TYPE);
+		board.getAttributes().put(Element.MESSAGEBOARD_MESSAGE_COUNT, 0);
 		return board;
 	}
 

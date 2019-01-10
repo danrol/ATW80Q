@@ -2,7 +2,7 @@ package playground.layout;
 
 import java.util.regex.Pattern;
 
-import playground.Constants;
+import playground.constants.Constants;
 import playground.logic.UserEntity;
 
 public class UserTO {

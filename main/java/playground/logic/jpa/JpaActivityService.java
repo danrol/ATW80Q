@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import playground.Constants;
+
 import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
+import playground.constants.Constants;
+import playground.constants.Element;
 import playground.dal.ActivityDao;
 import playground.logic.ActivityDataException;
 import playground.logic.ActivityEntity;
@@ -158,8 +160,8 @@ public class JpaActivityService implements ActivityService {
 		ElementEntity messageBoard = elementService.getElementNoLogin(msgboard_superkey);
 		if (messageBoard != null) {
 			this.addActivityNoLogin(activity);
-			int num = (int) messageBoard.getAttributes().get(Constants.MESSAGEBOARD_MESSAGE_COUNT);
-			messageBoard.getAttributes().replace(Constants.MESSAGEBOARD_MESSAGE_COUNT, ++num);
+			int num = (int) messageBoard.getAttributes().get(Element.MESSAGEBOARD_MESSAGE_COUNT);
+			messageBoard.getAttributes().replace(Element.MESSAGEBOARD_MESSAGE_COUNT, ++num);
 			messageBoard.getAttributes().put(String.valueOf(num),activity.getSuperkey());
 			elementService.updateElementInDatabaseFromExternalElementNoLogin(messageBoard);
 		} else
@@ -214,7 +216,7 @@ public class JpaActivityService implements ActivityService {
 
 		if (elementService.getElementNoLogin(id) != null) {
 			ElementEntity question = elementService.getElementNoLogin(id);
-			question.getAttributes().replace(Constants.ELEMENT_ANSWER_KEY, "CENSORED!! You will have to try harder.");
+			question.getAttributes().replace(Element.ELEMENT_ANSWER_KEY, "CENSORED!! You will have to try harder.");
 			return question;
 		}
 		throw new ElementDataException("No question found in database");
@@ -227,11 +229,11 @@ public class JpaActivityService implements ActivityService {
 		String id = activity.getElementId();
 		ElementEntity a = elementService.getElementNoLogin(id);
 		if (a != null) {
-			if (a.getType().equals(Constants.ELEMENT_QUESTION_TYPE)) {
+			if (a.getType().equals(Element.ELEMENT_QUESTION_TYPE)) {
 				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY))
 						.toLowerCase();
-				String actual_answer = ((String) a.getAttributes().get(Constants.ELEMENT_ANSWER_KEY)).toLowerCase();
-				int points = (int) a.getAttributes().get(Constants.ELEMENT_POINT_KEY);
+				String actual_answer = ((String) a.getAttributes().get(Element.ELEMENT_ANSWER_KEY)).toLowerCase();
+				int points = (int) a.getAttributes().get(Element.ELEMENT_POINT_KEY);
 				String answering_user_email = activity.getPlayerEmail();
 				String answering_user_playground = activity.getPlayerPlayground();
 				if (actual_answer.equals(user_answer)) {

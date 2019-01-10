@@ -12,7 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import playground.Constants;
+
+import playground.constants.Constants;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
