@@ -23,7 +23,7 @@ public class ClientFrame extends JPanel{
 		
 		JPanel init = new JPanel(new GridLayout(6, 0, 2, 2));
 		
-		JLabel ATWQ80 = new JLabel("Around The World 80 Days");
+		JLabel ATWQ80 = new JLabel("Around The World 80 Questions");
 		ATWQ80.setFont(new Font("TimesRoman", Font.BOLD, 35));
 		init.add(ATWQ80);
 		
