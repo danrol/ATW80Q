@@ -3,8 +3,10 @@ package playground.client;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
+import playground.Application;
 
-public class Client {
+
+public class Client extends Application{
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		frame.setTitle("Around The World 80 days");
