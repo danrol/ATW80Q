@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import playground.constants.Constants;
+import playground.constants.Playground;
 import playground.constants.User;
 
 //KEY IS EMAIL+PLAYGROUND
@@ -20,7 +21,7 @@ public class UserEntity {
 	private String username;
 	private String playground;
 	private String role = User.UNDEFINED_ROLE;
-	private String verificationCode = Constants.DEFAULT_VERIFICATION_CODE;
+	private String verificationCode = User.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
 	private String id;
 	private long points = 0;
@@ -40,7 +41,7 @@ public class UserEntity {
 	}
 
 	public UserEntity(NewUserForm user) {
-		this(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(), User.PLAYGROUND_NAME);
+		this(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(), Playground.PLAYGROUND_NAME);
 	}
 
 	@Transient

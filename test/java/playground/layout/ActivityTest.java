@@ -73,15 +73,15 @@ public class ActivityTest {
 	// 11.1 Scenario: Sending Echo activity
 	@Test
 	public void SendEchoActivity() {
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		user = userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Constants.DEFAULT_ACTIVITY_TYPE);
+		ent.setType(Activity.DEFAULT_ACTIVITY_TYPE);
 		ActivityTO act = new ActivityTO(ent);
 		ActivityTO ob = this.restTemplate.postForObject(this.url + Constants.Function_11, act, ActivityTO.class,
-				User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 		
 		assertThat(act).isEqualToIgnoringGivenFields(ob, "id", "playerPlayground", "playerEmail");
 	}
@@ -91,8 +91,8 @@ public class ActivityTest {
 	public void SendMessageActivityToExistingBoardAsPlayer() {
 		ElementEntity messageBoard = createMessageBoard("Messageboard", 3, 6);
 		messageBoard = elementService.addElementNoLogin(messageBoard);
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		user = userService.addUser(user);
 
@@ -107,8 +107,8 @@ public class ActivityTest {
 	@Test(expected = RuntimeException.class)
 	public void SendMessageActivityToNonExistingBoard() {
 		ElementEntity messageBoard = createMessageBoard("Messageboard", 3, 6);
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		user.verifyUser();
 		user = userService.addUser(user);
 		ActivityEntity ent = this.createMessage(messageBoard.getSuperkey(), "message");
@@ -120,8 +120,8 @@ public class ActivityTest {
 	// 11.4 Scenario: Read existing question activity
 	@Test
 	public void ReadExistingQuestionActivityAsPlayer() {
-		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
@@ -129,7 +129,7 @@ public class ActivityTest {
 				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
-		activity.setType(Constants.QUESTION_READ_ACTIVITY);
+		activity.setType(Activity.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
 		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
@@ -141,15 +141,15 @@ public class ActivityTest {
 	// 11.5 Scenario: Reading a question that not exist in database.
 	@Test(expected = RuntimeException.class)
 	public void ReadingAQuestionThatDoesNotExistInDatabase() {
-		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
 				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
 				Element.LOCATION_Y1);
 		ActivityEntity activity = new ActivityEntity();
-		activity.setType(Constants.QUESTION_READ_ACTIVITY);
+		activity.setType(Activity.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
 		ActivityTO act = new ActivityTO(activity);
 		ElementTO rv_questionTO = this.restTemplate.postForObject(this.url + Constants.Function_11, act,
@@ -161,8 +161,8 @@ public class ActivityTest {
 	//11.6 Scenario: Answering a question with correct answer.
 	@Test
 	public void AnsweringQuestionWithCorrectAnswer() {
-		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
@@ -170,8 +170,8 @@ public class ActivityTest {
 				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
-		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
-		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
+		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);
+		activity.getAttribute().put(Activity.ACTIVITY_USER_ANSWER_KEY,
 				question.getAttributes().get(Element.ELEMENT_ANSWER_KEY));
 
 		activity.setElementId(question.getSuperkey());
@@ -189,8 +189,8 @@ public class ActivityTest {
 	//11.7 Scenario: Answering a question with incorrect answer.
 	@Test
 	public void AnsweringAQuestionWithIncorrectAnswer() {
-		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
@@ -198,8 +198,8 @@ public class ActivityTest {
 				Element.LOCATION_Y1);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
-		activity.setType(Constants.QUESTION_ANSWER_ACTIVITY);
-		activity.getAttribute().put(Constants.ACTIVITY_USER_ANSWER_KEY,
+		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);
+		activity.getAttribute().put(Activity.ACTIVITY_USER_ANSWER_KEY,
 				question.getAttributes().get(Element.ELEMENT_ANSWER_KEY)+"x");
 
 		activity.setElementId(question.getSuperkey());
@@ -221,13 +221,13 @@ public class ActivityTest {
 	@Test
 	public void GetGameRulesActivity() {
 
-		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,
-				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity user = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 
 		user.verifyUser();
 		user = userService.addUser(user);
 		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Constants.GET_GAME_RULES_ACTIVITY);
+		ent.setType(Activity.GET_GAME_RULES_ACTIVITY);
 		ActivityTO act = new ActivityTO(ent);
 
 		String rules = this.restTemplate.postForObject(this.url + Constants.Function_11, act, String.class,
@@ -258,8 +258,8 @@ public class ActivityTest {
 
 	public ActivityEntity createMessage(String messageboard_key, String message) {
 		ActivityEntity entity = new ActivityEntity();
-		entity.setType(Constants.MESSAGE_ACTIVITY);
-		entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, message);
+		entity.setType(Activity.MESSAGE_ACTIVITY);
+		entity.getAttribute().put(Activity.ACTIVITY_MESSAGE_KEY, message);
 		entity.setElementId(messageboard_key);
 		return entity;
 	}

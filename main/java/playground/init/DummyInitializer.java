@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import playground.constants.Activity;
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.Playground;
 import playground.constants.User;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
@@ -40,10 +42,10 @@ public class DummyInitializer {
 		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
 		UserEntity mod = new UserEntity("manager", "demoManager@playground.rolnik", "avatar", User.MANAGER_ROLE,
-				User.PLAYGROUND_NAME);
+				Playground.PLAYGROUND_NAME);
 
 		UserEntity player = new UserEntity("player", "demoPlayer@playground.rolnik", "avatar", User.PLAYER_ROLE,
-				User.PLAYGROUND_NAME);
+				Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		player.verifyUser();
 		try {
@@ -71,8 +73,8 @@ public class DummyInitializer {
 
 	public ActivityEntity createMessage(String messageboard_key, String message) {
 		ActivityEntity entity = new ActivityEntity();
-		entity.setType(Constants.MESSAGE_ACTIVITY);
-		entity.getAttribute().put(Constants.ACTIVITY_MESSAGE_KEY, message);
+		entity.setType(Activity.MESSAGE_ACTIVITY);
+		entity.getAttribute().put(Activity.ACTIVITY_MESSAGE_KEY, message);
 		entity.setElementId(messageboard_key);
 		return entity;
 	}

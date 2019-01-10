@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.Playground;
 import playground.constants.User;
 import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
@@ -205,7 +206,7 @@ public class jpaElementService implements ElementService {
 		if (element.getCreatorEmail() == null)
 			element.setCreatorEmail(email);
 
-		element.setPlayground(User.PLAYGROUND_NAME);
+		element.setPlayground(Playground.PLAYGROUND_NAME);
 
 		return addElementNoLogin(element);
 	}

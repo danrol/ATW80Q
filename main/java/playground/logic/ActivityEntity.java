@@ -13,7 +13,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import playground.constants.Activity;
 import playground.constants.Constants;
+import playground.constants.Playground;
 import playground.constants.User;
 
 @Entity
@@ -34,8 +36,8 @@ public class ActivityEntity implements Serializable {
 
 	public ActivityEntity() {
 		attribute = new HashMap<String, Object>();
-		this.type = Constants.DEFAULT_ACTIVITY_TYPE;
-		this.playground = User.PLAYGROUND_NAME;
+		this.type = Activity.DEFAULT_ACTIVITY_TYPE;
+		this.playground = Playground.PLAYGROUND_NAME;
 	}
 
 //	create constructors that receive just a JSon 

@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Constants;
+import playground.constants.Playground;
 import playground.constants.User;
 import playground.logic.ElementService;
 import playground.logic.NewUserForm;
@@ -74,8 +75,8 @@ public class UserTest {
 	@Test
 	public void successfullyRegisterNewUser() {
 		
-		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE);
-		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), postUserForm.getAvatar(), postUserForm.getRole(), User.PLAYGROUND_NAME));
+		NewUserForm postUserForm = new NewUserForm(User.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE);
+		UserTO testValue = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), postUserForm.getAvatar(), postUserForm.getRole(), Playground.PLAYGROUND_NAME));
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + Constants.Function_1, postUserForm,	UserTO.class);		
 		assertThat(actualReturnedValue).isNotNull().isEqualToComparingFieldByField(testValue);
 	}
@@ -84,8 +85,8 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void registerUserThatAlreadyExists() {
 
-		NewUserForm postUserForm = new NewUserForm(Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE);
-		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), postUserForm.getAvatar(), postUserForm.getRole(), User.PLAYGROUND_NAME));
+		NewUserForm postUserForm = new NewUserForm(User.EMAIL_FOR_TESTS, Constants.DEFAULT_USERNAME, Constants.AVATAR_FOR_TESTS, User.PLAYER_ROLE);
+		UserTO userToAdd = new UserTO(new UserEntity(postUserForm.getUsername(), postUserForm.getEmail(), postUserForm.getAvatar(), postUserForm.getRole(), Playground.PLAYGROUND_NAME));
 		userService.addUser(userToAdd.toEntity());
 		UserTO actualReturnedValue = this.restTemplate.postForObject(this.url + Constants.Function_1, postUserForm, UserTO.class);
 		assertThat(actualReturnedValue).isNull();
@@ -100,16 +101,16 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void confirmUserEmailNotInDatabase() {
 
-		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Constants.DEFAULT_VERIFICATION_CODE);
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, User.DEFAULT_VERIFICATION_CODE);
 	}
 	
 	//2.2 Scenario : Successful confirmation
 	@Test
 	public void confirmUserWithCorrectCode() {
 
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
+		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, u.getVerificationCode());
 		assertThat(user).isNotNull();
 
 	}
@@ -118,19 +119,19 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void confirmUserNotInPlayground() {
 
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, User.Other_Playground, Constants.EMAIL_FOR_TESTS, u.getVerificationCode());
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, Playground.Other_Playground, User.EMAIL_FOR_TESTS, u.getVerificationCode());
 	}
 	
 	//2.4 Scenario: Email is registered but verification code is wrong
 	@Test(expected = RuntimeException.class)
 	public void confirmUserWithIncorrectVerificationCode() {
 
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		String code = u.getVerificationCode();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, code + "x");
+		this.restTemplate.getForObject(this.url + Constants.Function_2, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, code + "x");
 	}
 
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished
@@ -141,10 +142,10 @@ public class UserTest {
 	@Test
 	public void loginUserWithCorrectEmail() {
 		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		u.verifyUser();
 		this.userService.addUser(u);
-		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		UserTO user = this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 		assertThat(user).isNotNull();
 	}
 	
@@ -152,27 +153,27 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void loginUserEmailNotInDatabase() {
 		
-		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 	}
 	
 	//3.3 Scenario: User doesn�t belong in playground
 	@Test(expected = RuntimeException.class)
 	public void loginUserNotInPlayground() {
 		
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.Other_Playground);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.Other_Playground);
 		u.verifyUser();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 	}
 	
 	//3.4 Scenario: User not verified
 	@Test(expected=RuntimeException.class)
 	public void loginUserWhenUserNotVerified() {
 
-		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity u = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		assertThat(u.isVerified()).isFalse();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS);
+		this.restTemplate.getForObject(this.url + Constants.Function_3, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS);
 	}
 
 	// url #3/playground/users/login/{playground}/{email} test finished
@@ -183,7 +184,7 @@ public class UserTest {
 	@Test
 	public void UserUpdateHisInfo() {
 
-		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		managerUser.verifyUser();
 		this.userService.addUser(managerUser);
 		managerUser.setAvatar("name");
@@ -198,11 +199,11 @@ public class UserTest {
 	@Test(expected = RuntimeException.class)
 	public void UserUpdateAnotherUser() {
 
-		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity managerUser = new UserEntity(Constants.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		managerUser.verifyUser();
 		this.userService.addUser(managerUser);
 		
-		UserEntity otherUser = new UserEntity(Constants.DEFAULT_USERNAME, "other"+Constants.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, User.PLAYGROUND_NAME);
+		UserEntity otherUser = new UserEntity(Constants.DEFAULT_USERNAME, "other"+User.EMAIL_FOR_TESTS, Constants.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		otherUser.verifyUser();
 		otherUser = userService.addUser(otherUser);
 		

@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 
+import playground.constants.Activity;
 import playground.constants.Constants;
 import playground.constants.Element;
 import playground.dal.ActivityDao;
@@ -36,7 +37,7 @@ public class DummyActivityService implements ActivityService {
 	public String[] readMessagesFromMessageboard() {
 		ArrayList<String> messages = new ArrayList<>();
 		for (ElementEntity elEn : elementService.getAllElements()) {
-			if (elEn.getType().equals(Constants.ACTIVITY_MESSAGE_KEY))
+			if (elEn.getType().equals(Activity.ACTIVITY_MESSAGE_KEY))
 				messages.add(elEn.getAttributes().toString());
 		}
 		return messages.toArray(new String[messages.size()]);

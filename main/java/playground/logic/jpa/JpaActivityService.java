@@ -10,6 +10,7 @@ import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.aop.PlayerLogin;
+import playground.constants.Activity;
 import playground.constants.Constants;
 import playground.constants.Element;
 import playground.dal.ActivityDao;
@@ -106,14 +107,14 @@ public class JpaActivityService implements ActivityService {
 		String activityType = activity.getType();
 		System.err.println("activityType: " + activityType);
 		switch (activityType) {
-		case Constants.DEFAULT_ACTIVITY_TYPE: {
+		case Activity.DEFAULT_ACTIVITY_TYPE: {
 			System.err.println("1");
 			/*
 			 * Default activity is ECHO
 			 */
 			return activity;
 		}
-		case Constants.GET_MESSAGES_ACTIVITY: {
+		case Activity.GET_MESSAGES_ACTIVITY: {
 			System.err.println("2");
 			/*
 			 * return getAllMessagesActivitiesInMessageBoard( (String)
@@ -122,22 +123,22 @@ public class JpaActivityService implements ActivityService {
 			 */
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
-		case Constants.MESSAGE_ACTIVITY: {
+		case Activity.MESSAGE_ACTIVITY: {
 			return addMessage(activity);
 		}
-		case Constants.QUESTION_READ_ACTIVITY: {
+		case Activity.QUESTION_READ_ACTIVITY: {
 			return getQuestion(activity);
 		}
-		case Constants.QUESTION_ANSWER_ACTIVITY: {
+		case Activity.QUESTION_ANSWER_ACTIVITY: {
 			System.err.println("4");
 			return answerQuestion(activity);
 		}
-		case Constants.GET_SCORES_ACTIVITY: {
+		case Activity.GET_SCORES_ACTIVITY: {
 			System.err.println("5");
 			return null;
 			// userService.getHighScores(pageable);
 		}
-		case Constants.GET_GAME_RULES_ACTIVITY:{
+		case Activity.GET_GAME_RULES_ACTIVITY:{
 			return getGameRules(activity);
 		}
 
@@ -204,7 +205,7 @@ public class JpaActivityService implements ActivityService {
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
 		ArrayList<ActivityEntity> lst2 = new ArrayList<ActivityEntity>();
-		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Constants.MESSAGE_ACTIVITY, pageable))
+		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Activity.MESSAGE_ACTIVITY, pageable))
 			lst.add(a);
 		return lst;
 	}
@@ -230,7 +231,7 @@ public class JpaActivityService implements ActivityService {
 		ElementEntity a = elementService.getElementNoLogin(id);
 		if (a != null) {
 			if (a.getType().equals(Element.ELEMENT_QUESTION_TYPE)) {
-				String user_answer = ((String) activity.getAttribute().get(Constants.ACTIVITY_USER_ANSWER_KEY))
+				String user_answer = ((String) activity.getAttribute().get(Activity.ACTIVITY_USER_ANSWER_KEY))
 						.toLowerCase();
 				String actual_answer = ((String) a.getAttributes().get(Element.ELEMENT_ANSWER_KEY)).toLowerCase();
 				int points = (int) a.getAttributes().get(Element.ELEMENT_POINT_KEY);
