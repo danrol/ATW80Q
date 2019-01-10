@@ -83,7 +83,6 @@ public class JpaActivityService implements ActivityService {
 		String activityType = activity.getType();
 		switch (activityType) {
 		case Activity.DEFAULT_ACTIVITY_TYPE: {
-			System.err.println("1");
 			/*
 			 * Default activity is ECHO
 			 */
@@ -139,6 +138,17 @@ public class JpaActivityService implements ActivityService {
 			elementService.updateElementInDatabaseFromExternalElementNoLogin(messageBoard);
 		} else
 			throw new ElementDataException(Element.MESSAGEBOARD_NOT_FOUND_ERROR + msgboard_superkey);
+		return activity;
+	}
+
+	@Override
+	public ActivityEntity createActivityEntity(String json) {
+		ActivityEntity activity = null;
+		try {
+			activity = new ActivityEntity(json);
+		} catch (Exception e) {
+			throw new ActivityDataException(e.getMessage());
+		}
 		return activity;
 	}
 

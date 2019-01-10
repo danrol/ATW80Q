@@ -52,6 +52,8 @@ public interface ElementService {
 
 	void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard);
 
+	ElementEntity createElementEntity(String json);
+
 
 
 	

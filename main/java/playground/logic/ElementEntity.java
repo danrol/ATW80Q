@@ -26,7 +26,7 @@ public class ElementEntity {
 
 	private static final long serialVersionUID = 1L;
 	private String name;
-	private String id=" ";
+	private String id = " ";
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;
@@ -36,7 +36,7 @@ public class ElementEntity {
 	private double x;
 	private double y;
 	private Map<String, Object> attributes = Collections.synchronizedMap(new HashMap<>());
-	
+
 	private String superkey;
 
 	@Autowired
@@ -46,17 +46,21 @@ public class ElementEntity {
 	}
 
 //	 Constructor that receives just a JSon string and creates the class in ElementEntity
-	public ElementEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
-		this.name = elEntity.name;
-		this.id = elEntity.id;
-		this.playground = elEntity.playground;
-		this.creationDate = elEntity.creationDate;
-		this.creatorPlayground = elEntity.creatorPlayground;
-		this.creatorEmail = elEntity.creatorEmail;
-		setX(elEntity.getX());
-		setY(elEntity.getY());
+	public ElementEntity(String jsonString)  {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
+			this.name = elEntity.name;
+			this.id = elEntity.id;
+			this.playground = elEntity.playground;
+			this.creationDate = elEntity.creationDate;
+			this.creatorPlayground = elEntity.creatorPlayground;
+			this.creatorEmail = elEntity.creatorEmail;
+			setX(elEntity.getX());
+			setY(elEntity.getY());
+		} catch (Exception e) {
+			throw new ElementDataException(e.getMessage());
+		}
 	}
 
 	public ElementEntity(String name, double x, double y) {
@@ -95,11 +99,11 @@ public class ElementEntity {
 	public String getSuperkey() {
 		return id.concat(" " + creatorPlayground);
 	}
-	
+
 	public void setSuperkey(String Superkey) {
-		//empty
+		// empty
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -211,9 +215,9 @@ public class ElementEntity {
 
 	@Override
 	public String toString() {
-		return "ElementEntity [superkey=" + this.getSuperkey() + ", name=" + name + ", id=" + id + ", playground=" + playground
-				+ ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", type=" + type
-				+ ", creatorPlayground=" + creatorPlayground + ", attributes=" + attributes.toString()
+		return "ElementEntity [superkey=" + this.getSuperkey() + ", name=" + name + ", id=" + id + ", playground="
+				+ playground + ", creationDate=" + creationDate + ", expirationDate=" + expirationDate + ", type="
+				+ type + ", creatorPlayground=" + creatorPlayground + ", attributes=" + attributes.toString()
 				+ ", creatorEmail=" + creatorEmail + ", x= " + x + " y=" + y + "]";
 	}
 
@@ -230,11 +234,10 @@ public class ElementEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		ElementEntity other = (ElementEntity) obj;
-		if(this.getSuperkey().equals(other.getSuperkey()))
+		if (this.getSuperkey().equals(other.getSuperkey()))
 			return true;
 		else
 			return false;
 	}
-		
-	
+
 }

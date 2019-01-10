@@ -39,17 +39,25 @@ public class ActivityEntity implements Serializable {
 
 //	create constructors that receive just a JSon 
 //	string and create the class in ActivityEntity
-	public ActivityEntity(String jsonString) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
-		ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class);
-		this.id = acEntity.id;
-		this.playground = acEntity.playground;
-		this.elementPlayground = acEntity.elementPlayground;
-		this.elementId = acEntity.elementId;
-		this.type = acEntity.type;
-		this.playerPlayground = acEntity.playerPlayground;
-		this.playerEmail = acEntity.playerEmail;
-		this.attribute = acEntity.attribute;
+	public ActivityEntity(String jsonString) {
+		
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class);
+			this.id = acEntity.id;
+			this.playground = acEntity.playground;
+			this.elementPlayground = acEntity.elementPlayground;
+			this.elementId = acEntity.elementId;
+			this.type = acEntity.type;
+			this.playerPlayground = acEntity.playerPlayground;
+			this.playerEmail = acEntity.playerEmail;
+			this.attribute = acEntity.attribute;
+		}
+		catch(Exception e)
+		{
+			throw new ActivityDataException(e.getMessage());
+		}
+
 	}
 
 

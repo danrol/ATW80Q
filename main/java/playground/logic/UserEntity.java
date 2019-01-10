@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import playground.constants.Playground;
 import playground.constants.User;
 
@@ -47,6 +50,25 @@ public class UserEntity {
 		Random r = new Random();
 		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
 		// return Constants.DEFAULT_VERIFICATION_CODE;
+	}
+
+	public UserEntity(String jsonString) {
+
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			UserEntity userEntity = objectMapper.readValue(jsonString, UserEntity.class);
+			this.email = userEntity.email;
+			this.avatar = 	userEntity.avatar;
+			this.username= userEntity.username;
+			this.playground = userEntity.playground;
+			this.role = userEntity.role;
+			this.verificationCode=userEntity.verificationCode;
+			this.superkey = userEntity.superkey;
+			this.id=userEntity.id;
+			this.points=userEntity.points;
+		} catch (Exception e) {
+			throw new UserDataException(e.getMessage());
+		}
 	}
 
 	@Id

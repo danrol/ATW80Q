@@ -12,10 +12,13 @@ import playground.aop.MyLog;
 import playground.constants.Playground;
 import playground.constants.User;
 import playground.dal.UserDao;
+import playground.logic.ActivityDataException;
+import playground.logic.ActivityEntity;
 import playground.logic.ConfirmException;
 import playground.logic.NewUserForm;
 import playground.logic.PermissionUserException;
 import playground.logic.RegisterNewUserException;
+import playground.logic.UserDataException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
@@ -72,6 +75,17 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
+	public UserEntity createUserEntity(String json) {
+		UserEntity user = null;
+		try {
+			user = new UserEntity(json);
+		} catch (Exception e) {
+			throw new UserDataException(e.getMessage());
+		}
+		return user;
+	}
+
+	@Override
 	@Transactional
 	@MyLog
 	public UserEntity verifyUser(String email, String playground, String code) {
@@ -86,8 +100,8 @@ public class jpaUserService implements UserService {
 				else
 					throw new ConfirmException(User.VERIFICATION_CODE_MISMATCH_ERROR);
 			} else
-				throw new ConfirmException(User.USER_NOT_IN_PLAYGROUND_ERROR + user.getEmail() + "  ("
-						+ playground + ")");
+				throw new ConfirmException(
+						User.USER_NOT_IN_PLAYGROUND_ERROR + user.getEmail() + "  (" + playground + ")");
 		} else {
 			throw new ConfirmException(User.EMAIL_NOT_REGISTERED_ERROR);
 		}
@@ -114,7 +128,7 @@ public class jpaUserService implements UserService {
 			user.setId(id);
 			userDB.save(user);
 		}
-		
+
 	}
 
 	@Override

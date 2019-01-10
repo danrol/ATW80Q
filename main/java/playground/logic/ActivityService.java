@@ -25,4 +25,6 @@ public interface ActivityService {
 
 	String getGameRules(ActivityEntity activity);
 
+	ActivityEntity createActivityEntity(String json);
+
 }

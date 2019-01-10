@@ -15,6 +15,8 @@ import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
+import playground.logic.ActivityDataException;
+import playground.logic.ActivityEntity;
 import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -197,7 +199,16 @@ public class jpaElementService implements ElementService {
 			throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + superkey);
 
 	}
-
+	@Override
+	public ElementEntity createElementEntity(String json) {
+		ElementEntity element = null;
+		try {
+			element = new ElementEntity(json);
+		} catch (Exception e) {
+			throw new ElementDataException(e.getMessage());
+		}
+		return element;
+	}
 	@Override
 	@Transactional(readOnly = false)
 	@ManagerLogin
