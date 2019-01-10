@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.springframework.data.domain.Pageable;
 
 import playground.constants.Constants;
+import playground.constants.User;
 import playground.logic.ConfirmException;
 import playground.logic.LoginException;
 import playground.logic.NewUserForm;
@@ -47,7 +48,7 @@ public class DummyUserService implements UserService{
 	
 	@Override
 	public void addUser(NewUserForm user) {
-		if (this.getUser(Constants.PLAYGROUND_NAME, user.getEmail()) != null)
+		if (this.getUser(User.PLAYGROUND_NAME, user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 				users.add(new UserEntity(user));

@@ -19,12 +19,7 @@ public class Constants {
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
-	public static String PLAYGROUND_MAIL = "PLAYGROUND_MAIL";
-	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
-	public static final String Other_Playground = "OtherPlayground";
-	public static final String MANAGER_ROLE = "MANAGER";
-	public static final String PLAYER_ROLE = "PLAYER";
-	public static final String UNDEFINED_ROLE = "NO_ROLE";
+	
 	
 
 	public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
@@ -94,15 +89,9 @@ public class Constants {
 	public static final Date EXP_DATE = new Date(Constants.DEFAULT_EXPIRATION_YEAR, Constants.DEFAULT_EXPIRATION_MONTH,
 			Constants.DEFAULT_EXPIRATION_DAY);
 
-	@Value("${playground.name:playgroundrolnik}")
-	public void setDefaultUserName(String defaultPlaygroundName) {
-		Constants.PLAYGROUND_NAME = defaultPlaygroundName;
-	}
+	
 
-	@Value("${playground.mail:playgroundrolnik@gmail.com}")
-	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
-		Constants.PLAYGROUND_MAIL = defaultPlaygroundMail;
-	}
+	
 
 	@Value("${playground.default.username:noname}")
 	public void setDefaultUsername(String defaultUsername) {

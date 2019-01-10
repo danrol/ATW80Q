@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import playground.aop.MyLog;
 import playground.constants.Constants;
+import playground.constants.User;
 import playground.layout.UserTO;
 import playground.logic.ErrorException;
 import playground.logic.NewUserForm;
@@ -38,7 +39,7 @@ public class UserController {
 		 * INPUT: NewUserForm
 		 * OUTPUT: UserTO
 		 */
-		return new UserTO(userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), newUserForm.getRole(), Constants.PLAYGROUND_NAME)));
+		return new UserTO(userService.addUser(new UserEntity(newUserForm.getUsername(), newUserForm.getEmail(), newUserForm.getAvatar(), newUserForm.getRole(), User.PLAYGROUND_NAME)));
 	}
 
 	@RequestMapping(method=RequestMethod.GET,path="/playground/users/confirm/{playground}/{email}/{code}",produces=MediaType.APPLICATION_JSON_VALUE)

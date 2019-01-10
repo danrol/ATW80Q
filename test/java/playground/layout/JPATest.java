@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.User;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
@@ -93,7 +94,7 @@ public class JPATest {
 	@Test
 	public void addNonExistingUserToJPA() {
 		
-		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
+		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",User.PLAYER_ROLE,"rolnik");
 		user = userService.addUser(user);
 		assertThat(userService.isUserInDatabase(user));
 		assertThat(userService.getUser(user.getPlayground(), user.getEmail())).isEqualTo(user);
@@ -103,8 +104,8 @@ public class JPATest {
 	@Test(expected = RuntimeException.class)
 	public void addExistingUserToJPA() {
 		
-		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
-		UserEntity user2 = new UserEntity("username2", "email@email.com", "avatar1.jpg",Constants.PLAYER_ROLE,"rolnik");
+		UserEntity user = new UserEntity("username1", "email@email.com", "avatar1.jpg",User.PLAYER_ROLE,"rolnik");
+		UserEntity user2 = new UserEntity("username2", "email@email.com", "avatar1.jpg",User.PLAYER_ROLE,"rolnik");
 		
 		userService.addUser(user);
 		userService.addUser(user2);

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.User;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
 import playground.logic.ElementEntity;
@@ -38,11 +39,11 @@ public class DummyInitializer {
 	public void init() {
 		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
-		UserEntity mod = new UserEntity("manager", "demoManager@playground.rolnik", "avatar", Constants.MANAGER_ROLE,
-				Constants.PLAYGROUND_NAME);
+		UserEntity mod = new UserEntity("manager", "demoManager@playground.rolnik", "avatar", User.MANAGER_ROLE,
+				User.PLAYGROUND_NAME);
 
-		UserEntity player = new UserEntity("player", "demoPlayer@playground.rolnik", "avatar", Constants.PLAYER_ROLE,
-				Constants.PLAYGROUND_NAME);
+		UserEntity player = new UserEntity("player", "demoPlayer@playground.rolnik", "avatar", User.PLAYER_ROLE,
+				User.PLAYGROUND_NAME);
 		mod.verifyUser();
 		player.verifyUser();
 		try {

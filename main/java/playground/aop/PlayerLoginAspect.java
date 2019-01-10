@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import playground.constants.Constants;
+import playground.constants.User;
 import playground.dal.UserDao;
 import playground.logic.LoginException;
 import playground.logic.PermissionUserException;
@@ -31,7 +32,7 @@ public class PlayerLoginAspect {
 			throw new LoginException("Email is not registered.");
 		else if(!u.isVerified()) 
 				throw new LoginException("User is not verified.");
-		else if(u.getRole() != Constants.PLAYER_ROLE)
+		else if(u.getRole() != User.PLAYER_ROLE)
 				throw new PermissionUserException("User" + u.getRole() + "has no access rights.");
 		System.err.println("Player Login Required: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());

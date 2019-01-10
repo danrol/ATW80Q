@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.User;
 
 //KEY is: id+creatorPlayground
 @Entity
@@ -63,8 +64,8 @@ public class ElementEntity {
 	public ElementEntity(String name, double x, double y) {
 		this();
 		this.name = name;
-		this.playground = Constants.PLAYGROUND_NAME;
-		this.creatorPlayground = Constants.PLAYGROUND_NAME;
+		this.playground = User.PLAYGROUND_NAME;
+		this.creatorPlayground = User.PLAYGROUND_NAME;
 		setX(x);
 		setY(y);
 	}

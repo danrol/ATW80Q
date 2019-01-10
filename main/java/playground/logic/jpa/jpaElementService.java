@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import playground.constants.Constants;
 import playground.constants.Element;
+import playground.constants.User;
 import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
@@ -87,9 +88,9 @@ public class jpaElementService implements ElementService {
 	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
 		// TODO check how to improve
 		Date now = new Date();
-		if (user.getRole().equals(Constants.PLAYER_ROLE) && now.compareTo(date) > 0)
+		if (user.getRole().equals(User.PLAYER_ROLE) && now.compareTo(date) > 0)
 			return true;
-		else if (user.getRole().equals(Constants.MANAGER_ROLE))
+		else if (user.getRole().equals(User.MANAGER_ROLE))
 			return true;
 		else
 			return false;
@@ -204,7 +205,7 @@ public class jpaElementService implements ElementService {
 		if (element.getCreatorEmail() == null)
 			element.setCreatorEmail(email);
 
-		element.setPlayground(Constants.PLAYGROUND_NAME);
+		element.setPlayground(User.PLAYGROUND_NAME);
 
 		return addElementNoLogin(element);
 	}

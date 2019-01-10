@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import playground.constants.Constants;
+import playground.constants.User;
 
 //KEY IS EMAIL+PLAYGROUND
 @Entity
@@ -18,7 +19,7 @@ public class UserEntity {
 	private String avatar;
 	private String username;
 	private String playground;
-	private String role = Constants.UNDEFINED_ROLE;
+	private String role = User.UNDEFINED_ROLE;
 	private String verificationCode = Constants.DEFAULT_VERIFICATION_CODE;
 	private String superkey;
 	private String id;
@@ -39,7 +40,7 @@ public class UserEntity {
 	}
 
 	public UserEntity(NewUserForm user) {
-		this(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(), Constants.PLAYGROUND_NAME);
+		this(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(), User.PLAYGROUND_NAME);
 	}
 
 	@Transient
@@ -118,12 +119,12 @@ public class UserEntity {
 
 	public void setRole(String role) {
 		role = role.toLowerCase();
-		if (role.equals(Constants.MANAGER_ROLE.toLowerCase())) {
-			this.role = Constants.MANAGER_ROLE;
-		} else if (role.equals(Constants.PLAYER_ROLE.toLowerCase())) {
-			this.role = Constants.PLAYER_ROLE;
+		if (role.equals(User.MANAGER_ROLE.toLowerCase())) {
+			this.role = User.MANAGER_ROLE;
+		} else if (role.equals(User.PLAYER_ROLE.toLowerCase())) {
+			this.role = User.PLAYER_ROLE;
 		} else {
-			this.role = Constants.UNDEFINED_ROLE;
+			this.role = User.UNDEFINED_ROLE;
 			throw new RuntimeException("Undefined role");
 		}
 	}

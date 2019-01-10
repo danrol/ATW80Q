@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import playground.aop.LoginRequired;
 import playground.aop.MyLog;
 import playground.constants.Constants;
+import playground.constants.User;
 import playground.dal.UserDao;
 import playground.logic.ConfirmException;
 import playground.logic.NewUserForm;
@@ -152,11 +153,11 @@ public class jpaUserService implements UserService {
 	@Transactional
 	@MyLog
 	public void addUser(NewUserForm user) {
-		if (this.getUser(Constants.PLAYGROUND_NAME, user.getEmail()) != null)
+		if (this.getUser(User.PLAYGROUND_NAME, user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
 			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),
-					Constants.PLAYGROUND_NAME);
+					User.PLAYGROUND_NAME);
 			addUser(userEnt);
 		}
 	}
