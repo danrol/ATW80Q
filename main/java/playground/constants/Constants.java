@@ -46,11 +46,6 @@ public class Constants {
 	public static final int SIZE_NUMBER = 3;
 
 
-	public enum Numbers {
-		ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN
-	};
-
-
 	// Activity types
 
 	public static final String GET_SCORES_ACTIVITY = "GET_SCORES_ACTIVITY";

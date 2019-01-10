@@ -360,9 +360,9 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
-		ElementEntity elem1 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + Constants.Numbers.ONE.ordinal(),
+		ElementEntity elem1 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "1",
 				Element.LOCATION_X1, Element.LOCATION_Y1);
-		ElementEntity elem2 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + Constants.Numbers.TWO.ordinal(),
+		ElementEntity elem2 = new ElementEntity(Element.DEFAULT_ELEMENT_NAME + "2",
 				Element.LOCATION_Y1, Element.LOCATION_X1);
 
 		elem1 = elementService.addElementNoLogin(elem1);
@@ -501,7 +501,7 @@ public class ElementTest {
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Constants.Function_9, ElementTO[].class,
 				User.PLAYGROUND_NAME, Constants.EMAIL_FOR_TESTS, Element.LOCATION_X1, Element.LOCATION_Y1,
 				Constants.Zero_Distance);
-		assertThat(elements.length).isEqualTo(Constants.Numbers.ONE.ordinal());
+		assertThat(elements.length).isEqualTo("1");
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(),
 				Element.LOCATION_X1, Element.LOCATION_Y1);
 		assertThat(actualDistance).isEqualTo(Constants.Zero_Distance);
@@ -563,10 +563,10 @@ public class ElementTest {
 
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put(Constants.attributeName, Constants.attrValue);
-		testMap.put(Constants.attributeName + Constants.Numbers.TWO.ordinal(),
-				Constants.attrValue + Constants.Numbers.TWO.ordinal());
-		testMap.put(Constants.attributeName + Constants.Numbers.THREE.ordinal(),
-				Constants.attrValue + Constants.Numbers.THREE.ordinal());
+		testMap.put(Constants.attributeName + "2",
+				Constants.attrValue + "2");
+		testMap.put(Constants.attributeName + "3",
+				Constants.attrValue + "3");
 		elementForTest.setAttributes(testMap);
 //		elementForTest2.setAttributes(testMap);
 
@@ -592,16 +592,16 @@ public class ElementTest {
 		ElementTO[] elementForTest = { new ElementTO(
 				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1)) };
 		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Constants.attributeName + Constants.Numbers.ONE.ordinal(),
-				Constants.attrValue + Constants.Numbers.ONE.ordinal());
-		testMap.put(Constants.attributeName + Constants.Numbers.TWO.ordinal(),
-				Constants.attrValue + Constants.Numbers.TWO.ordinal());
-		testMap.put(Constants.attributeName + Constants.Numbers.THREE.ordinal(),
-				Constants.attrValue + Constants.Numbers.THREE.ordinal());
+		testMap.put(Constants.attributeName + "1",
+				Constants.attrValue + "1");
+		testMap.put(Constants.attributeName + "2",
+				Constants.attrValue + "2");
+		testMap.put(Constants.attributeName + "3",
+				Constants.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Constants.Function_10, ElementTO[].class,
 				User.PLAYGROUND_NAME, userElementCreator.getEmail(), Constants.noSuchAttribute,
-				testMap.get(Constants.attributeName + Constants.Numbers.THREE.ordinal()));
+				testMap.get(Constants.attributeName + "3"));
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 
@@ -617,16 +617,16 @@ public class ElementTest {
 		ElementTO[] elementForTest = { new ElementTO(
 				new ElementEntity(Element.DEFAULT_ELEMENT_NAME, Element.LOCATION_X1, Element.LOCATION_Y1)) };
 		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Constants.attributeName + Constants.Numbers.ONE.ordinal(),
-				Constants.attrValue + Constants.Numbers.ONE.ordinal());
-		testMap.put(Constants.attributeName + Constants.Numbers.TWO.ordinal(),
-				Constants.attrValue + Constants.Numbers.TWO.ordinal());
-		testMap.put(Constants.attributeName + Constants.Numbers.THREE.ordinal(),
-				Constants.attrValue + Constants.Numbers.THREE.ordinal());
+		testMap.put(Constants.attributeName + "1",
+				Constants.attrValue + "1");
+		testMap.put(Constants.attributeName + "2",
+				Constants.attrValue + "2");
+		testMap.put(Constants.attributeName + "3",
+				Constants.attrValue + "3");
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Constants.Function_10, ElementTO[].class,
 				User.PLAYGROUND_NAME, userElementCreator.getEmail(),
-				Constants.attributeName + Constants.Numbers.THREE.ordinal(), Constants.wrongAttributeValue);
+				Constants.attributeName + "3", Constants.wrongAttributeValue);
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 
@@ -642,8 +642,8 @@ public class ElementTest {
 		ElementEntity elementToAdd;
 
 		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Constants.attributeName + Constants.Numbers.ONE.ordinal(), Constants.attrValue);
-		testMap.put(Constants.attributeName + Constants.Numbers.TWO.ordinal(), Constants.attrValue);
+		testMap.put(Constants.attributeName + "1", Constants.attrValue);
+		testMap.put(Constants.attributeName + "2", Constants.attrValue);
 		testMap.put(Constants.attributeName, Constants.attrValue);
 
 		for (int n = 1; n <= 11; n++) {
