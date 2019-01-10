@@ -125,8 +125,8 @@ public class ActivityTest {
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
-				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
-				Element.LOCATION_Y1);
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, 5,
+				6);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Activity.QUESTION_READ_ACTIVITY);
@@ -146,8 +146,8 @@ public class ActivityTest {
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
-				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
-				Element.LOCATION_Y1);
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, 5,
+				6);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Activity.QUESTION_READ_ACTIVITY);
 		activity.setElementId(question.getSuperkey());
@@ -166,8 +166,8 @@ public class ActivityTest {
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
-				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
-				Element.LOCATION_Y1);
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, 5,
+				6);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);
@@ -194,8 +194,8 @@ public class ActivityTest {
 		mod.verifyUser();
 		mod = userService.addUser(mod);
 		ElementEntity question = this.createQuestionElement(Element.QUESTION_TITLE_TEST, Element.QUESTION_BODY_TEST,
-				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, Element.LOCATION_X1,
-				Element.LOCATION_Y1);
+				Element.QUESTION_CORRECT_ANSWER_TEST, Element.QUESTION_POINT_VALUE_TEST, 5,
+				6);
 		question = elementService.addElementNoLogin(question);
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);

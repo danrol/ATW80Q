@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import playground.constants.Element;
 import playground.constants.Playground;
-import playground.constants.User;
 
 //KEY is: id+creatorPlayground
 @Entity

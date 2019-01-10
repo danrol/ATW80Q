@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import playground.aop.MyLog;
 import playground.constants.Playground;
-import playground.constants.User;
 import playground.layout.UserTO;
 import playground.logic.ErrorException;
 import playground.logic.NewUserForm;

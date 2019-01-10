@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Playground {
 	
+	// URL
+	
 	public static final String Function_1 = "/playground/users";
 	public static final String Function_2 = "/playground/users/confirm/{playground}/{email}/{code}";
 	public static final String Function_3 = "/playground/users/login/{playground}/{email}";
@@ -18,12 +20,15 @@ public class Playground {
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
-	
+	// test values
 	public static String PLAYGROUND_MAIL = "PLAYGROUND_MAIL";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 
+	
+	
+	
 	@Value("${playground.mail:playgroundrolnik@gmail.com}")
 	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
 		Playground.PLAYGROUND_MAIL = defaultPlaygroundMail;

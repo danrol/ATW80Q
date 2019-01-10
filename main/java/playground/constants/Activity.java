@@ -23,16 +23,17 @@ public class Activity {
 		public static final String USER_ID_OF_ACTIVITY_KEY = "User_id"; //TODO:Eden Sharoni:  not used in code.
 		public static final String ACTIVITY_MESSAGE_KEY = "Message"; // String of the actual message
 		
+		// test values
 		
 		public static final String attributeName = "attribute";
 		public static final String attrValue = "attrValue";
 		public static final String noSuchAttribute = "noSuchAttribute";
 		public static final String wrongAttributeValue = "wrongAttributeValue";
 
+		// Rule for the game
+		
 		public static final String GAME_RULES = "Rules are simple. We ask and you answer. \r\n";
-		
-		public static final String QUESTION = "QUESTION"; //TODO:Eden Sharoni:  not used in code.
-		
+				
 		public static final boolean CORRECT_ANSWER = true;
 		public static final boolean WRONG_ANSWER = false;
 
