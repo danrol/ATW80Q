@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Constants;
+import playground.constants.Element;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserEntity;
@@ -24,7 +25,6 @@ import playground.logic.UserService;
 @ConfigurationProperties(prefix = "test")
 public class JPATest {
 	
-	private RestTemplate restTemplate;
 	private ElementService elementService;
 	private UserService userService;
 
@@ -46,7 +46,6 @@ public class JPATest {
 
 	@PostConstruct
 	public void init() {
-		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 
@@ -70,8 +69,7 @@ public class JPATest {
 	public void addNonExistingElementToJPA() {
 		
 		
-		String creatorPlayground="creator";
-		ElementEntity element = new ElementEntity(Constants.DEFAULT_ELEMENT_NAME,1,2);
+		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME,1,2);
 		
 		elementService.addElementNoLogin(element);
 		assertThat(elementService.isElementInDatabase(element));
@@ -82,7 +80,6 @@ public class JPATest {
 	@Test
 	public void addExistingElementToJPA() {
 		
-		String creatorPlayground="creator";
 		ElementEntity element = new ElementEntity("name1",1,2);
 		element = elementService.addElementNoLogin(element);
 		ElementEntity element2 = new ElementEntity("name2",1,2);
