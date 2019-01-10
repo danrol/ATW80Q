@@ -15,9 +15,10 @@ import javax.swing.border.TitledBorder;
 
 public class SignUp { 
 	
+	ClientModel model;
 	
-	public SignUp() {
-		
+	public SignUp(ClientModel model) {
+		this.model = model;
 		JFrame frame = new JFrame();
 		frame.setTitle("Sign Up");
 		frame.setSize(500,400);

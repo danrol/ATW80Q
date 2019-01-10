@@ -12,9 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class SignIn { 
+	ClientModel model;
 	
-	public SignIn() {
-		
+	
+	public SignIn(ClientModel model) {
+		this.model = model;
 		JFrame frame = new JFrame();
 		frame.setTitle("Sign In");
 		frame.setSize(500, 300);
@@ -26,11 +28,12 @@ public class SignIn {
 		
 		frame.add(SignInLabel);
 		frame.add(new JLabel());
-		
+		JTextField userPlayground = new JTextField();
+		JTextField email = new JTextField();
 		frame.add(new JLabel("Playground: "));
-		frame.add(new JTextField());
+		frame.add(userPlayground);
 		frame.add(new JLabel("Email: "));
-		frame.add(new JTextField());
+		frame.add(email);
 		
 		JButton signInButton = new JButton("Sign In");
 		JPanel Okbutton = new JPanel();
@@ -39,7 +42,10 @@ public class SignIn {
 		
 		signInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.err.println("Find User In database");
+				System.err.println("Sign in request:");
+				String userPlayground_text = userPlayground.getText().trim();
+				String email_text = email.getText().trim();
+				//model.signIn(userPlayground_text, email_text);
 			}});
 		
 		frame.setLocationRelativeTo(null);

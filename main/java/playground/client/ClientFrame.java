@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ClientFrame extends JPanel{
-	
+	ClientModel model;
 	public JButton signIn = new JButton("Sign In");
 	public JButton signUp = new JButton("Sign Up");
 	
@@ -19,8 +19,8 @@ public class ClientFrame extends JPanel{
 	public final String EliaBenAnat = "Elia Ben Anat - 308048388";
 	public final String DanielRolnik = "Daniel Rolnik - 334018009";
 	
-	ClientFrame() {
-		
+	ClientFrame(ClientModel model) {
+		this.model = model;
 		JPanel init = new JPanel(new GridLayout(6, 0, 2, 2));
 		
 		JLabel ATWQ80 = new JLabel("Around The World 80 Questions");
@@ -52,13 +52,13 @@ public class ClientFrame extends JPanel{
 		
 		signIn.addActionListener(new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			new SignIn();
+			new SignIn(model);
 		}});
 		
 		signUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.err.println("Sign up button pressed");
-				new SignUp();
+				new SignUp(model);
 			}});
 	
 	}

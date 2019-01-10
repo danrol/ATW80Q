@@ -190,7 +190,10 @@ public class jpaUserService implements UserService {
 
 	@Override
 	public UserEntity getUser(String superkey) {
-		return userDB.findById(superkey).orElse(null);
+		UserEntity t = userDB.findById(superkey).orElse(null);
+		if(t==null)
+			throw new UserDataException(User.EMAIL_NOT_REGISTERED_ERROR);
+		return t;
 
 	}
 

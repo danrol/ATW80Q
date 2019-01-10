@@ -8,10 +8,26 @@ import playground.Application;
 
 public class Client extends Application{
 	public static void main(String[] args) {
+		
+		String host = System.getProperty("playground.host");
+		if (host == null) {
+			host = "localhost";
+		}
+		
+		int port;
+		try {
+			port = Integer.parseInt(System.getProperty("server.port"));
+		} catch (Exception e) {
+			port = 8080;
+		}
+		
+		
+		
+		ClientModel model = new ClientModel(host, port);
 		JFrame frame = new JFrame();
-		frame.setTitle("Around The World 80 questions");
+		frame.setTitle("Around The World in 80 questions");
 		frame.setSize(550, 550);
-		ClientFrame s = new ClientFrame();
+		ClientFrame s = new ClientFrame(model);
 		frame.add(s, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
