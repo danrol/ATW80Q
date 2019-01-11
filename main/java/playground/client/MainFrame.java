@@ -16,7 +16,7 @@ public class MainFrame implements ActionListener{
 	ClientModel model;
 	JButton signOut; 
 	JButton updatuser; 
-	String[] comBox = {"Add Question", "Get game Rules", "Get Message", "Add Message", "Get Question", "Answer question" };
+	String[] comBox = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
 	JComboBox<String> activity; 
 	JLabel main;
 	JFrame frame;
@@ -53,7 +53,8 @@ public class MainFrame implements ActionListener{
 		
 		
 		signOut.addActionListener(this);
-		
+		updatuser.addActionListener(this);
+		activity.addActionListener(this);
 
 		
 		frame.setLocationRelativeTo(null);
