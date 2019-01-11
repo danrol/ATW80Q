@@ -11,24 +11,27 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class SignIn { 
+public class SignIn implements ActionListener{ 
 	ClientModel model;
 	JTextField userPlayground;
 	JTextField email;
-	
-	ActionListener signInAction = new ActionListener() {
+	JFrame frame;
+		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.err.println("Sign in request:");
 			String userPlayground_text = userPlayground.getText().trim();
 			String email_text = email.getText().trim();
 			model.SignIn(userPlayground_text, email_text);
-		}};
+			frame.dispose();
+			new MainFrame(model);			
+		}
 	
 	public SignIn(ClientModel model) {
 		this.model = model;
 		userPlayground = new JTextField();
 		email = new JTextField();
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setTitle("Sign In");
 		frame.setSize(500, 300);
 		frame.setLayout(new GridLayout(6,2));
@@ -50,7 +53,7 @@ public class SignIn {
 		Okbutton.add(signInButton);
 		frame.add(Okbutton);
 		
-		signInButton.addActionListener(signInAction);
+		signInButton.addActionListener(this);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -58,5 +61,7 @@ public class SignIn {
 		frame.setVisible(true);
 
 	}
+
+	
 
 }

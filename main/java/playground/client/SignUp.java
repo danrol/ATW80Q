@@ -1,11 +1,9 @@
 package playground.client;
-
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import playground.constants.User;
 
-public class SignUp { 
+public class SignUp implements ActionListener{ 
 	
 	ClientModel model;
 	JTextField username_text = new JTextField();
@@ -27,7 +25,8 @@ public class SignUp {
 	JRadioButton manager;
 	ButtonGroup group;
 	JFrame frame;
-	ActionListener signUpAction = new ActionListener() {
+		
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.err.println("Sign in request:");
 			String username = username_text.getText().trim();
@@ -45,7 +44,7 @@ public class SignUp {
 				
 			}
 			
-		}};
+		}
 		
 		
 	public SignUp(ClientModel model) {
@@ -92,7 +91,7 @@ public class SignUp {
 		
 		frame.getContentPane().add(Okbutton);
 		
-		signUpButton.addActionListener(signUpAction);
+		signUpButton.addActionListener(this);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
@@ -100,5 +99,8 @@ public class SignUp {
 		frame.setVisible(true);
 
 	}
+
+
+	
 
 }
