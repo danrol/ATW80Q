@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Client {
 	
-	public static final String ATW80Q = "Around The World 80 Questions";
+	public static final String ATW80Q = "Around The World In 80 Questions";
 	public static final String SIGN_IN = "Sign In";
 	public static final String SIGN_UP = "Sign Up";
 	public static final String PLAYGROUND_LABEL = "Playground: ";
@@ -19,10 +19,10 @@ public class Client {
 	public static final String UPDATE_USER = "Update User";
 	public static final String SIGN_OUT = "Sign Out";
 	public static final String MAIN = "MAIN";
-	public static final String VERIFY_CODE = "Verify Code";
+	public static final String VERIFY_CODE = "Verification Code";
 	
-	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
-	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
+	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
 
 	
 	public static final String ADD_QUESTION = "Add Question";
@@ -30,7 +30,7 @@ public class Client {
 	public static final String GET_MESSAGE = "Get Message";
 	public static final String ADD_MESSAGE = "Add Message";
 	public static final String GET_QUESTION = "Get Question";
-	public static final String ANSWER_QESTION = "Aswer Question";
+	public static final String ANSWER_QESTION = "Answer Question";
 	
 	
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";
