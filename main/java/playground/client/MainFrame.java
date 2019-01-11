@@ -26,7 +26,13 @@ public class MainFrame implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.err.println("Sign in request:");			
+			switch(e.getActionCommand())
+			{
+			case Client.SIGN_OUT:
+				new Client();
+				frame.dispose();
+				break;
+			}
 		}
 		
 	public MainFrame(ClientModel model) {
