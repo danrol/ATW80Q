@@ -38,6 +38,7 @@ public class User {
 	public static final String LOGIN_ASPECT_ACCESS_RIGHTS_ERROR = " has no access rights to ";
 
 
+
 	
 	
 	@Value("${playground.default.username:noname}")

@@ -2,6 +2,12 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Pageable;
@@ -71,6 +77,12 @@ public class jpaUserService implements UserService {
 			IdGeneratorUser.delete(tmp);
 			user.setId(id + "");
 			userDB.save(user);
+			if(!user.isVerified() && Playground.MESSAGE_SENDER_ENABLED == true)
+			{
+				
+				this.sendVerificationCodeToMail(user);
+			}
+				
 			return user;
 		}
 	}
@@ -214,4 +226,27 @@ public class jpaUserService implements UserService {
 	public UserEntity[] lstToArray(ArrayList<UserEntity> lst) {
 		return lst.toArray(new UserEntity[lst.size()]);
 	}
+	@MyLog
+	public void sendVerificationCodeToMail(UserEntity user)
+	{
+		MailSender sender = new MailSender();
+		try {
+			System.err.println("building message sender " + user.getEmail());
+			Message message = new MimeMessage(sender.getSession());
+			
+			message.setFrom(new InternetAddress(Playground.PLAYGROUND_MAIL));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(user.getEmail()));
+			message.setSubject(Playground.VERIFICATION_MAIL_TITLE);
+			System.err.println(message);
+			String body = "Hi, " + user.getUsername() + "\n Welcome to around the world in 80 questions. Enter the following verification code in order to verify your account.\n Code : " + user.getVerificationCode() + "\n Yours,\n Eden D, Eden S, Daniel, Elia"; 
+			message.setText(body);
+			sender.sendMail(message);
+		}
+		catch(MessagingException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+
+
 }

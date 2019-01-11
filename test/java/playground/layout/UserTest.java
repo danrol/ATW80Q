@@ -79,6 +79,7 @@ public class UserTest {
 		assertThat(actualReturnedValue).isNotNull().isEqualToComparingFieldByField(testValue);
 	}
 	
+	
 	//1.3 Scenario: Test register user with the same email as the one that another user already have in the database
 	@Test(expected = RuntimeException.class)
 	public void registerUserThatAlreadyExists() {
