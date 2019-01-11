@@ -38,6 +38,9 @@ public class Activity {
 		public static final boolean WRONG_ANSWER = false;
 
 		public static final String ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR = "No such activity type.";
+		
+		public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
+		public static final int SIZE_NUMBER = 5; 
 
 		public Activity() {
 			
