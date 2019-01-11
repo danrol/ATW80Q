@@ -37,8 +37,16 @@ public class ClientModel {
 		}
 	}
 	
-	public void signUp(String username, String email, String avatar, String playground, String role) {
-		NewUserForm form = new NewUserForm(email,username,avatar,role);
+	public boolean signUp(String username, String email, String avatar, String playground, String role) {
+		try {
+			NewUserForm form = new NewUserForm(email,username,avatar,role);
+			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form,	UserTO.class);		
+	
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
 		
 	}
 	
