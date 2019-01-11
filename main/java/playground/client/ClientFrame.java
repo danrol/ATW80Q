@@ -9,7 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ClientFrame extends JPanel{
+public class ClientFrame extends JPanel implements ActionListener{
 	ClientModel model;
 	public JButton signIn = new JButton("Sign In");
 	public JButton signUp = new JButton("Sign Up");
@@ -18,6 +18,16 @@ public class ClientFrame extends JPanel{
 	public final String EdenDupont = "Eden Dupont - 204808596";
 	public final String EliaBenAnat = "Elia Ben Anat - 308048388";
 	public final String DanielRolnik = "Daniel Rolnik - 334018009";
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getActionCommand().equals("Sign In"))
+			new SignIn(model);
+		else if(e.getActionCommand().equals("Sign Up"))
+			new SignUp(model);
+	}
+	
 	
 	ClientFrame(ClientModel model) {
 		this.model = model;
@@ -50,16 +60,10 @@ public class ClientFrame extends JPanel{
 		
 		add(init, BorderLayout.CENTER);
 		
-		signIn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			new SignIn(model);
-		}});
-		
-		signUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.err.println("Sign up button pressed");
-				new SignUp(model);
-			}});
+		signIn.addActionListener(this);
+		signUp.addActionListener(this);
 	
 	}
+
+	
 }
