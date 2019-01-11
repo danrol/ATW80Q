@@ -222,7 +222,7 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
-			String attributeName, String value, Pageable pageable) {
+			String attributeName, Object value, Pageable pageable) {
 		
 		userService.login(creatorPlayground, email);
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
@@ -264,9 +264,4 @@ public class DummyElementService implements ElementService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-
-
-
 }

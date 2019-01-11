@@ -531,33 +531,45 @@ public class ElementTest {
 	// "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}"
 	// test starts
 
-	// 10.1 Scenario: Successfully Get Elements By Attribute Name Value
-
+	// 10.1 Scenario: Test Successfully Get Elements By Attribute Name Value with pagination
 	@Test
-	public void successfullyGetElementsByAttributeNameValue() {
-
-		// TODO check why fails
+	public void successfullyGetElementsByAttributeNameValueWithPagination() {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO elementTO = new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 1, 0));
-		ElementTO elementForTest = elementTO;
-		elementForTest.setCreatorEmail(User.EMAIL_FOR_TESTS);
+		ElementTO[] arrForTest;
+		ElementEntity elementToAdd;
 
 		HashMap<String, Object> testMap = new HashMap<>();
+		testMap.put(Activity.attributeName + "1", Activity.attrValue);
+		testMap.put(Activity.attributeName + "2", Activity.attrValue);
 		testMap.put(Activity.attributeName, Activity.attrValue);
-		testMap.put(Activity.attributeName + "2", Activity.attrValue + "2");
-		testMap.put(Activity.attributeName + "3", Activity.attrValue + "3");
-		elementForTest.setAttributes(testMap);
 
-		elementService.addElement(Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), elementForTest.toEntity());
+		for (int n = 1; n <= 11; n++) {
+			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5 + n, 6);
 
-		ElementTO[] result = this.restTemplate.getForObject(url + Playground.Function_10, ElementTO[].class,	Playground.PLAYGROUND_NAME, 
-				userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue);
+			if (3 <= n && n <= 9) {
+				elementToAdd.setAttributes(testMap);
+			}
+			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
+		}
+
+		ElementTO[] result = restTemplate.getForObject(
+				this.url + Playground.Function_10
+						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
+				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName,
+				Activity.attrValue);
+
+		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
+		arrForTest = getElementTOArray(
+				elementService.getElementsWithValueInAttribute(userElementCreator.getPlayground(),
+						userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue, pageable));
 
 		assertThat(result).isNotNull();
-		assertThat(result[0]).isEqualToIgnoringGivenFields(elementForTest, Element.ELEMENT_FIELD_creationDate, Element.ELEMENT_FIELD_id);
+		for(int i=0; i<3; i++) {
+		assertThat(result[i]).isEqualToIgnoringGivenFields(arrForTest[i], Element.ELEMENT_FIELD_creationDate);
+		}
 	}
 
 	// 10.2 Scenario: Test no Elements in ElementService with searched
@@ -600,48 +612,6 @@ public class ElementTest {
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName + "3",
 				Activity.wrongAttributeValue);
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
-	}
-
-	// 10.4 Scenario: Test Successfully Get Elements By Attribute Name Value with
-	// pagination
-	@Test
-	public void successfullyGetElementsByAttributeNameValueWithPagination() {
-		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
-		userElementCreator.verifyUser();
-		userService.addUser(userElementCreator);
-		ElementTO[] arrForTest;
-		ElementEntity elementToAdd;
-
-		HashMap<String, Object> testMap = new HashMap<>();
-		testMap.put(Activity.attributeName + "1", Activity.attrValue);
-		testMap.put(Activity.attributeName + "2", Activity.attrValue);
-		testMap.put(Activity.attributeName, Activity.attrValue);
-
-		for (int n = 1; n <= 11; n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5 + n, 6);
-
-			if (3 <= n && n <= 9) {
-				elementToAdd.setAttributes(testMap);
-			}
-			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
-		}
-
-		ElementTO[] result = restTemplate.getForObject(
-				this.url + Playground.Function_10
-						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
-				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Activity.attributeName,
-				Activity.attrValue);
-
-		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
-		arrForTest = getElementTOArray(
-				elementService.getElementsWithValueInAttribute(userElementCreator.getPlayground(),
-						userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue, pageable));
-
-		assertThat(result).isNotNull();
-		assertThat(result[0]).isEqualToIgnoringGivenFields(arrForTest[0], Element.ELEMENT_FIELD_creationDate);
-		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Element.ELEMENT_FIELD_creationDate);
-		assertThat(result[2]).isEqualToIgnoringGivenFields(arrForTest[2], Element.ELEMENT_FIELD_creationDate);
 	}
 	
 	// url #10

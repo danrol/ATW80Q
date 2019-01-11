@@ -189,11 +189,15 @@ public class DummyUserService implements UserService{
 
 
 	@Override
-	public ArrayList<UserEntity> getHighScoresFromHighestToLowest(Pageable pageable) {
+	public UserEntity[] getHighScoresFromHighestToLowest(Pageable pageable) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-
+	@Override
+	public UserEntity[] lstToArray(ArrayList<UserEntity> lst) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
