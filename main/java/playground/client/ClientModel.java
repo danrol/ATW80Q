@@ -54,7 +54,6 @@ public class ClientModel {
 			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form, UserTO.class);
 			setCurrentUser(user.toEntity());
 			System.err.println("Signed up " + user.toEntity() + " Awaiting verification..");
-			JOptionPane.showMessageDialog(new JInternalFrame(), "Eggs are not supposed to be green.");
 			return true;
 		} catch (Exception e) {
 			return false;

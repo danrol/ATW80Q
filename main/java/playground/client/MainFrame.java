@@ -30,6 +30,7 @@ public class MainFrame implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.err.println("Sign in request:");
+			
 		}
 		
 	public MainFrame(ClientModel model) {
