@@ -40,7 +40,7 @@ public class SignUp implements ActionListener{
 			if(registered)
 			{
 				frame.dispose();
-				new MainFrame(model);
+				new verificationCode(model);
 				
 			}
 			

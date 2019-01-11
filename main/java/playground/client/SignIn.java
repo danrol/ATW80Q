@@ -50,8 +50,6 @@ public class SignIn implements ActionListener{
 	
 	public SignIn(ClientModel model) {
 		this.model = model;
-		userPlayground = new JTextField();
-		email = new JTextField();
 		frame = new JFrame();
 		frame.setTitle(Client.SIGN_IN);
 		frame.setSize(500, 300);
@@ -64,6 +62,8 @@ public class SignIn implements ActionListener{
 		frame.add(SignInLabel);
 		frame.add(new JLabel());
 		
+		userPlayground = new JTextField();
+		email = new JTextField();
 		frame.add(new JLabel(Client.PLAYGROUND_LABEL));
 		frame.add(userPlayground);
 		frame.add(new JLabel(Client.EMAIL_LABEL));

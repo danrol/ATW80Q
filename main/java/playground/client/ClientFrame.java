@@ -15,6 +15,7 @@ public class ClientFrame extends JPanel implements ActionListener{
 	ClientModel model;
 	public JButton signIn; 
 	public JButton signUp;
+	public JButton verificationCode;
 	
 	
 	@Override
@@ -23,12 +24,14 @@ public class ClientFrame extends JPanel implements ActionListener{
 			new SignIn(model);
 		else if(e.getActionCommand().equals(Client.SIGN_UP))
 			new SignUp(model);
+		else if(e.getActionCommand().equals(Client.VERIFY_CODE))
+			new verificationCode(model);
 	}
 	
 	
 	ClientFrame(ClientModel model) {
 		this.model = model;
-		JPanel init = new JPanel(new GridLayout(6, 0, 2, 2));
+		JPanel init = new JPanel(new GridLayout(7, 0, 5, 5));
 		
 		JLabel ATWQ80 = new JLabel(Client.ATW80Q);
 		ATWQ80.setFont(new Font("TimesRoman", Font.BOLD, 35));
@@ -40,6 +43,13 @@ public class ClientFrame extends JPanel implements ActionListener{
 		sign.add(signIn, BorderLayout.CENTER);
 		sign.add(signUp, BorderLayout.CENTER);
 		init.add(sign, BorderLayout.CENTER);
+		
+		JPanel verificationCodePanel = new JPanel();
+		verificationCode = new JButton(Client.VERIFY_CODE);
+		verificationCode.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		verificationCodePanel.add(verificationCode);
+		init.add(verificationCodePanel);
+		
 		
 		JLabel EdenS = new JLabel(Client.EDEN_SHARONI);
 		EdenS.setFont(new Font("TimesRoman", Font.BOLD, 20));
@@ -60,6 +70,7 @@ public class ClientFrame extends JPanel implements ActionListener{
 		
 		signIn.addActionListener(this);
 		signUp.addActionListener(this);
+		verificationCode.addActionListener(this);
 	
 	}
 
