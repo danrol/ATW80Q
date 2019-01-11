@@ -4,6 +4,7 @@ import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Playground;
 import playground.layout.UserTO;
+import playground.logic.NewUserForm;
 
 public class ClientModel {
 
@@ -36,7 +37,18 @@ public class ClientModel {
 		}
 	}
 	
+	public boolean signUp(String username, String email, String avatar, String playground, String role) {
+		try {
+			NewUserForm form = new NewUserForm(email,username,avatar,role);
+			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form,	UserTO.class);		
 	
+			return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+		
+	}
 	
 	public String getURL()
 	{
@@ -67,6 +79,10 @@ public class ClientModel {
 	public void setPort(int port) {
 		this.port = port;
 	}
+
+
+
+
 	
 
 	

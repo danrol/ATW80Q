@@ -12,14 +12,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainFrame {
-	
+	ClientModel model;
 	JButton signOut = new JButton("Sign Out");
 	JButton updatuser = new JButton("Update User");
 	String[] comBox = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
 	JComboBox<String> activity = new JComboBox<String>(comBox);
 	JLabel main = new JLabel("MAIN");
 	
-	public MainFrame() {
+	public MainFrame(ClientModel model) {
+		this.model = model;
 		JFrame frame = new JFrame();
 		frame.setTitle("Main");
 		frame.setSize(500,400);

@@ -17,20 +17,14 @@ public class NewUserForm {
 	public NewUserForm(String email, String username, String avatar, String role) {
 		super();
 		if (username != null && role != null) {
-		this.email = email;
-		this.username = username;
-		this.avatar = avatar;
-		this.role = role;
+			this.email = email;
+			this.username = username;
+			this.avatar = avatar;
+			this.role = role;
 		} else
 			throw new RegisterNewUserException("Registration data is not correct. Check your input");
-//		this.playground = Constants.PLAYGROUND_NAME;
 	}
 
-//	private String createVerificationCode() {
-//		Random r = new Random();
-//		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
-//	}
-	
 	public String getEmail() {
 		return email;
 	}
@@ -65,10 +59,7 @@ public class NewUserForm {
 
 	@Override
 	public String toString() {
-		return "NewUserForm [email=" + email + ", username=" + username + ", avatar=" + avatar + ", role=" + role
-				+  "]";
+		return "NewUserForm [email=" + email + ", username=" + username + ", avatar=" + avatar + ", role=" + role + "]";
 	}
-
-
 
 }

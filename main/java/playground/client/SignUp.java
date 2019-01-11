@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -13,13 +14,42 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import playground.constants.User;
+
 public class SignUp { 
 	
 	ClientModel model;
-	
+	JTextField username_text = new JTextField();
+	JTextField email_text = new JTextField();
+	JTextField avatar_text = new JTextField();
+	JTextField playground_text = new JTextField();
+	JRadioButton player;
+	JRadioButton manager;
+	ButtonGroup group;
+	JFrame frame;
+	ActionListener signUpAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			System.err.println("Sign in request:");
+			String username = username_text.getText().trim();
+			String email = email_text.getText().trim();
+			String playground = playground_text.getText().trim();
+			String avatar = avatar_text.getText().trim();
+			String role = User.PLAYER_ROLE;
+			if(manager.isSelected())
+				role = User.MANAGER_ROLE;
+			boolean registered = model.signUp(username,email,avatar,playground,role);
+			if(registered)
+			{
+				frame.dispose();
+				new MainFrame(model);
+			}
+			
+		}};
+		
+		
 	public SignUp(ClientModel model) {
 		this.model = model;
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setTitle("Sign Up");
 		frame.setSize(500,400);
 		frame.setLayout(new GridLayout(7,2));
@@ -30,17 +60,17 @@ public class SignUp {
 		frame.getContentPane().add(new JLabel());
 		
 		frame.getContentPane().add(new JLabel("Username: "));
-		frame.getContentPane().add(new JTextField());
+		frame.getContentPane().add(username_text);
 		
 		frame.getContentPane().add(new JLabel("Email: "));
-		frame.getContentPane().add(new JTextField());
+		frame.getContentPane().add(email_text);
 		
 		frame.getContentPane().add(new JLabel("Avatar: "));
-		frame.getContentPane().add(new JTextField());
+		frame.getContentPane().add(avatar_text);
 		
-		JRadioButton player = new JRadioButton("Player");
-		JRadioButton manager = new JRadioButton("Manager");
-		ButtonGroup group = new ButtonGroup();
+		player = new JRadioButton("Player");
+		manager = new JRadioButton("Manager");
+		group = new ButtonGroup();
 		player.setSelected(true);
 		group.add(player);
 		group.add(manager);
@@ -61,12 +91,7 @@ public class SignUp {
 		
 		frame.getContentPane().add(Okbutton);
 		
-		signUpButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.err.println("Insert User In database");
-				frame.dispose();
-				new MainFrame();
-			}});
+		signUpButton.addActionListener(signUpAction);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
