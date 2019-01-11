@@ -64,6 +64,8 @@ public class SignUp {
 		signUpButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.err.println("Insert User In database");
+				frame.dispose();
+				new MainFrame();
 			}});
 		
 		frame.setLocationRelativeTo(null);
