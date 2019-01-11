@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -13,11 +14,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import playground.constants.Client;
+import playground.logic.UserEntity;
 
 public class MainFrame implements ActionListener{
 	ClientModel model;
 	JButton signOut; 
 	JButton updatuser; 
+	UserEntity user;
 	
 	JComboBox<String> activity; 
 	JLabel main;
@@ -26,7 +29,7 @@ public class MainFrame implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.err.println("Sign in request:");			
+			System.err.println("Sign in request:");
 		}
 		
 	public MainFrame(ClientModel model) {
@@ -50,7 +53,15 @@ public class MainFrame implements ActionListener{
 		updatuser.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(updatuser);
 		
-		activity = new JComboBox<String>(Client.comBox);
+		user= model.getCurrentUser();
+		
+		if(user.getRole().equals(Client.PLAYER_RADIOBUTTON)) {
+			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
+		}
+		else if(user.getRole().equals(Client.MANAGER_RADIOBUTTON)) {
+			activity = new JComboBox<String>(Client.MANAGER_COMBOX);
+		}
+		
 		frame.add(activity);
 		
 		

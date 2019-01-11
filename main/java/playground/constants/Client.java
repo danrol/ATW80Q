@@ -20,8 +20,9 @@ public class Client {
 	public static final String SIGN_OUT = "Sign Out";
 	public static final String MAIN = "MAIN";
 	
-	public static final String[] comBox = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
-	
+	public static final String[] MANAGER_COMBOX = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+	public static final String[] PLAYER_COMBOX = {"Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";
 	public static final String EDEN_DUPONT = "Eden Dupont - 204808596";
 	public static final String ELIA_BEN_ANAT = "Elia Ben Anat - 308048388";
