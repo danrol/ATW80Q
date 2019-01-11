@@ -72,7 +72,7 @@ public class verificationCode implements ActionListener {
 
 		JPanel verificationButtonPanel = new JPanel();
 		verificationButton = new JButton(Client.VERIFY_CODE);
-		verificationButton.setPreferredSize(new Dimension(100, 60));
+		verificationButton.setPreferredSize(new Dimension(150, 50));
 		verificationButtonPanel.add(verificationButton);
 		p2.add(verificationButtonPanel);
 
