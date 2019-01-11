@@ -24,6 +24,15 @@ public class Client {
 	public static final String[] MANAGER_COMBOX = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
 	public static final String[] PLAYER_COMBOX = {"Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
 
+	
+	public static final String ADD_QUESTION = "Add Question";
+	public static final String GET_GAME_RULE = "Get Game Rule";
+	public static final String GET_MESSAGE = "Get Message";
+	public static final String ADD_MESSAGE = "Add Message";
+	public static final String GET_QUESTION = "Get Question";
+	public static final String ANSWER_QESTION = "Aswer Question";
+	
+	
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";
 	public static final String EDEN_DUPONT = "Eden Dupont - 204808596";
 	public static final String ELIA_BEN_ANAT = "Elia Ben Anat - 308048388";

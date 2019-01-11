@@ -24,14 +24,34 @@ public class MainFrame implements ActionListener{
 	JLabel main;
 	JFrame frame;
 
-		
+		//"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question"
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand().equals(Client.UPDATE_USER)) {
 				new updateUser(model);
 			}
-			//TODO: CheckBox!! 
-			frame.dispose();
+			
+			
+			if(activity.getSelectedItem().equals(Client.ADD_QUESTION)) {
+				System.err.println(Client.ADD_QUESTION);
+			}
+			else if(activity.getSelectedItem().equals(Client.GET_GAME_RULE)) {
+				System.err.println(Client.GET_GAME_RULE);
+			}
+			else if(activity.getSelectedItem().equals(Client.GET_MESSAGE)) {
+				System.err.println(Client.GET_MESSAGE);
+			}
+			else if(activity.getSelectedItem().equals(Client.ADD_MESSAGE)) {
+				System.err.println(Client.ADD_MESSAGE);
+			}
+			else if(activity.getSelectedItem().equals(Client.GET_QUESTION)) {
+				System.err.println(Client.GET_QUESTION);
+			}
+			else if(activity.getSelectedItem().equals(Client.ANSWER_QESTION)) {
+				System.err.println(Client.ANSWER_QESTION);
+			}
+			
+			//frame.dispose();
 		}
 		
 	public MainFrame(ClientModel model) {
