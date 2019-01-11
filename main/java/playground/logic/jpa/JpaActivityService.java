@@ -185,9 +185,9 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		ArrayList<ActivityEntity> lst = new ArrayList<ActivityEntity>();
-		for (ActivityEntity a : activityDB.findAllByTypeAndElementId(superkey, Activity.MESSAGE_ACTIVITY, pageable))
-			lst.add(a);
-		return lst;
+		return activityDB.findAllByTypeAndElementId(superkey, Activity.MESSAGE_ACTIVITY, pageable);
+//			lst.add(a);
+//		return lst;
 	}
 
 	@MyLog
