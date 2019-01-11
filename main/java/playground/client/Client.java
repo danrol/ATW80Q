@@ -12,7 +12,6 @@ public class Client extends Application {
 		if (host == null) {
 			host = "localhost";
 		}
-
 		int port;
 		try {
 			port = Integer.parseInt(System.getProperty("server.port"));
