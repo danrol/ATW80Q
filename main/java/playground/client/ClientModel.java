@@ -1,62 +1,63 @@
 package playground.client;
 
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+
 import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Playground;
 import playground.layout.UserTO;
 import playground.logic.NewUserForm;
+import playground.logic.UserEntity;
 
 public class ClientModel {
 
 	private String current_userPlayground;
 	private String current_email;
+	private UserEntity current_user;
 	private RestTemplate restTemplate;
 	private String host;
 	private int port;
 
-	
-	public ClientModel(String host,int port) {
+	public ClientModel(String host, int port) {
 		this.restTemplate = new RestTemplate();
 		this.host = host;
 		this.port = port;
 	}
-	
-	
-	
+
 	public void SignIn(String userPlayground, String email) {
-		if(!(userPlayground.equals("") || email.equals("")))
-		{
+		if (!(userPlayground.equals("") || email.equals(""))) {
 			try {
-			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class, userPlayground, email);
-			current_email = user.getEmail();
-			current_userPlayground = user.getPlayground();
-			System.err.println("User found : " + user.toEntity());
-			}catch(Exception e) {
+				UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
+						userPlayground, email);
+				setCurrentUser(user.toEntity());
+				System.err.println("User found : " + user.toEntity());
+			} catch (Exception e) {
 				throw new RuntimeException(e.getMessage());
 			}
 		}
 	}
+
 	
+
 	public boolean signUp(String username, String email, String avatar, String playground, String role) {
 		try {
-			NewUserForm form = new NewUserForm(email,username,avatar,role);
-			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form,	UserTO.class);		
+			NewUserForm form = new NewUserForm(email, username, avatar, role);
+			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form, UserTO.class);
 			current_email = user.getEmail();
 			current_userPlayground = user.getPlayground();
 			System.err.println("Signed up " + user.toEntity() + " Awaiting verification..");
+			JOptionPane.showMessageDialog(new JInternalFrame(), "Eggs are not supposed to be green.");
 			return true;
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
-		
-	}
-	
-	public String getURL()
-	{
-		return "http://" + host + ":" + port;
+
 	}
 
+	public String getURL() {
+		return "http://" + host + ":" + port;
+	}
 
 	public RestTemplate getRestTemplate() {
 		return restTemplate;
@@ -82,10 +83,31 @@ public class ClientModel {
 		this.port = port;
 	}
 
+	public String getUserPlayground() {
+		return current_userPlayground;
+	}
 
+	public void setUserPlayground(String current_userPlayground) {
+		this.current_userPlayground = current_userPlayground;
+	}
 
+	public String getEmail() {
+		return current_email;
+	}
 
+	public void setEmail(String current_email) {
+		this.current_email = current_email;
+	}
+
+	public UserEntity getCurrentUser() {
+		return current_user;
+	}
 	
+	public void setCurrentUser(UserEntity entity) {
+		this.current_user = entity;
+		this.current_email = entity.getEmail();
+		this.current_userPlayground = entity.getUsername();
 
-	
+	}
+
 }
