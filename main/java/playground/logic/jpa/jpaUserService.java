@@ -201,4 +201,9 @@ public class jpaUserService implements UserService {
 	public String createKey(String email, String playground) {
 		return email.concat(" " + playground);
 	}
+
+	@Override
+	public ArrayList<UserEntity> getHighScoresFromHighestToLowest(Pageable pageable) {
+		return userDB.findAllByOrderByPointsDescending(pageable);
+	}
 }
