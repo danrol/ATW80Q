@@ -29,6 +29,7 @@ public class updateUser implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		System.err.println("Sign in request:");
+		frame.dispose();
 		//TODO: Update User
 	}
 	
