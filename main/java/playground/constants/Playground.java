@@ -20,8 +20,15 @@ public class Playground {
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
 	
+	
+	//Email values
+	
+	public static final String VERIFICATION_MAIL_TITLE = "Verification code - ATW80Q";
+	
+	
 	// Values for JUnit tests
-	public static String PLAYGROUND_MAIL = "PLAYGROUND_MAIL";
+	public static String PLAYGROUND_MAIL = "ATW80Q@gmail.com";
+	public static String PLAYGROUND_MAIL_PASSWORD = "Do6)Gain";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
@@ -34,14 +41,23 @@ public class Playground {
 	//Error messages
 	
 	public static final String NO_RELEVANT_MESSAGE_ERROR = "There is no relevant message";
+	public static final boolean MESSAGE_SENDER_ENABLED = true;
+
+	
 
 	
 	
 	
-	@Value("${playground.mail:playgroundrolnik@gmail.com}")
+	@Value("${playground.mail:ATW80Q@gmail.com}")
 	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
 		Playground.PLAYGROUND_MAIL = defaultPlaygroundMail;
 	}
+	
+	@Value("${playground.mail.password:Do6)Gain}")
+	public void setDefaultPlaygroundMailPassword(String defaultPlaygroundMail) {
+		Playground.PLAYGROUND_MAIL_PASSWORD = defaultPlaygroundMail;
+	}
+	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Playground.PLAYGROUND_NAME = defaultPlaygroundName;
