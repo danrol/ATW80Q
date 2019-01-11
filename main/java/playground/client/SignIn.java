@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import playground.constants.Client;
+
 public class SignIn implements ActionListener{ 
 	ClientModel model;
 	JTextField userPlayground;
@@ -32,23 +34,23 @@ public class SignIn implements ActionListener{
 		userPlayground = new JTextField();
 		email = new JTextField();
 		frame = new JFrame();
-		frame.setTitle("Sign In");
+		frame.setTitle(Client.SIGN_IN);
 		frame.setSize(500, 300);
 		frame.setLayout(new GridLayout(6,2));
 		
-		JLabel SignInLabel = new JLabel("Sign In");
+		JLabel SignInLabel = new JLabel(Client.SIGN_IN);
 		SignInLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		
 		
 		frame.add(SignInLabel);
 		frame.add(new JLabel());
 		
-		frame.add(new JLabel("Playground: "));
+		frame.add(new JLabel(Client.PLAYGROUND_LABEL));
 		frame.add(userPlayground);
-		frame.add(new JLabel("Email: "));
+		frame.add(new JLabel(Client.EMAIL_LABEL));
 		frame.add(email);
 		
-		JButton signInButton = new JButton("Sign In");
+		JButton signInButton = new JButton(Client.SIGN_IN);
 		JPanel Okbutton = new JPanel();
 		Okbutton.add(signInButton);
 		frame.add(Okbutton);

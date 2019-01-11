@@ -12,6 +12,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import playground.constants.Client;
 import playground.constants.User;
 
 public class SignUp implements ActionListener{ 
@@ -50,42 +51,42 @@ public class SignUp implements ActionListener{
 	public SignUp(ClientModel model) {
 		this.model = model;
 		frame = new JFrame();
-		frame.setTitle("Sign Up");
+		frame.setTitle(Client.SIGN_UP);
 		frame.setSize(500,400);
 		frame.setLayout(new GridLayout(7,2));
 		
-		JLabel SignUpLabel = new JLabel("Sign Up");
+		JLabel SignUpLabel = new JLabel(Client.SIGN_UP);
 		SignUpLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.getContentPane().add(SignUpLabel);
 		frame.getContentPane().add(new JLabel());
 		
-		frame.getContentPane().add(new JLabel("Username: "));
+		frame.getContentPane().add(new JLabel(Client.USERNAME_LABEL));
 		frame.getContentPane().add(username_text);
 		
-		frame.getContentPane().add(new JLabel("Email: "));
+		frame.getContentPane().add(new JLabel(Client.EMAIL_LABEL));
 		frame.getContentPane().add(email_text);
 		
-		frame.getContentPane().add(new JLabel("Avatar: "));
+		frame.getContentPane().add(new JLabel(Client.AVATAR_LABEL));
 		frame.getContentPane().add(avatar_text);
 		
-		player = new JRadioButton("Player");
-		manager = new JRadioButton("Manager");
+		player = new JRadioButton(Client.PLAYER_RADIOBUTTON);
+		manager = new JRadioButton(Client.MANAGER_RADIOBUTTON);
 		group = new ButtonGroup();
 		player.setSelected(true);
 		group.add(player);
 		group.add(manager);
 		
-		frame.getContentPane().add(new JLabel("Choose role: Default is Player"));
+		frame.getContentPane().add(new JLabel(Client.CHOOSE_ROLE_LABEL));
 		JPanel setRole = new JPanel();
 		setRole.add(player);
 		setRole.add(manager);
-		setRole.setBorder(new TitledBorder("Set Role"));
+		setRole.setBorder(new TitledBorder(Client.SET_ROLE_TITLEBORDER));
 		frame.getContentPane().add(setRole);
 		
-		frame.getContentPane().add(new JLabel("Playground: "));
+		frame.getContentPane().add(new JLabel(Client.PLAYGROUND_LABEL));
 		frame.getContentPane().add(new JTextField());
 		
-		JButton signUpButton = new JButton("Sign Up");
+		JButton signUpButton = new JButton(Client.SIGN_UP);
 		JPanel Okbutton = new JPanel();
 		Okbutton.add(signUpButton);
 		
