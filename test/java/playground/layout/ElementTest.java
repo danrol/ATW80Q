@@ -364,9 +364,9 @@ public class ElementTest {
 				ElementTO[].class, userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
 
 		ElementTO[] valuesFromDatabase = getElementTOArray(elementService.getAllElements());
-		assertThat(valuesFromController).isNotNull();
 
 		// Check values returned from controller
+		assertThat(valuesFromController).isNotNull();
 		assertThat(valuesFromController[0]).isEqualToIgnoringGivenFields(arrForTest[0],
 				Element.ELEMENT_FIELD_creationDate);
 		assertThat(valuesFromController[1]).isEqualToIgnoringGivenFields(arrForTest[1],

@@ -134,11 +134,15 @@ public class jpaElementService implements ElementService {
 	@MyLog
 	@LoginRequired
 	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName,
-			String value, Pageable pageable) {
+			Object value, Pageable pageable) {
 		ArrayList<ElementEntity> elements = getElements();
 		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
+		
 //		tempElementsList = elementsDB.findAllByJsonAttributesLike("\""+attributeName+"\""+": \""+value, pageable);
 //		return lstToArray(tempElementsList);
+		
+//		tempElementsList = elementsDB.findAllByJsonAttributesLike("\""+attributeName+"\""+": \""+value, pageable);
+		
 		for (ElementEntity e : elements) {
 			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
 				if (roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))

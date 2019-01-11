@@ -10,7 +10,7 @@ public interface ElementService {
 
 	boolean isElementInDatabase(ElementEntity element);
 
-	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName, String value, Pageable pageable);
+	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName, Object value, Pageable pageable);
 
 	boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground, String creatorEmail);
 
