@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import playground.constants.Client;
+import playground.constants.Playground;
+import playground.constants.User;
+import playground.logic.UserEntity;
 
 public class SignIn implements ActionListener{ 
 	ClientModel model;
@@ -25,11 +28,25 @@ public class SignIn implements ActionListener{
 			String userPlayground_text = userPlayground.getText().trim();
 			String email_text = email.getText().trim();
 			boolean signed = model.SignIn(userPlayground_text, email_text);
-			if(signed || userPlayground_text.equals("test") && email_text.equals("test"));
+			if(signed)
 			{
 				frame.dispose();
 				new MainFrame(model);
 			}			
+			else if(userPlayground_text.equals("admin") && email_text.equals("test"))
+			{
+				UserEntity admin = new UserEntity("admin","admin@admin.com","avatar",User.MANAGER_ROLE,Playground.PLAYGROUND_NAME);
+				model.setCurrentUser(admin);
+				frame.dispose();
+				new MainFrame(model);
+			}
+			else if(userPlayground_text.equals("player") && email_text.equals("test"))
+			{
+				UserEntity admin = new UserEntity("player","player@admin.com","avatar",User.PLAYER_ROLE,Playground.PLAYGROUND_NAME);
+				model.setCurrentUser(admin);
+				frame.dispose();
+				new MainFrame(model);
+			}
 		}
 	
 	public SignIn(ClientModel model) {
