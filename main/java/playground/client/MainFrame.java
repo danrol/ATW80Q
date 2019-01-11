@@ -55,7 +55,7 @@ public class MainFrame implements ActionListener{
 		frame.add(updatuser);
 		
 		user= model.getCurrentUser();
-		
+		System.err.println(user);
 		if(user.getRole().equals(Client.PLAYER_RADIOBUTTON)) {
 			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
 		}
