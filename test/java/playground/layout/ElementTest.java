@@ -403,7 +403,7 @@ public class ElementTest {
 	@Test
 	public void GETALLFromDatabaseWithPagination() {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 
@@ -487,7 +487,7 @@ public class ElementTest {
 		elementService.addElementNoLogin(element);
 		ElementTO[] elements = this.restTemplate.getForObject(this.url + Playground.Function_9, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 5, 6, 0);
-		assertThat(elements.length).isEqualTo("1");
+		assertThat(elements.length).isEqualTo(1);
 		double actualDistance = distanceBetween(elements[0].getLocation().getX(), elements[0].getLocation().getY(), 5,
 				6);
 		assertThat(actualDistance).isEqualTo(0);
@@ -497,7 +497,7 @@ public class ElementTest {
 	@Test
 	public void GETElementsWithZeroDistanceWithPagination() {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] arrForTest = new ElementTO[Element.SIZE_NUMBER];
@@ -507,6 +507,7 @@ public class ElementTest {
 			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 0, n);
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
 		}
+		
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_9
 						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
@@ -537,29 +538,26 @@ public class ElementTest {
 
 		// TODO check why fails
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO elementTO = new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 1, 0));
 		ElementTO elementForTest = elementTO;
-//		ElementTO elementTO2 = new ElementTO(new ElementEntity(Constants.DEFAULT_ELEMENT_NAME, Constants.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 1, 0));
-//		ElementTO elementForTest2 = elementTO2;
+		elementForTest.setCreatorEmail(User.EMAIL_FOR_TESTS);
 
 		HashMap<String, Object> testMap = new HashMap<>();
 		testMap.put(Activity.attributeName, Activity.attrValue);
 		testMap.put(Activity.attributeName + "2", Activity.attrValue + "2");
 		testMap.put(Activity.attributeName + "3", Activity.attrValue + "3");
 		elementForTest.setAttributes(testMap);
-//		elementForTest2.setAttributes(testMap);
 
 		elementService.addElement(Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), elementForTest.toEntity());
-//		elementService.addElement(Constants.PLAYGROUND_NAME, userElementCreator.getEmail(),elementForTest2.toEntity());
 
-//		ElementTO[] result = this.restTemplate.getForObject(url + Playground.Function_10, ElementTO[].class,	Constants.PLAYGROUND_NAME, 
-//				userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue);
+		ElementTO[] result = this.restTemplate.getForObject(url + Playground.Function_10, ElementTO[].class,	Playground.PLAYGROUND_NAME, 
+				userElementCreator.getEmail(), Activity.attributeName, Activity.attrValue);
 
-//		assertThat(result).isNotNull();
-//		assertThat(result[0]).isEqualToIgnoringGivenFields(elementForTest, Constants.ELEMENT_FIELD_creationDate, Constants.ELEMENT_FIELD_id);
+		assertThat(result).isNotNull();
+		assertThat(result[0]).isEqualToIgnoringGivenFields(elementForTest, Element.ELEMENT_FIELD_creationDate, Element.ELEMENT_FIELD_id);
 	}
 
 	// 10.2 Scenario: Test no Elements in ElementService with searched
@@ -609,7 +607,7 @@ public class ElementTest {
 	@Test
 	public void successfullyGetElementsByAttributeNameValueWithPagination() {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		ElementTO[] arrForTest;
@@ -645,6 +643,7 @@ public class ElementTest {
 		assertThat(result[1]).isEqualToIgnoringGivenFields(arrForTest[1], Element.ELEMENT_FIELD_creationDate);
 		assertThat(result[2]).isEqualToIgnoringGivenFields(arrForTest[2], Element.ELEMENT_FIELD_creationDate);
 	}
+	
 	// url #10
 	// "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}"
 	// test finished
