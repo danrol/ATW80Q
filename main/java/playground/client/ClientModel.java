@@ -3,7 +3,6 @@ package playground.client;
 import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Playground;
-import playground.constants.User;
 import playground.layout.UserTO;
 
 public class ClientModel {
@@ -30,8 +29,9 @@ public class ClientModel {
 			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class, userPlayground, email);
 			current_email = user.getEmail();
 			current_userPlayground = user.getPlayground();
+			System.err.println("User found : " + user.toEntity());
 			}catch(Exception e) {
-				
+				throw new RuntimeException(e.getMessage());
 			}
 		}
 	}

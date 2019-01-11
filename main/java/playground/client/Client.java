@@ -17,7 +17,7 @@ public class Client extends Application {
 		try {
 			port = Integer.parseInt(System.getProperty("server.port"));
 		} catch (Exception e) {
-			port = 8080;
+			port = 8083;
 		}
 
 		ClientModel model = new ClientModel(host, port);
