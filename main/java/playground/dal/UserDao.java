@@ -15,5 +15,5 @@ public interface UserDao  extends PagingAndSortingRepository<UserEntity, String>
 			@Param("Playground") String Playground, 
 			@Param("Email") String Email);
 	
-	public ArrayList<UserEntity> findAllByOrderByPointsDescending(Pageable pageable);
+	public ArrayList<UserEntity> findAllByOrderByPointsDesc(Pageable pageable);
 }
