@@ -9,22 +9,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import playground.constants.Client;
+
 public class ClientFrame extends JPanel implements ActionListener{
 	ClientModel model;
-	public JButton signIn = new JButton("Sign In");
-	public JButton signUp = new JButton("Sign Up");
-	
-	public final String EdenSharoni = "Eden Sharoni - 315371906";
-	public final String EdenDupont = "Eden Dupont - 204808596";
-	public final String EliaBenAnat = "Elia Ben Anat - 308048388";
-	public final String DanielRolnik = "Daniel Rolnik - 334018009";
+	public JButton signIn; 
+	public JButton signUp;
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Sign In"))
+		if(e.getActionCommand().equals(Client.SIGN_IN))
 			new SignIn(model);
-		else if(e.getActionCommand().equals("Sign Up"))
+		else if(e.getActionCommand().equals(Client.SIGN_UP))
 			new SignUp(model);
 	}
 	
@@ -33,23 +30,24 @@ public class ClientFrame extends JPanel implements ActionListener{
 		this.model = model;
 		JPanel init = new JPanel(new GridLayout(6, 0, 2, 2));
 		
-		JLabel ATWQ80 = new JLabel("Around The World 80 Questions");
+		JLabel ATWQ80 = new JLabel(Client.ATW80Q);
 		ATWQ80.setFont(new Font("TimesRoman", Font.BOLD, 35));
 		init.add(ATWQ80);
 		
-		
+		signIn = new JButton(Client.SIGN_IN);
+		signUp  = new JButton(Client.SIGN_UP);
 		JPanel sign = new JPanel(new GridLayout(2, 0));
 		sign.add(signIn, BorderLayout.CENTER);
 		sign.add(signUp, BorderLayout.CENTER);
 		init.add(sign, BorderLayout.CENTER);
 		
-		JLabel EdenS = new JLabel(EdenSharoni);
+		JLabel EdenS = new JLabel(Client.EDEN_SHARONI);
 		EdenS.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		JLabel EdenD = new JLabel(EdenDupont);
+		JLabel EdenD = new JLabel(Client.EDEN_DUPONT);
 		EdenD.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		JLabel Elia = new JLabel(EliaBenAnat);
+		JLabel Elia = new JLabel(Client.ELIA_BEN_ANAT);
 		Elia.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		JLabel Daniel = new JLabel(DanielRolnik);
+		JLabel Daniel = new JLabel(Client.DANIEL_ROLNIK);
 		Daniel.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		JPanel names = new JPanel(new GridLayout(4, 0, 2, 2));
 		names.add(EdenS);

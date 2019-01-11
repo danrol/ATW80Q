@@ -21,7 +21,7 @@ public class Client extends Application {
 
 		ClientModel model = new ClientModel(host, port);
 		JFrame frame = new JFrame();
-		frame.setTitle("Around The World in 80 questions");
+		frame.setTitle(playground.constants.Client.ATW80Q);
 		frame.setSize(550, 550);
 		ClientFrame s = new ClientFrame(model);
 		frame.add(s, BorderLayout.CENTER);
