@@ -21,8 +21,8 @@ public class Client {
 	public static final String MAIN = "MAIN";
 	public static final String VERIFY_CODE = "Verify Code";
 	
-	public static final String[] MANAGER_COMBOX = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
-	public static final String[] PLAYER_COMBOX = {"Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
 
 	
 	public static final String ADD_QUESTION = "Add Question";
