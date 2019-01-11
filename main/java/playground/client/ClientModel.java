@@ -1,12 +1,6 @@
 package playground.client;
 
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
 import org.springframework.web.client.RestTemplate;
-
 import playground.constants.Playground;
 import playground.layout.UserTO;
 import playground.logic.NewUserForm;
@@ -14,9 +8,6 @@ import playground.logic.UserEntity;
 
 public class ClientModel {
 
-    
-
-   
 	private String current_userPlayground;
 	private String current_email;
 	private UserEntity current_user;

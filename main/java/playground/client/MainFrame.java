@@ -5,8 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -29,8 +27,11 @@ public class MainFrame implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.err.println("Sign in request:");
-			
+			if(e.getActionCommand().equals(Client.UPDATE_USER)) {
+				new updateUser(model);
+			}
+			//TODO: CheckBox!! 
+			frame.dispose();
 		}
 		
 	public MainFrame(ClientModel model) {

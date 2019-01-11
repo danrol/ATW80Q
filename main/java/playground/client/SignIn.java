@@ -24,7 +24,6 @@ public class SignIn implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.err.println("Sign in request:");
 			String userPlayground_text = userPlayground.getText().trim();
 			String email_text = email.getText().trim();
 			boolean signed = model.SignIn(userPlayground_text, email_text);
