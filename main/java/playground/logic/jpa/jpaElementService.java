@@ -79,12 +79,12 @@ public class jpaElementService implements ElementService {
 
 		return lstToArray(elementsDB.findAllByXBetweenAndYBetween(x - distance, x + distance, y - distance,
 				y + distance, pageable));
-
 	}
 
 	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {
-		return lst.stream().skip(pageable.getPageSize() * pageable.getPageNumber()).limit(pageable.getPageSize())
-				.collect(Collectors.toList()).toArray(new ElementEntity[pageable.getPageSize()]);
+		ElementEntity[] result = lst.stream().skip(pageable.getPageSize() * pageable.getPageNumber()).limit(pageable.getPageSize())
+		.collect(Collectors.toList()).toArray(new ElementEntity[pageable.getPageSize()]);
+		return result;
 	}
 
 	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
