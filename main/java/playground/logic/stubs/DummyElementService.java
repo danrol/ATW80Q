@@ -259,6 +259,12 @@ public class DummyElementService implements ElementService {
 		
 	}
 
+	@Override
+	public ElementEntity createElementEntity(String json) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

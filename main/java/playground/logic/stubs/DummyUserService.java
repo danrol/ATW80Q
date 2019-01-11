@@ -181,5 +181,12 @@ public class DummyUserService implements UserService{
 	}
 
 
+	@Override
+	public UserEntity createUserEntity(String json) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 
 }

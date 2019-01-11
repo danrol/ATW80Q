@@ -8,8 +8,8 @@ import playground.layout.UserTO;
 
 public class ClientModel {
 
-	private static String current_userPlayground;
-	private static String current_email;
+	private String current_userPlayground;
+	private String current_email;
 	private RestTemplate restTemplate;
 	private String host;
 	private int port;
@@ -22,15 +22,20 @@ public class ClientModel {
 	}
 	
 	
-	/**
-	public static void SignIn(String userPlayground, String email) {
+	
+	public void SignIn(String userPlayground, String email) {
 		if(!(userPlayground.equals("") || email.equals("")))
 		{
-
-			UserTO user = this.restTemplate.getForObject(this.url + Playground.Function_3, UserTO.class, userPlayground, email);
+			try {
+			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class, userPlayground, email);
+			current_email = user.getEmail();
+			current_userPlayground = user.getPlayground();
+			}catch(Exception e) {
+				
+			}
 		}
 	}
-	*/
+	
 	
 	
 	public String getURL()
@@ -38,21 +43,6 @@ public class ClientModel {
 		return "http://" + host + ":" + port;
 	}
 
-	public static String getCurrent_userPlayground() {
-		return current_userPlayground;
-	}
-
-	public static void setCurrent_userPlayground(String current_userPlayground) {
-		ClientModel.current_userPlayground = current_userPlayground;
-	}
-
-	public static String getCurrent_email() {
-		return current_email;
-	}
-
-	public static void setCurrent_email(String current_email) {
-		ClientModel.current_email = current_email;
-	}
 
 	public RestTemplate getRestTemplate() {
 		return restTemplate;

@@ -13,10 +13,21 @@ import javax.swing.JTextField;
 
 public class SignIn { 
 	ClientModel model;
+	JTextField userPlayground;
+	JTextField email;
 	
+	ActionListener signInAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			System.err.println("Sign in request:");
+			String userPlayground_text = userPlayground.getText().trim();
+			String email_text = email.getText().trim();
+			model.SignIn(userPlayground_text, email_text);
+		}};
 	
 	public SignIn(ClientModel model) {
 		this.model = model;
+		userPlayground = new JTextField();
+		email = new JTextField();
 		JFrame frame = new JFrame();
 		frame.setTitle("Sign In");
 		frame.setSize(500, 300);
@@ -28,8 +39,7 @@ public class SignIn {
 		
 		frame.add(SignInLabel);
 		frame.add(new JLabel());
-		JTextField userPlayground = new JTextField();
-		JTextField email = new JTextField();
+		
 		frame.add(new JLabel("Playground: "));
 		frame.add(userPlayground);
 		frame.add(new JLabel("Email: "));
@@ -40,13 +50,7 @@ public class SignIn {
 		Okbutton.add(signInButton);
 		frame.add(Okbutton);
 		
-		signInButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.err.println("Sign in request:");
-				String userPlayground_text = userPlayground.getText().trim();
-				String email_text = email.getText().trim();
-				//model.signIn(userPlayground_text, email_text);
-			}});
+		signInButton.addActionListener(signInAction);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

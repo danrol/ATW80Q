@@ -122,4 +122,10 @@ public class DummyActivityService implements ActivityService {
 		return null;
 	}
 
+	@Override
+	public ActivityEntity createActivityEntity(String json) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
