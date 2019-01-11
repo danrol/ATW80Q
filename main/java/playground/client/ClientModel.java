@@ -43,6 +43,7 @@ public class ClientModel {
 			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form,	UserTO.class);		
 			current_email = user.getEmail();
 			current_userPlayground = user.getPlayground();
+			System.err.println("Signed up " + user.toEntity() + " Awaiting verification..");
 			return true;
 		}
 		catch(Exception e) {

@@ -39,15 +39,26 @@ public class DummyInitializer {
 	public void init() {
 		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
-		UserEntity mod = new UserEntity(Playground.DUMMY_MANAGER_USERNAME, "demoManager@playground.rolnik", "avatar", User.MANAGER_ROLE,
+		UserEntity mod = new UserEntity(Playground.DUMMY_MANAGER_USERNAME, "demoManager@playground.rolnik", "avatar",
+				User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
+		UserEntity admin = new UserEntity("admin", "admin@playground.rolnik", "avatar", User.MANAGER_ROLE,
 				Playground.PLAYGROUND_NAME);
+		admin.verifyUser();
 
-		UserEntity player = new UserEntity(Playground.DUMMY_PLAYER_USERNAME, "demoPlayer@playground.rolnik", "avatar", User.PLAYER_ROLE,
-				Playground.PLAYGROUND_NAME);
+		UserEntity player = new UserEntity(Playground.DUMMY_PLAYER_USERNAME, "demoPlayer@playground.rolnik", "avatar",
+				User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		mod.verifyUser();
 		player.verifyUser();
+
+		try {
+			userService.addUser(admin);
+
+		} catch (RegisterNewUserException e) {
+
+		}
 		try {
 			mod = userService.addUser(mod);
+
 		} catch (RegisterNewUserException e) {
 			mod = userService.getUser(mod.getSuperkey());
 		}
@@ -57,7 +68,7 @@ public class DummyInitializer {
 		} catch (RegisterNewUserException e) {
 			player = userService.getUser(player.getSuperkey());
 		}
-		msgBoard = elementService.addElement(mod.getPlayground(),mod.getEmail(),msgBoard);
+		msgBoard = elementService.addElement(mod.getPlayground(), mod.getEmail(), msgBoard);
 		String msg = "msg";
 		for (int i = 0; i < 30; i++) {
 			ActivityEntity entity = createMessage(msgBoard.getSuperkey(), msg + i);
