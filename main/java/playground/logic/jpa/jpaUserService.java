@@ -15,6 +15,7 @@ import playground.dal.UserDao;
 import playground.logic.ActivityDataException;
 import playground.logic.ActivityEntity;
 import playground.logic.ConfirmException;
+import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.PermissionUserException;
 import playground.logic.RegisterNewUserException;
@@ -203,7 +204,14 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	public ArrayList<UserEntity> getHighScoresFromHighestToLowest(Pageable pageable) {
-		return userDB.findAllByOrderByPointsDescending(pageable);
+	public UserEntity[] getHighScoresFromHighestToLowest(Pageable pageable) {
+		return lstToArray(userDB.findAllByOrderByPointsDesc(pageable));
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	@MyLog
+	public UserEntity[] lstToArray(ArrayList<UserEntity> lst) {
+		return lst.toArray(new UserEntity[lst.size()]);
 	}
 }

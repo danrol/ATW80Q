@@ -235,6 +235,36 @@ public class ActivityTest {
 
 		assertThat(rules).isEqualTo(Activity.GAME_RULES);
 	}
+	
+	@Test
+	public void getHighScoresDescending() {
+		UserEntity user;
+		int numberOfUsers = 9;
+		UserTO[] usersForTest = new UserTO[Activity.SIZE_NUMBER-1];
+		long points = 110;
+		ActivityEntity actEnt = new ActivityEntity();
+		actEnt.setType(Activity.GET_SCORES_ACTIVITY);
+		
+		
+		for(int i=0; i<numberOfUsers;i++) {
+			user = new UserEntity(User.DEFAULT_USERNAME, i+User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS, 
+					User.PLAYER_ROLE,Playground.PLAYGROUND_NAME);
+			user.verifyUser();
+			user.setPoints(points-i*10);
+			userService.addUser(user);
+			if(i>=5)
+			usersForTest[i-Activity.SIZE_NUMBER] = new UserTO(user);
+		}
+		
+		UserTO[] result = this.restTemplate.postForObject(this.url+Playground.Function_11 + 
+				createPaginationStringAppendixForUrl(Activity.PAGE_NUMBER, Activity.SIZE_NUMBER), actEnt, UserTO[].class, 
+				Playground.PLAYGROUND_NAME, "0"+User.EMAIL_FOR_TESTS);
+		
+		assertThat(result).isNotNull();
+		
+		for(int i=0;i<Activity.SIZE_NUMBER-1;i++)
+		assertThat(result[i]).isEqualToComparingFieldByField(usersForTest[i]);
+	}
 
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	// ******************************************************************************************//
@@ -262,6 +292,10 @@ public class ActivityTest {
 		entity.getAttribute().put(Activity.ACTIVITY_MESSAGE_KEY, message);
 		entity.setElementId(messageboard_key);
 		return entity;
+	}
+	
+	public String createPaginationStringAppendixForUrl(int pageNum, int sizeNum) {
+		return "?page=" + String.valueOf(pageNum) + "&size=" + String.valueOf(sizeNum);
 	}
 
 }
