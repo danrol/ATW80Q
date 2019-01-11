@@ -42,6 +42,7 @@ public class SignUp {
 			{
 				frame.dispose();
 				new MainFrame(model);
+				
 			}
 			
 		}};
