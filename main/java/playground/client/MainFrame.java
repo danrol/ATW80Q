@@ -12,11 +12,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import playground.constants.Client;
+
 public class MainFrame implements ActionListener{
 	ClientModel model;
 	JButton signOut; 
 	JButton updatuser; 
-	String[] comBox = {"Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Aswer Question" };
+	
 	JComboBox<String> activity; 
 	JLabel main;
 	JFrame frame;
@@ -31,24 +33,24 @@ public class MainFrame implements ActionListener{
 		this.model = model;
 		
 		frame = new JFrame();
-		frame.setTitle("Main");
+		frame.setTitle(Client.MAIN);
 		frame.setSize(500,400);
 		frame.setLayout(new GridLayout(7,2));
 		
-		main = new JLabel("MAIN");
+		main = new JLabel(Client.MAIN);
 		main.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(main);
 		
-		signOut = new JButton("Sign Out");
+		signOut = new JButton(Client.SIGN_OUT);
 		JPanel signoutbutton = new JPanel();
 		signoutbutton.add(signOut);
 		frame.add(signoutbutton, BorderLayout.EAST);
 		
-		updatuser= new JButton("Update User");
+		updatuser= new JButton(Client.UPDATE_USER);
 		updatuser.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(updatuser);
 		
-		activity = new JComboBox<String>(comBox);
+		activity = new JComboBox<String>(Client.comBox);
 		frame.add(activity);
 		
 		
