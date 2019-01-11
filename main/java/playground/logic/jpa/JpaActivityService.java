@@ -108,15 +108,14 @@ public class JpaActivityService implements ActivityService {
 		}
 		case Activity.GET_SCORES_ACTIVITY: {
 
-			return null;
-			// userService.getHighScores(pageable);
+			return userService.getHighScoresFromHighestToLowest(pageable);
 		}
 		case Activity.GET_GAME_RULES_ACTIVITY: {
 			return getGameRules(activity);
 		}
-
 		}
 		throw new ActivityDataException(Activity.ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR + activityType);
+
 	}
 
 	@Override
@@ -231,6 +230,9 @@ public class JpaActivityService implements ActivityService {
 		throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + id);
 
 	}
+
+
+
 
 	@Override
 	@MyLog

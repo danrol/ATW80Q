@@ -36,4 +36,6 @@ public interface UserService {
 
 	UserEntity createUserEntity(String json);
 
+	ArrayList<UserEntity> getHighScoresFromHighestToLowest(Pageable pageable);
+
 }
