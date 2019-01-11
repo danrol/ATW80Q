@@ -1,7 +1,9 @@
 package playground.client;
 
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +14,9 @@ import playground.logic.UserEntity;
 
 public class ClientModel {
 
+    
+
+   
 	private String current_userPlayground;
 	private String current_email;
 	private UserEntity current_user;
@@ -25,17 +30,20 @@ public class ClientModel {
 		this.port = port;
 	}
 
-	public void SignIn(String userPlayground, String email) {
+	public boolean SignIn(String userPlayground, String email) {
 		if (!(userPlayground.equals("") || email.equals(""))) {
 			try {
 				UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
 						userPlayground, email);
 				setCurrentUser(user.toEntity());
-				System.err.println("User found : " + user.toEntity());
+				 
 			} catch (Exception e) {
-				throw new RuntimeException(e.getMessage());
+				
+				return false;
 			}
+			return true;
 		}
+		return false;
 	}
 
 	
@@ -44,8 +52,7 @@ public class ClientModel {
 		try {
 			NewUserForm form = new NewUserForm(email, username, avatar, role);
 			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form, UserTO.class);
-			current_email = user.getEmail();
-			current_userPlayground = user.getPlayground();
+			setCurrentUser(user.toEntity());
 			System.err.println("Signed up " + user.toEntity() + " Awaiting verification..");
 			JOptionPane.showMessageDialog(new JInternalFrame(), "Eggs are not supposed to be green.");
 			return true;

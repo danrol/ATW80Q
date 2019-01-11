@@ -24,9 +24,12 @@ public class SignIn implements ActionListener{
 			System.err.println("Sign in request:");
 			String userPlayground_text = userPlayground.getText().trim();
 			String email_text = email.getText().trim();
-			model.SignIn(userPlayground_text, email_text);
-			frame.dispose();
-			new MainFrame(model);			
+			boolean signed = model.SignIn(userPlayground_text, email_text);
+			if(signed)
+			{
+				frame.dispose();
+				new MainFrame(model);
+			}			
 		}
 	
 	public SignIn(ClientModel model) {

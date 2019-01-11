@@ -1,5 +1,7 @@
 package playground.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -42,17 +44,7 @@ public class ActivityController {
 		activityEnt.setPlayerEmail(email);
 		activityEnt.setPlayerPlayground(userPlayground);
 		Object t = activityService.executeActivity(userPlayground, email,activityEnt ,pageable);
-		switch(t.getClass().getName())
-		{
-		case "ActivityEntity":
-			return new ActivityTO((ActivityEntity) t);
-		case "ElementEntity":
-			return new ElementTO((ElementEntity) t);
-		case "UserEntity":
-			return new UserTO((UserEntity) t);
-		default:
-			return t;
-		}
+		return t;
 	}
 	
 	@MyLog
@@ -64,5 +56,6 @@ public class ActivityController {
 			message = Playground.NO_RELEVANT_MESSAGE_ERROR;
 		return new ErrorException(message);
 	}
+
 
 }
