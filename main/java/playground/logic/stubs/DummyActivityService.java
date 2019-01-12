@@ -39,7 +39,6 @@ public class DummyActivityService implements ActivityService {
 				messages.add(elEn.getAttributes().toString());
 		}
 		return messages.toArray(new String[messages.size()]);
-		// TODO check if works and improvement needed
 	}
 
 	public ActivityEntity[] getAll(ArrayList<ActivityEntity> lst, int size, int page) {
@@ -60,7 +59,6 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -94,7 +92,6 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public boolean answerQuestion(ActivityEntity activity) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -106,25 +103,21 @@ public class DummyActivityService implements ActivityService {
 
 	@Override
 	public Object executeActivity(String userPlayground, String email, ActivityEntity activity, Pageable pageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Object addMessage(ActivityEntity activity) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getGameRules(ActivityEntity activity) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ActivityEntity createActivityEntity(String json) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

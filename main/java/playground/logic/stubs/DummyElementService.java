@@ -219,24 +219,6 @@ public class DummyElementService implements ElementService {
 
 	}
 
-
-	@Override
-	public ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String email,
-			String attributeName, Object value, Pageable pageable) {
-		
-		userService.login(creatorPlayground, email);
-		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-		for (ElementEntity element : elements) {
-			if (element.getAttributes().containsKey(attributeName)
-					&& element.getAttributes().get(attributeName).equals(value))
-				tempElementsList.add(element);
-		}
-		if (tempElementsList.isEmpty())
-			return new ElementEntity[0];
-		else
-			return paginateList(tempElementsList, pageable.getPageNumber(), pageable.getPageSize());
-	}
-
 	@Override
 	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable) {
 		ArrayList<ElementEntity> result = new ArrayList<>();
@@ -255,13 +237,16 @@ public class DummyElementService implements ElementService {
 
 	@Override
 	public void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public ElementEntity createElementEntity(String json) {
-		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, String type,
+			Pageable pageable) {
 		return null;
 	}
 }
