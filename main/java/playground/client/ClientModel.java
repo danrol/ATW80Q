@@ -24,11 +24,11 @@ public class ClientModel {
 		this.port = port;
 	}
 
-	public boolean SignIn(String userPlayground, String email) {
-		if (!(userPlayground.equals("") || email.equals(""))) {
+	public boolean SignIn(String email) {
+		if (!email.equals("")) {
 			try {
 				UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
-						userPlayground, email);
+						Client.PLAYGROUND_NAME, email);
 				setCurrentUser(user.toEntity());
 				 
 			} catch (Exception e) {
@@ -47,7 +47,6 @@ public class ClientModel {
 			NewUserForm form = new NewUserForm(email, username, avatar, role);
 			UserTO user = this.restTemplate.postForObject(this.getURL() + Playground.Function_1, form, UserTO.class);
 			setCurrentUser(user.toEntity());
-			System.err.println("Signed up " + user.toEntity() + " Awaiting verification..");
 			return true;
 		} catch (Exception e) {
 			return false;

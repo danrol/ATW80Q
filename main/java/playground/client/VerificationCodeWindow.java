@@ -2,6 +2,7 @@ package playground.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -13,8 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import playground.constants.Client;
 
+import playground.constants.Client;
+import playground.constants.Playground;
 
 public class VerificationCodeWindow implements ActionListener {
 	ClientModel model;
@@ -22,7 +24,7 @@ public class VerificationCodeWindow implements ActionListener {
 	JLabel verificationCode;
 	JTextField verificationText;
 	JButton verificationButton;
-	JTextField userPlayground;
+	
 	JTextField email;
 
 	@Override
@@ -30,7 +32,7 @@ public class VerificationCodeWindow implements ActionListener {
 		boolean verified = model.verifyUser(verificationText.getText(),email.getText());
 		if(verified)
 		{
-		new GameController(model);
+		new ClientLogin(model);
 		frame.dispose();
 		}
 		else
@@ -45,7 +47,7 @@ public class VerificationCodeWindow implements ActionListener {
 		frame = new JFrame();
 		frame.setTitle(Client.VERIFY_CODE_TITLE);
 		frame.setSize(500, 400);
-		frame.setLayout(new GridLayout(3,0));
+		// frame.setLayout(new GridLayout(5,2));
 
 		JPanel p = new JPanel();
 		JPanel verificationCodePanel = new JPanel();
@@ -58,12 +60,14 @@ public class VerificationCodeWindow implements ActionListener {
 		frame.add(p, BorderLayout.NORTH);
 
 		JPanel p1 = new JPanel(new GridLayout(1, 2));
-
+		
 		email = new JTextField();
-		email.setPreferredSize(new Dimension(20, 20));
+		
 		p1.add(new JLabel(Client.EMAIL_LABEL));
 		p1.add(email);
+
 		frame.add(p1, BorderLayout.CENTER);
+
 		JPanel p2 = new JPanel(new GridLayout(0, 2));
 
 		
