@@ -2,12 +2,6 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Pageable;
@@ -18,10 +12,7 @@ import playground.aop.MyLog;
 import playground.constants.Playground;
 import playground.constants.User;
 import playground.dal.UserDao;
-import playground.logic.ActivityDataException;
-import playground.logic.ActivityEntity;
 import playground.logic.ConfirmException;
-import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.PermissionUserException;
 import playground.logic.RegisterNewUserException;

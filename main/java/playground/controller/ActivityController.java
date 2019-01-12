@@ -1,7 +1,5 @@
 package playground.controller;
 
-import java.util.ArrayList;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,13 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import playground.aop.MyLog;
 import playground.constants.Playground;
 import playground.layout.ActivityTO;
-import playground.layout.ElementTO;
-import playground.layout.UserTO;
 import playground.logic.ActivityEntity;
 import playground.logic.ActivityService;
-import playground.logic.ElementEntity;
 import playground.logic.ErrorException;
-import playground.logic.UserEntity;
 
 @RestController
 public class ActivityController {

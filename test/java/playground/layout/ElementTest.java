@@ -2,7 +2,6 @@ package playground.layout;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.annotation.PostConstruct;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import playground.constants.Activity;
 import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;
@@ -574,7 +572,7 @@ public class ElementTest {
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
 		
-		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
+		restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), "no_such_name",
 				Element.ELEMENT_QUESTION_TYPE);
 	}

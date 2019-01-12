@@ -2,7 +2,6 @@ package playground.logic.jpa;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
@@ -15,8 +14,6 @@ import playground.aop.LoginRequired;
 import playground.aop.ManagerLogin;
 import playground.aop.MyLog;
 import playground.dal.ElementDao;
-import playground.logic.ActivityDataException;
-import playground.logic.ActivityEntity;
 import playground.logic.AttributeNameException;
 import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;

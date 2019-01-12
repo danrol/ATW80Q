@@ -17,7 +17,6 @@ import playground.logic.UserService;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ServerTest {
 	
-	private RestTemplate restTemplate;
 	private ElementService elementService;
 	private UserService userService;
 
@@ -37,7 +36,6 @@ public class ServerTest {
 
 	@PostConstruct
 	public void init() {
-		this.restTemplate = new RestTemplate();
 		this.url = "http://localhost:" + port;
 		System.err.println(this.url);
 	}
