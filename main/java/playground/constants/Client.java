@@ -60,5 +60,6 @@ public class Client {
 	public static final Object CANNOT_VERIFY_ERROR_MESSAGE = "User could not be verified, check your information.";
 	public static final Object CANNOT_VERIFY_ERROR_MESSAGE_SIGN_UP_ERROR_MESSAGE = "Could not sign up, this mail may already be registered or the server is not running.";
 	public static final String SIGN_IN_ERROR = "Could not sign in. Check that you are verified.";
+	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your internet connection";
 	
 }

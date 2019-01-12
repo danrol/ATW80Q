@@ -120,4 +120,13 @@ public class ClientModel {
 		return true;
 	}
 
+	public boolean updateAccount(String username, String avatar, String role) {
+		UserEntity user = this.getCurrentUser();
+		user.setUsername(username);
+		user.setAvatar(avatar);
+		user.setRole(role);
+		
+		return false;
+	}
+
 }
