@@ -1,6 +1,8 @@
 package playground.client;
 
 import org.springframework.web.client.RestTemplate;
+
+import playground.constants.Client;
 import playground.constants.Playground;
 import playground.constants.User;
 import playground.layout.UserTO;
@@ -108,9 +110,9 @@ public class ClientModel {
 
 	}
 
-	public boolean verifyUser(String code, String playground, String mail) {
+	public boolean verifyUser(String code, String mail) {
 		try {
-			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, playground, mail, code);
+			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, Client.PLAYGROUND_NAME, mail, code);
 		}
 		catch(Exception e)
 		{

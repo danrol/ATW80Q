@@ -29,7 +29,7 @@ public class VerificationCodeWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean verified = model.verifyUser(verificationText.getText(),Playground.PLAYGROUND_NAME,email.getText());
+		boolean verified = model.verifyUser(verificationText.getText(),email.getText());
 		if(verified)
 		{
 		new GameController(model);

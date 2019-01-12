@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Client {
-	
+	public static final String PLAYGROUND_NAME = "playground.rolnik";
 	public static final String ATW80Q = "Around The World In 80 Questions";
 	public static final String SIGN_IN = "Sign In";
 	public static final String SIGN_UP = "Sign Up";

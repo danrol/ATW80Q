@@ -81,9 +81,7 @@ public class SignUpWindow implements ActionListener{
 		setRole.add(manager);
 		setRole.setBorder(new TitledBorder(Client.SET_ROLE_TITLEBORDER));
 		frame.getContentPane().add(setRole);
-		
-		frame.getContentPane().add(new JLabel(Client.PLAYGROUND_LABEL));
-		frame.getContentPane().add(new JTextField());
+
 		
 		JButton signUpButton = new JButton(Client.SIGN_UP);
 		JPanel Okbutton = new JPanel();
