@@ -25,9 +25,6 @@ public class Client {
 	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
 	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
 
-	public static final String ERROR = "ERROR";
-	public static final String SIGN_IN_INVALID = "Sign In Invalid";
-	public static final String SIGN_UP_INVALID = "Sign Up Invalid";
 	
 	public static final String ADD_QUESTION = "Add Question";
 	public static final String GET_GAME_RULE = "Get Game Rule";
