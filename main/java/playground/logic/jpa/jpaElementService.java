@@ -140,13 +140,13 @@ public class jpaElementService implements ElementService {
 		switch(attributeName) {
 		case "name":{
 			if(user.getRole().equals(User.PLAYER_ROLE))
-				return lstToArray(elementsDB.findAllByNameAndExpireDateGreaterThan(attributeValue, new Date(), pageable));
+				return lstToArray(elementsDB.findAllByNameAndExpirationDateGreaterThan(attributeValue, new Date(), pageable));
 			else if(user.getRole().equals(User.MANAGER_ROLE))
 				return lstToArray(elementsDB.findAllByName(attributeValue, pageable));
 		}
 		case "type":{
 			if(user.getRole().equals(User.PLAYER_ROLE))
-				return lstToArray(elementsDB.findAllByTypeAndExpireDateGreaterThan(attributeValue, new Date(), pageable));
+				return lstToArray(elementsDB.findAllByTypeAndExpirationDateGreaterThan(attributeValue, new Date(), pageable));
 			else if(user.getRole().equals(User.MANAGER_ROLE))
 				return lstToArray(elementsDB.findAllByType(attributeValue, pageable));
 		}

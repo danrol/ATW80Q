@@ -15,15 +15,10 @@ import playground.logic.ElementEntity;
 @RepositoryRestResource
 public interface ElementDao extends PagingAndSortingRepository<ElementEntity,String>{
 
-	
-	
 	public ArrayList<ElementEntity> findAllByCreatorPlaygroundAndCreatorEmail( 
 			@Param("creatorPlayground") String creatorPlayground, 
 			@Param("creatorEmail") String creatorEmail, 
 			Pageable pageable);
-	
-	
-	
 
 	public ArrayList<ElementEntity> findAllByXBetweenAndYBetween(
     		@Param("x1") double d,
@@ -37,7 +32,7 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param ("type") String type, 
 			Pageable pageable);
 	
-	public ArrayList<ElementEntity> findAllByNameAndExpireDateGreaterThan(
+	public ArrayList<ElementEntity> findAllByNameAndExpirationDateGreaterThan(
 			@Param("name") String name, 
 			@Param ("expirationDate") Date expireDate, 
 			Pageable pageable);
@@ -46,7 +41,7 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param("name") String name, 
 			Pageable pageable);
 	
-	public ArrayList<ElementEntity> findAllByTypeAndExpireDateGreaterThan(
+	public ArrayList<ElementEntity> findAllByTypeAndExpirationDateGreaterThan(
 			@Param("type") String name, 
 			@Param ("expirationDate") Date expireDate, 
 			Pageable pageable);
