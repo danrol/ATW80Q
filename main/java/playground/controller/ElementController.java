@@ -31,7 +31,11 @@ public class ElementController {
 		this.elementService = elementService;
 	}
 	
-	@RequestMapping(method=RequestMethod.POST,path="/playground/elements/{userPlayground}/{email}",consumes=MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.POST,
+	path="/playground/elements/{userPlayground}/{email}",
+	consumes=MediaType.APPLICATION_JSON_VALUE,
+	produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO SaveElement(@PathVariable("userPlayground")String userPlayground ,@PathVariable("email") String email, @RequestBody ElementTO element)  {
 		// function 5
 		ElementEntity t = element.toEntity();
@@ -41,7 +45,10 @@ public class ElementController {
 	}
 	
 	
-	@RequestMapping(method=RequestMethod.PUT,path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",consumes=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.PUT,
+	path = "/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+	consumes=MediaType.APPLICATION_JSON_VALUE)
 	public void updateElement(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ElementTO element, @PathVariable("playground") String creatorPlayground, @PathVariable("id") String id) {
 		/* function 6
 		 * INPUT: ElementTO
@@ -50,7 +57,10 @@ public class ElementController {
 		elementService.replaceElementWith(userPlayground,email,element.toEntity(),id,creatorPlayground);
 	}
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.GET,
+	path="/playground/elements/{userPlayground}/{email}/{playground}/{id}",
+	produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO getElement(@PathVariable("email") String email,@PathVariable("userPlayground") String userPlayground,@PathVariable("playground") String creatorPlayground,@PathVariable("id") String id) 
 	{
 		/* function 7
@@ -61,7 +71,9 @@ public class ElementController {
 		return new ElementTO(element);
 	}
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all", produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/all", 
+	produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getAllElements(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground) {
 		//function 8
 		ArrayList<ElementEntity> allElements = elementService.getElements(pageable);
@@ -72,7 +84,9 @@ public class ElementController {
 	}
 	
 
-	@RequestMapping(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.GET,path="/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}",
+	produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsAroundLocation(Pageable pageable, @PathVariable("email") String email, @PathVariable("userPlayground") String userPlayground, @PathVariable("distance") double distance, @PathVariable("x") double x, @PathVariable("y") double y){
 		//function 9
 		ElementEntity[] elements = elementService.getAllElementsInRadius(userPlayground, email,x,y,distance, pageable);
@@ -80,7 +94,9 @@ public class ElementController {
 	}
 	
 
-	@RequestMapping(method=RequestMethod.GET, path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method=RequestMethod.GET, path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
+	produces=MediaType.APPLICATION_JSON_VALUE)
 	public ElementTO[] getElementsByNameAndType(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
 		/* function 10
 		 * INPUT: NONE
