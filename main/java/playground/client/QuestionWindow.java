@@ -64,6 +64,16 @@ public class QuestionWindow {
 		p3.add(answer);
 		frame.add(p3);
 		
+		JPanel p4 = new JPanel();
+		send = new JButton(Client.SEND);
+		submitAnswer = new JTextField(15);
+		submitAnswer.setPreferredSize(new Dimension(35, 35));
+		submitAnswer.setEditable(false);
+		p4.add(send);
+		p4.add(submitAnswer);
+		frame.add(p4);
+		
+		
 		
 		
 		

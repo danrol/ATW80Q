@@ -37,6 +37,8 @@ public class Client {
 	public static final String CHOOSE_QUESTION = "Choose Question";
 	public static final String QUESTION = "Question";
 	public static final String ANSWER = "Answer";
+	public static final String SEND = "Send";
+	
 	
 	
 	
