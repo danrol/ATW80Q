@@ -36,6 +36,7 @@ public class Playground {
 	
 	public static final String DUMMY_MANAGER_USERNAME = "manager";	
 	public static final String DUMMY_PLAYER_USERNAME = "player";	
+	public static final String DUMMY_ADMIN_USERNAME = "admin";
 	
 	
 	
