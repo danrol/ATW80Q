@@ -19,21 +19,24 @@ import playground.constants.Client;
 import playground.constants.User;
 
 public class UpdateUserWindow implements ActionListener {
-	ClientModel model;
-	JFrame frame;
-	JTextField username_text;
-	JTextField avatar_text;
-	JRadioButton player;
-	JRadioButton manager;
-	ButtonGroup group;
-	JButton updateButton;
+	private ClientModel model;
+	private JFrame frame;
+	private JTextField username_text;
+	private JTextField avatar_text;
+	private JRadioButton player;
+	private JRadioButton manager;
+	private ButtonGroup group;
+	private JButton updateButton;
+	private GameController gameController;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		System.err.println("Update");
 		boolean changed = model.updateAccount(username_text.getText(), avatar_text.getText(),
 				(player.isSelected() ? User.PLAYER_ROLE : User.MANAGER_ROLE));
 		if (changed) {
+			gameController.getFrame().dispose();
+			new GameController(model);
 			frame.dispose();
 		} else {
 			JOptionPane.showMessageDialog(null, Client.CANNOT_UPDATE_USER);
@@ -41,9 +44,9 @@ public class UpdateUserWindow implements ActionListener {
 
 	}
 
-	public UpdateUserWindow(ClientModel model) {
+	public UpdateUserWindow(ClientModel model, GameController gameController) {
 		this.model = model;
-
+		this.gameController = gameController;
 		frame = new JFrame();
 		frame.setTitle(Client.UPDATE_USER);
 		frame.setSize(500, 400);

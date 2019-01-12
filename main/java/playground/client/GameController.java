@@ -16,20 +16,33 @@ import playground.constants.Client;
 import playground.logic.UserEntity;
 
 public class GameController implements ActionListener {
-	ClientModel model;
-	JButton signOut;
-	JButton updatuser;
-	UserEntity user;
-	JLabel userInfo;
+	private ClientModel model;
+	private JButton signOut;
+	private JButton updatuser;
+	private UserEntity user;
+	private JLabel userInfo;
+	private JComboBox<String> activity;
+	private JLabel main;
+	private JFrame frame;
+	
+	
 
-	JComboBox<String> activity;
-	JLabel main;
-	JFrame frame;
+	private JLabel username_label;
+	private JLabel mail_label;
+	private JLabel avatar_label;
+	private JLabel role_label;
+	private JLabel playground_label ;
+	private JLabel point_label;
+	
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals(Client.UPDATE_USER))
-			new UpdateUserWindow(model);
+		{
+			new UpdateUserWindow(model, this);
+		}
+			
 		else if (e.getActionCommand().equals(Client.SIGN_OUT))
 			frame.dispose();
 		else {
@@ -63,8 +76,10 @@ public class GameController implements ActionListener {
 
 	public GameController(ClientModel model) {
 		this.model = model;
-
 		frame = new JFrame();
+		user=model.getCurrentUser();
+		
+		
 		frame.setTitle(Client.GAME_CONTROLLER);
 		frame.setSize(500, 500);
 		frame.setLayout(new GridLayout(5, 0));
@@ -87,29 +102,31 @@ public class GameController implements ActionListener {
 		frame.add(updatePanel);
 
 		JPanel activityPanel = new JPanel();
-		user = model.getCurrentUser();
-		if (user.getRole().equals(Client.PLAYER_ROLE)) {
-			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
-		} else if (user.getRole().equals(Client.MANAGER_ROLE)) {
-			activity = new JComboBox<String>(Client.MANAGER_COMBOX);
-		}
+		updateComboBox();
+		
+	
 		activityPanel.add(activity);
 		frame.add(activityPanel);
 		
+		
+		
+		updateUserInfo();
+
 		JPanel p = new JPanel(new GridLayout(6, 2));
 		p.add(new JLabel(Client.USERNAME_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getUsername())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(username_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		p.add(new JLabel(Client.EMAIL_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getEmail())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(mail_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		p.add(new JLabel(Client.AVATAR_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getAvatar())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(avatar_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		p.add(new JLabel(Client.ROLE_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getRole())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(role_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		p.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getPlayground())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(playground_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		p.add(new JLabel(Client.POINTS)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(user.getPoints() +"")).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(point_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(p);
+		
 		
 		frame.add(new JLabel());
 		
@@ -126,4 +143,39 @@ public class GameController implements ActionListener {
 
 	}
 
+	private void updateUserInfo() {
+
+		username_label = new JLabel(user.getUsername());
+		mail_label = new JLabel(user.getEmail());
+		avatar_label = new JLabel(user.getAvatar());
+		role_label = new JLabel(user.getRole());
+		playground_label = new JLabel(user.getPlayground());
+		point_label = new JLabel(user.getPoints() + "");
+		
+		
+	}
+
+	public void updateController() {
+		System.err.println("Update\n*\n*************************************************************************");
+		user = model.getCurrentUser();
+		updateComboBox();
+		updateUserInfo();
+		
+	}
+
+	private void updateComboBox() {
+		if (user.getRole().equals(Client.PLAYER_ROLE)) {
+			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
+		} else if (user.getRole().equals(Client.MANAGER_ROLE)) {
+			activity = new JComboBox<String>(Client.MANAGER_COMBOX);
+		}
+		
+	}
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	public void setFrame(JFrame frame) {
+		this.frame = frame;
+	}
 }
