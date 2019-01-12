@@ -31,7 +31,6 @@ public class UpdateUserWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("Update");
 		boolean changed = model.updateAccount(username_text.getText(), avatar_text.getText(),
 				(player.isSelected() ? User.PLAYER_ROLE : User.MANAGER_ROLE));
 		if (changed) {

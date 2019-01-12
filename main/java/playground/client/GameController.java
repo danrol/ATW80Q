@@ -48,23 +48,18 @@ public class GameController implements ActionListener {
 		else {
 			switch (activity.getSelectedItem() + "") {
 			case Client.ADD_QUESTION:
-				System.err.println(Client.ADD_QUESTION);
 				new AddQuestionWindow(model);
 				break;
 			case Client.GAME_RULES:
-				System.err.println(Client.GAME_RULES);
 				new ViewGameRules(model);
 				break;
 			case Client.GET_MESSAGE:
-				System.err.println(Client.GET_MESSAGE);
 				new GetMessageWindow(model);
 				break;
 			case Client.ADD_MESSAGE:
-				System.err.println(Client.ADD_MESSAGE);
 				new AddMessageWindow(model);
 				break;
 			case Client.ANSWER_QUESTION:
-				System.err.println(Client.ANSWER_QUESTION);
 				new QuestionWindow(model);
 				break;
 			default:
@@ -156,7 +151,6 @@ public class GameController implements ActionListener {
 	}
 
 	public void updateController() {
-		System.err.println("Update\n*\n*************************************************************************");
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
