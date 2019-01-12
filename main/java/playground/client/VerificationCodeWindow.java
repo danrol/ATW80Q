@@ -2,7 +2,6 @@ package playground.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -14,9 +13,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-
 import playground.constants.Client;
-import playground.constants.Playground;
+
 
 public class VerificationCodeWindow implements ActionListener {
 	ClientModel model;
