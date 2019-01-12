@@ -10,8 +10,6 @@ public interface ElementService {
 
 	boolean isElementInDatabase(ElementEntity element);
 
-	ElementEntity[] getElementsWithValueInAttribute(String creatorPlayground, String creatorEmail, String attributeName, Object value, Pageable pageable);
-
 	boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground, String creatorEmail);
 
 	ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable);
@@ -53,6 +51,8 @@ public interface ElementService {
 	void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard);
 
 	ElementEntity createElementEntity(String json);
+
+	ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, String type, Pageable pageable);
 
 
 
