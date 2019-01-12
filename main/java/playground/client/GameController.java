@@ -26,24 +26,34 @@ public class GameController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println(activity.getSelectedItem());
 		if (e.getActionCommand().equals(Client.UPDATE_USER))
 			new UpdateUserWindow(model);
-		else if (e.getActionCommand().equals(Client.SIGN_OUT)) {
+		else if (e.getActionCommand().equals(Client.SIGN_OUT))
 			frame.dispose();
-		} else if (activity.getSelectedItem().equals(Client.ADD_QUESTION)) {
-			System.err.println(Client.ADD_QUESTION);
-		} else if (activity.getSelectedItem().equals(Client.GAME_RULE)) {
-			System.err.println(Client.GAME_RULE);
-			new ViewGameRules(model);
-		} else if (activity.getSelectedItem().equals(Client.GET_MESSAGE)) {
-			System.err.println(Client.GET_MESSAGE);
-		} else if (activity.getSelectedItem().equals(Client.ADD_MESSAGE)) {
-			System.err.println(Client.ADD_MESSAGE);
-		} else if (activity.getSelectedItem().equals(Client.GET_QUESTION)) {
-			System.err.println(Client.GET_QUESTION);
-		} else if (activity.getSelectedItem().equals(Client.ANSWER_QESTION)) {
-			System.err.println(Client.ANSWER_QESTION);
+		else {
+			switch (activity.getSelectedItem() + "") {
+			case Client.ADD_QUESTION:
+				System.err.println(Client.ADD_QUESTION);
+				break;
+			case Client.GAME_RULE:
+				System.err.println(Client.GAME_RULE);
+				new ViewGameRules(model);
+				break;
+			case Client.GET_MESSAGE:
+				System.err.println(Client.GET_MESSAGE);
+				break;
+			case Client.ADD_MESSAGE:
+				System.err.println(Client.ADD_MESSAGE);
+				break;
+			case Client.GET_QUESTION:
+				System.err.println(Client.GET_QUESTION);
+				break;
+			case Client.ANSWER_QESTION:
+				System.err.println(Client.ANSWER_QESTION);
+				break;
+			default:
+				break;
+			}
 		}
 
 	}
