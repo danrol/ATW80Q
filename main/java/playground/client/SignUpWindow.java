@@ -18,15 +18,15 @@ import playground.constants.User;
 
 public class SignUpWindow implements ActionListener{ 
 	
-	ClientModel model;
-	JTextField username_text = new JTextField();
-	JTextField email_text = new JTextField();
-	JTextField avatar_text = new JTextField();
-	JTextField playground_text = new JTextField();
-	JRadioButton player;
-	JRadioButton manager;
-	ButtonGroup group;
-	JFrame frame;
+	private ClientModel model;
+	private JTextField username_text = new JTextField();
+	private JTextField email_text = new JTextField();
+	private JTextField avatar_text = new JTextField();
+	private JTextField playground_text = new JTextField();
+	private JRadioButton player;
+	private JRadioButton manager;
+	private ButtonGroup group;
+	private JFrame frame;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {

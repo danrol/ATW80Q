@@ -12,8 +12,8 @@ import playground.constants.Activity;
 import playground.constants.Client;
 
 public class ViewGameRules {
-	JFrame frame;
-	JLabel gameRule;
+	private JFrame frame;
+	private JLabel gameRule;
 
 	public ViewGameRules() {
 

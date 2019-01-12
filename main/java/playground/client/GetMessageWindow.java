@@ -8,8 +8,8 @@ import playground.constants.Client;
 
 public class GetMessageWindow {
 
-	ClientModel model;
-	JFrame frame;
+	private ClientModel model;
+	private JFrame frame;
 	
 	
 	public GetMessageWindow(ClientModel model) {

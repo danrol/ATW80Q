@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import playground.constants.Client;
 
 public class ClientLogin extends JPanel implements ActionListener{
-	ClientModel model;
+	private ClientModel model;
 	public JButton signIn; 
 	public JButton signUp;
 	public JButton verificationCode;

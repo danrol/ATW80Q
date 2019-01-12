@@ -16,12 +16,12 @@ import javax.swing.JTextField;
 import playground.constants.Client;
 
 public class AddMessageWindow implements ActionListener {
-	ClientModel model;
-	JFrame frame;
-	JLabel title;
-	JLabel message;
-	JTextField messageText;
-	JButton messageButton;
+	private ClientModel model;
+	private JFrame frame;
+	private JLabel title;
+	private JLabel message;
+	private JTextField messageText;
+	private JButton messageButton;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

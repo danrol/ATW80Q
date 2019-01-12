@@ -18,9 +18,9 @@ import playground.constants.User;
 import playground.logic.UserEntity;
 
 public class SignInWindow implements ActionListener{ 
-	ClientModel model;
-	JTextField email;
-	JFrame frame;
+	private ClientModel model;
+	private JTextField email;
+	private JFrame frame;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {

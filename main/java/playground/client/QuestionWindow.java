@@ -17,17 +17,17 @@ import playground.constants.Client;
 
 public class QuestionWindow implements ActionListener{
 
-	ClientModel model;
-	JFrame frame;
-	JLabel chooseQuestion;
-	JComboBox<String> questions;
-	JLabel questionLabel;
-	JTextField question;
-	JLabel answerLabel;
-	JTextField answer;
-	JButton send;
-	JTextField submitAnswer;
-	JTextField points;
+	private ClientModel model;
+	private JFrame frame;
+	private JLabel chooseQuestion;
+	private JComboBox<String> questions;
+	private JLabel questionLabel;
+	private JTextField question;
+	private JLabel answerLabel;
+	private JTextField answer;
+	private JButton send;
+	private JTextField submitAnswer;
+	private JTextField points;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {

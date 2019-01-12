@@ -19,13 +19,12 @@ import playground.constants.Client;
 import playground.constants.Playground;
 
 public class VerificationCodeWindow implements ActionListener {
-	ClientModel model;
-	JFrame frame;
-	JLabel verificationCode;
-	JTextField verificationText;
-	JButton verificationButton;
-	
-	JTextField email;
+	private ClientModel model;
+	private JFrame frame;
+	private JLabel verificationCode;
+	private JTextField verificationText;
+	private JButton verificationButton;
+	private JTextField email;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

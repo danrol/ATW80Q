@@ -15,18 +15,18 @@ import javax.swing.JTextField;
 import playground.constants.Client;
 
 public class AddQuestionWindow implements ActionListener{
-	ClientModel model;
-	JFrame frame;
-	JLabel title;
-	JLabel questionTitle;
-	JTextField questionTitleText;
-	JLabel questionBody;
-	JTextField questionBodyText;
-	JLabel answer;
-	JTextField answerText;
-	JLabel points;
-	JTextField pointsText;
-	JButton addQuestion;
+	private ClientModel model;
+	private JFrame frame;
+	private JLabel title;
+	private JLabel questionTitle;
+	private JTextField questionTitleText;
+	private JLabel questionBody;
+	private JTextField questionBodyText;
+	private JLabel answer;
+	private JTextField answerText;
+	private JLabel points;
+	private JTextField pointsText;
+	private JButton addQuestion;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
