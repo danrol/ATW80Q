@@ -19,7 +19,8 @@ public class Client {
 	public static final String UPDATE_USER = "Update User";
 	public static final String SIGN_OUT = "Sign Out";
 	public static final String MAIN = "MAIN";
-	public static final String VERIFY_CODE = "Verification Code";
+	public static final String VERIFY_CODE = "Verify User";
+	public static final String VERIFY_CODE_TITLE = "Enter your verification code";
 	
 	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
 	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };

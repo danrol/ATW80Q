@@ -35,11 +35,13 @@ public class jpaUserService implements UserService {
 	// this is the database we need are saving in
 	private UserDao userDB;
 	private IdGeneratorUserDao IdGeneratorUser;
-
+	private EmailService emailService;
+	
 	@Autowired
-	public jpaUserService(UserDao userDB, IdGeneratorUserDao IdGeneratorUser) {
+	public jpaUserService(UserDao userDB, IdGeneratorUserDao IdGeneratorUser, EmailService emailService) {
 		this.userDB = userDB;
 		this.IdGeneratorUser = IdGeneratorUser;
+		this.emailService = emailService;
 	}
 
 	@Override
@@ -229,23 +231,19 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public void sendVerificationCodeToMail(UserEntity user)
 	{
-		MailSender sender = new MailSender();
+		Mail mail = new Mail();
+		mail.setTo(user.getEmail());
+		mail.setSubject(Playground.VERIFICATION_MAIL_SUBJECT);
+		mail.setContent(Playground.getVerificationMailContent(user.getUsername(), user.getVerificationCode(), user.getEmail(),user.getPlayground()));
+		
 		try {
-			System.err.println("building message sender " + user.getEmail());
-			Message message = new MimeMessage(sender.getSession());
-			
-			message.setFrom(new InternetAddress(Playground.PLAYGROUND_MAIL));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(user.getEmail()));
-			message.setSubject(Playground.VERIFICATION_MAIL_TITLE);
-			System.err.println(message);
-			String body = "Hi, " + user.getUsername() + "\n Welcome to around the world in 80 questions. Enter the following verification code in order to verify your account.\n Code : " + user.getVerificationCode() + "\n Yours,\n Eden D, Eden S, Daniel, Elia"; 
-			message.setText(body);
-			sender.sendMail(message);
+			emailService.sendMail(mail);
 		}
-		catch(MessagingException e) {
-			System.err.println(e.getMessage());
+		catch(Exception e)
+		{
+			throw new RuntimeException(e.getMessage());
 		}
+		
 	}
 
 

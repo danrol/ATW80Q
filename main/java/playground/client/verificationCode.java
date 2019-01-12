@@ -66,7 +66,8 @@ public class verificationCode implements ActionListener {
 		JPanel verificationTextPanel = new JPanel();
 		verificationText = new JTextField(20);
 		verificationText.setPreferredSize(new Dimension(50, 40));
-		verificationText.setBorder(new TitledBorder(Client.VERIFY_CODE));
+		verificationText.setBorder(new TitledBorder(Client.VERIFY_CODE_TITLE));
+		verificationText.setToolTipText(Client.VERIFY_CODE_TITLE);
 		verificationTextPanel.add(verificationText);
 		p2.add(verificationTextPanel);
 

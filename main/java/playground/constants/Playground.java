@@ -23,12 +23,11 @@ public class Playground {
 	
 	//Email values
 	
-	public static final String VERIFICATION_MAIL_TITLE = "Verification code - ATW80Q";
-	
+	public static final String VERIFICATION_MAIL_SUBJECT = "Verify your account ATW80Q";
+
 	
 	// Values for JUnit tests
 	public static String PLAYGROUND_MAIL = "ATW80Q@gmail.com";
-	public static String PLAYGROUND_MAIL_PASSWORD = "Do6)Gain";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
@@ -53,10 +52,6 @@ public class Playground {
 		Playground.PLAYGROUND_MAIL = defaultPlaygroundMail;
 	}
 	
-	@Value("${playground.mail.password:Do6)Gain}")
-	public void setDefaultPlaygroundMailPassword(String defaultPlaygroundMail) {
-		Playground.PLAYGROUND_MAIL_PASSWORD = defaultPlaygroundMail;
-	}
 	
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
@@ -65,5 +60,12 @@ public class Playground {
 	
 	public Playground() {
 		
+	}
+
+
+	public static String getVerificationMailContent(String username, String verificationCode, String mail, String playground) {
+		String body = "Hi, " + username + "\nWelcome to around the world in 80 questions.\n\nEnter the following verification code in order to verify your account.\nCode : " + verificationCode + "\nE-Mail : "+ mail +"\nPlayground : "+ playground +"\nYours,\n Eden Dupont, Eden Sharoni, Daniil rolnik, Elia Ben Anat"; 
+		
+		return body;
 	}
 }
