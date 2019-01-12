@@ -44,6 +44,10 @@ public class SignInWindow implements ActionListener{
 				frame.dispose();
 				new GameController(model);
 			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, Client.SIGN_IN_ERROR);
+			}
 		}
 	
 	public SignInWindow(ClientModel model) {
