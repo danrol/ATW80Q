@@ -82,12 +82,6 @@ public class jpaElementService implements ElementService {
 				y + distance, pageable));
 	}
 
-	public ElementEntity[] getElementsBySizeAndPage(ArrayList<ElementEntity> lst, Pageable pageable) {
-		ElementEntity[] result = lst.stream().skip(pageable.getPageSize() * pageable.getPageNumber()).limit(pageable.getPageSize())
-		.collect(Collectors.toList()).toArray(new ElementEntity[pageable.getPageSize()]);
-		return result;
-	}
-
 	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
 		// TODO check how to improve
 		Date now = new Date();
