@@ -272,7 +272,7 @@ public class jpaElementService implements ElementService {
 
 	private boolean validateElement(ElementEntity element) {
 		switch (element.getType()) {
-		case Element.ELEMENT_DEFAULT_TYPE:
+		case Element.DEFAULT_TYPE:
 			return true;
 		case Element.ELEMENT_MESSAGEBOARD_TYPE:
 			// if messageboard was created outside the playground
