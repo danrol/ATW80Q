@@ -30,6 +30,7 @@ import playground.logic.UserEntity;
 import playground.logic.UserService;
 import playground.mail.EmailService;
 import playground.mail.Mail;
+import playground.mail.MailBuilder;
 
 @Service
 public class jpaUserService implements UserService {
@@ -236,7 +237,7 @@ public class jpaUserService implements UserService {
 		Mail mail = new Mail();
 		mail.setTo(user.getEmail());
 		mail.setSubject(Playground.VERIFICATION_MAIL_SUBJECT);
-		mail.setContent(Playground.getVerificationMailContent(user.getUsername(), user.getVerificationCode(), user.getEmail(),user.getPlayground()));
+		mail.setContent(MailBuilder.getVerificationMailContent(user.getUsername(), user.getVerificationCode(), user.getEmail(),user.getPlayground()));
 		
 		try {
 			emailService.sendMail(mail);

@@ -2,6 +2,7 @@ package playground.client;
 
 import org.springframework.web.client.RestTemplate;
 import playground.constants.Playground;
+import playground.constants.User;
 import playground.layout.UserTO;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
@@ -105,6 +106,17 @@ public class ClientModel {
 		this.current_email = entity.getEmail();
 		this.current_userPlayground = entity.getUsername();
 
+	}
+
+	public boolean verifyUser(String code, String playground, String mail) {
+		try {
+			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, playground, mail, code);
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
+		return true;
 	}
 
 }

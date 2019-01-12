@@ -42,4 +42,6 @@ public class Client {
 	public static final String DANIEL_ROLNIK = "Daniel Rolnik - 334018009";
 	
 
+	public static final Object CANNOT_VERIFY_ERROR_MESSAGE = "User could not be verified, check your information.";
+	
 }

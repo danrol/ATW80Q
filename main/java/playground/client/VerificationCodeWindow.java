@@ -2,6 +2,7 @@ package playground.client;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,11 +10,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import playground.constants.Client;
+import playground.constants.Playground;
 
 public class VerificationCodeWindow implements ActionListener {
 	ClientModel model;
@@ -26,9 +29,16 @@ public class VerificationCodeWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO: Verify Code
+		boolean verified = model.verifyUser(verificationText.getText(),Playground.PLAYGROUND_NAME,email.getText());
+		if(verified)
+		{
 		new GameController(model);
 		frame.dispose();
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, Client.CANNOT_VERIFY_ERROR_MESSAGE);
+		}
 	}
 
 	public VerificationCodeWindow(ClientModel model) {
@@ -78,11 +88,10 @@ public class VerificationCodeWindow implements ActionListener {
 		p2.add(verificationButtonPanel);
 
 		frame.add(p2, BorderLayout.SOUTH);
-//		verificationButton.addActionListener(this);
+		verificationButton.addActionListener(this);
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 	}
 
