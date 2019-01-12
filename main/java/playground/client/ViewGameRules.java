@@ -18,7 +18,7 @@ public class ViewGameRules {
 	public ViewGameRules() {
 
 		frame = new JFrame();
-		frame.setTitle(Client.UPDATE_USER);
+		frame.setTitle(Client.GAME_RULES);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(5, 2, 5, 5));
 

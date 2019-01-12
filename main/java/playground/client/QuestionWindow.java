@@ -35,7 +35,7 @@ public class QuestionWindow implements ActionListener{
 		this.model = model;
 
 		frame = new JFrame();
-		frame.setTitle(Client.GET_QUESTIONS);
+		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(4, 0, 5, 5));
 
@@ -43,6 +43,7 @@ public class QuestionWindow implements ActionListener{
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
 		chooseQuestion.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		//TODO: get all questions;
+		
 		questions = new JComboBox<>(Client.MANAGER_COMBOX);// Client.MANAGER_COMBOX temporary
 		p1.add(chooseQuestion);
 		p1.add(questions);
