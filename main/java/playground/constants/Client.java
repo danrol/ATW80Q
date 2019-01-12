@@ -55,6 +55,9 @@ public class Client {
 	public static final String ANSWER = "Answer";
 	public static final String SEND = "Send";
 	public static final String MESSAGE = "Message";
+	public static final String RIGHT = "Right";
+	public static final String LEFT = "Left";
+	
 	
 	
 	// Add question
@@ -74,8 +77,9 @@ public class Client {
 	public static final String SIGN_IN_ERROR = "Could not sign in. Check that you are verified.";
 	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your connection to the server";
 	public static final Object FETCH_GAME_RULES_ERROR = "Couldn't process your request. Check your connection to the server";
+	
 	//Font
-	//public static final Font = new Font("TimesRoman", Font.BOLD, 20);
+
 	public static final Font FONT_TITLE = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 30);
 	public static final Font FONT_BASIC = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 15);
 

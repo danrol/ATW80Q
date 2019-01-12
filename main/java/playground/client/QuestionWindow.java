@@ -31,6 +31,8 @@ public class QuestionWindow implements ActionListener{
 	private JTextField submitAnswer;
 	private JTextField points;
 	private ElementEntity[] question_list;
+	private JButton left;
+	private JButton right;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		new GameController(model);
@@ -48,17 +50,24 @@ public class QuestionWindow implements ActionListener{
 		frame = new JFrame();
 		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
-		frame.setLayout(new GridLayout(5, 0, 5, 5));
+		frame.setLayout(new GridLayout(6, 0, 5, 5));
 
 		JPanel p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
 		chooseQuestion.setFont(Client.FONT_BASIC);
 	
 		
-		questions = new JComboBox<>(question_titles);// Client.MANAGER_COMBOX temporary
+		questions = new JComboBox<>(question_titles);
 		p1.add(chooseQuestion);
 		p1.add(questions);
 		frame.add(p1);
+		
+		JPanel p7 = new JPanel();
+		left = new JButton(Client.LEFT);
+		right = new JButton(Client.RIGHT);
+		p7.add(left);
+		p7.add(right);
+		frame.add(p7);
 		
 		JPanel p2 = new JPanel();
 		questionLabel = new JLabel(Client.QUESTION);
@@ -98,10 +107,13 @@ public class QuestionWindow implements ActionListener{
 		frame.add(p5);
 		
 		send.addActionListener(this);
+		left.addActionListener(this);
+		right.addActionListener(this);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		
 		
 	}
 
