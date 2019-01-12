@@ -24,7 +24,7 @@ public class VerificationCodeWindow implements ActionListener {
 	JLabel verificationCode;
 	JTextField verificationText;
 	JButton verificationButton;
-	JTextField userPlayground;
+	
 	JTextField email;
 
 	@Override
@@ -61,10 +61,9 @@ public class VerificationCodeWindow implements ActionListener {
 
 		JPanel p1 = new JPanel(new GridLayout(2, 2));
 
-		userPlayground = new JTextField();
+		
 		email = new JTextField();
-		p1.add(new JLabel(Client.PLAYGROUND_LABEL));
-		p1.add(userPlayground);
+		
 		p1.add(new JLabel(Client.EMAIL_LABEL));
 		p1.add(email);
 

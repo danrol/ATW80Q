@@ -18,28 +18,26 @@ import playground.logic.UserEntity;
 
 public class SignInWindow implements ActionListener{ 
 	ClientModel model;
-	JTextField userPlayground;
 	JTextField email;
 	JFrame frame;
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String userPlayground_text = userPlayground.getText().trim();
 			String email_text = email.getText().trim();
-			boolean signed = model.SignIn(userPlayground_text, email_text);
+			boolean signed = model.SignIn(email_text);
 			if(signed)
 			{
 				frame.dispose();
 				new GameController(model);
 			}			
-			else if(userPlayground_text.equals("admin") && email_text.equals("test"))
+			else if(email_text.equals("admin test"))
 			{
 				UserEntity admin = new UserEntity("admin","admin@admin.com","avatar",User.MANAGER_ROLE,Playground.PLAYGROUND_NAME);
 				model.setCurrentUser(admin);
 				frame.dispose();
 				new GameController(model);
 			}
-			else if(userPlayground_text.equals("player") && email_text.equals("test"))
+			else if(email_text.equals("player test"))
 			{
 				UserEntity admin = new UserEntity("player","player@admin.com","avatar",User.PLAYER_ROLE,Playground.PLAYGROUND_NAME);
 				model.setCurrentUser(admin);
@@ -62,10 +60,8 @@ public class SignInWindow implements ActionListener{
 		frame.add(SignInLabel);
 		frame.add(new JLabel());
 		
-		userPlayground = new JTextField();
 		email = new JTextField();
-		frame.add(new JLabel(Client.PLAYGROUND_LABEL));
-		frame.add(userPlayground);
+
 		frame.add(new JLabel(Client.EMAIL_LABEL));
 		frame.add(email);
 		

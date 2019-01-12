@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
@@ -42,6 +43,10 @@ public class SignUpWindow implements ActionListener{
 				frame.dispose();
 				new VerificationCodeWindow(model);
 				
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, Client.CANNOT_VERIFY_ERROR_MESSAGE_SIGN_UP_ERROR_MESSAGE);
 			}
 			
 		}
