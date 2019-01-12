@@ -1,6 +1,5 @@
 package playground.logic;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.Entity;
@@ -14,7 +13,7 @@ import playground.constants.Playground;
 
 @Entity
 @Table(name = "ACTIVITY")
-public class ActivityEntity implements Serializable {
+public class ActivityEntity {
 
 	// Primary key - playground+id
 	private static final long serialVersionUID = 514354009958930154L;
