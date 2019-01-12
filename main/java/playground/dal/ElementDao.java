@@ -30,7 +30,10 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
     		@Param("y2") double g,
     		Pageable pageable);
 	
-		
+	public ArrayList<ElementEntity> findAllByNameAndType(
+			@Param ("name") String name,
+			@Param ("type") String type, 
+			Pageable pageable);
 	
 //	public ArrayList<ElementEntity> findAllByJsonAttributesLike(String jsonAttributes, Pageable pageable);
 	

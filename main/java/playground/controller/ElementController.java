@@ -81,12 +81,12 @@ public class ElementController {
 	
 
 	@RequestMapping(method=RequestMethod.GET, path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByAttributeNameValue(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
+	public ElementTO[] getElementsByNameAndType(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
 		/* function 10
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		ElementEntity[] elementsWithValueInAttr= elementService.getElementsWithValueInAttribute(userPlayground, email, attributeName, value, pageable);
+		ElementEntity[] elementsWithValueInAttr= elementService.getElementsByNameAndType(userPlayground, email, attributeName, value, pageable);
 		if (elementsWithValueInAttr.length != 0  ) 
 			return getElementTOArray(elementsWithValueInAttr);
 		else return new ElementTO[0];

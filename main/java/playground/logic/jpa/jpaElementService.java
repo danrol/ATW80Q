@@ -133,27 +133,9 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
-	public ElementEntity[] getElementsWithValueInAttribute(String userPlayground, String email, String attributeName,
-			Object value, Pageable pageable) {
-
-		
-//		tempElementsList = elementsDB.findAllByJsonAttributesLike("\""+attributeName+"\""+": \""+value, pageable);
-//		return lstToArray(tempElementsList);
-		
-//		tempElementsList = elementsDB.findAllByJsonAttributesLike("\""+attributeName+"\""+": \""+value, pageable);
-		
-		ArrayList<ElementEntity> elements = getElements();
-		ArrayList<ElementEntity> tempElementsList = new ArrayList<>();
-		for (ElementEntity e : elements) {
-			if (e.getAttributes().containsKey(attributeName) && e.getAttributes().get(attributeName).equals(value))
-				if (roleIsCorrectExpirationDateCheck(userService.getUser(userPlayground, email), e.getExpirationDate()))
-					tempElementsList.add(e);
-		}
-		if (tempElementsList.isEmpty())
-			return new ElementEntity[0];
-		else
-			return getElementsBySizeAndPage(tempElementsList, pageable);
-
+	public ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, 
+			String type, Pageable pageable) {
+		return lstToArray(elementsDB.findAllByNameAndType(name, type, pageable));
 	}
 
 	@Override
