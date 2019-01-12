@@ -84,9 +84,8 @@ public class ElementTest {
 
 		ElementEntity element = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 
-		ElementTO elemTO = this.restTemplate.postForObject(this.url + Playground.Function_5, new ElementTO(element),
-				ElementTO.class, user.getPlayground(), user.getEmail());
-		ElementEntity element2 = elemTO.toEntity();
+		ElementEntity element2 = this.restTemplate.postForObject(this.url + Playground.Function_5, new ElementTO(element),
+				ElementTO.class, user.getPlayground(), user.getEmail()).toEntity();
 		assertThat(element2).isEqualToIgnoringGivenFields(element, Element.ELEMENT_FIELD_id,
 				Element.ELEMENT_FIELD_superkey, Element.ELEMENT_FIELD_creatorPlayground,
 				Element.ELEMENT_FIELD_creatorEmail);

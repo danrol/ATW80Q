@@ -114,7 +114,7 @@ public class UserTest {
 
 	}
 	
-	//2.3 Scenario: Playground doesn�t match user 
+	//2.3 Scenario: Playground doesnt match user 
 	@Test(expected = RuntimeException.class)
 	public void confirmUserNotInPlayground() {
 
@@ -128,9 +128,8 @@ public class UserTest {
 	public void confirmUserWithIncorrectVerificationCode() {
 
 		UserEntity u = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS, User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
-		String code = u.getVerificationCode();
 		this.userService.addUser(u);
-		this.restTemplate.getForObject(this.url + Playground.Function_2, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, code + "x");
+		this.restTemplate.getForObject(this.url + Playground.Function_2, UserTO.class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, u.getVerificationCode() + "x");
 	}
 
 	// url #2 /playground/users/confirm/{playground}/{email}/{code} test finished
