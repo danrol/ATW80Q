@@ -10,11 +10,11 @@ import playground.logic.ElementEntity;
 public class Element {
 
 	
-	public static final String DEFAULT_ELEMENT_NAME = "Rolnik's element";
+	public static final String DEFAULT_ELEMENT_NAME = "Rolnik_element";
 	
 	// Element types
 
-	public static final String ELEMENT_DEFAULT_TYPE = "Default_Element_type";
+	public static final String DEFAULT_TYPE = "Default_Element_type";
 	public static final String ELEMENT_QUESTION_TYPE = "Element_Question_type";
 	public static final String ELEMENT_MESSAGEBOARD_TYPE = "MessageBoard";
 

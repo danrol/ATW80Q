@@ -30,7 +30,7 @@ public class ElementEntity {
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;
-	private String type = Element.ELEMENT_DEFAULT_TYPE;
+	private String type = Element.DEFAULT_TYPE;
 	private String creatorPlayground;
 	private String creatorEmail;
 	private double x;
