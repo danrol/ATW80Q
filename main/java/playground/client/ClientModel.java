@@ -52,6 +52,18 @@ public class ClientModel {
 		return false;
 	}
 
+	private void refreshUser()
+	{
+		try {
+			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
+					this.current_userPlayground, this.current_email);
+			setCurrentUser(user.toEntity());
+			 
+		} catch (Exception e) {
+			
+			System.err.println(e.getMessage());
+		}
+	}
 	
 
 	public boolean signUp(String username, String email, String avatar, String playground, String role) {
@@ -229,5 +241,29 @@ public class ClientModel {
 		if(sizeNum == 0)
 			return "";
 		return "?page=" + String.valueOf(pageNum) + "&size=" + String.valueOf(sizeNum);
+	}
+
+	public boolean answerQuestion(String superkey, String answer) {
+		ActivityEntity activity = new ActivityEntity();
+		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);
+		activity.getAttribute().put(Activity.ACTIVITY_USER_ANSWER_KEY,
+				answer);
+
+		activity.setElementId(superkey);
+		ActivityTO act = new ActivityTO(activity);
+		try {
+
+			boolean SystemResponse = this.restTemplate.postForObject(this.getURL() + Playground.Function_11, act,
+					boolean.class, this.current_userPlayground, this.current_email);
+			
+			refreshUser();
+			return SystemResponse;
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return false;
+		
 	}
 }

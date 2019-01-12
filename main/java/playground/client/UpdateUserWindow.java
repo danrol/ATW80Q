@@ -1,6 +1,5 @@
 package playground.client;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,8 +33,7 @@ public class UpdateUserWindow implements ActionListener {
 		boolean changed = model.updateAccount(username_text.getText(), avatar_text.getText(),
 				(player.isSelected() ? User.PLAYER_ROLE : User.MANAGER_ROLE));
 		if (changed) {
-			gameController.getFrame().dispose();
-			new GameController(model);
+			gameController.updateController();
 			frame.dispose();
 		} else {
 			JOptionPane.showMessageDialog(null, Client.CANNOT_UPDATE_USER);
@@ -95,5 +93,8 @@ public class UpdateUserWindow implements ActionListener {
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
+	
+	
+
 
 }

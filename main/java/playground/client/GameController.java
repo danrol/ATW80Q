@@ -154,6 +154,7 @@ public class GameController implements ActionListener {
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
+		frame.repaint();
 		
 	}
 
@@ -172,4 +173,6 @@ public class GameController implements ActionListener {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
+	
+
 }

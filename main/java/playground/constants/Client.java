@@ -46,7 +46,7 @@ public class Client {
 	public static final String ANSWER_QUESTION = "Answer Questions";
 	
 	//ComboBox Activites
-	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.ANSWER_QUESTION};
+	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GET_MESSAGE};
 	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ANSWER_QUESTION};
 
 	//Answer Question
@@ -86,6 +86,9 @@ public class Client {
 	public static final String INVALID_POINT_INPUT_ERROR = "Points should be a number";
 
 	public static final String SUCCESSFULLY_ADDED_QUESTION = "The question has been successfully added.";
+
+	public static final Object CORRECT_ANSWER_MESSAGE = "Correct answer!";
+	public static final Object INCORRECT_ANSWER_MESSAGE = "Wrong answer!";
 
 
 
