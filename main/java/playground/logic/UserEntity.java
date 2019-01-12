@@ -49,7 +49,7 @@ public class UserEntity {
 	private static String generateCode() {
 		Random r = new Random();
 		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
-		// return Constants.DEFAULT_VERIFICATION_CODE;
+		
 	}
 
 	public UserEntity(String jsonString) {
@@ -185,6 +185,15 @@ public class UserEntity {
 				+ ", username=" + username + ", playground=" + playground + ", role=" + role + ", verificationCode="
 				+ verificationCode + ", points=" + points + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((superkey == null) ? 0 : superkey.hashCode());
+		return result;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {

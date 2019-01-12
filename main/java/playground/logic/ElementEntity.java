@@ -30,7 +30,7 @@ public class ElementEntity {
 	private String playground;
 	private Date creationDate;
 	private Date expirationDate;
-	private String type = Element.ELEMENT_DEFAULT_TYPE;
+	private String type = Element.DEFAULT_TYPE;
 	private String creatorPlayground;
 	private String creatorEmail;
 	private double x;
@@ -226,6 +226,15 @@ public class ElementEntity {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((superkey == null) ? 0 : superkey.hashCode());
+		return result;
+	}
+
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -239,5 +248,7 @@ public class ElementEntity {
 		else
 			return false;
 	}
+	
+	
 
 }

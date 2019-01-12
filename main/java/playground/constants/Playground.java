@@ -64,7 +64,7 @@ public class Playground {
 
 
 	public static String getVerificationMailContent(String username, String verificationCode, String mail, String playground) {
-		String body = "Hi, " + username + "\nWelcome to around the world in 80 questions.\n\nEnter the following verification code in order to verify your account.\nCode : " + verificationCode + "\nE-Mail : "+ mail +"\nPlayground : "+ playground +"\nYours,\n Eden Dupont, Eden Sharoni, Daniil rolnik, Elia Ben Anat"; 
+		String body = "Hi, " + username + "\nWelcome to around the world in 80 questions.\n\nEnter the following verification code in order to verify your account.\nCode : " + verificationCode + "\nPlayground : "+ playground +"\nYours,\nEden Dupont, Eden Sharoni, Daniil Rolnik, Elia Ben Anat"; 
 		
 		return body;
 	}

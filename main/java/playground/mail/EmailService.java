@@ -1,4 +1,4 @@
-package playground.logic.jpa;
+package playground.mail;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

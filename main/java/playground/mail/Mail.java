@@ -1,4 +1,4 @@
-package playground.logic.jpa;
+package playground.mail;
 
 public class Mail {
 
