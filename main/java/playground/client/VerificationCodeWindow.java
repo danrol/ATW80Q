@@ -32,7 +32,7 @@ public class VerificationCodeWindow implements ActionListener {
 		boolean verified = model.verifyUser(verificationText.getText(),email.getText());
 		if(verified)
 		{
-		new GameController(model);
+		new ClientLogin(model);
 		frame.dispose();
 		}
 		else
@@ -59,8 +59,7 @@ public class VerificationCodeWindow implements ActionListener {
 
 		frame.add(p, BorderLayout.NORTH);
 
-		JPanel p1 = new JPanel(new GridLayout(2, 2));
-
+		JPanel p1 = new JPanel(new GridLayout(1, 2));
 		
 		email = new JTextField();
 		

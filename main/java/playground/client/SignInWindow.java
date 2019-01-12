@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -24,13 +25,8 @@ public class SignInWindow implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String email_text = email.getText().trim();
-			boolean signed = model.SignIn(email_text);
-			if(signed)
-			{
-				frame.dispose();
-				new GameController(model);
-			}			
-			else if(email_text.equals("admin test"))
+			
+			if(email_text.equals("admin test"))
 			{
 				UserEntity admin = new UserEntity("admin","admin@admin.com","avatar",User.MANAGER_ROLE,Playground.PLAYGROUND_NAME);
 				model.setCurrentUser(admin);
@@ -46,8 +42,18 @@ public class SignInWindow implements ActionListener{
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, Client.SIGN_IN_ERROR);
+				boolean signed = model.SignIn(email_text);
+				if(signed)
+				{
+					frame.dispose();
+					new GameController(model);
+				}	
+				else
+				{
+					JOptionPane.showMessageDialog(null, Client.SIGN_IN_ERROR);
+				}
 			}
+			
 		}
 	
 	public SignInWindow(ClientModel model) {
