@@ -34,7 +34,7 @@ public class ClientLogin extends JPanel implements ActionListener{
 		JPanel init = new JPanel(new GridLayout(7, 0, 5, 5));
 		
 		JLabel ATWQ80 = new JLabel(Client.ATW80Q);
-		ATWQ80.setFont(new Font("TimesRoman", Font.BOLD, 35));
+		ATWQ80.setFont(Client.FONT_TITLE);
 		init.add(ATWQ80);
 		
 		signIn = new JButton(Client.SIGN_IN);
@@ -46,19 +46,19 @@ public class ClientLogin extends JPanel implements ActionListener{
 		
 		JPanel verificationCodePanel = new JPanel();
 		verificationCode = new JButton(Client.VERIFY_CODE);
-		verificationCode.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		verificationCode.setFont(Client.FONT_BASIC);
 		verificationCodePanel.add(verificationCode);
 		init.add(verificationCodePanel);
 		
 		
 		JLabel EdenS = new JLabel(Client.EDEN_SHARONI);
-		EdenS.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		EdenS.setFont(Client.FONT_BASIC);
 		JLabel EdenD = new JLabel(Client.EDEN_DUPONT);
-		EdenD.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		EdenD.setFont(Client.FONT_BASIC);
 		JLabel Elia = new JLabel(Client.ELIA_BEN_ANAT);
-		Elia.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		Elia.setFont(Client.FONT_BASIC);
 		JLabel Daniel = new JLabel(Client.DANIEL_ROLNIK);
-		Daniel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		Daniel.setFont(Client.FONT_BASIC);
 		JPanel names = new JPanel(new GridLayout(4, 0, 2, 2));
 		names.add(EdenS);
 		names.add(EdenD);

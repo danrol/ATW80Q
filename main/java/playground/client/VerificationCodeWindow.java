@@ -51,7 +51,7 @@ public class VerificationCodeWindow implements ActionListener {
 		JPanel p = new JPanel();
 		JPanel verificationCodePanel = new JPanel();
 		verificationCode = new JLabel(Client.VERIFY_CODE);
-		verificationCode.setFont(new Font("TimesRoman", Font.BOLD, 30));
+		verificationCode.setFont(Client.FONT_TITLE);
 		verificationCodePanel.add(verificationCode);
 		p.add(verificationCodePanel);
 		p.add(new JLabel());

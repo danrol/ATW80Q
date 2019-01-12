@@ -37,17 +37,17 @@ public class AddMessageWindow implements ActionListener {
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(3, 0));
 		title = new JLabel(Client.ADD_MESSAGE);
-		title.setFont(new Font("TimesRoman", Font.BOLD, 30));
+		title.setFont(Client.FONT_TITLE);
 		frame.add(title, BorderLayout.CENTER);
 		
 		
 		
 		JPanel p1 = new JPanel();
 		message = new JLabel(Client.MESSAGE);
-		message.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		message.setFont(Client.FONT_BASIC);
 		p1.add(message);
 		messageText = new JTextField(30);
-		//messageText.setPreferredSize(new Dimension(30, 30));
+		messageText.setPreferredSize(new Dimension(85,40));
 		p1.add(messageText);
 		frame.add(p1);
 		

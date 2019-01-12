@@ -1,5 +1,7 @@
 package playground.constants;
 
+import java.awt.Font;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -72,4 +74,9 @@ public class Client {
 	public static final String SIGN_IN_ERROR = "Could not sign in. Check that you are verified.";
 	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your internet connection";
 	
+	//Font
+	//public static final Font = new Font("TimesRoman", Font.BOLD, 20);
+	public static final Font FONT_TITLE = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 30);
+	public static final Font FONT_BASIC = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 15);
+
 }

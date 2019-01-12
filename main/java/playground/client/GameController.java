@@ -86,7 +86,7 @@ public class GameController implements ActionListener {
 
 		JPanel p1 = new JPanel(new GridLayout(1, 2));
 		main = new JLabel(Client.GAME_CONTROLLER);
-		main.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		main.setFont(Client.FONT_TITLE);
 		p1.add(main);
 
 		signOut = new JButton(Client.SIGN_OUT);
@@ -97,7 +97,7 @@ public class GameController implements ActionListener {
 
 		JPanel updatePanel = new JPanel();
 		updatuser = new JButton(Client.UPDATE_USER);
-		updatuser.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		updatuser.setFont(Client.FONT_BASIC);
 		updatePanel.add(updatuser);
 		frame.add(updatePanel);
 
@@ -113,18 +113,18 @@ public class GameController implements ActionListener {
 		updateUserInfo();
 
 		JPanel p = new JPanel(new GridLayout(6, 2));
-		p.add(new JLabel(Client.USERNAME_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(username_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.EMAIL_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.USERNAME_LABEL)).setFont(Client.FONT_BASIC);
+		p.add(username_label).setFont(Client.FONT_BASIC);
+		p.add(new JLabel(Client.EMAIL_LABEL)).setFont(Client.FONT_BASIC);
 		p.add(mail_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.AVATAR_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.AVATAR_LABEL)).setFont(Client.FONT_BASIC);
 		p.add(avatar_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.ROLE_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(role_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(playground_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.POINTS)).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(point_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.ROLE_LABEL)).setFont(Client.FONT_BASIC);
+		p.add(role_label).setFont(Client.FONT_BASIC);
+		p.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(Client.FONT_BASIC);
+		p.add(playground_label).setFont(Client.FONT_BASIC);
+		p.add(new JLabel(Client.POINTS)).setFont(Client.FONT_BASIC);
+		p.add(point_label).setFont(Client.FONT_BASIC);
 		frame.add(p);
 		
 		

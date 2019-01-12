@@ -44,7 +44,7 @@ public class QuestionWindow implements ActionListener{
 
 		JPanel p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
-		chooseQuestion.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		chooseQuestion.setFont(Client.FONT_BASIC);
 		//TODO: get all questions;
 		
 		questions = new JComboBox<>(Client.MANAGER_COMBOX);// Client.MANAGER_COMBOX temporary
@@ -54,7 +54,7 @@ public class QuestionWindow implements ActionListener{
 		
 		JPanel p2 = new JPanel();
 		questionLabel = new JLabel(Client.QUESTION);
-		questionLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		questionLabel.setFont(Client.FONT_BASIC);
 		question = new JTextField(40);
 		question.setPreferredSize(new Dimension(40, 40));
 		question.setEditable(false);
@@ -64,7 +64,7 @@ public class QuestionWindow implements ActionListener{
 		
 		JPanel p3 = new JPanel();
 		answerLabel = new JLabel(Client.ANSWER);
-		answerLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		answerLabel.setFont(Client.FONT_BASIC);
 		answer = new JTextField(40);
 		answer.setPreferredSize(new Dimension(40, 40));
 		p3.add(answerLabel);
@@ -85,7 +85,7 @@ public class QuestionWindow implements ActionListener{
 		points.setEditable(false);
 		points.setBorder(new TitledBorder(Client.POINTS));
 		points.setPreferredSize(new Dimension(50,50));
-		points.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		points.setFont(Client.FONT_BASIC);
 		p5.add(points);
 		frame.add(p5);
 		

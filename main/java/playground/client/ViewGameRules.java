@@ -25,7 +25,7 @@ public class ViewGameRules {
 		JPanel p = new JPanel();
 		this.gameRule = new JLabel(Activity.GAME_RULES);
 		this.gameRule.setForeground(Color.BLUE);
-		this.gameRule.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		this.gameRule.setFont(Client.FONT_BASIC);
 		p.add(this.gameRule);
 		frame.add(p);
 

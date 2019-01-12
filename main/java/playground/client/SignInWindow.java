@@ -64,7 +64,7 @@ public class SignInWindow implements ActionListener{
 		frame.setLayout(new GridLayout(6,2));
 		
 		JLabel SignInLabel = new JLabel(Client.SIGN_IN);
-		SignInLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		SignInLabel.setFont(Client.FONT_TITLE);
 		
 		
 		frame.add(SignInLabel);

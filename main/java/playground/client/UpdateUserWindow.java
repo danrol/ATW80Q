@@ -53,9 +53,9 @@ public class UpdateUserWindow implements ActionListener {
 		frame.setLayout(new GridLayout(5, 2, 5, 5));
 
 		JLabel updatUserLabel = new JLabel(Client.UPDATE_USER);
-		updatUserLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		updatUserLabel.setFont(Client.FONT_TITLE);
 		frame.getContentPane().add(updatUserLabel);
-		frame.getContentPane().add(new JLabel(""));
+		frame.getContentPane().add(new JLabel());
 		username_text = new JTextField(model.getCurrentUser().getUsername());
 		avatar_text = new JTextField(model.getCurrentUser().getAvatar());
 		frame.getContentPane().add(new JLabel(Client.USERNAME_LABEL));

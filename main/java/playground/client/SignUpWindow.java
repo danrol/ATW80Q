@@ -60,7 +60,7 @@ public class SignUpWindow implements ActionListener{
 		frame.setLayout(new GridLayout(7,2));
 		
 		JLabel SignUpLabel = new JLabel(Client.SIGN_UP);
-		SignUpLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		SignUpLabel.setFont(Client.FONT_TITLE);
 		frame.getContentPane().add(SignUpLabel);
 		frame.getContentPane().add(new JLabel());
 		
