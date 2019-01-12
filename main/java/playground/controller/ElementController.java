@@ -97,7 +97,7 @@ public class ElementController {
 	@RequestMapping
 	(method=RequestMethod.GET, path="/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}",
 	produces=MediaType.APPLICATION_JSON_VALUE)
-	public ElementTO[] getElementsByNameAndType(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
+	public ElementTO[] getElementsByAttributeNameAndAttributeValue(Pageable pageable, @PathVariable("userPlayground") String userPlayground, @PathVariable ("email") String email, @PathVariable("attributeName") String attributeName, @PathVariable("value") String value) {
 		/* function 10
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]

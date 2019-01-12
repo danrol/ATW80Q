@@ -533,7 +533,7 @@ public class ElementTest {
 
 	// 10.1 Scenario: Test Successfully Get Elements By Name and Type with pagination
 	@Test
-	public void successfullyGetElementsByAttributeNameValueWithPagination() {
+	public void managerSuccessfullyGetAllElementsByAttributeNameValueWithPagination() {
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
@@ -542,12 +542,12 @@ public class ElementTest {
 		ElementEntity elementToAdd;
 
 		for (int n = 1; n <= 11; n++) {
-			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5 + n, 6);
+			elementToAdd = createQuestionElement(Element.QUESTION_TITLE_TEST+String.valueOf(n), Element.QUESTION_BODY_TEST, Element.ELEMENT_ANSWER_KEY, Element.QUESTION_POINT_VALUE_TEST, 5, 6);
 
 			if (3 <= n && n <= 9) {
-				elementToAdd.setCreatorEmail(n+Element.ELEMENT_FIELD_creatorEmail);
-				elementToAdd.setName(Element.DEFAULT_ELEMENT_NAME);
-				elementToAdd.setType(Element.DEFAULT_TYPE);
+				elementToAdd.setCreatorEmail(Element.ELEMENT_FIELD_creatorEmail);
+				
+				
 			}
 			elementService.addElement(userElementCreator.getPlayground(), userElementCreator.getEmail(), elementToAdd);
 		}
@@ -555,13 +555,13 @@ public class ElementTest {
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_10
 						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
-				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Element.DEFAULT_ELEMENT_NAME,
-				Element.DEFAULT_TYPE);
+				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Element.TYPE_FIELD,
+				Element.ELEMENT_QUESTION_TYPE);
 
 		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
 		arrForTest = getElementTOArray(
 				elementService.getElementsByAttributeNameAndAttributeValue(userElementCreator.getPlayground(),
-						userElementCreator.getEmail(), Element.DEFAULT_ELEMENT_NAME, Element.DEFAULT_TYPE, pageable));
+						userElementCreator.getEmail(), Element.TYPE_FIELD, Element.ELEMENT_QUESTION_TYPE, pageable));
 
 		assertThat(result).isNotNull();
 		for(int i=0; i<3; i++) {
@@ -570,37 +570,33 @@ public class ElementTest {
 	}
 
 	// 10.2 Scenario: Test no Elements in ElementService with searched
-	// {attributeName} returns empty array of ElementTO
-	@Test
-	public void attributeNotExist() {
+	@Test(expected = RuntimeException.class)
+	public void attributeNameNotExist() {
 
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
-
-		elementService.addElementNoLogin(elementForTest[0].toEntity());
+		
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
 				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), "no_such_name",
-				Element.DEFAULT_TYPE);
-		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
+				Element.ELEMENT_QUESTION_TYPE);
 	}
 
 	// 10.3 Scenario: Test no Elements in ElementService with searched
 	// {value} returns empty array of ElementTO
 	@Test
-	public void valueInAttributeNotExist() {
+	public void AttributeValueNotExist() {
 
 		UserEntity userElementCreator = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6)) };
+		ElementTO[] elementForTest = { new ElementTO(new ElementEntity(Element.ELEMENT_QUESTION_KEY, 5, 6)) };
 		elementService.addElementNoLogin(elementForTest[0].toEntity());
 		ElementTO[] responseEntity = restTemplate.getForObject(this.url + Playground.Function_10, ElementTO[].class,
-				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Element.DEFAULT_ELEMENT_NAME,
-				"no_such_type");
+				Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Element.TYPE_FIELD,
+				"no_such_attribute_value");
 		assertThat(responseEntity).isEqualTo(new ElementTO[0]);
 	}
 	
