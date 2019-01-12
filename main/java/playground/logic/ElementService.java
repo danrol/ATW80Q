@@ -52,7 +52,7 @@ public interface ElementService {
 
 	ElementEntity createElementEntity(String json);
 
-	ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, String type, Pageable pageable);
+	ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name, String type, Pageable pageable);
 
 
 

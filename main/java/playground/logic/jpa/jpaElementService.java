@@ -17,6 +17,7 @@ import playground.aop.MyLog;
 import playground.dal.ElementDao;
 import playground.logic.ActivityDataException;
 import playground.logic.ActivityEntity;
+import playground.logic.AttributeNameException;
 import playground.logic.ElementDataException;
 import playground.logic.ElementEntity;
 import playground.logic.ElementService;
@@ -133,9 +134,25 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
-	public ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, 
-			String type, Pageable pageable) {
-		return lstToArray(elementsDB.findAllByNameAndType(name, type, pageable));
+	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String attributeName, 
+			String attributeValue, Pageable pageable) {
+		UserEntity user = userService.getUser(userService.createKey(email, userPlayground));
+		switch(attributeName) {
+		case "name":{
+			if(user.getRole().equals(User.PLAYER_ROLE))
+				return lstToArray(elementsDB.findAllByNameAndExpireDateGreaterThan(attributeValue, new Date(), pageable));
+			else if(user.getRole().equals(User.MANAGER_ROLE))
+				return lstToArray(elementsDB.findAllByName(attributeValue, pageable));
+		}
+		case "type":{
+			if(user.getRole().equals(User.PLAYER_ROLE))
+				return lstToArray(elementsDB.findAllByTypeAndExpireDateGreaterThan(attributeValue, new Date(), pageable));
+			else if(user.getRole().equals(User.MANAGER_ROLE))
+				return lstToArray(elementsDB.findAllByType(attributeValue, pageable));
+		}
+		default:
+			throw new AttributeNameException(Playground.NO_SUCH_ATTRIBUTE_NAME);
+		}
 	}
 
 	@Override

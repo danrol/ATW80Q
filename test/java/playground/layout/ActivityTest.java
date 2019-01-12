@@ -219,7 +219,7 @@ public class ActivityTest {
 	}
 
 	@Test
-	public void GetGameRulesActivity() {
+	public void getGameRulesActivity() {
 
 		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
 				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);

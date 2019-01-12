@@ -42,6 +42,7 @@ public class Playground {
 	//Error messages
 	
 	public static final String NO_RELEVANT_MESSAGE_ERROR = "There is no relevant message";
+	public static final String NO_SUCH_ATTRIBUTE_NAME = "There is no such attribute name in system";
 	
 
 	

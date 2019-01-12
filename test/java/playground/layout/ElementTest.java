@@ -560,7 +560,7 @@ public class ElementTest {
 
 		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
 		arrForTest = getElementTOArray(
-				elementService.getElementsByNameAndType(userElementCreator.getPlayground(),
+				elementService.getElementsByAttributeNameAndAttributeValue(userElementCreator.getPlayground(),
 						userElementCreator.getEmail(), Element.DEFAULT_ELEMENT_NAME, Element.DEFAULT_TYPE, pageable));
 
 		assertThat(result).isNotNull();

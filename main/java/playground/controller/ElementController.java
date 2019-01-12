@@ -102,7 +102,7 @@ public class ElementController {
 		 * INPUT: NONE
 		 * OUTPUT: ElementTO[]
 		 */
-		ElementEntity[] elementsWithValueInAttr= elementService.getElementsByNameAndType(userPlayground, email, attributeName, value, pageable);
+		ElementEntity[] elementsWithValueInAttr= elementService.getElementsByAttributeNameAndAttributeValue(userPlayground, email, attributeName, value, pageable);
 		if (elementsWithValueInAttr.length != 0  ) 
 			return getElementTOArray(elementsWithValueInAttr);
 		else return new ElementTO[0];

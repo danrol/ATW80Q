@@ -1,6 +1,8 @@
 package playground.dal;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -34,6 +36,26 @@ public interface ElementDao extends PagingAndSortingRepository<ElementEntity,Str
 			@Param ("name") String name,
 			@Param ("type") String type, 
 			Pageable pageable);
+	
+	public ArrayList<ElementEntity> findAllByNameAndExpireDateGreaterThan(
+			@Param("name") String name, 
+			@Param ("expirationDate") Date expireDate, 
+			Pageable pageable);
+	
+	public ArrayList<ElementEntity> findAllByName(
+			@Param("name") String name, 
+			Pageable pageable);
+	
+	public ArrayList<ElementEntity> findAllByTypeAndExpireDateGreaterThan(
+			@Param("type") String name, 
+			@Param ("expirationDate") Date expireDate, 
+			Pageable pageable);
+	
+	public ArrayList<ElementEntity> findAllByType(
+			@Param("type") String name, 
+			Pageable pageable);
+	
+	
 	
 }
 	

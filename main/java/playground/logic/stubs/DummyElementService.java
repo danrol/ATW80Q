@@ -245,7 +245,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getElementsByNameAndType(String userPlayground, String email, String name, String type,
+	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name, String type,
 			Pageable pageable) {
 		return null;
 	}
