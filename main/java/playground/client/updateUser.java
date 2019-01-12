@@ -31,6 +31,7 @@ public class updateUser implements ActionListener{
 		System.err.println("Sign in request:");
 		frame.dispose();
 		//TODO: Update User
+		//TODO: Add error message
 	}
 	
 	public updateUser(ClientModel model) {

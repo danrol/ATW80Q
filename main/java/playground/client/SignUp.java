@@ -43,6 +43,8 @@ public class SignUp implements ActionListener{
 				new verificationCode(model);
 				
 			}
+			else
+				new errorMessage(Client.SIGN_UP_INVALID);
 			
 		}
 		

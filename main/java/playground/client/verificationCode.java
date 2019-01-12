@@ -29,6 +29,7 @@ public class verificationCode implements ActionListener {
 		// TODO: Verify Code
 		new MainFrame(model);
 		frame.dispose();
+		//TODO: Add errorMessage...
 	}
 
 	public verificationCode(ClientModel model) {
