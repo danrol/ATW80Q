@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 
 import playground.Application;
 
-public class UserClient extends Application {
+public class MainClient extends Application {
 	public static void main(String[] args) {
 
 		String host = System.getProperty("playground.host");

@@ -45,6 +45,7 @@ public class GameController implements ActionListener {
 				break;
 			case Client.ADD_MESSAGE:
 				System.err.println(Client.ADD_MESSAGE);
+				new AddMessageWindow(model);
 				break;
 			case Client.GET_QUESTIONS:
 				System.err.println(Client.GET_QUESTIONS);

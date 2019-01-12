@@ -38,6 +38,8 @@ public class Client {
 	public static final String QUESTION = "Question";
 	public static final String ANSWER = "Answer";
 	public static final String SEND = "Send";
+	public static final String MESSAGE = "Message";
+	
 	
 	
 	public static final String QUESTION_TITLE = "Question Title";
