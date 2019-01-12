@@ -40,6 +40,13 @@ public class Client {
 	public static final String SEND = "Send";
 	
 	
+	public static final String QUESTION_TITLE = "Question Title";
+	public static final String QUESTION_BODY = "Question Body";
+	public static final String POINTS = "Points";
+	
+	
+	
+	
 	
 	
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";

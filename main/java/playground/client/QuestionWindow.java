@@ -3,6 +3,8 @@ package playground.client;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import playground.constants.Client;
 
-public class QuestionWindow {
+public class QuestionWindow implements ActionListener{
+
 	ClientModel model;
 	JFrame frame;
 	JLabel chooseQuestion;
@@ -23,7 +26,11 @@ public class QuestionWindow {
 	JButton send;
 	JTextField submitAnswer;
 	
-
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.err.println("HELO");
+	}
+	
 	public QuestionWindow(ClientModel model) {
 		this.model = model;
 
@@ -35,7 +42,8 @@ public class QuestionWindow {
 		JPanel p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
 		chooseQuestion.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		questions = new JComboBox<>(Client.MANAGER_COMBOX); //TODO: Get All Questions
+		//TODO: get all questions;
+		questions = new JComboBox<>(Client.MANAGER_COMBOX);// Client.MANAGER_COMBOX temporary
 		p1.add(chooseQuestion);
 		p1.add(questions);
 		frame.add(p1);
@@ -68,15 +76,15 @@ public class QuestionWindow {
 		p4.add(submitAnswer);
 		frame.add(p4);
 		
-		
-		
-		
-		
-		
-		
+		questions.addActionListener(this);
+		answer.addActionListener(this);
+		send.addActionListener(this);
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
+
+
+	
 }

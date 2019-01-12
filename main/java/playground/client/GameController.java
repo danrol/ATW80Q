@@ -34,6 +34,7 @@ public class GameController implements ActionListener {
 			switch (activity.getSelectedItem() + "") {
 			case Client.ADD_QUESTION:
 				System.err.println(Client.ADD_QUESTION);
+				new AddQuestionWindow(model);
 				break;
 			case Client.GAME_RULES:
 				System.err.println(Client.GAME_RULES);
