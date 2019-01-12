@@ -1,6 +1,8 @@
 package playground.init;
 
 import javax.annotation.PostConstruct;
+
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -37,6 +39,9 @@ public class DummyInitializer {
 
 	@PostConstruct
 	public void init() {
+		elementService.cleanElementService();
+		activityService.cleanActivityService();
+		userService.cleanUserService();
 		ElementEntity msgBoard = createMessageBoard("DummyMessageBoard", 0, 0);
 
 		UserEntity mod = new UserEntity(Playground.DUMMY_MANAGER_USERNAME, "demoManager@playground.rolnik", "avatar",

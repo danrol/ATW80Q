@@ -24,7 +24,7 @@ public class QuestionWindow implements ActionListener {
 	private ClientModel model;
 	private JFrame frame;
 	private JLabel chooseQuestion;
-	private JComboBox<String> questions;
+	private JComboBox<String> questions = new JComboBox<>();
 	private JLabel questionLabel;
 	private JTextField question;
 	private JLabel answerLabel;
@@ -35,53 +35,60 @@ public class QuestionWindow implements ActionListener {
 	private ElementEntity[] question_list;
 	private JButton left;
 	private JButton right;
+	private int page = 0;
+	private int size = 30;
+	private GameController gameController;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String s = answer.getText();
-		switch (e.getActionCommand()) {
-		case Client.SEND: {
-			boolean answer = model.answerQuestion(question_list[questions.getSelectedIndex()].getSuperkey(), s);
-			if(answer)
-			{
 
-				JOptionPane.showMessageDialog(null, Client.CORRECT_ANSWER_MESSAGE);
-			}
-			else
+		switch (e.getActionCommand()) {
+		case Client.SEND:
+			int index = questions.getSelectedIndex();
+			if(index>=0 && index < question_list.length)
 			{
-				JOptionPane.showMessageDialog(null, Client.INCORRECT_ANSWER_MESSAGE);
+				String question_key = question_list[index].getSuperkey();
+				boolean answer = model.answerQuestion(question_key, s);
+				if (answer) {
+					JOptionPane.showMessageDialog(null, Client.CORRECT_ANSWER_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, Client.INCORRECT_ANSWER_MESSAGE);
+				}
+				this.repaint();
+				gameController.getFrame().repaint();
 			}
-			
-		}
+
+			break;
 		case Client.LEFT:
-		{
-			setLabels();
-			frame.repaint();
-		}
+			page++;
+			this.repaint();
+			break;
 		case Client.RIGHT:
-		{
-			setLabels();
+
+			if (page != 0) {
+				page--;
+				this.repaint();
+			}
 			frame.repaint();
-		}
+			break;
+
 		case "ComboBoxChanged":
-		{
-			
+			frame.repaint();
+			break;
+
 		}
-		
-		}
-		
+
 	}
-	public QuestionWindow(ClientModel model, GameController gameController)
-	{
-		this(model);
-		gameController.getFrame().dispose();
-	}
-	public QuestionWindow(ClientModel model) {
+
+	
+
+
+
+	public QuestionWindow(ClientModel model,GameController gameController) {
+
 		this.model = model;
-		ElementEntity[] question_list = model.getQuestions();
-		this.question_list = question_list;
-		String[] question_titles = getTitles(question_list);
-		
+	
 
 		frame = new JFrame();
 		frame.setTitle(Client.ANSWER_QUESTION);
@@ -92,10 +99,9 @@ public class QuestionWindow implements ActionListener {
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
 		chooseQuestion.setFont(Client.FONT_BASIC);
 
-		questions = new JComboBox<>(question_titles);
 		p1.add(chooseQuestion);
 		p1.add(questions);
-	
+
 		frame.add(p1);
 
 		JPanel p7 = new JPanel();
@@ -149,15 +155,33 @@ public class QuestionWindow implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		repaint();
+
+	}
+	public void repaint() {
+		ElementEntity[] question_list = model.getQuestions();
+		System.err.println(question_list);
+		this.question_list = question_list;
+		String[] question_titles = getTitles(question_list);
+		questions = new JComboBox<>(question_titles);
 		setLabels();
-
 	}
-
+	
 	private void setLabels() {
-		question.setText((String) question_list[questions.getSelectedIndex()].getAttributes().get(Element.ELEMENT_QUESTION_KEY));
-		points.setText(String.valueOf(((int) question_list[questions.getSelectedIndex()].getAttributes().get(Element.ELEMENT_POINT_KEY))));
-		frame.repaint();
+		int index = questions.getSelectedIndex();
+		System.out.println(index);
+		if (index >= 0 && index < question_list.length) {
+
+			String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
+			String num_of_points = String
+					.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
+			question.setText(question_to_paint);
+			points.setText(num_of_points);
+		
+		}
+
 	}
+
 	private String[] getTitles(ElementEntity[] question_list) {
 		ArrayList<String> s = new ArrayList<String>();
 		for (ElementEntity e : question_list) {

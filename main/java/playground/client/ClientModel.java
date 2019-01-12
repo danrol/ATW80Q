@@ -78,53 +78,6 @@ public class ClientModel {
 
 	}
 
-	public String getURL() {
-		return "http://" + host + ":" + port;
-	}
-
-	public RestTemplate getRestTemplate() {
-		return restTemplate;
-	}
-
-	public void setRestTemplate(RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getUserPlayground() {
-		return current_userPlayground;
-	}
-
-	public void setUserPlayground(String current_userPlayground) {
-		this.current_userPlayground = current_userPlayground;
-	}
-
-	public String getEmail() {
-		return current_email;
-	}
-
-	public void setEmail(String current_email) {
-		this.current_email = current_email;
-	}
-
-	public UserEntity getCurrentUser() {
-		return current_user;
-	}
 	
 	public void setCurrentUser(UserEntity entity) {
 		this.current_user = entity;
@@ -265,5 +218,54 @@ public class ClientModel {
 		}
 		return false;
 		
+	}
+	
+
+	public String getURL() {
+		return "http://" + host + ":" + port;
+	}
+
+	public RestTemplate getRestTemplate() {
+		return restTemplate;
+	}
+
+	public void setRestTemplate(RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public String getUserPlayground() {
+		return current_userPlayground;
+	}
+
+	public void setUserPlayground(String current_userPlayground) {
+		this.current_userPlayground = current_userPlayground;
+	}
+
+	public String getEmail() {
+		return current_email;
+	}
+
+	public void setEmail(String current_email) {
+		this.current_email = current_email;
+	}
+
+	public UserEntity getCurrentUser() {
+		return current_user;
 	}
 }
