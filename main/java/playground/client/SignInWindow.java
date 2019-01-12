@@ -16,7 +16,7 @@ import playground.constants.Playground;
 import playground.constants.User;
 import playground.logic.UserEntity;
 
-public class SignIn implements ActionListener{ 
+public class SignInWindow implements ActionListener{ 
 	ClientModel model;
 	JTextField userPlayground;
 	JTextField email;
@@ -30,25 +30,25 @@ public class SignIn implements ActionListener{
 			if(signed)
 			{
 				frame.dispose();
-				new MainFrame(model);
+				new GameController(model);
 			}			
 			else if(userPlayground_text.equals("admin") && email_text.equals("test"))
 			{
 				UserEntity admin = new UserEntity("admin","admin@admin.com","avatar",User.MANAGER_ROLE,Playground.PLAYGROUND_NAME);
 				model.setCurrentUser(admin);
 				frame.dispose();
-				new MainFrame(model);
+				new GameController(model);
 			}
 			else if(userPlayground_text.equals("player") && email_text.equals("test"))
 			{
 				UserEntity admin = new UserEntity("player","player@admin.com","avatar",User.PLAYER_ROLE,Playground.PLAYGROUND_NAME);
 				model.setCurrentUser(admin);
 				frame.dispose();
-				new MainFrame(model);
+				new GameController(model);
 			}
 		}
 	
-	public SignIn(ClientModel model) {
+	public SignInWindow(ClientModel model) {
 		this.model = model;
 		frame = new JFrame();
 		frame.setTitle(Client.SIGN_IN);

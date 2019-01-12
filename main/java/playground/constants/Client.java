@@ -18,16 +18,16 @@ public class Client {
 	public static final String SET_ROLE_TITLEBORDER = "Set Role";
 	public static final String UPDATE_USER = "Update User";
 	public static final String SIGN_OUT = "Sign Out";
-	public static final String MAIN = "MAIN";
+	public static final String GAME_CONTROLLER = "Game Controller";
 	public static final String VERIFY_CODE = "Verify User";
 	public static final String VERIFY_CODE_TITLE = "Enter your verification code";
 	
-	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
-	public static final String[] PLAYER_COMBOX = {"Choose","Get Game Rule", "Get Message", "Add Message", "Get Question", "Answer Question" };
+	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Game Rules", "Get Message", "Add Message", "Get Question", "Answer Question" };
+	public static final String[] PLAYER_COMBOX = {"Choose","Game Rules", "Get Message", "Add Message", "Get Question", "Answer Question" };
 
 	
 	public static final String ADD_QUESTION = "Add Question";
-	public static final String GET_GAME_RULE = "Get Game Rule";
+	public static final String GAME_RULE = "Game Rules";
 	public static final String GET_MESSAGE = "Get Message";
 	public static final String ADD_MESSAGE = "Add Message";
 	public static final String GET_QUESTION = "Get Question";

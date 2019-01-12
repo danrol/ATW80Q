@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 import playground.constants.Client;
 
-public class ClientFrame extends JPanel implements ActionListener{
+public class ClientLogin extends JPanel implements ActionListener{
 	ClientModel model;
 	public JButton signIn; 
 	public JButton signUp;
@@ -21,15 +21,15 @@ public class ClientFrame extends JPanel implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals(Client.SIGN_IN))
-			new SignIn(model);
+			new SignInWindow(model);
 		else if(e.getActionCommand().equals(Client.SIGN_UP))
-			new SignUp(model);
+			new SignUpWindow(model);
 		else if(e.getActionCommand().equals(Client.VERIFY_CODE))
-			new verificationCode(model);
+			new VerificationCodeWindow(model);
 	}
 	
 	
-	ClientFrame(ClientModel model) {
+	ClientLogin(ClientModel model) {
 		this.model = model;
 		JPanel init = new JPanel(new GridLayout(7, 0, 5, 5));
 		
