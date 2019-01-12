@@ -1,5 +1,9 @@
 package playground.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 
 import org.springframework.web.client.RestTemplate;
@@ -191,5 +195,39 @@ public class ClientModel {
 		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, answer);
 		question.getAttributes().put(Element.ELEMENT_POINT_KEY, points);
 		return question;
+	}
+
+	public ElementEntity[] getQuestions() {
+		Map<String, String> questions = new HashMap<String, String>();
+		ArrayList<ElementEntity> list = new ArrayList();
+		ElementTO[] questionsTO=null;
+		try {
+
+			questionsTO = restTemplate.getForObject(
+					this.getURL() + Playground.Function_10
+							+ createPaginationStringAppendixForUrl(0, 0),
+					ElementTO[].class, this.current_userPlayground, this.current_email, Element.TYPE_FIELD,
+					Element.ELEMENT_QUESTION_TYPE);
+			System.err.println("Found " + questionsTO.length + " questions in database");
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+		}
+		
+		for(ElementTO e : questionsTO)
+		{
+			ElementEntity q = e.toEntity();
+			list.add(q);
+			
+		}
+		
+		return list.toArray(new ElementEntity[0]);
+	}
+	
+	public String createPaginationStringAppendixForUrl(int pageNum, int sizeNum) {
+		if(sizeNum == 0)
+			return "";
+		return "?page=" + String.valueOf(pageNum) + "&size=" + String.valueOf(sizeNum);
 	}
 }

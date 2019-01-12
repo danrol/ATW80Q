@@ -1,10 +1,11 @@
 package playground.client;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import playground.constants.Client;
+import playground.logic.ElementEntity;
 
 public class QuestionWindow implements ActionListener{
 
@@ -28,8 +30,7 @@ public class QuestionWindow implements ActionListener{
 	private JButton send;
 	private JTextField submitAnswer;
 	private JTextField points;
-	private GameController gameController;
-	
+	private ElementEntity[] question_list;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		new GameController(model);
@@ -39,7 +40,11 @@ public class QuestionWindow implements ActionListener{
 	
 	public QuestionWindow(ClientModel model, GameController gameController) {
 		this.model = model;
+		ElementEntity[] question_list=model.getQuestions();
+		this.question_list = question_list;
+		String[] question_titles = getTitles(question_list);
 		gameController.getFrame().dispose();
+		
 		frame = new JFrame();
 		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
@@ -48,9 +53,9 @@ public class QuestionWindow implements ActionListener{
 		JPanel p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
 		chooseQuestion.setFont(Client.FONT_BASIC);
-		//TODO: get all questions;
+	
 		
-		questions = new JComboBox<>(Client.MANAGER_COMBOX);// Client.MANAGER_COMBOX temporary
+		questions = new JComboBox<>(question_titles);// Client.MANAGER_COMBOX temporary
 		p1.add(chooseQuestion);
 		p1.add(questions);
 		frame.add(p1);
@@ -98,6 +103,15 @@ public class QuestionWindow implements ActionListener{
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
+	}
+
+	private String[] getTitles(ElementEntity[] question_list) {
+		ArrayList<String> s = new ArrayList<String>();
+		for(ElementEntity e:question_list)
+		{
+			s.add(e.getName());
+		}
+		return s.toArray(new String[0]);
 	}
 
 
