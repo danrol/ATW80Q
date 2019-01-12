@@ -46,7 +46,7 @@ public class Client {
 	public static final String ANSWER_QUESTION = "Answer Questions";
 	
 	//ComboBox Activites
-	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GAME_RULES, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.ANSWER_QUESTION};
+	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.ANSWER_QUESTION};
 	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ANSWER_QUESTION};
 
 	//Answer Question
@@ -72,11 +72,14 @@ public class Client {
 	public static final Object CANNOT_VERIFY_ERROR_MESSAGE = "User could not be verified, check your information.";
 	public static final Object CANNOT_VERIFY_ERROR_MESSAGE_SIGN_UP_ERROR_MESSAGE = "Could not sign up, this mail may already be registered or the server is not running.";
 	public static final String SIGN_IN_ERROR = "Could not sign in. Check that you are verified.";
-	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your internet connection";
-	
+	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your connection to the server";
+	public static final Object FETCH_GAME_RULES_ERROR = "Couldn't process your request. Check your connection to the server";
 	//Font
 	//public static final Font = new Font("TimesRoman", Font.BOLD, 20);
 	public static final Font FONT_TITLE = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 30);
 	public static final Font FONT_BASIC = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 15);
+
+
+
 
 }

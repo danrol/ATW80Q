@@ -53,7 +53,7 @@ public class GameController implements ActionListener {
 				break;
 			case Client.GAME_RULES:
 				System.err.println(Client.GAME_RULES);
-				new ViewGameRules();
+				new ViewGameRules(model);
 				break;
 			case Client.GET_MESSAGE:
 				System.err.println(Client.GET_MESSAGE);

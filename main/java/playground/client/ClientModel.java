@@ -1,11 +1,16 @@
 package playground.client;
 
+import javax.swing.JOptionPane;
+
 import org.springframework.web.client.RestTemplate;
 
+import playground.constants.Activity;
 import playground.constants.Client;
 import playground.constants.Playground;
 import playground.constants.User;
+import playground.layout.ActivityTO;
 import playground.layout.UserTO;
+import playground.logic.ActivityEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 
@@ -105,7 +110,7 @@ public class ClientModel {
 	public void setCurrentUser(UserEntity entity) {
 		this.current_user = entity;
 		this.current_email = entity.getEmail();
-		this.current_userPlayground = entity.getUsername();
+		this.current_userPlayground = entity.getPlayground();
 
 	}
 
@@ -135,6 +140,25 @@ public class ClientModel {
 			System.err.println(e.getMessage());
 			return false;
 		}
+	}
+
+	public String getGameRules() {
+	
+		try {
+
+			ActivityEntity ent = new ActivityEntity();
+			ent.setType(Activity.GET_GAME_RULES_ACTIVITY);
+			ActivityTO act = new ActivityTO(ent);
+			String rules = this.restTemplate.postForObject(this.getURL() + Playground.Function_11, act, String.class,
+					this.current_userPlayground, this.current_email);
+			return rules;
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+			JOptionPane.showMessageDialog(null, Client.FETCH_GAME_RULES_ERROR);
+		}
+		return null;
 	}
 
 }

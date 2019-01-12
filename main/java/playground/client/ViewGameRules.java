@@ -10,20 +10,26 @@ import javax.swing.JPanel;
 
 import playground.constants.Activity;
 import playground.constants.Client;
+import playground.constants.Playground;
+import playground.layout.ActivityTO;
+import playground.logic.ActivityEntity;
 
 public class ViewGameRules {
 	private JFrame frame;
 	private JLabel gameRule;
-
-	public ViewGameRules() {
-
+	private String rules;
+	private ClientModel model;
+	public ViewGameRules(ClientModel model) {
+		this.model = model;
 		frame = new JFrame();
 		frame.setTitle(Client.GAME_RULES);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(5, 2, 5, 5));
-
+		
+		updateGameRules();
+		
 		JPanel p = new JPanel();
-		this.gameRule = new JLabel(Activity.GAME_RULES);
+		this.gameRule = new JLabel(rules);
 		this.gameRule.setForeground(Color.BLUE);
 		this.gameRule.setFont(Client.FONT_BASIC);
 		p.add(this.gameRule);
@@ -32,6 +38,13 @@ public class ViewGameRules {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+	}
+
+	private void updateGameRules() {
+		String s = model.getGameRules();
+		rules = s;
+		
+		
 	}
 
 }
