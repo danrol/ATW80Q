@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
 import playground.constants.Client;
 
 public class QuestionWindow implements ActionListener{
@@ -25,6 +27,7 @@ public class QuestionWindow implements ActionListener{
 	JTextField answer;
 	JButton send;
 	JTextField submitAnswer;
+	JTextField points;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -37,7 +40,7 @@ public class QuestionWindow implements ActionListener{
 		frame = new JFrame();
 		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
-		frame.setLayout(new GridLayout(4, 0, 5, 5));
+		frame.setLayout(new GridLayout(5, 0, 5, 5));
 
 		JPanel p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
@@ -77,8 +80,15 @@ public class QuestionWindow implements ActionListener{
 		p4.add(submitAnswer);
 		frame.add(p4);
 		
-		questions.addActionListener(this);
-		answer.addActionListener(this);
+		JPanel p5 = new JPanel();
+		points = new JTextField(15);
+		points.setEditable(false);
+		points.setBorder(new TitledBorder(Client.POINTS));
+		points.setPreferredSize(new Dimension(50,50));
+		points.setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p5.add(points);
+		frame.add(p5);
+		
 		send.addActionListener(this);
 		
 		frame.setLocationRelativeTo(null);
