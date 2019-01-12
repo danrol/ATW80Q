@@ -28,6 +28,8 @@ import playground.logic.RegisterNewUserException;
 import playground.logic.UserDataException;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
+import playground.mail.EmailService;
+import playground.mail.Mail;
 
 @Service
 public class jpaUserService implements UserService {
