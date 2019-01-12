@@ -47,6 +47,11 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
+	public String createKey(String email, String playground) {
+		return email.concat(" " + playground);
+	}
+
+	@Override
 	@Transactional
 	@MyLog
 	public ArrayList<UserEntity> getUsers() {
@@ -65,8 +70,33 @@ public class jpaUserService implements UserService {
 		return turnListIntoArray(allUsers);
 	}
 
-	public UserEntity[] turnListIntoArray(List<UserEntity> lst) {
-		return lst.toArray(new UserEntity[lst.size()]);
+	@Override
+	@Transactional(readOnly = true)
+	@MyLog
+	public UserEntity getUser(String playground, String email) {
+		return getUser(createKey(email, playground));
+	}
+
+	@Override
+	public UserEntity getUser(String superkey) {
+		UserEntity t = userDB.findById(superkey).orElse(null);
+		if(t==null)
+			throw new UserDataException(User.EMAIL_NOT_REGISTERED_ERROR);
+		return t;
+	
+	}
+
+	@Override
+	@Transactional
+	@MyLog
+	public void addUser(NewUserForm user) {
+		if (this.getUser(Playground.PLAYGROUND_NAME, user.getEmail()) != null)
+			throw new RegisterNewUserException(User.USER_ALREADY_REGISTERED_ERROR);
+		else {
+			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),
+					Playground.PLAYGROUND_NAME);
+			addUser(userEnt);
+		}
 	}
 
 	@Override
@@ -92,14 +122,20 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	public UserEntity createUserEntity(String json) {
-		UserEntity user = null;
-		try {
-			user = new UserEntity(json);
-		} catch (Exception e) {
-			throw new UserDataException(e.getMessage());
+	@Transactional
+	@MyLog
+	public void updateUser(UserEntity user) {
+		if (userDB.existsById(user.getSuperkey())) {
+	
+			UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
+			if (oldUser.isVerified())
+				user.verifyUser();
+			String id = oldUser.getId();
+			userDB.deleteById(user.getSuperkey());
+			user.setId(id);
+			userDB.save(user);
 		}
-		return user;
+	
 	}
 
 	@Override
@@ -126,41 +162,32 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@MyLog
-	public void cleanUserService() {
-		userDB.deleteAll();
-	}
-
-	@Override
-	@Transactional
-	@MyLog
-	public void updateUser(UserEntity user) {
-		if (userDB.existsById(user.getSuperkey())) {
-
-			UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
-			if (oldUser.isVerified())
-				user.verifyUser();
-			String id = oldUser.getId();
-			userDB.deleteById(user.getSuperkey());
-			user.setId(id);
-			userDB.save(user);
-		}
-
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	@MyLog
-	public UserEntity getUser(String playground, String email) {
-		return getUser(createKey(email, playground));
-	}
-
-	@Override
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
 	public UserEntity login(String playground, String email) {
 		return this.getUser(playground, email);
+	}
+
+	public UserEntity[] turnListIntoArray(List<UserEntity> lst) {
+		return lst.toArray(new UserEntity[lst.size()]);
+	}
+
+	@Override
+	public UserEntity createUserEntity(String json) {
+		UserEntity user = null;
+		try {
+			user = new UserEntity(json);
+		} catch (Exception e) {
+			throw new UserDataException(e.getMessage());
+		}
+		return user;
+	}
+
+	@Override
+	@MyLog
+	public void cleanUserService() {
+		userDB.deleteAll();
 	}
 
 	@Override
@@ -178,19 +205,6 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
-	@MyLog
-	public void addUser(NewUserForm user) {
-		if (this.getUser(Playground.PLAYGROUND_NAME, user.getEmail()) != null)
-			throw new RegisterNewUserException(User.USER_ALREADY_REGISTERED_ERROR);
-		else {
-			UserEntity userEnt = new UserEntity(user.getUsername(), user.getEmail(), user.getAvatar(), user.getRole(),
-					Playground.PLAYGROUND_NAME);
-			addUser(userEnt);
-		}
-	}
-
-	@Override
 	@Transient
 	@MyLog
 	public boolean isUserInDatabase(UserEntity user) {
@@ -203,20 +217,6 @@ public class jpaUserService implements UserService {
 		long curr_points = this.getUser(user_id).getPoints() + points;
 		user.setPoints(curr_points);
 		updateUser(user);
-	}
-
-	@Override
-	public UserEntity getUser(String superkey) {
-		UserEntity t = userDB.findById(superkey).orElse(null);
-		if(t==null)
-			throw new UserDataException(User.EMAIL_NOT_REGISTERED_ERROR);
-		return t;
-
-	}
-
-	@Override
-	public String createKey(String email, String playground) {
-		return email.concat(" " + playground);
 	}
 
 	@Override

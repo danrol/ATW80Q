@@ -156,21 +156,17 @@ public class DummyUserService implements UserService{
 
 	@Override
 	public UserEntity[] getUsers(Pageable pageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public void addPointsToUser(String user_id, long points) {
-		// TODO Auto-generated method stub
-		
+	public void addPointsToUser(String user_id, long points) {		
 	}
 
 
 	@Override
 	public UserEntity getUser(String superkey) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -183,21 +179,18 @@ public class DummyUserService implements UserService{
 
 	@Override
 	public UserEntity createUserEntity(String json) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public UserEntity[] getHighScoresFromHighestToLowest(Pageable pageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public UserEntity[] lstToArray(ArrayList<UserEntity> lst) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

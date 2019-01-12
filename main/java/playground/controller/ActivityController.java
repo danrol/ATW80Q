@@ -34,7 +34,11 @@ public class ActivityController {
 		this.activityService = activityService;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, path = "/playground/activities/{userPlayground}/{email}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping
+	(method = RequestMethod.POST, 
+	path = "/playground/activities/{userPlayground}/{email}", 
+	consumes = MediaType.APPLICATION_JSON_VALUE, 
+	produces = MediaType.APPLICATION_JSON_VALUE)
 	public Object RequestServer(@PathVariable("userPlayground") String userPlayground, @PathVariable("email") String email, @RequestBody ActivityTO activity,Pageable pageable) {
 		/*
 		 * function 11 INPUT: ActivityTO OUTPUT: Object

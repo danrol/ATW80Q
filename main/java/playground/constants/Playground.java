@@ -29,6 +29,8 @@ public class Playground {
 	// Values for JUnit tests
 	public static String PLAYGROUND_MAIL = "ATW80Q@gmail.com";
 	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
+	public static boolean MESSAGE_SENDER_ENABLED = true;
+	
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
 	
@@ -40,12 +42,15 @@ public class Playground {
 	//Error messages
 	
 	public static final String NO_RELEVANT_MESSAGE_ERROR = "There is no relevant message";
-	public static final boolean MESSAGE_SENDER_ENABLED = true;
-
 	
 
 	
+
 	
+	@Value("${playground.mail.enable:false}")
+	public void setDefaultMailEnabled(boolean MESSAGE_SENDER_ENABLED) {
+		Playground.MESSAGE_SENDER_ENABLED = MESSAGE_SENDER_ENABLED;
+	}
 	
 	@Value("${playground.mail:ATW80Q@gmail.com}")
 	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
@@ -63,9 +68,4 @@ public class Playground {
 	}
 
 
-	public static String getVerificationMailContent(String username, String verificationCode, String mail, String playground) {
-		String body = "Hi, " + username + "\nWelcome to around the world in 80 questions.\n\nEnter the following verification code in order to verify your account.\nCode : " + verificationCode + "\nPlayground : "+ playground +"\nYours,\nEden Dupont, Eden Sharoni, Daniil Rolnik, Elia Ben Anat"; 
-		
-		return body;
-	}
 }

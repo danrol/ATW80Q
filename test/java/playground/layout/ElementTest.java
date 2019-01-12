@@ -545,6 +545,7 @@ public class ElementTest {
 			elementToAdd = new ElementEntity(String.valueOf(n) + Element.DEFAULT_ELEMENT_NAME, 5 + n, 6);
 
 			if (3 <= n && n <= 9) {
+				elementToAdd.setCreatorEmail(n+Element.ELEMENT_FIELD_creatorEmail);
 				elementToAdd.setName(Element.DEFAULT_ELEMENT_NAME);
 				elementToAdd.setType(Element.DEFAULT_TYPE);
 			}
