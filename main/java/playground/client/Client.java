@@ -28,7 +28,6 @@ public class Client extends Application {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 	}
 }

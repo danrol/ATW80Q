@@ -35,9 +35,9 @@ public class GameController implements ActionListener {
 			case Client.ADD_QUESTION:
 				System.err.println(Client.ADD_QUESTION);
 				break;
-			case Client.GAME_RULE:
-				System.err.println(Client.GAME_RULE);
-				new ViewGameRules(model);
+			case Client.GAME_RULES:
+				System.err.println(Client.GAME_RULES);
+				new ViewGameRules();
 				break;
 			case Client.GET_MESSAGE:
 				System.err.println(Client.GET_MESSAGE);
@@ -45,11 +45,9 @@ public class GameController implements ActionListener {
 			case Client.ADD_MESSAGE:
 				System.err.println(Client.ADD_MESSAGE);
 				break;
-			case Client.GET_QUESTION:
-				System.err.println(Client.GET_QUESTION);
-				break;
-			case Client.ANSWER_QESTION:
-				System.err.println(Client.ANSWER_QESTION);
+			case Client.GET_QUESTIONS:
+				System.err.println(Client.GET_QUESTIONS);
+				new QuestionWindow(model);
 				break;
 			default:
 				break;
@@ -95,7 +93,6 @@ public class GameController implements ActionListener {
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 
 	}

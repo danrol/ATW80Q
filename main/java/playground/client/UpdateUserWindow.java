@@ -77,7 +77,6 @@ public class UpdateUserWindow implements ActionListener{
 		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 	}
 

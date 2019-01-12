@@ -12,12 +12,10 @@ import playground.constants.Activity;
 import playground.constants.Client;
 
 public class ViewGameRules {
-	ClientModel model;
 	JFrame frame;
 	JLabel gameRule;
 
-	public ViewGameRules(ClientModel model) {
-		this.model = model;
+	public ViewGameRules() {
 
 		frame = new JFrame();
 		frame.setTitle(Client.UPDATE_USER);
@@ -33,7 +31,6 @@ public class ViewGameRules {
 
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
-		frame.setAlwaysOnTop(true);
 		frame.setVisible(true);
 	}
 

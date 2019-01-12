@@ -22,17 +22,19 @@ public class Client {
 	public static final String VERIFY_CODE = "Verify User";
 	public static final String VERIFY_CODE_TITLE = "Enter your verification code";
 	
-	public static final String[] MANAGER_COMBOX = {"Choose", "Add Question", "Game Rules", "Get Message", "Add Message", "Get Question", "Answer Question" };
-	public static final String[] PLAYER_COMBOX = {"Choose","Game Rules", "Get Message", "Add Message", "Get Question", "Answer Question" };
-
 	
+	public static final String CHOOSE = "Choose";
 	public static final String ADD_QUESTION = "Add Question";
-	public static final String GAME_RULE = "Game Rules";
+	public static final String GAME_RULES = "Game Rules";
 	public static final String GET_MESSAGE = "Get Message";
 	public static final String ADD_MESSAGE = "Add Message";
-	public static final String GET_QUESTION = "Get Question";
-	public static final String ANSWER_QESTION = "Answer Question";
+	public static final String GET_QUESTIONS = "Get Questions";
+	//public static final String ANSWER_QESTION = "Answer Question";
 	
+	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GAME_RULES, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.GET_QUESTIONS};
+	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.GET_QUESTIONS};
+
+	public static final String CHOOSE_QUESTION = "Choose Question";
 	
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";
 	public static final String EDEN_DUPONT = "Eden Dupont - 204808596";
