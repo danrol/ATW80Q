@@ -75,12 +75,12 @@ public class DummyInitializer {
 		}
 		msgBoard = elementService.addElement(mod.getPlayground(), mod.getEmail(), msgBoard);
 		String msg = "msg";
-		for (int i = 0; i < 30; i++) {
+		for (int i = 1; i < 100; i++) {
 			ActivityEntity entity = createMessage(msgBoard.getSuperkey(), msg + i);
 			activityService.executeActivity(player.getPlayground(), player.getEmail(), entity, null);
 
 			ElementEntity q_entity = createQuestionElement("Demo question " + String.valueOf(i),
-					String.valueOf(i) + " + " + String.valueOf(i), String.valueOf(2 * i), i, i, i);
+					String.valueOf(i) + " + " + String.valueOf(i), String.valueOf(2 * (i)), i, i, i);
 			elementService.addElement(mod.getPlayground(), mod.getEmail(), q_entity);
 		}
 	}

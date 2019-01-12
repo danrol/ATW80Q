@@ -1,7 +1,6 @@
 package playground.client;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +19,6 @@ public class GameController implements ActionListener {
 	private JButton signOut;
 	private JButton updatuser;
 	private UserEntity user;
-	private JLabel userInfo;
 	private JComboBox<String> activity;
 	private JLabel main;
 	private JFrame frame;
@@ -61,6 +59,9 @@ public class GameController implements ActionListener {
 				break;
 			case Client.ANSWER_QUESTION:
 				new QuestionWindow(model, this);
+				break;
+			case Client.VIEW_HIGH_SCORES:
+				model.viewHighScores();
 				break;
 			default:
 				break;
@@ -154,6 +155,8 @@ public class GameController implements ActionListener {
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
+		
+		frame.validate();
 		frame.repaint();
 		
 	}

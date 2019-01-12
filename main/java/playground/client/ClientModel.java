@@ -128,7 +128,7 @@ public class ClientModel {
 		catch(Exception e)
 		{
 			System.err.println(e.getMessage());
-			JOptionPane.showMessageDialog(null, Client.FETCH_GAME_RULES_ERROR);
+			JOptionPane.showMessageDialog(null, Client.CONNECTION_PROBLEM);
 		}
 		return null;
 	}
@@ -162,7 +162,7 @@ public class ClientModel {
 		return question;
 	}
 
-	public ElementEntity[] getQuestions() {
+	public ElementEntity[] getQuestions(int page, int size) {
 		Map<String, String> questions = new HashMap<String, String>();
 		ArrayList<ElementEntity> list = new ArrayList();
 		ElementTO[] questionsTO=null;
@@ -170,7 +170,7 @@ public class ClientModel {
 
 			questionsTO = restTemplate.getForObject(
 					this.getURL() + Playground.Function_10
-							+ createPaginationStringAppendixForUrl(0, 0),
+							+ createPaginationStringAppendixForUrl(page, size),
 					ElementTO[].class, this.current_userPlayground, this.current_email, Element.TYPE_FIELD,
 					Element.ELEMENT_QUESTION_TYPE);
 			System.err.println("Found " + questionsTO.length + " questions in database");
@@ -219,7 +219,28 @@ public class ClientModel {
 		return false;
 		
 	}
-	
+	public void viewHighScores() {
+		try {
+			ActivityEntity actEnt = new ActivityEntity();
+			actEnt.setType(Activity.GET_SCORES_ACTIVITY);
+			
+
+			UserTO[] result = this.restTemplate.postForObject(this.getURL()+Playground.Function_11 + 
+					createPaginationStringAppendixForUrl(0, 20), actEnt, UserTO[].class, 
+					this.current_userPlayground, this.current_email);
+			StringBuilder s = new StringBuilder("");
+			for(UserTO u : result)
+			{
+				s.append(u.getUsername() + " " + u.getPoints()+" points\n");
+			}
+			JOptionPane.showMessageDialog(null, s.toString());
+		}
+		catch(Exception e)
+		{
+			JOptionPane.showMessageDialog(null, Client.CONNECTION_PROBLEM);
+		}
+
+	}
 
 	public String getURL() {
 		return "http://" + host + ":" + port;
@@ -268,4 +289,6 @@ public class ClientModel {
 	public UserEntity getCurrentUser() {
 		return current_user;
 	}
+
+
 }

@@ -44,10 +44,11 @@ public class Client {
 	public static final String GET_MESSAGE = "Get Message";
 	public static final String ADD_MESSAGE = "Add Message";
 	public static final String ANSWER_QUESTION = "Answer Questions";
+	public static final String VIEW_HIGH_SCORES = "View scores";
 	
 	//ComboBox Activites
 	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GET_MESSAGE};
-	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ANSWER_QUESTION};
+	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ANSWER_QUESTION, Client.VIEW_HIGH_SCORES};
 
 	//Answer Question
 	public static final String CHOOSE_QUESTION = "Choose Question";
@@ -55,8 +56,8 @@ public class Client {
 	public static final String ANSWER = "Answer";
 	public static final String SEND = "Send";
 	public static final String MESSAGE = "Message";
-	public static final String RIGHT = "Right";
-	public static final String LEFT = "Left";
+	public static final String NEXT_PAGE = "Next page";
+	public static final String PREVIOUS_PAGE = "Previous page";
 	
 	
 	
@@ -76,7 +77,7 @@ public class Client {
 	public static final Object CANNOT_VERIFY_ERROR_MESSAGE_SIGN_UP_ERROR_MESSAGE = "Could not sign up, this mail may already be registered or the server is not running.";
 	public static final String SIGN_IN_ERROR = "Could not sign in. Check that you are verified.";
 	public static final Object CANNOT_UPDATE_USER = "Your account could not be updated. Check your connection to the server";
-	public static final Object FETCH_GAME_RULES_ERROR = "Couldn't process your request. Check your connection to the server";
+	public static final Object CONNECTION_PROBLEM = "Couldn't process your request. Check your connection to the server";
 	
 	//Font
 
@@ -87,8 +88,8 @@ public class Client {
 
 	public static final String SUCCESSFULLY_ADDED_QUESTION = "The question has been successfully added.";
 
-	public static final Object CORRECT_ANSWER_MESSAGE = "Correct answer!";
-	public static final Object INCORRECT_ANSWER_MESSAGE = "Wrong answer!";
+	public static final String CORRECT_ANSWER_MESSAGE = "Correct answer!";
+	public static final String INCORRECT_ANSWER_MESSAGE = "Wrong answer!";
 
 
 

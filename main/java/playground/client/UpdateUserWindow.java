@@ -41,6 +41,11 @@ public class UpdateUserWindow implements ActionListener {
 
 	}
 
+	
+	public void setLabels()
+	{
+		
+	}
 	public UpdateUserWindow(ClientModel model, GameController gameController) {
 		this.model = model;
 		this.gameController = gameController;
@@ -60,7 +65,7 @@ public class UpdateUserWindow implements ActionListener {
 
 		frame.getContentPane().add(new JLabel(Client.AVATAR_LABEL));
 		frame.getContentPane().add(avatar_text);
-
+		setLabels();
 		player = new JRadioButton(Client.PLAYER_ROLE);
 		manager = new JRadioButton(Client.MANAGER_ROLE);
 		if (model.getCurrentUser().getRole().equals(User.PLAYER_ROLE)) {
