@@ -6,11 +6,14 @@ import org.springframework.web.client.RestTemplate;
 
 import playground.constants.Activity;
 import playground.constants.Client;
+import playground.constants.Element;
 import playground.constants.Playground;
 import playground.constants.User;
 import playground.layout.ActivityTO;
+import playground.layout.ElementTO;
 import playground.layout.UserTO;
 import playground.logic.ActivityEntity;
+import playground.logic.ElementEntity;
 import playground.logic.NewUserForm;
 import playground.logic.UserEntity;
 
@@ -161,4 +164,32 @@ public class ClientModel {
 		return null;
 	}
 
+	public boolean addQuestion(String question_title, String question_body, String _question_answer, String points) {
+		try {
+			int num = Integer.parseInt(points);
+			ElementEntity question = createQuestionElement(question_title,question_body,_question_answer,num, 0 ,0);
+			
+			ElementTO q = new ElementTO(question);
+			
+			q = this.restTemplate.postForObject(this.getURL() + Playground.Function_5, q, ElementTO.class,
+					this.current_userPlayground, this.current_email);
+			question = q.toEntity();
+			JOptionPane.showMessageDialog(null, Client.SUCCESSFULLY_ADDED_QUESTION + "\n" + question.getName());
+			return true;
+		}
+		catch(NumberFormatException e)
+		{
+			JOptionPane.showMessageDialog(null, Client.INVALID_POINT_INPUT_ERROR);
+		}
+		return false;
+	}
+	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
+			double x, double y) {
+		ElementEntity question = new ElementEntity(questionTitle, x, y);
+		question.setType(Element.ELEMENT_QUESTION_TYPE);
+		question.getAttributes().put(Element.ELEMENT_QUESTION_KEY, questionBody);
+		question.getAttributes().put(Element.ELEMENT_ANSWER_KEY, answer);
+		question.getAttributes().put(Element.ELEMENT_POINT_KEY, points);
+		return question;
+	}
 }

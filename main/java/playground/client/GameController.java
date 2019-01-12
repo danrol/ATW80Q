@@ -60,7 +60,7 @@ public class GameController implements ActionListener {
 				new AddMessageWindow(model);
 				break;
 			case Client.ANSWER_QUESTION:
-				new QuestionWindow(model);
+				new QuestionWindow(model, this);
 				break;
 			default:
 				break;

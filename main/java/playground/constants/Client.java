@@ -79,6 +79,10 @@ public class Client {
 	public static final Font FONT_TITLE = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 30);
 	public static final Font FONT_BASIC = new Font("Arial", Font.BOLD| Font.HANGING_BASELINE, 15);
 
+	public static final String INVALID_POINT_INPUT_ERROR = "Points should be a number";
+
+	public static final String SUCCESSFULLY_ADDED_QUESTION = "The question has been successfully added.";
+
 
 
 

@@ -28,15 +28,18 @@ public class QuestionWindow implements ActionListener{
 	private JButton send;
 	private JTextField submitAnswer;
 	private JTextField points;
+	private GameController gameController;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println("HELO");
+		new GameController(model);
+		
+		frame.dispose();
 	}
 	
-	public QuestionWindow(ClientModel model) {
+	public QuestionWindow(ClientModel model, GameController gameController) {
 		this.model = model;
-
+		gameController.getFrame().dispose();
 		frame = new JFrame();
 		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
@@ -94,6 +97,7 @@ public class QuestionWindow implements ActionListener{
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+		
 	}
 
 
