@@ -37,7 +37,6 @@ public class DummyUserService implements UserService{
 		if (this.getUser(user.getPlayground(), user.getEmail()) != null)
 			throw new RegisterNewUserException("User already registered");
 		else {
-		System.err.println("added " + user.getEmail() + " playground: " + user.getPlayground());
 		users.add(user);
 		result = getUser(user.getPlayground(), user.getEmail());
 		}

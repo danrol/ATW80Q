@@ -240,7 +240,6 @@ public class jpaElementService implements ElementService {
 		ArrayList<ElementEntity> lst = new ArrayList<ElementEntity>();
 		for (ElementEntity e : elementsDB.findAll())
 			lst.add(e);
-		System.err.println("lst: " + lst);
 		return lst;
 	}
 

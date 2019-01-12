@@ -29,7 +29,6 @@ public class ManagerLoginAspect {
 	@MyLog
 	@Around("@annotation(playground.aop.ManagerLogin) && args(userPlayground,email,..)")
 	public Object checkPermission(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
-		System.err.println("ManagerLogin area");
 		UserEntity u = userDB.findById(userService.createKey(email, userPlayground)).orElse(null);
 		if (u == null) 
 			throw new LoginException("Email is not registered.");
@@ -37,7 +36,6 @@ public class ManagerLoginAspect {
 				throw new LoginException("User is not verified.");
 			else if(u.getRole() != User.MANAGER_ROLE)
 				throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR + joinPoint.getSignature().getDeclaringTypeName());
-		System.err.println("Manager Login: User " + u + "logged in.");
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 		

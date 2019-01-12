@@ -25,7 +25,6 @@ public class IdGeneratorActivity {
 	}
 
 	public void setId(Long id) {
-		System.err.println("IdGeneratorActivity : " + id);
 		this.id = id;
 	}
 }

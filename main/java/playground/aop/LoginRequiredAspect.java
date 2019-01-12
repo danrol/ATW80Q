@@ -31,8 +31,6 @@ public LoginRequiredAspect(UserDao userDB,UserService userService) {
 			throw new LoginException(User.EMAIL_NOT_REGISTERED_ERROR + " " + email);
 			else if(!u.isVerified()) 
 				throw new LoginException(User.USER_NOT_VERIFIED_ERROR);
-		System.err.println("Login Required: User " + u + "logged in.");
-		//TODO delete syserr
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}

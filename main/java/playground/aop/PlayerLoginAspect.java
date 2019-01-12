@@ -32,8 +32,6 @@ public class PlayerLoginAspect {
 				throw new LoginException(User.USER_NOT_VERIFIED_ERROR);
 		else if(u.getRole() != User.PLAYER_ROLE)
 				throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR + joinPoint.getSignature().getDeclaringTypeName());
-		System.err.println("Player Login Required: User " + u + "logged in.");
-		//TODO delete syserr
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}

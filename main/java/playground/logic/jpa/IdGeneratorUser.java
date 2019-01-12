@@ -19,7 +19,6 @@ public class IdGeneratorUser {
 	}
 
 	public void setId(Long id) {
-		System.err.println("IdGeneratorUser : " + id);
 		this.id = id;
 	}
 
