@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import playground.constants.Client;
 import playground.logic.UserEntity;
 
-public class MainFrame implements ActionListener {
+public class GameController implements ActionListener {
 	ClientModel model;
 	JButton signOut;
 	JButton updatuser;
@@ -26,15 +26,16 @@ public class MainFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		System.err.println(activity.getSelectedItem());
 		if (e.getActionCommand().equals(Client.UPDATE_USER))
-			new updateUser(model);
+			new UpdateUserWindow(model);
 		else if (e.getActionCommand().equals(Client.SIGN_OUT)) {
 			frame.dispose();
 		} else if (activity.getSelectedItem().equals(Client.ADD_QUESTION)) {
 			System.err.println(Client.ADD_QUESTION);
-		} else if (activity.getSelectedItem().equals(Client.GET_GAME_RULE)) {
-			System.err.println(Client.GET_GAME_RULE);
+		} else if (activity.getSelectedItem().equals(Client.GAME_RULE)) {
+			System.err.println(Client.GAME_RULE);
+			new ViewGameRules(model);
 		} else if (activity.getSelectedItem().equals(Client.GET_MESSAGE)) {
 			System.err.println(Client.GET_MESSAGE);
 		} else if (activity.getSelectedItem().equals(Client.ADD_MESSAGE)) {
@@ -47,15 +48,15 @@ public class MainFrame implements ActionListener {
 
 	}
 
-	public MainFrame(ClientModel model) {
+	public GameController(ClientModel model) {
 		this.model = model;
 
 		frame = new JFrame();
-		frame.setTitle(Client.MAIN);
+		frame.setTitle(Client.GAME_CONTROLLER);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(7, 2));
 
-		main = new JLabel(Client.MAIN);
+		main = new JLabel(Client.GAME_CONTROLLER);
 		main.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(main);
 

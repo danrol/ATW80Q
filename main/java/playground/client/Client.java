@@ -23,7 +23,7 @@ public class Client extends Application {
 		JFrame frame = new JFrame();
 		frame.setTitle(playground.constants.Client.ATW80Q);
 		frame.setSize(550, 550);
-		ClientFrame s = new ClientFrame(model);
+		ClientLogin s = new ClientLogin(model);
 		frame.add(s, BorderLayout.CENTER);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);

@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 
 import playground.constants.Client;
 
-public class verificationCode implements ActionListener {
+public class VerificationCodeWindow implements ActionListener {
 	ClientModel model;
 	JFrame frame;
 	JLabel verificationCode;
@@ -27,15 +27,15 @@ public class verificationCode implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO: Verify Code
-		new MainFrame(model);
+		new GameController(model);
 		frame.dispose();
 	}
 
-	public verificationCode(ClientModel model) {
+	public VerificationCodeWindow(ClientModel model) {
 		this.model = model;
 
 		frame = new JFrame();
-		frame.setTitle(Client.MAIN);
+		frame.setTitle(Client.VERIFY_CODE_TITLE);
 		frame.setSize(500, 400);
 		// frame.setLayout(new GridLayout(5,2));
 
