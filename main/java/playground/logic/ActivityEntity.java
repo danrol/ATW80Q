@@ -1,6 +1,5 @@
 package playground.logic;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import playground.constants.Activity;
 import playground.constants.Playground;
@@ -37,8 +34,6 @@ public class ActivityEntity implements Serializable {
 		this.playground = Playground.PLAYGROUND_NAME;
 	}
 
-//	create constructors that receive just a JSon 
-//	string and create the class in ActivityEntity
 	public ActivityEntity(String jsonString) {
 		
 		try {
