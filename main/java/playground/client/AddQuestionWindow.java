@@ -14,7 +14,7 @@ import javax.swing.JTextField;
 
 import playground.constants.Client;
 
-public class AddQuestionWindow implements ActionListener{
+public class AddQuestionWindow implements ActionListener {
 	private ClientModel model;
 	private JFrame frame;
 	private JLabel title;
@@ -30,11 +30,14 @@ public class AddQuestionWindow implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//TODO: add question
-		
+
+		boolean added_question = model.addQuestion(questionTitleText.getText(), questionBodyText.getText(),
+				answerText.getText(), pointsText.getText());
+
+		frame.dispose();
+
 	}
-	
-	
+
 	public AddQuestionWindow(ClientModel model) {
 		this.model = model;
 
@@ -74,7 +77,7 @@ public class AddQuestionWindow implements ActionListener{
 		pointsText = new JTextField(30);
 		pointsText.setPreferredSize(new Dimension(30, 30));
 		p1.add(pointsText);
-		
+
 		frame.add(p1);
 
 		JPanel p2 = new JPanel();
@@ -82,13 +85,12 @@ public class AddQuestionWindow implements ActionListener{
 		addQuestion.setFont(Client.FONT_BASIC);
 		p2.add(addQuestion);
 		frame.add(p2);
-		
+
 		addQuestion.addActionListener(this);
-		
+
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
 
-	
 }
