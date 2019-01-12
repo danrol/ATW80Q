@@ -125,8 +125,16 @@ public class ClientModel {
 		user.setUsername(username);
 		user.setAvatar(avatar);
 		user.setRole(role);
-		
-		return false;
+		try {
+			this.restTemplate.put(this.getURL() + Playground.Function_4, new UserTO(user), Client.PLAYGROUND_NAME, this.current_email);
+			this.current_user = user;
+			return true;
+		}
+		catch(Exception e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
 	}
 
 }

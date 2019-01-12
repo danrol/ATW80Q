@@ -53,24 +53,24 @@ public class UpdateUserWindow implements ActionListener {
 		updatUserLabel.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.getContentPane().add(updatUserLabel);
 		frame.getContentPane().add(new JLabel(""));
-
+		username_text = new JTextField(model.getCurrentUser().getUsername());
+		avatar_text = new JTextField(model.getCurrentUser().getAvatar());
 		frame.getContentPane().add(new JLabel(Client.USERNAME_LABEL));
 		frame.getContentPane().add(username_text);
 
 		frame.getContentPane().add(new JLabel(Client.AVATAR_LABEL));
 		frame.getContentPane().add(avatar_text);
-		username_text = new JTextField(model.getCurrentUser().getUsername());
-		avatar_text = new JTextField(model.getCurrentUser().getAvatar());
+
 		player = new JRadioButton(Client.PLAYER_RADIOBUTTON);
 		manager = new JRadioButton(Client.MANAGER_RADIOBUTTON);
-		if(model.getCurrentUser().getRole().equals(User.PLAYER_ROLE))
-		{
-			player.isSelected();
-		}
-		else
+		if (model.getCurrentUser().getRole().equals(User.PLAYER_ROLE)) {
+			player.setSelected(true);
+		} else {
+
 			manager.setSelected(true);
+		}
 		group = new ButtonGroup();
-		
+
 		group.add(player);
 		group.add(manager);
 
