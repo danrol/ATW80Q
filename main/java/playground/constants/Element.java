@@ -25,6 +25,8 @@ public class Element {
 	public static final String ELEMENT_ANSWER_KEY = "Answer"; // Answer to question
 	public static final String ELEMENT_POINT_KEY = "points_value"; // Answer to question
 	
+	public static final String NAME_FIELD = "name";
+	public static final String TYPE_FIELD = "type";
 	public static final String QUESTION_TITLE_TEST = "1+1";
 	public static final String QUESTION_BODY_TEST = "1+1?";
 	public static final String QUESTION_CORRECT_ANSWER_TEST = "2";

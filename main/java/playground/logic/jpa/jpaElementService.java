@@ -137,22 +137,30 @@ public class jpaElementService implements ElementService {
 	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String attributeName, 
 			String attributeValue, Pageable pageable) {
 		UserEntity user = userService.getUser(userService.createKey(email, userPlayground));
+		ArrayList<ElementEntity> result = new ArrayList<>();
 		switch(attributeName) {
-		case "name":{
+		case Element.NAME_FIELD:{
 			if(user.getRole().equals(User.PLAYER_ROLE))
-				return lstToArray(elementsDB.findAllByNameAndExpirationDateGreaterThan(attributeValue, new Date(), pageable));
+				result = elementsDB.findAllByNameAndExpirationDateGreaterThan(attributeValue, new Date(), pageable);
 			else if(user.getRole().equals(User.MANAGER_ROLE))
-				return lstToArray(elementsDB.findAllByName(attributeValue, pageable));
+				result = elementsDB.findAllByName(attributeValue, pageable);
+			break;
 		}
-		case "type":{
+		case Element.TYPE_FIELD:{
 			if(user.getRole().equals(User.PLAYER_ROLE))
-				return lstToArray(elementsDB.findAllByTypeAndExpirationDateGreaterThan(attributeValue, new Date(), pageable));
+				result = elementsDB.findAllByTypeAndExpirationDateGreaterThan(attributeValue, new Date(), pageable);
 			else if(user.getRole().equals(User.MANAGER_ROLE))
-				return lstToArray(elementsDB.findAllByType(attributeValue, pageable));
+				result = elementsDB.findAllByType(attributeValue, pageable);
+			break;
 		}
 		default:
 			throw new AttributeNameException(Playground.NO_SUCH_ATTRIBUTE_NAME);
 		}
+		
+		if (result != null)
+			return lstToArray(result);
+		else
+			return new ElementEntity[0];
 	}
 
 	@Override
