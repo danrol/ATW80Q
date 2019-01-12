@@ -115,28 +115,19 @@ public class DummyUserService implements UserService{
 		UserEntity user = getUser(playground, email);
 		
 		if(user !=null) {
-			//TODO remove if. added playground check to getUser 
 			if(user.getPlayground().equals(playground))
 			{
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
-					{
 					user.verifyUser();
-					}
 				else
-					{
-						throw new ConfirmException("Invalid verification code");
-					}
+					throw new ConfirmException("Invalid verification code");	
 			}
 				else
-			{
-					throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
-			}
+				throw new ConfirmException("User: " + user.getEmail() +" does not belong to the specified playground ("+playground+")");
 		}
 			else
-			{
 				throw new ConfirmException("Email is not registered.");
-			}
 		return user;
 	}
 

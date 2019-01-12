@@ -82,17 +82,6 @@ public class jpaElementService implements ElementService {
 				y + distance, pageable));
 	}
 
-	private boolean roleIsCorrectExpirationDateCheck(UserEntity user, Date date) {
-		// TODO check how to improve
-		Date now = new Date();
-		if (user.getRole().equals(User.PLAYER_ROLE) && now.compareTo(date) > 0)
-			return true;
-		else if (user.getRole().equals(User.MANAGER_ROLE))
-			return true;
-		else
-			return false;
-	}
-
 	@Override
 	@MyLog
 	public double distanceBetween(double x1, double y1, double x2, double y2) {

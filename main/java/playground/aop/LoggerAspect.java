@@ -22,7 +22,6 @@ public class LoggerAspect {
 		try {
 			Object rv = joinPoint.proceed();
 			log.debug(methodSignature + " - ended successfully");
-			//TODO delete syserr
 			return rv;
 		} catch (Throwable e) {
 			log.error(methodSignature + " - end with error" + e.getClass().getName());

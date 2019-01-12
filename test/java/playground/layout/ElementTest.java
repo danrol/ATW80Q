@@ -334,9 +334,6 @@ public class ElementTest {
 		assertThat(el.getPlayground()).isEqualTo(element.getPlayground());
 	}
 
-	// TODO: Test - get elements is radius and return exception: "No elements in
-	// radius"
-
 	// url #7 /playground/elements/{userPlayground}/{email}/{playground}/{id} test
 	// finished
 
@@ -413,9 +410,9 @@ public class ElementTest {
 
 		ElementTO[] valuesFromController = restTemplate.getForObject(
 				this.url + Playground.Function_8
-						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(1, 3),
 				ElementTO[].class, userElementCreator.getEmail(), Playground.PLAYGROUND_NAME);
-		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(1, 3);
 		ElementTO[] valuesFromDatabase = getElementTOArray(
 				elementService.lstToArray(elementService.getElements(pageable)));
 
@@ -499,7 +496,7 @@ public class ElementTest {
 				User.AVATAR_FOR_TESTS, User.MANAGER_ROLE, Playground.PLAYGROUND_NAME);
 		userElementCreator.verifyUser();
 		userService.addUser(userElementCreator);
-		ElementTO[] arrForTest = new ElementTO[Element.SIZE_NUMBER];
+		ElementTO[] arrForTest = new ElementTO[3];
 		ElementEntity elementToAdd;
 
 		for (int n = 1; n <= 6; n++) {
@@ -509,9 +506,9 @@ public class ElementTest {
 		
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_9
-						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(1, 3),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, User.EMAIL_FOR_TESTS, 0, 8, 6);
-		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(1, 3);
 		arrForTest = getElementTOArray(elementService.getAllElementsInRadius(userElementCreator.getPlayground(),
 				userElementCreator.getEmail(), 0, 8, 6, pageable));
 
@@ -553,11 +550,11 @@ public class ElementTest {
 
 		ElementTO[] result = restTemplate.getForObject(
 				this.url + Playground.Function_10
-						+ createPaginationStringAppendixForUrl(Element.PAGE_NUMBER, Element.SIZE_NUMBER),
+						+ createPaginationStringAppendixForUrl(1, 3),
 				ElementTO[].class, Playground.PLAYGROUND_NAME, userElementCreator.getEmail(), Element.TYPE_FIELD,
 				Element.ELEMENT_QUESTION_TYPE);
 
-		Pageable pageable = PageRequest.of(Element.PAGE_NUMBER, Element.SIZE_NUMBER);
+		Pageable pageable = PageRequest.of(1, 3);
 		arrForTest = getElementTOArray(
 				elementService.getElementsByAttributeNameAndAttributeValue(userElementCreator.getPlayground(),
 						userElementCreator.getEmail(), Element.TYPE_FIELD, Element.ELEMENT_QUESTION_TYPE, pageable));

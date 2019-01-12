@@ -55,9 +55,6 @@ public class Element {
 	
 	//For tests related to Element
 	
-	public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
-	public static final int SIZE_NUMBER = 3; //TODO: Eden Sharoni: Don't think this is necessary
-	
 	public static int DEFAULT_EXPIRATION_YEAR;
 	public static int DEFAULT_EXPIRATION_MONTH;
 	public static int DEFAULT_EXPIRATION_DAY;

@@ -178,9 +178,6 @@ public class JpaActivityService implements ActivityService {
 
 	}
 
-	/*
-	 * TODO Fix this method - make a new query
-	 */
 	@MyLog
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {

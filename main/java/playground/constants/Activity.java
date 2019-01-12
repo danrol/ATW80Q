@@ -18,9 +18,7 @@ public class Activity {
 		
 		// Activity attribute keys
 		
-		public static final String ACTIVITY_QUESTION_ID_KEY = "USER_CHOICE_OF_QUESTION_ID";//TODO:Eden Sharoni:  not used in code.
 		public static final String ACTIVITY_USER_ANSWER_KEY = "User_answer";
-		public static final String USER_ID_OF_ACTIVITY_KEY = "User_id"; //TODO:Eden Sharoni:  not used in code.
 		public static final String ACTIVITY_MESSAGE_KEY = "Message"; // String of the actual message
 		
 		// test values
@@ -37,10 +35,7 @@ public class Activity {
 		public static final boolean CORRECT_ANSWER = true;
 		public static final boolean WRONG_ANSWER = false;
 
-		public static final String ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR = "No such activity type.";
-		
-		public static final int PAGE_NUMBER = 1; //TODO: Eden Sharoni: Don't think this is necessary
-		public static final int SIZE_NUMBER = 5; 
+		public static final String ACTIVITY_TYPE_NOT_RECOGNIZED_ERROR = "No such activity type."; 
 
 		public Activity() {
 			

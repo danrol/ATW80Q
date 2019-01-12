@@ -240,7 +240,7 @@ public class ActivityTest {
 	public void getHighScoresDescending() {
 		UserEntity user;
 		int numberOfUsers = 9;
-		UserTO[] usersForTest = new UserTO[Activity.SIZE_NUMBER-1];
+		UserTO[] usersForTest = new UserTO[5-1];
 		long points = 110;
 		ActivityEntity actEnt = new ActivityEntity();
 		actEnt.setType(Activity.GET_SCORES_ACTIVITY);
@@ -253,16 +253,16 @@ public class ActivityTest {
 			user.setPoints(points-i*10);
 			userService.addUser(user);
 			if(i>=5)
-			usersForTest[i-Activity.SIZE_NUMBER] = new UserTO(user);
+			usersForTest[i-5] = new UserTO(user);
 		}
 		
 		UserTO[] result = this.restTemplate.postForObject(this.url+Playground.Function_11 + 
-				createPaginationStringAppendixForUrl(Activity.PAGE_NUMBER, Activity.SIZE_NUMBER), actEnt, UserTO[].class, 
+				createPaginationStringAppendixForUrl(1, 5), actEnt, UserTO[].class, 
 				Playground.PLAYGROUND_NAME, "0"+User.EMAIL_FOR_TESTS);
 		
 		assertThat(result).isNotNull();
 		
-		for(int i=0;i<Activity.SIZE_NUMBER-1;i++)
+		for(int i=0;i<5-1;i++)
 		assertThat(result[i]).isEqualToComparingFieldByField(usersForTest[i]);
 	}
 
