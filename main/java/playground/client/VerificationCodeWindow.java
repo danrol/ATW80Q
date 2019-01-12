@@ -47,7 +47,7 @@ public class VerificationCodeWindow implements ActionListener {
 		frame = new JFrame();
 		frame.setTitle(Client.VERIFY_CODE_TITLE);
 		frame.setSize(500, 400);
-		// frame.setLayout(new GridLayout(5,2));
+		frame.setLayout(new GridLayout(3,0));
 
 		JPanel p = new JPanel();
 		JPanel verificationCodePanel = new JPanel();
@@ -59,17 +59,13 @@ public class VerificationCodeWindow implements ActionListener {
 
 		frame.add(p, BorderLayout.NORTH);
 
-		JPanel p1 = new JPanel(new GridLayout(2, 2));
+		JPanel p1 = new JPanel(new GridLayout(1, 2));
 
-		userPlayground = new JTextField();
 		email = new JTextField();
-		p1.add(new JLabel(Client.PLAYGROUND_LABEL));
-		p1.add(userPlayground);
+		email.setPreferredSize(new Dimension(20, 20));
 		p1.add(new JLabel(Client.EMAIL_LABEL));
 		p1.add(email);
-
 		frame.add(p1, BorderLayout.CENTER);
-
 		JPanel p2 = new JPanel(new GridLayout(0, 2));
 
 		
