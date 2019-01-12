@@ -35,6 +35,10 @@ public class Client {
 	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ADD_MESSAGE, Client.GET_QUESTIONS};
 
 	public static final String CHOOSE_QUESTION = "Choose Question";
+	public static final String QUESTION = "Question";
+	public static final String ANSWER = "Answer";
+	
+	
 	
 	public static final String EDEN_SHARONI = "Eden Sharoni - 315371906";
 	public static final String EDEN_DUPONT = "Eden Dupont - 204808596";
