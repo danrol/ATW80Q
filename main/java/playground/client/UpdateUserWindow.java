@@ -61,8 +61,8 @@ public class UpdateUserWindow implements ActionListener {
 		frame.getContentPane().add(new JLabel(Client.AVATAR_LABEL));
 		frame.getContentPane().add(avatar_text);
 
-		player = new JRadioButton(Client.PLAYER_RADIOBUTTON);
-		manager = new JRadioButton(Client.MANAGER_RADIOBUTTON);
+		player = new JRadioButton(Client.PLAYER_ROLE);
+		manager = new JRadioButton(Client.MANAGER_ROLE);
 		if (model.getCurrentUser().getRole().equals(User.PLAYER_ROLE)) {
 			player.setSelected(true);
 		} else {

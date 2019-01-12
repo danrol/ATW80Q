@@ -1,6 +1,7 @@
 package playground.client;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -65,51 +66,52 @@ public class GameController implements ActionListener {
 
 		frame = new JFrame();
 		frame.setTitle(Client.GAME_CONTROLLER);
-		frame.setSize(500, 400);
-		frame.setLayout(new GridLayout(4, 2));
+		frame.setSize(500, 500);
+		frame.setLayout(new GridLayout(5, 0));
 
+		JPanel p1 = new JPanel(new GridLayout(1, 2));
 		main = new JLabel(Client.GAME_CONTROLLER);
 		main.setFont(new Font("TimesRoman", Font.BOLD, 20));
-		frame.add(main);
+		p1.add(main);
 
 		signOut = new JButton(Client.SIGN_OUT);
 		JPanel signoutbutton = new JPanel();
 		signoutbutton.add(signOut);
-		frame.add(signoutbutton, BorderLayout.EAST);
+		p1.add(signoutbutton, BorderLayout.EAST);
+		frame.add(p1);
 
 		JPanel updatePanel = new JPanel();
 		updatuser = new JButton(Client.UPDATE_USER);
 		updatuser.setFont(new Font("TimesRoman", Font.BOLD, 20));
 		updatePanel.add(updatuser);
 		frame.add(updatePanel);
-		frame.add(new JLabel());
 
 		JPanel activityPanel = new JPanel();
 		user = model.getCurrentUser();
-		if (user.getRole().equals(Client.PLAYER_RADIOBUTTON)) {
+		if (user.getRole().equals(Client.PLAYER_ROLE)) {
 			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
-		} else if (user.getRole().equals(Client.MANAGER_RADIOBUTTON)) {
+		} else if (user.getRole().equals(Client.MANAGER_ROLE)) {
 			activity = new JComboBox<String>(Client.MANAGER_COMBOX);
 		}
 		activityPanel.add(activity);
 		frame.add(activityPanel);
-		frame.add(new JLabel());
 		
 		JPanel p = new JPanel(new GridLayout(6, 2));
-		p.add(new JLabel(Client.USERNAME_LABEL));
-		p.add(new JLabel(user.getUsername()));
-		p.add(new JLabel(Client.EMAIL_LABEL));
-		p.add(new JLabel(user.getEmail()));
-		p.add(new JLabel(Client.AVATAR_LABEL));
-		p.add(new JLabel(user.getAvatar()));
-		p.add(new JLabel(Client.ROLE_LABEL));
-		p.add(new JLabel(user.getRole()));
-		p.add(new JLabel(Client.PLAYGROUND_LABEL));
-		p.add(new JLabel(user.getPlayground()));
-		p.add(new JLabel(Client.POINTS));
-		p.add(new JLabel(user.getPoints() +""));
-		
+		p.add(new JLabel(Client.USERNAME_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getUsername())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.EMAIL_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getEmail())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.AVATAR_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getAvatar())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.ROLE_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getRole())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getPlayground())).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(Client.POINTS)).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		p.add(new JLabel(user.getPoints() +"")).setFont(new Font("TimesRoman", Font.BOLD, 20));
 		frame.add(p);
+		
+		frame.add(new JLabel());
 		
 		
 		

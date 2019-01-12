@@ -16,8 +16,8 @@ public class Client {
 	public static final String USERNAME_LABEL = "Username";
 	public static final String AVATAR_LABEL = "Avatar";
 	public static final String ROLE_LABEL = "Role";
-	public static final String PLAYER_RADIOBUTTON = "PLAYER";
-	public static final String MANAGER_RADIOBUTTON = "MANAGER";
+	public static final String PLAYER_ROLE = "PLAYER";
+	public static final String MANAGER_ROLE = "MANAGER";
 	
 	public static final String CHOOSE_ROLE_LABEL = "Choose role --> Default is Player";
 	public static final String SET_ROLE_TITLEBORDER = "Set Role";
