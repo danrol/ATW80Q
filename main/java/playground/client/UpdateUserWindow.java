@@ -41,11 +41,10 @@ public class UpdateUserWindow implements ActionListener {
 
 	}
 
-	
-	public void setLabels()
-	{
-		
+	public void setLabels() {
+
 	}
+
 	public UpdateUserWindow(ClientModel model, GameController gameController) {
 		this.model = model;
 		this.gameController = gameController;
@@ -98,8 +97,5 @@ public class UpdateUserWindow implements ActionListener {
 		frame.setResizable(false);
 		frame.setVisible(true);
 	}
-	
-	
-
 
 }
