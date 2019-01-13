@@ -25,14 +25,11 @@ public class VerificationCodeWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		boolean verified = model.verifyUser(verificationText.getText(),email.getText());
-		if(verified)
-		{
-		new ClientLogin(model);
-		frame.dispose();
-		}
-		else
-		{
+		boolean verified = model.verifyUser(verificationText.getText(), email.getText());
+		if (verified) {
+			new ClientLogin(model);
+			frame.dispose();
+		} else {
 			JOptionPane.showMessageDialog(null, Client.CANNOT_VERIFY_ERROR_MESSAGE);
 		}
 	}
@@ -56,9 +53,9 @@ public class VerificationCodeWindow implements ActionListener {
 		frame.add(p, BorderLayout.NORTH);
 
 		JPanel p1 = new JPanel(new GridLayout(1, 2));
-		
+
 		email = new JTextField();
-		
+
 		p1.add(new JLabel(Client.EMAIL_LABEL));
 		p1.add(email);
 
@@ -66,7 +63,6 @@ public class VerificationCodeWindow implements ActionListener {
 
 		JPanel p2 = new JPanel(new GridLayout(0, 2));
 
-		
 		JPanel verificationTextPanel = new JPanel();
 		verificationText = new JTextField(20);
 		verificationText.setPreferredSize(new Dimension(50, 40));

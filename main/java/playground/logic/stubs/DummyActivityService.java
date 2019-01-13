@@ -56,7 +56,6 @@ public class DummyActivityService implements ActivityService {
 		return null;
 	}
 
-
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String Superkey, Pageable pageable) {
 		return null;
@@ -78,7 +77,6 @@ public class DummyActivityService implements ActivityService {
 		return null;
 	}
 
-	// @Override
 	public Object setQuestion(ActivityEntity activity) {
 		String id = activity.getElementId();
 		for (ElementEntity e : questionDB)

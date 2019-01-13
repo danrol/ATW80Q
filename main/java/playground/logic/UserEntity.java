@@ -49,7 +49,7 @@ public class UserEntity {
 	private static String generateCode() {
 		Random r = new Random();
 		return String.valueOf(r.nextInt((9999 - 1000) + 1) + 1000);
-		
+
 	}
 
 	public UserEntity(String jsonString) {
@@ -58,14 +58,14 @@ public class UserEntity {
 			ObjectMapper objectMapper = new ObjectMapper();
 			UserEntity userEntity = objectMapper.readValue(jsonString, UserEntity.class);
 			this.email = userEntity.email;
-			this.avatar = 	userEntity.avatar;
-			this.username= userEntity.username;
+			this.avatar = userEntity.avatar;
+			this.username = userEntity.username;
 			this.playground = userEntity.playground;
 			this.role = userEntity.role;
-			this.verificationCode=userEntity.verificationCode;
+			this.verificationCode = userEntity.verificationCode;
 			this.superkey = userEntity.superkey;
-			this.id=userEntity.id;
-			this.points=userEntity.points;
+			this.id = userEntity.id;
+			this.points = userEntity.points;
 		} catch (Exception e) {
 			throw new UserDataException(e.getMessage());
 		}
@@ -193,7 +193,6 @@ public class UserEntity {
 		result = prime * result + ((superkey == null) ? 0 : superkey.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {

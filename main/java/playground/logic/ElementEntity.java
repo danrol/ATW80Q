@@ -43,7 +43,7 @@ public class ElementEntity {
 	}
 
 //	 Constructor that receives just a JSon string and creates the class in ElementEntity
-	public ElementEntity(String jsonString)  {
+	public ElementEntity(String jsonString) {
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ElementEntity elEntity = objectMapper.readValue(jsonString, ElementEntity.class);
@@ -230,7 +230,6 @@ public class ElementEntity {
 		return result;
 	}
 
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -245,7 +244,5 @@ public class ElementEntity {
 		else
 			return false;
 	}
-	
-	
 
 }

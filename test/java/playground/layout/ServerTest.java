@@ -1,4 +1,5 @@
 package playground.layout;
+
 import javax.annotation.PostConstruct;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import playground.logic.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class ServerTest {
-	
+
 	private ElementService elementService;
 	private UserService userService;
 
@@ -51,9 +52,9 @@ public class ServerTest {
 		elementService.cleanElementService();
 
 	}
+
 	@Test
-	public void ServerIsBootingUpCorrectly()
-	{
-		
+	public void ServerIsBootingUpCorrectly() {
+
 	}
 }

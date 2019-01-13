@@ -39,9 +39,9 @@ public class ClientModel {
 				UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
 						Client.PLAYGROUND_NAME, email);
 				setCurrentUser(user.toEntity());
-				 
+
 			} catch (Exception e) {
-				
+
 				return false;
 			}
 			return true;
@@ -49,19 +49,17 @@ public class ClientModel {
 		return false;
 	}
 
-	private void refreshUser()
-	{
+	private void refreshUser() {
 		try {
 			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_3, UserTO.class,
 					this.current_userPlayground, this.current_email);
 			setCurrentUser(user.toEntity());
-			 
+
 		} catch (Exception e) {
-			
+
 			System.err.println(e.getMessage());
 		}
 	}
-	
 
 	public boolean signUp(String username, String email, String avatar, String playground, String role) {
 		try {
@@ -75,7 +73,6 @@ public class ClientModel {
 
 	}
 
-	
 	public void setCurrentUser(UserEntity entity) {
 		this.current_user = entity;
 		this.current_email = entity.getEmail();
@@ -85,11 +82,10 @@ public class ClientModel {
 
 	public boolean verifyUser(String code, String mail) {
 		try {
-			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, Client.PLAYGROUND_NAME, mail, code);
+			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class,
+					Client.PLAYGROUND_NAME, mail, code);
 			JOptionPane.showMessageDialog(null, user.getUsername() + "\n" + Client.VERIFIED_USER_MESSAGE);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			return false;
 		}
 		return true;
@@ -101,19 +97,18 @@ public class ClientModel {
 		user.setAvatar(avatar);
 		user.setRole(role);
 		try {
-			this.restTemplate.put(this.getURL() + Playground.Function_4, new UserTO(user), Client.PLAYGROUND_NAME, this.current_email);
+			this.restTemplate.put(this.getURL() + Playground.Function_4, new UserTO(user), Client.PLAYGROUND_NAME,
+					this.current_email);
 			this.current_user = user;
 			return true;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return false;
 		}
 	}
 
 	public String getGameRules() {
-	
+
 		try {
 
 			ActivityEntity ent = new ActivityEntity();
@@ -122,9 +117,7 @@ public class ClientModel {
 			String rules = this.restTemplate.postForObject(this.getURL() + Playground.Function_11, act, String.class,
 					this.current_userPlayground, this.current_email);
 			return rules;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			JOptionPane.showMessageDialog(null, Client.CONNECTION_PROBLEM);
 		}
@@ -134,22 +127,21 @@ public class ClientModel {
 	public boolean addQuestion(String question_title, String question_body, String _question_answer, String points) {
 		try {
 			int num = Integer.parseInt(points);
-			ElementEntity question = createQuestionElement(question_title,question_body,_question_answer,num, 0 ,0);
-			
+			ElementEntity question = createQuestionElement(question_title, question_body, _question_answer, num, 0, 0);
+
 			ElementTO q = new ElementTO(question);
-			
+
 			q = this.restTemplate.postForObject(this.getURL() + Playground.Function_5, q, ElementTO.class,
 					this.current_userPlayground, this.current_email);
 			question = q.toEntity();
 			JOptionPane.showMessageDialog(null, Client.SUCCESSFULLY_ADDED_QUESTION + "\n" + question.getName());
 			return true;
-		}
-		catch(NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, Client.INVALID_POINT_INPUT_ERROR);
 		}
 		return false;
 	}
+
 	public ElementEntity createQuestionElement(String questionTitle, String questionBody, String answer, int points,
 			double x, double y) {
 		ElementEntity question = new ElementEntity(questionTitle, x, y);
@@ -162,33 +154,29 @@ public class ClientModel {
 
 	public ElementEntity[] getQuestions(int page, int size) {
 		ArrayList<ElementEntity> list = new ArrayList<ElementEntity>();
-		ElementTO[] questionsTO=null;
+		ElementTO[] questionsTO = null;
 		try {
 
 			questionsTO = restTemplate.getForObject(
-					this.getURL() + Playground.Function_10
-							+ createPaginationStringAppendixForUrl(page, size),
+					this.getURL() + Playground.Function_10 + createPaginationStringAppendixForUrl(page, size),
 					ElementTO[].class, this.current_userPlayground, this.current_email, Element.TYPE_FIELD,
 					Element.ELEMENT_QUESTION_TYPE);
-			
-		}
-		catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		
-		for(ElementTO e : questionsTO)
-		{
+
+		for (ElementTO e : questionsTO) {
 			ElementEntity q = e.toEntity();
 			list.add(q);
-			
+
 		}
-		
+
 		return list.toArray(new ElementEntity[0]);
 	}
-	
+
 	public String createPaginationStringAppendixForUrl(int pageNum, int sizeNum) {
-		if(sizeNum == 0)
+		if (sizeNum == 0)
 			return "";
 		return "?page=" + String.valueOf(pageNum) + "&size=" + String.valueOf(sizeNum);
 	}
@@ -196,8 +184,7 @@ public class ClientModel {
 	public boolean answerQuestion(String superkey, String answer) {
 		ActivityEntity activity = new ActivityEntity();
 		activity.setType(Activity.QUESTION_ANSWER_ACTIVITY);
-		activity.getAttribute().put(Activity.ACTIVITY_USER_ANSWER_KEY,
-				answer);
+		activity.getAttribute().put(Activity.ACTIVITY_USER_ANSWER_KEY, answer);
 
 		activity.setElementId(superkey);
 		ActivityTO act = new ActivityTO(activity);
@@ -205,35 +192,30 @@ public class ClientModel {
 
 			boolean SystemResponse = this.restTemplate.postForObject(this.getURL() + Playground.Function_11, act,
 					boolean.class, this.current_userPlayground, this.current_email);
-			
+
 			refreshUser();
 			return SystemResponse;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		return false;
-		
+
 	}
+
 	public void viewHighScores() {
 		try {
 			ActivityEntity actEnt = new ActivityEntity();
 			actEnt.setType(Activity.GET_SCORES_ACTIVITY);
-			
 
-			UserTO[] result = this.restTemplate.postForObject(this.getURL()+Playground.Function_11 + 
-					createPaginationStringAppendixForUrl(0, 20), actEnt, UserTO[].class, 
-					this.current_userPlayground, this.current_email);
+			UserTO[] result = this.restTemplate.postForObject(
+					this.getURL() + Playground.Function_11 + createPaginationStringAppendixForUrl(0, 20), actEnt,
+					UserTO[].class, this.current_userPlayground, this.current_email);
 			StringBuilder s = new StringBuilder("");
-			for(UserTO u : result)
-			{
-				s.append(u.getUsername() + " " + u.getPoints()+" points\n");
+			for (UserTO u : result) {
+				s.append(u.getUsername() + " " + u.getPoints() + " points\n");
 			}
 			JOptionPane.showMessageDialog(null, s.toString());
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, Client.CONNECTION_PROBLEM);
 		}
 
@@ -287,6 +269,5 @@ public class ClientModel {
 		refreshUser();
 		return current_user;
 	}
-
 
 }

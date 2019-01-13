@@ -8,12 +8,10 @@ import org.springframework.data.domain.Pageable;
 import playground.logic.UserEntity;
 
 @RepositoryRestResource
-public interface UserDao  extends PagingAndSortingRepository<UserEntity, String>{
+public interface UserDao extends PagingAndSortingRepository<UserEntity, String> {
 
-
-	public UserEntity findUserByPlaygroundAndEmail(
-			@Param("Playground") String playground, 
+	public UserEntity findUserByPlaygroundAndEmail(@Param("Playground") String playground,
 			@Param("Email") String email);
-	
+
 	public ArrayList<UserEntity> findAllByOrderByPointsDesc(Pageable pageable);
 }

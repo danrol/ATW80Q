@@ -49,7 +49,6 @@ public class UserTO {
 		this(username, email, avatar, role, playground);
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
@@ -105,7 +104,6 @@ public class UserTO {
 	public void setPoints(long points) {
 		this.points = points;
 	}
-
 
 	@Override
 	public String toString() {

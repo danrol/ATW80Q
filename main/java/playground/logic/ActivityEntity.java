@@ -18,7 +18,7 @@ public class ActivityEntity {
 	// Primary key - playground+id
 	private static final long serialVersionUID = 514354009958930154L;
 	private String playground;
-	private String id=" ";
+	private String id = " ";
 	private String elementPlayground;
 	private String elementId;
 	private String type;
@@ -34,7 +34,7 @@ public class ActivityEntity {
 	}
 
 	public ActivityEntity(String jsonString) {
-		
+
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
 			ActivityEntity acEntity = objectMapper.readValue(jsonString, ActivityEntity.class);
@@ -46,14 +46,11 @@ public class ActivityEntity {
 			this.playerPlayground = acEntity.playerPlayground;
 			this.playerEmail = acEntity.playerEmail;
 			this.attribute = acEntity.attribute;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new ActivityDataException(e.getMessage());
 		}
 
 	}
-
 
 	public String getPlayground() {
 		return playground;
@@ -63,7 +60,6 @@ public class ActivityEntity {
 		this.playground = playground;
 	}
 
-	
 	public String getId() {
 		return id;
 	}
@@ -149,9 +145,8 @@ public class ActivityEntity {
 	}
 
 	public void setSuperkey(String Superkey) {
-		//empty
+		// empty
 	}
-	
 
 	@Override
 	public int hashCode() {
@@ -184,6 +179,5 @@ public class ActivityEntity {
 				+ ", elementId=" + elementId + ", type=" + type + ", playerPlayground=" + playerPlayground
 				+ ", playerEmail=" + playerEmail + ", superkey=" + superkey + ", attribute=" + attribute + "]";
 	}
-	
-	
+
 }

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Playground {
-	
+
 	// URL API
-	
+
 	public static final String Function_1 = "/playground/users";
 	public static final String Function_2 = "/playground/users/confirm/{playground}/{email}/{code}";
 	public static final String Function_3 = "/playground/users/login/{playground}/{email}";
@@ -19,54 +19,44 @@ public class Playground {
 	public static final String Function_9 = "/playground/elements/{userPlayground}/{email}/near/{x}/{y}/{distance}";
 	public static final String Function_10 = "/playground/elements/{userPlayground}/{email}/search/{attributeName}/{value}";
 	public static final String Function_11 = "/playground/activities/{userPlayground}/{email}";
-	
-	
-	//Email values
-	
+
+	// Email values
+
 	public static final String VERIFICATION_MAIL_SUBJECT = "Verify your account ATW80Q";
 
-	
 	// Values for JUnit tests
 	public static String PLAYGROUND_MAIL = null;
 	public static String PLAYGROUND_NAME = null;
 	public static boolean MESSAGE_SENDER_ENABLED = false;
-	
+
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
-	
-	public static final String DUMMY_MANAGER_USERNAME = "manager";	
-	public static final String DUMMY_PLAYER_USERNAME = "player";	
-	
-	
-	
-	//Error messages
-	
+
+	public static final String DUMMY_MANAGER_USERNAME = "manager";
+	public static final String DUMMY_PLAYER_USERNAME = "player";
+
+	// Error messages
+
 	public static final String NO_RELEVANT_MESSAGE_ERROR = "There is no relevant message";
 	public static final String NO_SUCH_ATTRIBUTE_NAME = "There is no such attribute name in system";
-	
 
-	
-
-	
 	@Value("${playground.mail.enable:false}")
 	public void setDefaultMailEnabled(boolean b) {
 		Playground.MESSAGE_SENDER_ENABLED = b;
 	}
-	
+
 	@Value("${playground.mail:ATW80Q@gmail.com}")
 	public void setDefaultPlaygroundMail(String defaultPlaygroundMail) {
 		Playground.PLAYGROUND_MAIL = defaultPlaygroundMail;
 	}
-	
-	
+
 	@Value("${playground.name:playgroundrolnik}")
 	public void setDefaultUserName(String defaultPlaygroundName) {
 		Playground.PLAYGROUND_NAME = defaultPlaygroundName;
 	}
-	
-	public Playground() {
-		
-	}
 
+	public Playground() {
+
+	}
 
 }

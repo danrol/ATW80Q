@@ -50,12 +50,6 @@ public class GameController implements ActionListener {
 			case Client.GAME_RULES:
 				new ViewGameRules(model);
 				break;
-			case Client.GET_MESSAGE:
-				new GetMessageWindow(model);
-				break;
-			case Client.ADD_MESSAGE:
-				new AddMessageWindow(model);
-				break;
 			case Client.ANSWER_QUESTION:
 				new QuestionWindow(model, this);
 				break;
@@ -100,16 +94,13 @@ public class GameController implements ActionListener {
 
 		activityPanel.add(activity);
 		frame.add(activityPanel);
-		
-		
-		
+
 		username_label = new JLabel(user.getUsername());
 		mail_label = new JLabel(user.getEmail());
 		avatar_label = new JLabel(user.getAvatar());
 		role_label = new JLabel(user.getRole());
 		playground_label = new JLabel(user.getPlayground());
 		point_label = new JLabel(user.getPoints() + "");
-
 
 		JPanel p = setUserNameInfo();
 		frame.add(p);
@@ -128,10 +119,8 @@ public class GameController implements ActionListener {
 
 	private void updateUserInfo() {
 
-	
-
 		username_label.setText(user.getUsername());
-		mail_label .setText(user.getEmail());
+		mail_label.setText(user.getEmail());
 		avatar_label.setText(user.getAvatar());
 		role_label.setText(user.getRole());
 		playground_label.setText(user.getPlayground());
@@ -143,7 +132,7 @@ public class GameController implements ActionListener {
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
-		
+
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 
@@ -168,8 +157,7 @@ public class GameController implements ActionListener {
 
 	private void setComboBoxItems(String[] box) {
 		combo_model.removeAllElements();
-		for(int i=0;i<box.length;i++)
-		{
+		for (int i = 0; i < box.length; i++) {
 			combo_model.addElement(box[i]);
 		}
 
@@ -183,9 +171,8 @@ public class GameController implements ActionListener {
 		this.frame = frame;
 	}
 
-	
 	public JPanel setUserNameInfo() {
-		
+
 		setUserNameInfo = new JPanel(new GridLayout(6, 2));
 		setUserNameInfo.add(new JLabel(Client.USERNAME_LABEL)).setFont(Client.FONT_BASIC);
 		setUserNameInfo.add(username_label).setFont(Client.FONT_BASIC);
@@ -200,6 +187,6 @@ public class GameController implements ActionListener {
 		setUserNameInfo.add(new JLabel(Client.POINTS)).setFont(Client.FONT_BASIC);
 		setUserNameInfo.add(point_label).setFont(Client.FONT_BASIC);
 		return setUserNameInfo;
-		
+
 	}
 }

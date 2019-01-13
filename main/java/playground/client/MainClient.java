@@ -21,7 +21,7 @@ public class MainClient extends Application {
 
 		ClientModel model = new ClientModel(host, port);
 		ClientLogin s = new ClientLogin(model);
-		
+
 		JFrame frame = new JFrame();
 		frame.setTitle(playground.constants.Client.ATW80Q);
 		frame.setSize(550, 550);

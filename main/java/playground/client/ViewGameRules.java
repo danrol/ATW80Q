@@ -14,15 +14,16 @@ public class ViewGameRules {
 	private JLabel gameRule;
 	private String rules;
 	private ClientModel model;
+
 	public ViewGameRules(ClientModel model) {
 		this.model = model;
 		frame = new JFrame();
 		frame.setTitle(Client.GAME_RULES);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(5, 2, 5, 5));
-		
+
 		updateGameRules();
-		
+
 		JPanel p = new JPanel();
 		this.gameRule = new JLabel(rules);
 		this.gameRule.setForeground(Color.BLUE);
@@ -38,8 +39,7 @@ public class ViewGameRules {
 	private void updateGameRules() {
 		String s = model.getGameRules();
 		rules = s;
-		
-		
+
 	}
 
 }

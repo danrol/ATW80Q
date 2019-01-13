@@ -17,21 +17,24 @@ import playground.logic.UserService;
 public class PlayerLoginAspect {
 	private UserDao userDB;
 	private UserService userService;
+
 	@Autowired
 	public PlayerLoginAspect(UserDao userDB, UserService userService) {
 		this.userDB = userDB;
-		this.userService=userService;
+		this.userService = userService;
 	}
+
 	@MyLog
 	@Around("@annotation(playground.aop.PlayerLogin) && args(userPlayground,email,..)")
 	public Object Login(ProceedingJoinPoint joinPoint, String userPlayground, String email) throws Throwable {
 		UserEntity u = userDB.findById(userService.createKey(email, userPlayground)).orElse(null);
-		if (u == null) 
+		if (u == null)
 			throw new LoginException(User.EMAIL_NOT_REGISTERED_ERROR);
-		else if(!u.isVerified()) 
-				throw new LoginException(User.USER_NOT_VERIFIED_ERROR);
-		else if(u.getRole() != User.PLAYER_ROLE)
-				throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR + joinPoint.getSignature().getDeclaringTypeName());
+		else if (!u.isVerified())
+			throw new LoginException(User.USER_NOT_VERIFIED_ERROR);
+		else if (u.getRole() != User.PLAYER_ROLE)
+			throw new PermissionUserException(u.getRole() + User.LOGIN_ASPECT_ACCESS_RIGHTS_ERROR
+					+ joinPoint.getSignature().getDeclaringTypeName());
 		Object o = joinPoint.proceed(joinPoint.getArgs());
 		return o;
 	}

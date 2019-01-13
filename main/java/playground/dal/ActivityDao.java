@@ -10,8 +10,6 @@ import playground.logic.ActivityEntity;
 
 public interface ActivityDao extends PagingAndSortingRepository<ActivityEntity, String> {
 
-	public ArrayList<ActivityEntity> findAllByTypeAndElementId( 
-			@Param("elementId") String elementId, 
-			@Param("type") String type, 
-			Pageable pageable);
+	public ArrayList<ActivityEntity> findAllByTypeAndElementId(@Param("elementId") String elementId,
+			@Param("type") String type, Pageable pageable);
 }

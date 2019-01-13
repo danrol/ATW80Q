@@ -11,9 +11,7 @@ import javax.swing.JPanel;
 import playground.constants.Client;
 
 public class ClientLogin extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 
 	private ClientModel model;

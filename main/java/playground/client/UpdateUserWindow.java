@@ -33,7 +33,6 @@ public class UpdateUserWindow implements ActionListener {
 		boolean changed = model.updateAccount(username_text.getText(), avatar_text.getText(),
 				(player.isSelected() ? User.PLAYER_ROLE : User.MANAGER_ROLE));
 		if (changed) {
-			System.err.println("HELLOO");
 			gameController.updateController();
 			frame.dispose();
 		} else {

@@ -17,38 +17,6 @@ import playground.logic.ElementEntity;
 import playground.logic.ElementService;
 import playground.logic.UserService;
 
-/*
- * 		Element Type : Question
- * 			Attributes:
- * 				ELEMENT_QUESTION_KEY
- * 				ELEMENT_ANSWER_KEY
- * 				ELEMENT_POINT_KEY
- * 
- * 		Activity types attributes index:
- * 			DEFAULT_ACTIVITY_TYPE:
- * 				None
- * 
- * 			GET_MESSAGES_ACTIVITY:
- * 				ACTIVITY_MESSAGEBOARD_ID_KEY	
- * 
- * 			ADD_MESSAGES_ACTIVITY:
- * 				ACTIVITY_MESSAGEBOARD_ID_KEY 	
- * 				ACTIVITY_MESSAGE_KEY			
- * 
- * 
- * 			QUESTION_READ_ACTIVITY:
- * 				ACTIVITY_QUESTION_ID_KEY
- * 				ACTIVITY_USER_ANSWER_KEY
- * 
- * 			QUESTION_ANSWER_ACTIVITY:
- * 				ACTIVITY_QUESTION_ID_KEY
- * 				ACTIVITY_USER_ANSWER_KEY
- * 
- * 
- * 			GET_SCORES_ACTIVITY:
- * 				None
- */
-
 @Service
 public class JpaActivityService implements ActivityService {
 	private ActivityDao activityDB;
@@ -90,11 +58,6 @@ public class JpaActivityService implements ActivityService {
 		}
 		case Activity.GET_MESSAGES_ACTIVITY: {
 
-			/*
-			 * return getAllMessagesActivitiesInMessageBoard( (String)
-			 * activity.getAttribute().get(Constants.ACTIVITY_MESSAGEBOARD_ID_KEY),
-			 * pageable);
-			 */
 			return getAllMessagesActivitiesInMessageBoard(activity.getElementId(), pageable);
 		}
 		case Activity.MESSAGE_ACTIVITY: {
@@ -182,8 +145,6 @@ public class JpaActivityService implements ActivityService {
 	@Override
 	public ArrayList<ActivityEntity> getAllMessagesActivitiesInMessageBoard(String superkey, Pageable pageable) {
 		return activityDB.findAllByTypeAndElementId(superkey, Activity.MESSAGE_ACTIVITY, pageable);
-//			lst.add(a);
-//		return lst;
 	}
 
 	@MyLog
@@ -226,9 +187,6 @@ public class JpaActivityService implements ActivityService {
 		throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + id);
 
 	}
-
-
-
 
 	@Override
 	@MyLog

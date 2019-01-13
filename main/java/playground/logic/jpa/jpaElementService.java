@@ -21,26 +21,9 @@ import playground.logic.ElementService;
 import playground.logic.UserEntity;
 import playground.logic.UserService;
 
-/**
- * 
- * 
- * 
- * Element types and their attributes:
- * 
- * ELEMENT_DEFAULT_TYPE - NONE
- * 
- * ELEMENT_QUESTION_TYPE - ELEMENT_QUESTION_KEY ELEMENT_ANSWER_KEY
- * ELEMENT_POINT_KEY
- * 
- * ELEMENT_MESSAGEBOARD_TYPE - MESSAGEBOARD_MESSAGE_COUNT int values in strings
- * indicated by above constant, "1" for message num 1, "2" for second and etc
- *
- */
-
 @Service
 public class jpaElementService implements ElementService {
 
-	// this is the database we need are saving in
 	private ElementDao elementsDB;
 	private UserService userService;
 	private IdGeneratorElementDao IdGeneratorElement;
@@ -114,29 +97,29 @@ public class jpaElementService implements ElementService {
 	@Transactional(readOnly = true)
 	@MyLog
 	@LoginRequired
-	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String attributeName, 
-			String attributeValue, Pageable pageable) {
+	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email,
+			String attributeName, String attributeValue, Pageable pageable) {
 		UserEntity user = userService.getUser(userService.createKey(email, userPlayground));
 		ArrayList<ElementEntity> result = new ArrayList<>();
-		switch(attributeName) {
-		case Element.NAME_FIELD:{
-			if(user.getRole().equals(User.PLAYER_ROLE))
+		switch (attributeName) {
+		case Element.NAME_FIELD: {
+			if (user.getRole().equals(User.PLAYER_ROLE))
 				result = elementsDB.findAllByNameAndExpirationDateGreaterThan(attributeValue, new Date(), pageable);
-			else if(user.getRole().equals(User.MANAGER_ROLE))
+			else if (user.getRole().equals(User.MANAGER_ROLE))
 				result = elementsDB.findAllByName(attributeValue, pageable);
 			break;
 		}
-		case Element.TYPE_FIELD:{
-			if(user.getRole().equals(User.PLAYER_ROLE))
+		case Element.TYPE_FIELD: {
+			if (user.getRole().equals(User.PLAYER_ROLE))
 				result = elementsDB.findAllByTypeAndExpirationDateGreaterThan(attributeValue, new Date(), pageable);
-			else if(user.getRole().equals(User.MANAGER_ROLE))
+			else if (user.getRole().equals(User.MANAGER_ROLE))
 				result = elementsDB.findAllByType(attributeValue, pageable);
 			break;
 		}
 		default:
 			throw new AttributeNameException(Playground.NO_SUCH_ATTRIBUTE_NAME);
 		}
-		
+
 		if (result != null)
 			return lstToArray(result);
 		else
@@ -193,6 +176,7 @@ public class jpaElementService implements ElementService {
 			throw new ElementDataException(Element.NO_SUCH_ELEMENT_ERROR + superkey);
 
 	}
+
 	@Override
 	public ElementEntity createElementEntity(String json) {
 		ElementEntity element = null;
@@ -203,6 +187,7 @@ public class jpaElementService implements ElementService {
 		}
 		return element;
 	}
+
 	@Override
 	@Transactional(readOnly = false)
 	@ManagerLogin
@@ -279,7 +264,6 @@ public class jpaElementService implements ElementService {
 		case Element.DEFAULT_TYPE:
 			return true;
 		case Element.ELEMENT_MESSAGEBOARD_TYPE:
-			// if messageboard was created outside the playground
 			if (!element.getAttributes().containsKey(Element.MESSAGEBOARD_MESSAGE_COUNT))
 				element.getAttributes().put(Element.MESSAGEBOARD_MESSAGE_COUNT, 0);
 			return true;
@@ -305,7 +289,6 @@ public class jpaElementService implements ElementService {
 		else {
 			ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorPlayground));
 			if (tempElement != null) {
-				// Deletes old and replaces with new
 				entity.setCreationDate(tempElement.getCreationDate());
 				elementsDB.deleteById(tempElement.getSuperkey());
 				elementsDB.save(entity);
@@ -326,7 +309,6 @@ public class jpaElementService implements ElementService {
 	public void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity element) {
 		ElementEntity tempElement = this.getElementNoLogin(element.getSuperkey());
 		if (tempElement != null) {
-			// Deletes old and replaces with new
 			elementsDB.deleteById(tempElement.getSuperkey());
 			elementsDB.save(element);
 		} else

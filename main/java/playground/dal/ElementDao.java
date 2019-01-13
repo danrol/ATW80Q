@@ -9,44 +9,26 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import playground.logic.ElementEntity;
 
 @RepositoryRestResource
-public interface ElementDao extends PagingAndSortingRepository<ElementEntity,String>{
+public interface ElementDao extends PagingAndSortingRepository<ElementEntity, String> {
 
-	public ArrayList<ElementEntity> findAllByCreatorPlaygroundAndCreatorEmail( 
-			@Param("creatorPlayground") String creatorPlayground, 
-			@Param("creatorEmail") String creatorEmail, 
+	public ArrayList<ElementEntity> findAllByCreatorPlaygroundAndCreatorEmail(
+			@Param("creatorPlayground") String creatorPlayground, @Param("creatorEmail") String creatorEmail,
 			Pageable pageable);
 
-	public ArrayList<ElementEntity> findAllByXBetweenAndYBetween(
-    		@Param("x1") double d,
-    		@Param("x2") double e,
-    		@Param("y1") double f,
-    		@Param("y2") double g,
-    		Pageable pageable);
-	
-	public ArrayList<ElementEntity> findAllByNameAndType(
-			@Param ("name") String name,
-			@Param ("type") String type, 
+	public ArrayList<ElementEntity> findAllByXBetweenAndYBetween(@Param("x1") double d, @Param("x2") double e,
+			@Param("y1") double f, @Param("y2") double g, Pageable pageable);
+
+	public ArrayList<ElementEntity> findAllByNameAndType(@Param("name") String name, @Param("type") String type,
 			Pageable pageable);
-	
-	public ArrayList<ElementEntity> findAllByNameAndExpirationDateGreaterThan(
-			@Param("name") String name, 
-			@Param ("expirationDate") Date expireDate, 
-			Pageable pageable);
-	
-	public ArrayList<ElementEntity> findAllByName(
-			@Param("name") String name, 
-			Pageable pageable);
-	
-	public ArrayList<ElementEntity> findAllByTypeAndExpirationDateGreaterThan(
-			@Param("type") String name, 
-			@Param ("expirationDate") Date expireDate, 
-			Pageable pageable);
-	
-	public ArrayList<ElementEntity> findAllByType(
-			@Param("type") String name, 
-			Pageable pageable);
-	
-	
-	
+
+	public ArrayList<ElementEntity> findAllByNameAndExpirationDateGreaterThan(@Param("name") String name,
+			@Param("expirationDate") Date expireDate, Pageable pageable);
+
+	public ArrayList<ElementEntity> findAllByName(@Param("name") String name, Pageable pageable);
+
+	public ArrayList<ElementEntity> findAllByTypeAndExpirationDateGreaterThan(@Param("type") String name,
+			@Param("expirationDate") Date expireDate, Pageable pageable);
+
+	public ArrayList<ElementEntity> findAllByType(@Param("type") String name, Pageable pageable);
+
 }
-	

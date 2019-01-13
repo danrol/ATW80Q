@@ -13,7 +13,7 @@ public class IdGeneratorActivity {
 	}
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 
 	public Long getId() {
 		return id;

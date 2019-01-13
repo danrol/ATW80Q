@@ -5,8 +5,7 @@ import java.util.Map;
 
 import playground.logic.ActivityEntity;
 
-
-public class ActivityTO  {
+public class ActivityTO {
 
 	private String playground;
 	private String id;
@@ -31,7 +30,6 @@ public class ActivityTO  {
 		playerEmail = a.getPlayerEmail();
 		attribute = a.getAttribute();
 	}
-
 
 	public String getPlayground() {
 		return playground;
@@ -116,6 +114,5 @@ public class ActivityTO  {
 				+ ", elementId=" + elementId + ", type=" + type + ", playerPlayground=" + playerPlayground
 				+ ", playerEmail=" + playerEmail + ", attribute=" + attribute + "]";
 	}
-	
-	
+
 }

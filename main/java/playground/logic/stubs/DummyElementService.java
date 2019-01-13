@@ -11,13 +11,9 @@ import playground.logic.ElementService;
 import playground.logic.UserService;
 import org.springframework.data.domain.Pageable;
 
-
 //@Service
 public class DummyElementService implements ElementService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static ArrayList<ElementEntity> elements = new ArrayList<ElementEntity>();
 
@@ -46,7 +42,7 @@ public class DummyElementService implements ElementService {
 	public void addElements(String playground, String email, ElementEntity[] elements) {
 
 		for (int i = 0; i < elements.length; i++) {
-			addElement(playground, email,elements[i]);
+			addElement(playground, email, elements[i]);
 		}
 	}
 
@@ -78,7 +74,6 @@ public class DummyElementService implements ElementService {
 		return getElementNoLogin(superkey);
 	}
 
-
 	@Override
 	public boolean checkEmailAndPlaygroundInElement(ElementEntity element, String creatorPlayground,
 			String creatorEmail) {
@@ -88,26 +83,20 @@ public class DummyElementService implements ElementService {
 			return false;
 	}
 
-
-
 	@Override
 	public ElementEntity[] lstToArray(ArrayList<ElementEntity> lst) {
 		return lst.toArray(new ElementEntity[lst.size()]);
 	}
-	
+
 	private ElementEntity[] paginateList(ArrayList<ElementEntity> lst, int page, int size) {
-		return lst
-				.stream()
-				.skip(size * page) 
-				.limit(size) 
-				.collect(Collectors.toList())
-				.toArray(new ElementEntity[lst.size()]); 
+		return lst.stream().skip(size * page).limit(size).collect(Collectors.toList())
+				.toArray(new ElementEntity[lst.size()]);
 	}
 
 	public void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements) {
 		try {
 			for (ElementEntity el : elements) {
-				updateElementInDatabaseFromExternalElement(userPlayground, email,el);
+				updateElementInDatabaseFromExternalElement(userPlayground, email, el);
 			}
 
 		} catch (ElementDataException e) {
@@ -117,7 +106,7 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email,ElementEntity element) {
+	public void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element) {
 		userService.login(userPlayground, email);
 		ElementEntity tempElement = this.getElement(userPlayground, email, element.getSuperkey());
 		if (tempElement != null) {
@@ -128,10 +117,9 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public void replaceElementWith(String userPlayground,
-			String email, ElementEntity entity, String id, String creatorPlayground) {
-		ElementEntity tempElement = this.getElement(userPlayground,
-				email, createKey(id, creatorPlayground));
+	public void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
+			String creatorPlayground) {
+		ElementEntity tempElement = this.getElement(userPlayground, email, createKey(id, creatorPlayground));
 		if (tempElement != null) {
 			elements.remove(tempElement);
 			elements.add(entity);
@@ -156,7 +144,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email,double x, double y, double distance, Pageable pageable) {
+	public ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y,
+			double distance, Pageable pageable) {
 
 		if (distance < 0) {
 			throw new RuntimeException("Negative distance (" + distance + ")");
@@ -175,8 +164,6 @@ public class DummyElementService implements ElementService {
 		}
 
 	}
-
-
 
 	@Override
 	public void cleanElementService() {
@@ -197,19 +184,15 @@ public class DummyElementService implements ElementService {
 
 	}
 
-	
-
 	@Override
 	public ElementEntity addElementNoLogin(ElementEntity element) {
 		if (elements.contains(element))
 			throw new ElementDataException("element data already exist in database");
 		else {
-		elements.add(element);
-		return element;
+			elements.add(element);
+			return element;
 		}
 	}
-
-
 
 	@Override
 	public double distanceBetween(double x1, double y1, double x2, double y2) {
@@ -220,7 +203,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email, Pageable pageable) {
+	public ElementEntity[] getElementsByCreatorPlaygroundAndEmail(String creatorPlayground, String email,
+			Pageable pageable) {
 		ArrayList<ElementEntity> result = new ArrayList<>();
 		for (ElementEntity element : elements) {
 			if (checkEmailAndPlaygroundInElement(element, creatorPlayground, email))
@@ -245,8 +229,8 @@ public class DummyElementService implements ElementService {
 	}
 
 	@Override
-	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name, String type,
-			Pageable pageable) {
+	public ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name,
+			String type, Pageable pageable) {
 		return null;
 	}
 }

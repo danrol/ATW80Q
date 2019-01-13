@@ -45,7 +45,6 @@ public class QuestionWindow implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.err.println(e.getActionCommand());
 		String s = answer.getText();
 		int index = questions.getSelectedIndex();
 		switch (e.getActionCommand()) {
@@ -55,7 +54,6 @@ public class QuestionWindow implements ActionListener {
 				String question_key = question_list[index].getSuperkey();
 				boolean answer = model.answerQuestion(question_key, s);
 
-				System.err.println(index + "\n" + question_key);
 				if (answer) {
 					submitAnswer.setBackground(Color.GREEN);
 					submitAnswer.setText(Client.CORRECT_ANSWER_MESSAGE);
@@ -84,19 +82,18 @@ public class QuestionWindow implements ActionListener {
 				this.repaint();
 				this.refreshPage();
 			}
-			
+
 			break;
 
 		}
-		if(index >= 0 && index < question_list.length)
-		{
-		String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
-		String num_of_points = String
-				.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
-		question.setText(question_to_paint);
-		points.setText(num_of_points);
-		setLabels();
-		this.repaint();
+		if (index >= 0 && index < question_list.length) {
+			String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
+			String num_of_points = String
+					.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
+			question.setText(question_to_paint);
+			points.setText(num_of_points);
+			setLabels();
+			this.repaint();
 		}
 
 	}
@@ -164,14 +161,12 @@ public class QuestionWindow implements ActionListener {
 		p5.add(points);
 		frame.add(p5);
 		setLabels();
-		
-		
+
 		send.addActionListener(this);
 		left.addActionListener(this);
 		right.addActionListener(this);
 		questions.addActionListener(this);
-		
-		
+
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);

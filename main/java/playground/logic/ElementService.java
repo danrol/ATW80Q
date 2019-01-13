@@ -3,7 +3,6 @@ package playground.logic;
 import java.util.ArrayList;
 import org.springframework.data.domain.Pageable;
 
-
 public interface ElementService {
 
 	void cleanElementService();
@@ -17,7 +16,7 @@ public interface ElementService {
 	ElementEntity addElementNoLogin(ElementEntity element);
 
 	ArrayList<ElementEntity> getElements();
-	
+
 	ArrayList<ElementEntity> getElements(Pageable pageable);
 
 	ElementEntity[] lstToArray(ArrayList<ElementEntity> lst);
@@ -32,7 +31,8 @@ public interface ElementService {
 
 	void updateElementInDatabaseFromExternalElement(String userPlayground, String email, ElementEntity element);
 
-	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id, String creatorPlayground);
+	void replaceElementWith(String userPlayground, String email, ElementEntity entity, String id,
+			String creatorPlayground);
 
 	void updateElementsInDatabase(String userPlayground, String email, ArrayList<ElementEntity> elements);
 
@@ -42,19 +42,18 @@ public interface ElementService {
 
 	void addElements(String userPlayground, String email, ElementEntity[] elements);
 
-	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance, Pageable pageable);
+	ElementEntity[] getAllElementsInRadius(String userPlayground, String email, double x, double y, double distance,
+			Pageable pageable);
 
 	ElementEntity addElement(String userPlayground, String email, ElementEntity element);
-	
+
 	String createKey(String id, String creatorPlayground);
 
 	void updateElementInDatabaseFromExternalElementNoLogin(ElementEntity messageBoard);
 
 	ElementEntity createElementEntity(String json);
 
-	ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name, String type, Pageable pageable);
+	ElementEntity[] getElementsByAttributeNameAndAttributeValue(String userPlayground, String email, String name,
+			String type, Pageable pageable);
 
-
-
-	
 }

@@ -26,11 +26,10 @@ import playground.mail.MailBuilder;
 @Service
 public class jpaUserService implements UserService {
 
-	// this is the database we need are saving in
 	private UserDao userDB;
 	private IdGeneratorUserDao IdGeneratorUser;
 	private EmailService emailService;
-	
+
 	@Autowired
 	public jpaUserService(UserDao userDB, IdGeneratorUserDao IdGeneratorUser, EmailService emailService) {
 		this.userDB = userDB;
@@ -72,10 +71,10 @@ public class jpaUserService implements UserService {
 	@Override
 	public UserEntity getUser(String superkey) {
 		UserEntity t = userDB.findById(superkey).orElse(null);
-		if(t==null)
+		if (t == null)
 			throw new UserDataException(User.EMAIL_NOT_REGISTERED_ERROR);
 		return t;
-	
+
 	}
 
 	@Override
@@ -103,12 +102,11 @@ public class jpaUserService implements UserService {
 			IdGeneratorUser.delete(tmp);
 			user.setId(id + "");
 			userDB.save(user);
-			if(!user.isVerified() && Playground.MESSAGE_SENDER_ENABLED == true)
-			{
-				
+			if (!user.isVerified() && Playground.MESSAGE_SENDER_ENABLED == true) {
+
 				this.sendVerificationCodeToMail(user);
 			}
-				
+
 			return user;
 		}
 	}
@@ -118,7 +116,7 @@ public class jpaUserService implements UserService {
 	@MyLog
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
-	
+
 			UserEntity oldUser = this.getUser(user.getPlayground(), user.getEmail());
 			if (oldUser.isVerified())
 				user.verifyUser();
@@ -127,7 +125,7 @@ public class jpaUserService implements UserService {
 			user.setId(id);
 			userDB.save(user);
 		}
-	
+
 	}
 
 	@Override
@@ -137,7 +135,7 @@ public class jpaUserService implements UserService {
 		UserEntity user = getUser(playground, email);
 		if (user != null) {
 			if (user.isVerified())
-				return user; // User already confirmed
+				return user;
 			else if (user.getPlayground().equals(playground)) {
 				String VerificationCode = user.getVerificationCode();
 				if (VerificationCode.equals(code))
@@ -215,30 +213,28 @@ public class jpaUserService implements UserService {
 	public UserEntity[] getHighScoresFromHighestToLowest(Pageable pageable) {
 		return lstToArray(userDB.findAllByOrderByPointsDesc(pageable));
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	@MyLog
 	public UserEntity[] lstToArray(ArrayList<UserEntity> lst) {
 		return lst.toArray(new UserEntity[lst.size()]);
 	}
+
 	@MyLog
-	public void sendVerificationCodeToMail(UserEntity user)
-	{
+	public void sendVerificationCodeToMail(UserEntity user) {
 		Mail mail = new Mail();
 		mail.setTo(user.getEmail());
 		mail.setSubject(Playground.VERIFICATION_MAIL_SUBJECT);
-		mail.setContent(MailBuilder.getVerificationMailContent(user.getUsername(), user.getVerificationCode(), user.getEmail(),user.getPlayground()));
-		
+		mail.setContent(MailBuilder.getVerificationMailContent(user.getUsername(), user.getVerificationCode(),
+				user.getEmail(), user.getPlayground()));
+
 		try {
 			emailService.sendMail(mail);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		
-	}
 
+	}
 
 }
