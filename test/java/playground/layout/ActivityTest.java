@@ -213,29 +213,7 @@ public class ActivityTest {
 		assertThat(points_after).isEqualTo(points_before);
 	}
 
-	@Test
-	public void GettingScoreFromDatabase() {
-
-	}
-
-	@Test
-	public void getGameRulesActivity() {
-
-		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
-				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
-
-		user.verifyUser();
-		user = userService.addUser(user);
-		ActivityEntity ent = new ActivityEntity();
-		ent.setType(Activity.GET_GAME_RULES_ACTIVITY);
-		ActivityTO act = new ActivityTO(ent);
-
-		String rules = this.restTemplate.postForObject(this.url + Playground.Function_11, act, String.class,
-				user.getPlayground(), user.getEmail());
-
-		assertThat(rules).isEqualTo(Activity.GAME_RULES);
-	}
-	
+	//11.8 Scenario: getting score from database from highest to lowest with pagination.
 	@Test
 	public void getHighScoresDescending() {
 		UserEntity user;
@@ -265,6 +243,25 @@ public class ActivityTest {
 		for(int i=0;i<5-1;i++)
 		assertThat(result[i]).isEqualToComparingFieldByField(usersForTest[i]);
 	}
+	//11.9 Getting game rules
+	@Test
+	public void getGameRulesActivity() {
+
+		UserEntity user = new UserEntity(User.DEFAULT_USERNAME, User.EMAIL_FOR_TESTS,
+				User.AVATAR_FOR_TESTS, User.PLAYER_ROLE, Playground.PLAYGROUND_NAME);
+
+		user.verifyUser();
+		user = userService.addUser(user);
+		ActivityEntity ent = new ActivityEntity();
+		ent.setType(Activity.GET_GAME_RULES_ACTIVITY);
+		ActivityTO act = new ActivityTO(ent);
+
+		String rules = this.restTemplate.postForObject(this.url + Playground.Function_11, act, String.class,
+				user.getPlayground(), user.getEmail());
+
+		assertThat(rules).isEqualTo(Activity.GAME_RULES);
+	}
+	
 
 	// url #11 /playground/activities/{userPlayground}/{email} finished
 	// ******************************************************************************************//
