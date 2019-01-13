@@ -47,8 +47,8 @@ public class Client {
 	public static final String VIEW_HIGH_SCORES = "View scores";
 	
 	//ComboBox Activites
-	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION, Client.GET_MESSAGE};
-	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.GET_MESSAGE, Client.ANSWER_QUESTION, Client.VIEW_HIGH_SCORES};
+	public static final String[] MANAGER_COMBOX = {Client.CHOOSE, Client.ADD_QUESTION};
+	public static final String[] PLAYER_COMBOX = {Client.CHOOSE ,Client.GAME_RULES, Client.ANSWER_QUESTION, Client.VIEW_HIGH_SCORES};
 
 	//Answer Question
 	public static final String CHOOSE_QUESTION = "Choose Question";

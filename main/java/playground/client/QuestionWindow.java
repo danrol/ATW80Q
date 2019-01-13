@@ -7,11 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
@@ -25,7 +25,7 @@ public class QuestionWindow implements ActionListener {
 	private ClientModel model;
 	private JFrame frame;
 	private JLabel chooseQuestion;
-	private JComboBox<String> questions;
+	private JComboBox<String> questions = new JComboBox<String>();
 	private JLabel questionLabel;
 	private JTextField question;
 	private JLabel answerLabel;
@@ -40,9 +40,12 @@ public class QuestionWindow implements ActionListener {
 	private int size = 30;
 	private GameController gameController;
 	private JPanel p1 = new JPanel();
+	private String[] question_titles = new String[0];
+	private DefaultComboBoxModel<String> combo_box_titles = new DefaultComboBoxModel<String>(question_titles);
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		System.err.println(e.getActionCommand());
 		String s = answer.getText();
 		int index = questions.getSelectedIndex();
 		switch (e.getActionCommand()) {
@@ -59,7 +62,7 @@ public class QuestionWindow implements ActionListener {
 					submitAnswer.setText(Client.INCORRECT_ANSWER_MESSAGE);
 				}
 				this.repaint();
-
+				gameController.updateController();
 			}
 
 			break;
@@ -73,22 +76,24 @@ public class QuestionWindow implements ActionListener {
 			this.refreshPage();
 			break;
 		case Client.NEXT_PAGE:
-			page++;
+			if (question_list.length == size) {
 
-			this.repaint();
-			this.refreshPage();
-			break;
+				page++;
+				this.repaint();
+				this.refreshPage();
+			}
 
-		case "ComboBoxChanged":
-			String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
-			String num_of_points = String
-					.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
-			question.setText(question_to_paint);
-			points.setText(num_of_points);
-			this.repaint();
 			break;
 
 		}
+
+		String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
+		String num_of_points = String
+				.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
+		question.setText(question_to_paint);
+		points.setText(num_of_points);
+		setLabels();
+		this.repaint();
 
 	}
 
@@ -101,6 +106,7 @@ public class QuestionWindow implements ActionListener {
 		frame.setTitle(Client.ANSWER_QUESTION);
 		frame.setSize(500, 400);
 		frame.setLayout(new GridLayout(6, 0, 5, 5));
+		questions.setModel(combo_box_titles);
 		getQuestions();
 		p1 = new JPanel();
 		chooseQuestion = new JLabel(Client.CHOOSE_QUESTION);
@@ -194,11 +200,17 @@ public class QuestionWindow implements ActionListener {
 
 	private void getQuestions() {
 		ElementEntity[] question_list = model.getQuestions(page, size);
+		if (question_list.length > 0) {
 
-		this.question_list = question_list;
-		String[] question_titles = getTitles(question_list);
-		questions = new JComboBox<>(question_titles);
-		questions.validate();
+			this.question_list = question_list;
+			question_titles = getTitles(question_list);
+			combo_box_titles.removeAllElements();
+
+			for (int i = 0; i < question_titles.length; i++) {
+				combo_box_titles.addElement(question_titles[i]);
+			}
+			questions.validate();
+		}
 	}
 
 	private String[] getTitles(ElementEntity[] question_list) {

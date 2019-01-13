@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -22,25 +23,22 @@ public class GameController implements ActionListener {
 	private JComboBox<String> activity;
 	private JLabel main;
 	private JFrame frame;
-	
-	
 
 	private JLabel username_label;
 	private JLabel mail_label;
 	private JLabel avatar_label;
 	private JLabel role_label;
-	private JLabel playground_label ;
+	private JLabel playground_label;
 	private JLabel point_label;
-	
-	
+
+	private DefaultComboBoxModel<String> combo_model;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals(Client.UPDATE_USER))
-		{
+		if (e.getActionCommand().equals(Client.UPDATE_USER)) {
 			new UpdateUserWindow(model, this);
 		}
-			
+
 		else if (e.getActionCommand().equals(Client.SIGN_OUT))
 			frame.dispose();
 		else {
@@ -73,9 +71,8 @@ public class GameController implements ActionListener {
 	public GameController(ClientModel model) {
 		this.model = model;
 		frame = new JFrame();
-		user=model.getCurrentUser();
-		
-		
+		user = model.getCurrentUser();
+
 		frame.setTitle(Client.GAME_CONTROLLER);
 		frame.setSize(500, 500);
 		frame.setLayout(new GridLayout(5, 0));
@@ -99,13 +96,10 @@ public class GameController implements ActionListener {
 
 		JPanel activityPanel = new JPanel();
 		updateComboBox();
-		
-	
+
 		activityPanel.add(activity);
 		frame.add(activityPanel);
-		
-		
-		
+
 		updateUserInfo();
 
 		JPanel p = new JPanel(new GridLayout(6, 2));
@@ -122,12 +116,8 @@ public class GameController implements ActionListener {
 		p.add(new JLabel(Client.POINTS)).setFont(Client.FONT_BASIC);
 		p.add(point_label).setFont(Client.FONT_BASIC);
 		frame.add(p);
-		
-		
+
 		frame.add(new JLabel());
-		
-		
-		
 
 		signOut.addActionListener(this);
 		updatuser.addActionListener(this);
@@ -147,28 +137,45 @@ public class GameController implements ActionListener {
 		role_label = new JLabel(user.getRole());
 		playground_label = new JLabel(user.getPlayground());
 		point_label = new JLabel(user.getPoints() + "");
-		
-		
+
 	}
 
 	public void updateController() {
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
-		
-		frame.validate();
-		frame.repaint();
-		
+
+		frame.getContentPane().validate();
+		frame.getContentPane().repaint();
+
 	}
 
 	private void updateComboBox() {
-		if (user.getRole().equals(Client.PLAYER_ROLE)) {
-			activity = new JComboBox<String>(Client.PLAYER_COMBOX);
-		} else if (user.getRole().equals(Client.MANAGER_ROLE)) {
-			activity = new JComboBox<String>(Client.MANAGER_COMBOX);
+		if (activity == null) {
+			activity = new JComboBox<String>();
+			String[] s = new String[0];
+			combo_model = new DefaultComboBoxModel<String>(s);
+			activity.setModel(combo_model);
 		}
-		
+		if (user.getRole().equals(Client.PLAYER_ROLE)) {
+
+			setComboBoxItems(Client.PLAYER_COMBOX);
+
+		} else if (user.getRole().equals(Client.MANAGER_ROLE)) {
+			setComboBoxItems(Client.MANAGER_COMBOX);
+		}
+
 	}
+
+	private void setComboBoxItems(String[] box) {
+		combo_model.removeAllElements();
+		for(int i=0;i<box.length;i++)
+		{
+			combo_model.addElement(box[i]);
+		}
+
+	}
+
 	public JFrame getFrame() {
 		return frame;
 	}
@@ -176,6 +183,5 @@ public class GameController implements ActionListener {
 	public void setFrame(JFrame frame) {
 		this.frame = frame;
 	}
-	
 
 }

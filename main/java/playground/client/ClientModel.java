@@ -287,6 +287,7 @@ public class ClientModel {
 	}
 
 	public UserEntity getCurrentUser() {
+		refreshUser();
 		return current_user;
 	}
 
