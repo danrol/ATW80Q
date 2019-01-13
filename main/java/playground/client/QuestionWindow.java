@@ -82,11 +82,12 @@ public class QuestionWindow implements ActionListener {
 				this.repaint();
 				this.refreshPage();
 			}
-
+			
 			break;
 
 		}
-
+		if(index >= 0 && index < question_list.length)
+		{
 		String question_to_paint = (String) question_list[index].getAttributes().get(Element.ELEMENT_QUESTION_KEY);
 		String num_of_points = String
 				.valueOf(((int) question_list[index].getAttributes().get(Element.ELEMENT_POINT_KEY)));
@@ -94,6 +95,7 @@ public class QuestionWindow implements ActionListener {
 		points.setText(num_of_points);
 		setLabels();
 		this.repaint();
+		}
 
 	}
 

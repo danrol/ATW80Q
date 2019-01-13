@@ -89,6 +89,7 @@ public class ClientModel {
 	public boolean verifyUser(String code, String mail) {
 		try {
 			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, Client.PLAYGROUND_NAME, mail, code);
+			JOptionPane.showMessageDialog(null, Client.VERIFIED_USER_MESSAGE);
 		}
 		catch(Exception e)
 		{

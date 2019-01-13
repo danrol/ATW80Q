@@ -91,6 +91,8 @@ public class Client {
 	public static final String CORRECT_ANSWER_MESSAGE = "Correct answer!";
 	public static final String INCORRECT_ANSWER_MESSAGE = "Wrong answer!";
 
+	public static final Object VERIFIED_USER_MESSAGE = "Your account is now verified, goodluck!";
+
 
 
 
