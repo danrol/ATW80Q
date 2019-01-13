@@ -225,7 +225,7 @@ public class ElementTest {
 		ElementEntity elementForTestEntity = new ElementEntity(Element.DEFAULT_ELEMENT_NAME, 5, 6);
 		ElementTO elementForTest = new ElementTO(elementForTestEntity);
 		this.restTemplate.put(this.url + Playground.Function_6, elementForTest, userElementCreator.getPlayground(),
-				userElementCreator.getEmail(), elementForTestEntity.getCreatorPlayground(),
+				"wrong@email.com", elementForTestEntity.getCreatorPlayground(),
 				elementForTestEntity.getId());
 	}
 
