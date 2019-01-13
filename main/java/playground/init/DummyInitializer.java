@@ -82,7 +82,68 @@ public class DummyInitializer {
 			ElementEntity q_entity = createQuestionElement("Demo question " + String.valueOf(i),
 					String.valueOf(i) + " + " + String.valueOf(i), String.valueOf(2 * (i)), i, i, i);
 			elementService.addElement(mod.getPlayground(), mod.getEmail(), q_entity);
+			
+			UserEntity user = new UserEntity(getRandomName(i),i + "@" +i +".com","avatar",User.PLAYER_ROLE,Playground.PLAYGROUND_NAME);
+			user.verifyUser();
+			user.setPoints((int)(Math.random()*(500-1)));
+			userService.addUser(user);
 		}
+	}
+
+	private String getRandomName(int i) {
+		String names= "William\r\n" + 
+				"James\r\n" + 
+				"Logan\r\n" + 
+				"Benjamin\r\n" + 
+				"Mason\r\n" + 
+				"Elijah\r\n" + 
+				"Oliver\r\n" + 
+				"Jacob\r\n" + 
+				"Lucas\r\n" + 
+				"Michael\r\n" + 
+				"Alexander\r\n" + 
+				"Ethan\r\n" + 
+				"Daniel\r\n" + 
+				"Matthew\r\n" + 
+				"Aiden\r\n" + 
+				"Henry\r\n" + 
+				"Joseph\r\n" + 
+				"Jackson\r\n" + 
+				"Samuel\r\n" + 
+				"Sebastian\r\n" + 
+				"David\r\n" + 
+				"Carter\r\n" + 
+				"Wyatt\r\n" + 
+				"Jayden\r\n" + 
+				"John\r\n" + 
+				"Owen\r\n" + 
+				"Dylan\r\n" + 
+				"Luke\r\n" + 
+				"Gabriel\r\n" + 
+				"Anthony\r\n" + 
+				"Isaac\r\n" + 
+				"Grayson\r\n" + 
+				"Jack\r\n" + 
+				"Julian\r\n" + 
+				"Levi\r\n" + 
+				"Christopher\r\n" + 
+				"Joshua\r\n" + 
+				"Andrew\r\n" + 
+				"Lincoln\r\n" + 
+				"Mateo\r\n" + 
+				"Ryan\r\n" + 
+				"Jaxon\r\n" + 
+				"Nathan\r\n" + 
+				"Aaron\r\n" + 
+				"Isaiah\r\n" + 
+				"Thomas\r\n" + 
+				"Charles\r\n" + 
+				"Caleb\r\n" + 
+				"Josiah\r\n" + 
+				"Christian";
+		String[] n = names.split("\r\n");
+		int rand = (int)((Math.random()*(n.length-1)));
+		return n[rand];
 	}
 
 	public ActivityEntity createMessage(String messageboard_key, String message) {
