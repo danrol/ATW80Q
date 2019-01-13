@@ -1,5 +1,6 @@
 package playground.client;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -56,8 +57,10 @@ public class QuestionWindow implements ActionListener {
 
 				System.err.println(index + "\n" + question_key);
 				if (answer) {
+					submitAnswer.setBackground(Color.GREEN);
 					submitAnswer.setText(Client.CORRECT_ANSWER_MESSAGE);
 				} else {
+					submitAnswer.setBackground(Color.RED);
 					submitAnswer.setText(Client.INCORRECT_ANSWER_MESSAGE);
 				}
 				this.repaint();
@@ -155,16 +158,20 @@ public class QuestionWindow implements ActionListener {
 		JPanel p5 = new JPanel();
 		points = new JTextField(15);
 		points.setEditable(false);
-		points.setBorder(new TitledBorder(Client.POINTS));
+		points.setBorder(new TitledBorder(Client.POINTS + " for this question"));
 		points.setPreferredSize(new Dimension(50, 50));
 		points.setFont(Client.FONT_BASIC);
 		p5.add(points);
 		frame.add(p5);
 		setLabels();
+		
+		
 		send.addActionListener(this);
 		left.addActionListener(this);
 		right.addActionListener(this);
 		questions.addActionListener(this);
+		
+		
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);

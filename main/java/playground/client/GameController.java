@@ -30,6 +30,7 @@ public class GameController implements ActionListener {
 	private JLabel role_label;
 	private JLabel playground_label;
 	private JLabel point_label;
+	JPanel setUserNameInfo;
 
 	private DefaultComboBoxModel<String> combo_model;
 
@@ -99,22 +100,18 @@ public class GameController implements ActionListener {
 
 		activityPanel.add(activity);
 		frame.add(activityPanel);
+		
+		
+		
+		username_label = new JLabel(user.getUsername());
+		mail_label = new JLabel(user.getEmail());
+		avatar_label = new JLabel(user.getAvatar());
+		role_label = new JLabel(user.getRole());
+		playground_label = new JLabel(user.getPlayground());
+		point_label = new JLabel(user.getPoints() + "");
 
-		updateUserInfo();
 
-		JPanel p = new JPanel(new GridLayout(6, 2));
-		p.add(new JLabel(Client.USERNAME_LABEL)).setFont(Client.FONT_BASIC);
-		p.add(username_label).setFont(Client.FONT_BASIC);
-		p.add(new JLabel(Client.EMAIL_LABEL)).setFont(Client.FONT_BASIC);
-		p.add(mail_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.AVATAR_LABEL)).setFont(Client.FONT_BASIC);
-		p.add(avatar_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
-		p.add(new JLabel(Client.ROLE_LABEL)).setFont(Client.FONT_BASIC);
-		p.add(role_label).setFont(Client.FONT_BASIC);
-		p.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(Client.FONT_BASIC);
-		p.add(playground_label).setFont(Client.FONT_BASIC);
-		p.add(new JLabel(Client.POINTS)).setFont(Client.FONT_BASIC);
-		p.add(point_label).setFont(Client.FONT_BASIC);
+		JPanel p = setUserNameInfo();
 		frame.add(p);
 
 		frame.add(new JLabel());
@@ -131,12 +128,14 @@ public class GameController implements ActionListener {
 
 	private void updateUserInfo() {
 
-		username_label = new JLabel(user.getUsername());
-		mail_label = new JLabel(user.getEmail());
-		avatar_label = new JLabel(user.getAvatar());
-		role_label = new JLabel(user.getRole());
-		playground_label = new JLabel(user.getPlayground());
-		point_label = new JLabel(user.getPoints() + "");
+	
+
+		username_label.setText(user.getUsername());
+		mail_label .setText(user.getEmail());
+		avatar_label.setText(user.getAvatar());
+		role_label.setText(user.getRole());
+		playground_label.setText(user.getPlayground());
+		point_label.setText(user.getPoints() + "");
 
 	}
 
@@ -144,7 +143,7 @@ public class GameController implements ActionListener {
 		user = model.getCurrentUser();
 		updateComboBox();
 		updateUserInfo();
-
+		
 		frame.getContentPane().validate();
 		frame.getContentPane().repaint();
 
@@ -184,4 +183,23 @@ public class GameController implements ActionListener {
 		this.frame = frame;
 	}
 
+	
+	public JPanel setUserNameInfo() {
+		
+		setUserNameInfo = new JPanel(new GridLayout(6, 2));
+		setUserNameInfo.add(new JLabel(Client.USERNAME_LABEL)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(username_label).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(new JLabel(Client.EMAIL_LABEL)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(mail_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		setUserNameInfo.add(new JLabel(Client.AVATAR_LABEL)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(avatar_label).setFont(new Font("TimesRoman", Font.BOLD, 20));
+		setUserNameInfo.add(new JLabel(Client.ROLE_LABEL)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(role_label).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(new JLabel(Client.PLAYGROUND_LABEL)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(playground_label).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(new JLabel(Client.POINTS)).setFont(Client.FONT_BASIC);
+		setUserNameInfo.add(point_label).setFont(Client.FONT_BASIC);
+		return setUserNameInfo;
+		
+	}
 }
