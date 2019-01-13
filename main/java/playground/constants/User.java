@@ -36,6 +36,7 @@ public class User {
 	public static final String DUPLICATE_USER_KEY_ERROR = "User already exists with name: ";
 	public static final String USER_NOT_VERIFIED_ERROR = "User is not verified.";
 	public static final String LOGIN_ASPECT_ACCESS_RIGHTS_ERROR = " has no access rights to ";
+	public static final String INCORRECT_REGISTER_INPUT_ERROR = "Registration data is not correct. Check your input";
 
 
 

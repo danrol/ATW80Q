@@ -13,7 +13,7 @@ public class GetMessageWindow {
 	
 	
 	public GetMessageWindow(ClientModel model) {
-		this.model = model;
+		this.setModel(model);
 
 		frame = new JFrame();
 		frame.setTitle(Client.GET_MESSAGE);
@@ -24,5 +24,15 @@ public class GetMessageWindow {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setVisible(true);
+	}
+
+
+	public ClientModel getModel() {
+		return model;
+	}
+
+
+	public void setModel(ClientModel model) {
+		this.model = model;
 	}
 }

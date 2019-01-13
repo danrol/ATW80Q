@@ -1,7 +1,6 @@
 package playground.client;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,9 +30,8 @@ public class AddQuestionWindow implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		boolean added_question = model.addQuestion(questionTitleText.getText(), questionBodyText.getText(),
-				answerText.getText(), pointsText.getText());
-
+		model.addQuestion(questionTitleText.getText(), questionBodyText.getText(), answerText.getText(),
+				pointsText.getText());
 		frame.dispose();
 
 	}

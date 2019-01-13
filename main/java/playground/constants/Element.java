@@ -11,16 +11,16 @@ public class Element {
 
 	// Element types
 
-	public static final String DEFAULT_TYPE = "Default_Element_type";
-	public static final String ELEMENT_QUESTION_TYPE = "Element_Question_type";
-	public static final String ELEMENT_MESSAGEBOARD_TYPE = "MessageBoard";
+	public static final String DEFAULT_TYPE = "DEFAULT_ELEMENT";
+	public static final String ELEMENT_QUESTION_TYPE = "QUESTION_TYPE";
+	public static final String ELEMENT_MESSAGEBOARD_TYPE = "MESSAGE_BOARD_TYPE";
 
 	// Element Attribute types
 
-	public static final String MESSAGEBOARD_MESSAGE_COUNT = "num_of_messages";
-	public static final String ELEMENT_QUESTION_KEY = "QUESTION_KEY"; // Actual question
-	public static final String ELEMENT_ANSWER_KEY = "Answer"; // Answer to question
-	public static final String ELEMENT_POINT_KEY = "points_value"; // Answer to question
+	public static final String MESSAGEBOARD_MESSAGE_COUNT = "MESSAGES_COUNT";
+	public static final String ELEMENT_QUESTION_KEY = "QUESTION_BODY_KEY"; // Actual question
+	public static final String ELEMENT_ANSWER_KEY = "ANSWER_KEY"; // Answer to question
+	public static final String ELEMENT_POINT_KEY = "POINTS_VALUE"; // Answer to question
 
 	public static final String NAME_FIELD = "name";
 	public static final String TYPE_FIELD = "type";

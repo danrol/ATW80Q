@@ -1,18 +1,13 @@
 package playground.client;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import playground.constants.Activity;
 import playground.constants.Client;
-import playground.constants.Playground;
-import playground.layout.ActivityTO;
-import playground.logic.ActivityEntity;
 
 public class ViewGameRules {
 	private JFrame frame;

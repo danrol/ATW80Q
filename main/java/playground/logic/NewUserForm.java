@@ -1,5 +1,7 @@
 package playground.logic;
 
+import playground.constants.User;
+
 public class NewUserForm {
 
 	private String email;
@@ -22,7 +24,7 @@ public class NewUserForm {
 			this.avatar = avatar;
 			this.role = role;
 		} else
-			throw new RegisterNewUserException("Registration data is not correct. Check your input");
+			throw new RegisterNewUserException(User.INCORRECT_REGISTER_INPUT_ERROR);
 	}
 
 	public String getEmail() {

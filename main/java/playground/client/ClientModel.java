@@ -1,8 +1,6 @@
 package playground.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -12,7 +10,6 @@ import playground.constants.Activity;
 import playground.constants.Client;
 import playground.constants.Element;
 import playground.constants.Playground;
-import playground.constants.User;
 import playground.layout.ActivityTO;
 import playground.layout.ElementTO;
 import playground.layout.UserTO;
@@ -89,7 +86,7 @@ public class ClientModel {
 	public boolean verifyUser(String code, String mail) {
 		try {
 			UserTO user = this.restTemplate.getForObject(this.getURL() + Playground.Function_2, UserTO.class, Client.PLAYGROUND_NAME, mail, code);
-			JOptionPane.showMessageDialog(null, Client.VERIFIED_USER_MESSAGE);
+			JOptionPane.showMessageDialog(null, user.getUsername() + "\n" + Client.VERIFIED_USER_MESSAGE);
 		}
 		catch(Exception e)
 		{
@@ -164,8 +161,7 @@ public class ClientModel {
 	}
 
 	public ElementEntity[] getQuestions(int page, int size) {
-		Map<String, String> questions = new HashMap<String, String>();
-		ArrayList<ElementEntity> list = new ArrayList();
+		ArrayList<ElementEntity> list = new ArrayList<ElementEntity>();
 		ElementTO[] questionsTO=null;
 		try {
 
@@ -174,7 +170,7 @@ public class ClientModel {
 							+ createPaginationStringAppendixForUrl(page, size),
 					ElementTO[].class, this.current_userPlayground, this.current_email, Element.TYPE_FIELD,
 					Element.ELEMENT_QUESTION_TYPE);
-			System.err.println("Found " + questionsTO.length + " questions in database");
+			
 		}
 		catch(Exception e)
 		{

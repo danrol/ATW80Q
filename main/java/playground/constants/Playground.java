@@ -27,9 +27,9 @@ public class Playground {
 
 	
 	// Values for JUnit tests
-	public static String PLAYGROUND_MAIL = "ATW80Q@gmail.com";
-	public static String PLAYGROUND_NAME = "PLAYGROUND_NAME";
-	public static boolean MESSAGE_SENDER_ENABLED = true;
+	public static String PLAYGROUND_MAIL = null;
+	public static String PLAYGROUND_NAME = null;
+	public static boolean MESSAGE_SENDER_ENABLED = false;
 	
 	public static final String Other_Playground = "OtherPlayground";
 	public static final String CREATOR_PLAYGROUND_FOR_TESTS = "creatorPlaygroundName";
@@ -49,8 +49,8 @@ public class Playground {
 
 	
 	@Value("${playground.mail.enable:false}")
-	public void setDefaultMailEnabled(boolean MESSAGE_SENDER_ENABLED) {
-		Playground.MESSAGE_SENDER_ENABLED = MESSAGE_SENDER_ENABLED;
+	public void setDefaultMailEnabled(boolean b) {
+		Playground.MESSAGE_SENDER_ENABLED = b;
 	}
 	
 	@Value("${playground.mail:ATW80Q@gmail.com}")
