@@ -43,7 +43,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	@MyLog
 	public ArrayList<UserEntity> getUsers() {
 		ArrayList<UserEntity> lst = new ArrayList<UserEntity>();
@@ -54,7 +54,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = true)
 	@MyLog
 	public UserEntity[] getUsers(Pageable pageable) {
 		List<UserEntity> allUsers = userDB.findAll(pageable).getContent();
@@ -78,7 +78,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	@MyLog
 	public void addUser(NewUserForm user) {
 		if (this.getUser(Playground.PLAYGROUND_NAME, user.getEmail()) != null)
@@ -91,7 +91,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	@MyLog
 	public UserEntity addUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey()))
@@ -112,7 +112,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	@MyLog
 	public void updateUser(UserEntity user) {
 		if (userDB.existsById(user.getSuperkey())) {
@@ -129,7 +129,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	@MyLog
 	public UserEntity verifyUser(String email, String playground, String code) {
 		UserEntity user = getUser(playground, email);
@@ -181,7 +181,7 @@ public class jpaUserService implements UserService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly = false)
 	@MyLog
 	@LoginRequired
 	public void updateUser(String playground, String email, UserEntity user) {

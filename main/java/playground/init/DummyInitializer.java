@@ -1,8 +1,6 @@
 package playground.init;
 
 import javax.annotation.PostConstruct;
-
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

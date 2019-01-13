@@ -51,9 +51,6 @@ public class JpaActivityService implements ActivityService {
 		String activityType = activity.getType();
 		switch (activityType) {
 		case Activity.DEFAULT_ACTIVITY_TYPE: {
-			/*
-			 * Default activity is ECHO
-			 */
 			return activity;
 		}
 		case Activity.GET_MESSAGES_ACTIVITY: {
