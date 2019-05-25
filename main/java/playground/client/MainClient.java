@@ -12,18 +12,18 @@ public class MainClient extends Application {
 		
 		String host=null;
 		System.out.println(Arrays.toString(args));
-		if(args.length == 1)
-			host = args[0];
-		if (host == null) {
-			host = "localhost";
-		}
+
 		int port;
 		try {
 			port = Integer.parseInt(System.getProperty("server.port"));
 		} catch (Exception e) {
 			port = 8083;
 		}
-
+		if(args.length == 1)
+			host = args[0];
+		if (host == null) {
+			host = "localhost" + ":"+ port;
+		}
 		ClientModel model = new ClientModel(host, port);
 		ClientLogin s = new ClientLogin(model);
 
