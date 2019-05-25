@@ -1,14 +1,19 @@
 package playground.client;
 
 import java.awt.BorderLayout;
+import java.util.Arrays;
+
 import javax.swing.JFrame;
 
 import playground.Application;
 
 public class MainClient extends Application {
 	public static void main(String[] args) {
-
-		String host = System.getProperty("playground.host");
+		
+		String host=null;
+		System.out.println(Arrays.toString(args));
+		if(args.length == 1)
+			host = args[0];
 		if (host == null) {
 			host = "localhost";
 		}

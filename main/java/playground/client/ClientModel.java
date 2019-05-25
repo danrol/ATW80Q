@@ -222,7 +222,7 @@ public class ClientModel {
 	}
 
 	public String getURL() {
-		return "http://" + host + ":" + port;
+		return "http://" + host;
 	}
 
 	public RestTemplate getRestTemplate() {
